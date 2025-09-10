@@ -1,0 +1,182 @@
+---
+Description: Mandatory Project Rules (CouncilWorks)
+alwaysApply: true
+---
+
+# Mandatory Project Rules (CouncilWorks)
+
+@context {
+"type": "documentation",
+"purpose": "project_rules",
+"format_version": "1.0.0",
+"enforced_for": "all contributors",
+"project": "CouncilWorks - Council Asset Lifecycle Intelligence Platform"
+}
+
+## Documentation and Commit Enforcement
+
+- All contributors must directly update all relevant documentation files (README, changelog, code comments, architecture docs, etc.) as part of every change.
+- Do not just describe or suggest documentation updates, make the actual edits.
+- All changes must be committed and pushed before ending a session.
+- This rule is mandatory and applies to all code, content, and design changes.
+
+## Project Directory Tree
+
+```text
+/ (root)
+├── app/                    # Next.js App Router
+│   ├── api/               # API routes
+│   ├── auth/              # Authentication pages
+│   ├── projects/          # Project management
+│   ├── layout.tsx         # Root layout
+│   └── page.tsx           # Landing page
+├── components/             # React components
+│   ├── ui/                # shadcn/ui components
+│   ├── auth/              # Authentication components
+│   ├── layout/            # Layout components
+│   ├── charts/            # Chart components
+│   └── gantt/             # Gantt chart components
+├── context/                # React context providers
+├── hooks/                  # Custom React hooks
+├── lib/                    # Utility libraries
+├── prisma/                 # Database schema and migrations
+├── __tests__/              # Test files
+├── scripts/                # Utility scripts
+├── infra/                  # Infrastructure as Code
+├── types/                  # TypeScript type definitions
+├── utils/                  # Utility functions
+├── styles/                 # Global styles
+└── public/                 # Static assets
+```
+
+## Project Summary
+
+- **CouncilWorks** — Council Asset Lifecycle Intelligence Platform
+- **Technology Stack**: Next.js 15, React 18, TypeScript, Prisma ORM, PostgreSQL + PostGIS
+- **Features**: Authentication, asset registry with GIS, preventive scheduling, inspections (offline PWA), reporting
+- **Security**: NextAuth.js, bcrypt password hashing, role-based access control
+- **Testing**: Comprehensive test strategy with Jest and React Testing Library
+- **Deployment**: Azure Container Apps with monitoring and health checks
+
+## Core Architecture Principles
+
+@rules [
+{
+"id": "nextjs_app_router",
+"severity": "error",
+"description": "Use Next.js 15 App Router structure with proper file-based routing and API routes."
+},
+{
+"id": "typescript_strict",
+"severity": "error",
+"description": "Use TypeScript strict mode with proper type definitions and interfaces."
+},
+{
+"id": "prisma_orm",
+"severity": "error",
+"description": "Use Prisma ORM for all database operations with proper schema definitions."
+},
+{
+"id": "authentication_required",
+"severity": "error",
+"description": "All sensitive operations must go through NextAuth.js authentication with proper role checks."
+},
+{
+"id": "testing_coverage",
+"severity": "warning",
+"description": "Maintain comprehensive test coverage with Jest and React Testing Library."
+},
+{
+"id": "branch_strategy",
+"severity": "error",
+"description": "Follow development branch + main strategy with feature sub-branches for all development work."
+}
+]
+
+## Authentication & Security Standards
+
+- **Password Security**: Use bcrypt with 12 salt rounds for all password hashing
+- **Role-Based Access**: Implement roles ADMIN, MANAGER, SUPERVISOR, CREW, EXEC, CITIZEN with proper permissions
+- **Session Management**: Use NextAuth.js with JWT tokens and secure session handling
+- **Input Validation**: Validate and sanitise all user inputs using Zod schemas
+- **Protected Routes**: Wrap sensitive pages with ProtectedRoute component
+
+## Git Workflow and Branch Strategy
+
+- **Branch Structure**: Use main (production) + develop (integration) + feature branches
+- **Feature Development**: Always create feature branches from develop branch
+- **Integration**: Merge completed features to develop for testing
+- **Production**: Merge develop to main only for releases
+- **Naming**: Use descriptive branch names (feature/name, fix/issue, enhancement/improvement)
+- **Commit Messages**: Follow semantic commit format (type(scope): description)
+
+## Database Standards
+
+- **Schema Design**: Use Prisma schema with proper relationships and constraints
+- **Migrations**: Always create and test migrations before schema changes
+- **Seeding**: Maintain comprehensive seed data for development and testing
+- **Connection Management**: Use proper connection pooling and error handling
+- **Data Validation**: Implement validation at both database and application levels
+
+## Testing Standards
+
+- **Test Coverage**: Maintain high test coverage across all components and functions
+- **Test Structure**: Organise tests by category (unit, component, API, integration)
+- **Mocking**: Properly mock external dependencies (Prisma, NextAuth, etc.)
+- **Test Data**: Use consistent test data and cleanup procedures
+- **Performance**: Ensure tests run efficiently and don't block development
+
+## Code Quality Standards
+
+- **TypeScript**: Use strict mode with proper type definitions
+- **ESLint**: Follow project ESLint configuration and fix all warnings
+- **Component Design**: Use functional components with hooks and proper prop interfaces
+- **Error Handling**: Implement comprehensive error handling with user-friendly messages
+- **Performance**: Optimise components with proper memoisation and lazy loading
+
+## Documentation Standards
+
+- **Code Comments**: Document complex logic and business rules
+- **API Documentation**: Document all API endpoints with examples
+- **Component Documentation**: Document component props and usage examples
+- **Architecture Documentation**: Keep SAD and technical documentation up to date
+- **User Guides**: Maintain user-facing documentation for all features
+
+## Deployment Standards
+
+- **Environment Configuration**: Use proper environment variables and .env files
+- **Docker**: Maintain Docker configurations for consistent deployment
+- **Azure Integration**: Follow Azure deployment best practices
+- **Health Checks**: Implement proper health check endpoints
+- **Monitoring**: Use Application Insights for production monitoring
+
+## Rules & When to Use
+
+@rules [
+{ "id": "component_organization", "severity": "error", "description": "For creating, moving, or refactoring components. Ensures correct directory, types, docs, and styles." },
+{ "id": "development_standards", "severity": "error", "description": "For all code changes. Enforces TypeScript, documentation, accessibility, and security standards." },
+{ "id": "authentication_security", "severity": "error", "description": "For any authentication or security changes. Use NextAuth.js, bcrypt, and proper role checks." },
+{ "id": "database_operations", "severity": "error", "description": "For database changes. Use Prisma schema, migrations, and proper validation." },
+{ "id": "testing_requirements", "severity": "warning", "description": "For new features. Add comprehensive tests and maintain coverage." },
+{ "id": "github_workflow", "severity": "error", "description": "For all git operations. Use feature branches, semantic commits, PRs, and code reviews." },
+{ "id": "update_docs", "severity": "warning", "description": "Directly update all relevant documentation files as part of your change." },
+{ "id": "performance_optimization", "severity": "warning", "description": "For performance-critical code. Use proper optimization techniques and monitoring." },
+{ "id": "accessibility_compliance", "severity": "error", "description": "For UI/UX changes. Follow WCAG AA guidelines and test with screen readers." }
+]
+
+## Usage Guidance
+
+- **When adding or editing code**: Apply development-standards, component-organization, and authentication_security
+- **When updating UI/UX**: Apply accessibility_compliance, performance_optimization, and testing_requirements
+- **When changing database**: Apply database_operations and testing_requirements
+- **When working with git**: Apply github_workflow
+- **When updating docs**: Apply update_docs
+- **When adding features**: Apply testing_requirements and update_docs
+
+## Additional Guidance
+
+- Always offer suggestions as a lettered list (a), b), c.), etc.
+- Always perform changes directly to the file, do not replay in chat and suggest user does it
+- Follow Australian English spelling and conventions
+- Maintain security best practices for all authentication and data operations
+- Ensure all changes are properly tested before committing
