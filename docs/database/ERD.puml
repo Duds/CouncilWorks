@@ -84,6 +84,26 @@ entity SLA {
   cost_model : string
 }
 
+entity CriticalControl {
+  * id : UUID
+  --
+  organisation_id : UUID
+  name : string
+  description : text
+  window_hours : int
+  frequency_days : int
+  escalation_policy : string
+}
+
+entity AssetCriticalControl {
+  * id : UUID
+  --
+  organisation_id : UUID
+  asset_id : UUID
+  critical_control_id : UUID
+  vendor_id : UUID
+}
+
 Organisation ||--o{ User : employs
 Organisation ||--o{ Asset : owns
 Organisation ||--o{ WorkOrder : operates
@@ -91,6 +111,8 @@ Organisation ||--o{ Inspection : records
 Organisation ||--o{ Vendor : engages
 Organisation ||--o{ Contract : manages
 Organisation ||--o{ SLA : governs
+Organisation ||--o{ CriticalControl : defines
+Organisation ||--o{ AssetCriticalControl : enforces
 
 Asset ||--o{ WorkOrder : manages
 Asset ||--o{ Inspection : inspected
@@ -100,4 +122,6 @@ Vendor ||--o{ Contract : party
 Contract ||--o{ SLA : defines
 Contract ||--o{ WorkOrder : covers
 SLA ||--o{ WorkOrder : applies
+Asset ||--o{ AssetCriticalControl : mapped
+CriticalControl ||--o{ AssetCriticalControl : applies
 @enduml

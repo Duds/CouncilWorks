@@ -1,7 +1,7 @@
 # Service Concept – CouncilWorks
 
 ## Purpose
-CouncilWorks is a civic-focused SaaS platform designed to help local governments move beyond static asset registers and complex ERP modules. It provides a dedicated intelligence layer for asset lifecycle management, giving councils practical tools to extend asset life, reduce risk, and demonstrate accountability to their communities.
+CouncilWorks is the flagship product of GridWorks, designed to help local governments move beyond static asset registers and complex ERP modules. It provides a dedicated intelligence layer for asset lifecycle management, giving councils practical tools to extend asset life, reduce risk, and demonstrate accountability to their communities.
 
 ---
 
@@ -20,31 +20,53 @@ The result: **reactive maintenance, inefficient spending, audit risk, and public
 It unifies registers, risk models, work orders, inspections, and forecasting in a single SaaS platform built specifically for councils.
 
 ### Key Capabilities
-1. **Asset Register + GIS**  
-   Import assets from ERP/CSV and visualise them spatially with PostGIS integration.  
+1. **Asset Register + GIS**  – Import assets from ERP/CSV and visualise them spatially with PostGIS integration.  
+2. **RCM-lite Templates**  – Preloaded maintenance models for the top 10 council asset classes (roads, trucks, playgrounds, drains, lighting, parks, etc.).  
+3. **Preventive Maintenance Scheduling** – Automates work orders based on risk, condition, and lifecycle stage.  
+4. **Mobile Inspections (PWA)** – Crews log inspections, update condition, and upload photos offline.  
+5. **Citizen Report Integration** – Issues reported via Snap Send Solve or native portal flow directly into work order queues.  
+6. **Risk & Compliance Dashboards** – Managers and executives access visual dashboards and export audit-ready packs.  
+7. **Forecasting & Renewal Planning** – Analytics engine models CapEx/OpEx trade-offs and long-term renewal plans.  
+8. **SLA & Contractor Management** – Track service-level agreements for outsourced providers (mowing, graffiti removal, mechanics).  
+9. **Critical Assets & Controls (CCT Integration)** – Identify high-risk assets and enforce non-negotiable critical controls.  
+10. **Future Enhancements (Phase 2+)** – Predictive maintenance from IoT/fleet telemetry, sustainability/carbon tracking, benchmarking, and digital twin integration.  
 
-2. **RCM-lite Templates**  
-   Preloaded maintenance models for the top 10 council asset classes (roads, trucks, playgrounds, drains, lighting, parks, etc.).  
+---
 
-3. **Preventive Maintenance Scheduling**  
-   Automates work orders based on risk, condition, and lifecycle stage.  
+## RCM + CCT Integration Model
 
-4. **Mobile Inspections (PWA)**  
-   Crews log inspections, update condition, and upload photos offline.  
+CouncilWorks combines **Reliability-Centred Maintenance (RCM-lite)** and **Critical Control Theory (CCT)** into a unified framework:
 
-5. **Citizen Report Integration**  
-   Issues reported via Snap Send Solve or native portal flow directly into work order queues.  
+```puml
+@startuml
 
-6. **Risk & Compliance Dashboards**  
-   Managers and executives access visual dashboards and export audit-ready packs.  
+skinparam packageStyle rectangle
+skinparam shadowing false
 
-7. **Forecasting & Renewal Planning**  
-   Analytics engine models CapEx/OpEx trade-offs and long-term renewal plans.  
+package "RCM-lite" {
+  [All Assets Analysed]
+  [Failure Modes Identified]
+  [Optimal Maintenance Defined]
+}
 
-8. **Future Enhancements** (Phase 2+)  
-   - Predictive maintenance from IoT/fleet telemetry.  
-   - Sustainability/carbon tracking for EV fleets, solar, batteries.  
-   - Benchmarking across councils and digital twin integration.  
+package "Critical Control Theory" {
+  [Critical Assets Tagged]
+  [Critical Controls Defined]
+  [Escalation + SLA Enforcement]
+}
+
+[All Assets Analysed] --> [Critical Assets Tagged]
+[Optimal Maintenance Defined] --> [Critical Controls Defined]
+
+[Critical Controls Defined] --> [Escalation + SLA Enforcement]
+
+@enduml
+```
+
+### How It Works
+1. **RCM-lite** identifies the right mix of preventive, reactive, and condition-based maintenance for all assets.  
+2. **Critical Control Theory overlay** elevates certain tasks as *critical controls* for high-risk assets (e.g. bridge inspection, dam safety audit).  
+3. These controls are enforced by CouncilWorks with **SLA tracking, escalation alerts, and compliance dashboards**.  
 
 9. **SLA & Service Lifecycle Management (SLM)**  
    Manage outsourced services and contractor performance within CouncilWorks.  
@@ -60,20 +82,22 @@ It unifies registers, risk models, work orders, inspections, and forecasting in 
 ## Service Boundaries
 - **Not an ERP**: Works alongside existing finance systems (Civica, TechOne).  
 - **Not a CRM**: Focuses on assets, not customer relationships.  
-- **Not just reporting**: Operational execution (work orders, inspections) is core.  
+- **Not just reporting**: Operational execution (work orders, inspections, SLA management) is core.  
 
 ---
 
 ## Benefits for Councils
 ### Strategic
 - Extend asset life, optimise renewal cycles.  
-- Provide clear evidence for funding and audits.  
+- Identify and manage **critical assets** (bridges, weirs, playgrounds).  
+- Provide clear evidence for audits and funding bids.  
 - Benchmark against other councils.  
 
 ### Operational
 - Reduce downtime and reactive maintenance.  
+- Enforce SLAs for contractors.  
+- Guarantee **100% compliance** for critical controls.  
 - Streamline crew work allocation and inspections.  
-- Integrate citizen reporting into workflows.  
 
 ### Community
 - Improve transparency with "you said / we did" dashboards.  
@@ -84,14 +108,14 @@ It unifies registers, risk models, work orders, inspections, and forecasting in 
 
 ## Service Model
 - **Subscription SaaS** – tiered by asset volume, with optional add-ons (citizen reporting, sustainability, AI predictive modules).  
-- **Implementation Services** – discovery, data migration, template tailoring, training.  
+- **Implementation Services** – discovery, data migration, RCM template tailoring, critical control configuration, training.  
 - **Continuous Updates** – frequent feature releases via secure CI/CD pipeline.  
 - **Support** – service desk, knowledge base, customer success managers.  
 
 ---
 
 ## Service Delivery Approach
-- **Discovery Phase** – Import data, configure templates, map workflows.  
+- **Discovery Phase** – Import data, configure templates, identify critical assets, map workflows.  
 - **Pilot Phase** – Run a 12-week trial on one asset class (e.g. fleet or playgrounds).  
 - **Proof Phase** – Demonstrate ROI (compliance gains, downtime reduction).  
 - **Scale Phase** – Roll out across all asset classes, integrate ERP and citizen channels.  
@@ -99,16 +123,17 @@ It unifies registers, risk models, work orders, inspections, and forecasting in 
 ---
 
 ## Expected Outcomes
-- Shift councils from **reactive → proactive → predictive** asset management.  
-- Reduce liability risk and insurance exposure.  
-- Align with ISO 55000, NAMAF, and Local Government Act requirements.  
-- Achieve measurable savings per asset lifecycle through renewal optimisation.  
+- Councils shift from **reactive → proactive → predictive** management.  
+- SLA compliance and contractor accountability improved.  
+- Critical assets safeguarded with CCT-based controls.  
+- Alignment with ISO 55000 (asset management) and ISO 31000 (risk management).  
+- Tangible lifecycle savings through renewal optimisation.  
 
 ---
 
 ## Positioning Statement
-**CouncilWorks is the practical, connected platform for managing the civic grid of assets and services.**  
-It ensures public infrastructure works better, costs less, and builds trust with the community.
+**CouncilWorks by GridWorks unites Reliability-Centred Maintenance with Critical Control Theory to deliver practical asset lifecycle intelligence.**  
+It ensures that all assets are managed efficiently, while the critical few are controlled with absolute assurance.
 
 ---
 

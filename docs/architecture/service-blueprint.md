@@ -19,6 +19,7 @@ CouncilWorks connects front-line crews, council managers, executives, and citize
 | **9. Executive Briefing** | Councillor views high-level KPI dashboard. | Aggregates data into plain-English summaries. | Dashboards (Next.js), API Gateway | Evidence for council meetings and community briefings. | Exec dashboard usage, citizen satisfaction survey scores. |
 | **10. Sustainability & Future Assets** | Exec reviews EV fleet/solar farm performance. | IoT/telematics feed into analytics, carbon footprint calculated. | IoT integration, Analytics Engine, Sustainability Module | Emissions reduction metrics and ROI tracking. | % assets reporting telemetry, CO₂ saved vs baseline. |
 | **11. SLA & SLM** | Vendor views assigned work orders and uploads evidence. | SLA timers track response/resolution; contract association validated; alerts on breach. | Vendor Portal (RBAC), API Gateway, Scheduler/Timer Service, DB, Notifications | SLA status (met/breached), auditable evidence, contract performance insights. | SLA compliance %, breaches, mean time to respond/resolve, contract renewal alerts. |
+| **12. Critical Controls (CCT)** | Supervisor tags asset/task as critical control; monitors compliance. | Critical control rules enforced; escalations triggered if at risk. | API Gateway, Rules Engine, Notifications, DB | Guaranteed execution or escalation for critical tasks. | Critical control compliance %, time-at-risk, escalations raised/cleared. |
 
 ---
 
@@ -31,6 +32,7 @@ CouncilWorks connects front-line crews, council managers, executives, and citize
 | Preventive Schedule | Supervisor reviews jobs | RCM‑lite engine generates plan | Python worker, Postgres | Work orders created | schedule adherence, utilisation |
 | Citizen Report | Citizen logs fault | Data normalisation, deduplication | API gateway, Postgres | Work order created/triaged | intake volume, triage time |
 | Execution | Crew closes job | Update lifecycle, audit log | PWA, API, DB | Compliance logged, costs captured | closure time, repeat faults |
+| Critical Control Enforcement | Supervisor configures control; crew performs mandated task | Validate execution within window; trigger escalation if overdue/at-risk | Rules Engine, API, Notifications | Control compliance captured; escalation trail | control compliance %, time-at-risk |
 | Forecasting | Manager runs scenario | Model simulates, caches results | Python, Postgres | Budget forecast | accuracy vs actuals |
 | Reporting | Exec exports | Compile datasets, generate PDFs | Reporting engine | Audit pack in PDF/CSV | time-to-export, errors |
 | SLA Tracking & Vendor Portal | Vendor accepts/completes job; uploads photos/invoice | Start/stop SLA timers; validate evidence; link to contract; notify on breach | Vendor Portal, API, Object Storage, Notifications | Timestamped updates, GPS photos, invoice attachments; SLA status | SLA met %, breaches, average response/resolution time |
@@ -43,6 +45,7 @@ CouncilWorks connects front-line crews, council managers, executives, and citize
 - **Configuration**: Customise templates, workflows, and dashboards per council.  
 - **Continuous Improvement**: Pilots run as *PilotWorks* streams; successful modules promoted to full product.  
 - **Contract Management**: Vendor onboarding, contract records (start/end, scope, SLAs), renewal notifications, performance reviews.  
+- **Critical Controls Configuration**: Identify critical assets, define control rules/windows, map to RCM tasks, and maintain escalation paths.
 
 ---
 
