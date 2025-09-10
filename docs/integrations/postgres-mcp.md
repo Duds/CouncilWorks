@@ -111,6 +111,48 @@ psql "${POSTGRES_MCP_CONNECTION_STRING}" -f scripts/db/seed-template.sql
 - PATH issues for global install: output npm bin path `npm bin -g` and add to your shell's PATH
 - Multiple projects: ensure distinct DB names/ports (e.g., CapOpt vs CouncilWorks) to avoid conflicts
 
+#### Cursor setup (MCP & Integrations)
+
+If it does not appear automatically in Cursor > Settings > MCP & Integrations:
+
+1) Ensure the helper works from your shell:
+   ```bash
+   which npx; which node
+   npx -y @henkey/postgres-mcp-server --help
+   ```
+   Example paths on this machine:
+   - `/usr/bin/npx`
+   - `/usr/bin/node`
+
+2) Add an MCP server entry in the Cursor settings (use absolute paths):
+   ```json
+   {
+     "mcpServers": {
+       "postgresql-mcp": {
+         "command": "/usr/bin/npx",
+         "args": [
+           "@henkey/postgres-mcp-server",
+           "--connection-string", "${POSTGRES_MCP_CONNECTION_STRING}"
+         ]
+       }
+     }
+   }
+   ```
+
+3) Ensure your environment variable is visible to Cursor.
+   - Start Cursor from a shell where `.env.local` is sourced or export the var globally
+   - Alternatively, replace the `"${POSTGRES_MCP_CONNECTION_STRING}"` with the literal connection string.
+
+4) Reload Cursor’s MCP registry:
+   - Close and reopen Cursor, or
+   - Use “Reload Window” (Command Palette), then check Settings > MCP & Integrations
+
+If it still doesn’t appear, try running the server once manually to surface errors:
+```bash
+./scripts/run-postgres-mcp.sh
+```
+Then reopen Cursor.
+
 #### References
 
 - Upstream repository: `https://github.com/HenkDz/postgresql-mcp-server`
