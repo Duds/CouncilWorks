@@ -178,3 +178,75 @@ Last updated: 10/09/2025
 - Features are prioritised based on MVP requirements and user value
 - Technical tasks support the implementation of features and user stories
 - Australian English, DD/MM/YYYY dates, 24-hour time, metric units, and $AUD throughout
+
+---
+
+### E1 Detailed Feature Set (Foundation & Authentication)
+
+- Application Scaffolding & Environment Setup
+  - F1.3: Local app scaffolding (Next.js + TypeScript + Tailwind + shadcn/ui)
+    - US1.2: App scaffold runs locally with strict TS and base UI
+  - F1.4: CI/CD pipeline (GitHub Actions: build, test, deploy)
+    - US1.3: CI builds/tests PRs; main deploys staged
+  - F1.5: Environment management (.env for local/dev/test/prod)
+    - US1.4: Environment configs load safely per environment
+  - F1.6: Database initialisation (PostgreSQL + Prisma migrations)
+    - US1.5: Run migrations/seed locally and in CI
+  - F1.7: Logging & monitoring (pino/winston + Sentry)
+    - US1.6: Structured logs and error tracking available
+  - F1.8: Theming & branding setup (tokens, typography, branding hooks)
+    - US1.7: Base components themed with tokens/typography
+
+- Public-Facing Pages
+  - F1.9: Landing/marketing page (overview + CTA for login/register)
+    - US1.8: Landing page communicates value; CTA to auth
+  - F1.10: Documentation/help page scaffold
+    - US1.9: Help scaffold for onboarding
+  - F1.11: Changelog/Release notes section
+    - US1.10: Changelog lists recent changes per environment
+
+- Authentication & Security
+  - F1.12: Auth providers (email/password + Google + Microsoft)
+    - US1.11: Sign in with email or Google/Microsoft
+  - F1.13: Registration with email verification
+    - US1.12: Register and verify via time-limited email link
+  - F1.14: Secure login (rate limiting & lockout)
+    - US1.13: Lockout after failed attempts; monitored
+  - F1.15: Password reset (time-limited token)
+    - US1.14: Reset password securely with one-time token
+  - F1.16: Multifactor authentication (TOTP + SMS/email fallback)
+    - US1.15: MFA via TOTP with fallback and recovery codes
+  - F1.17: Session management (JWT refresh rotation & device tracking)
+    - US1.16: View and revoke active sessions/devices
+
+- User Profile & Management
+  - F1.18: User avatar upload
+    - US1.17: Upload/preview/remove profile picture
+  - F1.19: Profile management (name, email, password, avatar)
+    - US1.18: Update profile; email verification on change
+  - F1.20: Notification preferences
+    - US1.19: Opt-in/out notification categories
+  - F1.21: Activity log (logins, sessions, recent actions)
+    - US1.20: View activity with AEST timestamps; revoke sessions
+
+- Administrative & RBAC Features
+  - F1.22: Role-based access control (ADMIN, MANAGER, SUPERVISOR, CREW, EXEC, CITIZEN)
+    - US1.21: Enforce roles on routes and APIs
+  - F1.23: User assignment UI (assign/change roles)
+    - US1.22: Admin assigns roles with audit trail
+  - F1.24: User status management (enable/disable, force reset)
+    - US1.23: Disable accounts; force password reset
+  - F1.25: Audit logging (account/role changes)
+    - US1.24: Audit log with filters and export
+  - F1.26: Admin dashboard (users, roles, MFA, activity)
+    - US1.25: Security posture dashboard with drill-down
+
+- Developer Experience Enhancements
+  - F1.27: Local first-instance deployment (docker-compose)
+    - US1.26: Run app + Postgres locally via one command
+  - F1.28: Seed data for dev (admin, sample users, roles)
+    - US1.27: Seed re-runnable for quick flows
+  - F1.29: Storybook/Component docs scaffold
+    - US1.28: Storybook for UI consistency and documentation
+  - F1.30: Unit & integration test setup (Jest, Playwright for auth flows)
+    - US1.29: Tests and CI gates to prevent regressions

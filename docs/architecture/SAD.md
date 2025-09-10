@@ -8,9 +8,9 @@ Last updated: 10/09/2025
 
 ## 1. Introduction
 
-- **Purpose**: This document describes the architecture of **CouncilWorks by GridWorks**, a civic-focused SaaS solution designed for councils and local governments. It provides asset lifecycle intelligence, risk management, and decision support.
-- **Scope**: The SAD covers system goals, architecture overview, technology stack, integrations, deployment models, and quality attributes. MVP through Phase 2, covering asset register, RCM‑lite templates, scheduling, inspections (offline PWA), dashboards, and integrations (GIS, citizen reporting, ERP).
-- **Stakeholders**: Asset Managers, Works Supervisors, Fleet Coordinators, Council Executives, Councillors, Citizens, IT Administrators, Asset & Infrastructure Managers, Parks Officers, Finance.
+- **Purpose**: This document describes the architecture of **CouncilWorks**, the flagship product of GridWorks. It provides asset lifecycle intelligence, SLA/contractor tracking, and critical asset assurance.
+- **Scope**: Covers system goals, architecture overview, technology stack, integrations, deployment, and quality attributes, including **RCM-lite** and **Critical Control Theory (CCT)** integration.
+- **Stakeholders**: Asset Managers, Works Supervisors, Fleet Coordinators, Council Executives, Councillors, Citizens, Contractors, IT Administrators.
 
 ## 2. Architectural Goals and Principles
 
@@ -81,6 +81,7 @@ Last updated: 10/09/2025
 ### 4.2 C4: Containers
 
 - Web App (Next.js)
+- Contractor Portal (restricted vendor UI)
 - Mobile PWA
 - API Gateway (Node.js)
 - Worker/Analytics (Python)
@@ -102,6 +103,7 @@ package "CouncilWorks Platform" {
   [API Gateway (Node.js)] --> [Mobile PWA]
   [API Gateway (Node.js)] --> [Timer/SLA Service]
   [API Gateway (Node.js)] --> [Rules/Policy Engine]
+  [API Gateway (Node.js)] --> [Contractor Portal]
 }
 
 [ERP / Finance Systems] --> [API Gateway (Node.js)]
@@ -134,12 +136,42 @@ package "CouncilWorks Platform" {
 - **SLA Tracking**: On work order creation/assignment, SLA timers start; vendor acknowledgements stop response timer; resolution timer runs until closure; breaches trigger alerts and are logged for reporting.
 - **Critical Control Enforcement**: Controls generated per schedule; at-risk prediction raises early alerts; overdue triggers escalation workflow (multi-channel) until acknowledged/resolved or formally overridden with justification.
 
+## 6.1 Critical Assets & Controls View
+
+### Data Model Additions
+- `Asset.criticality_level` (High, Medium, Low).
+- `CriticalControl.type` (Preventive, Reactive, Critical).
+- `WorkOrder.sla_id` → link to SLA contract.
+- `CriticalControl.status` (Compliant, Breach, Escalated).
+
+### Enforcement Flow
+```puml
+@startuml
+
+[Asset Imported] --> [Tagged as Critical]
+[Tagged as Critical] --> [Apply Critical Controls]
+[Apply Critical Controls] --> [Generate Work Orders]
+[Work Orders] --> [Contractor / Crew Execution]
+[Contractor / Crew Execution] --> [SLA & Control Tracking]
+[SLA & Control Tracking] --> [Analytics & Alerts]
+[Analytics & Alerts] --> [Compliance Dashboard]
+
+@enduml
+```
+
+### Integration
+- RCM defines the maintenance strategy.  
+- CCT defines the non-negotiable tasks.  
+- SLA module ensures contractors deliver on time.  
+- CouncilWorks enforces compliance with escalation, alerts, and reports.  
+
 ## 7. Security Architecture
 
 - **Authentication**: OAuth2/JWT with council SSO (Azure AD/Okta).
 - **Authorisation**: RBAC (Admin, Manager, Supervisor, Crew, Exec, Citizen, Vendor). Critical control configuration restricted to Manager/Admin; execution visibility to Supervisor; vendor only sees linked controls where contracted.
 - **Data Protection**: AES-256 encryption at rest, TLS 1.3 in transit.
 - **Monitoring**: Intrusion detection (Wazuh/OSSEC), audit logs immutable.
+ - MFA: Enforced for administrators and contractors/vendors.
 - Authentication: NextAuth.js with JWT sessions; configurable providers; session expiry and refresh.
 - Authorisation: Role-based (Admin, Manager, Supervisor, Crew, Exec, Citizen); hierarchical permissions; policy checks at API and UI; database RLS.
 - Secrets: Managed via environment variables/secret manager; never committed.
