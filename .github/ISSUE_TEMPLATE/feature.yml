@@ -1,0 +1,26 @@
+name: Feature
+description: Request or track a feature linked to an Epic
+labels: ["feature"]
+title: "Feature: "
+body:
+  - type: input
+    id: linked_to
+    attributes:
+      label: Linked to (Epic #)
+      description: Reference epic number like #1
+  - type: textarea
+    id: purpose
+    attributes:
+      label: Purpose
+    validations:
+      required: true
+  - type: textarea
+    id: success
+    attributes:
+      label: Success signals
+    validations:
+      required: true
+  - type: textarea
+    id: stakeholders
+    attributes:
+      label: Impacted stakeholders

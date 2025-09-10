@@ -18,6 +18,8 @@ This directory contains the documentation set for the Council Asset Lifecycle In
 - Database
   - `database/seed-implementation.md` — Seed strategy
   - `database/ERD.puml` — ERD (PlantUML)
+- Integrations
+  - `integrations/postgres-mcp.md` — PostgreSQL MCP server integration
 - Product Backlog
   - `TODO.md` — Epics, features, and user stories
 - Support
