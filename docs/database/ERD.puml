@@ -1,0 +1,62 @@
+@startuml
+!theme plain
+hide circle
+skinparam linetype ortho
+
+entity Organisation {
+  * id : UUID
+  --
+  name : string
+}
+
+entity User {
+  * id : UUID
+  --
+  organisation_id : UUID
+  role : string
+  name : string
+  email : string
+}
+
+entity Asset {
+  * id : UUID
+  --
+  organisation_id : UUID
+  name : string
+  type : string
+  location_geom : geometry
+  condition : int
+  risk_score : int
+}
+
+entity WorkOrder {
+  * id : UUID
+  --
+  organisation_id : UUID
+  asset_id : UUID
+  status : string
+  due_date : date
+  assigned_to : UUID
+}
+
+entity Inspection {
+  * id : UUID
+  --
+  organisation_id : UUID
+  asset_id : UUID
+  inspector_id : UUID
+  date : date
+  condition : int
+  notes : text
+}
+
+Organisation ||--o{ User : employs
+Organisation ||--o{ Asset : owns
+Organisation ||--o{ WorkOrder : operates
+Organisation ||--o{ Inspection : records
+
+Asset ||--o{ WorkOrder : manages
+Asset ||--o{ Inspection : inspected
+User ||--o{ WorkOrder : assigned
+User ||--o{ Inspection : performs
+@enduml
