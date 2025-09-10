@@ -1,0 +1,84 @@
+:root {
+  /* Raw Palette */
+  --saffron: #FF4C46;
+  --white:   #FFFFFF;
+  --tea:     #DFFFDE;
+  --nocturn: #012B3A;
+
+  --mint:    #B2FFC6;
+  --spring:  #87F8AE;
+  --jade:    #42D49C;
+  --cedar:   #00A68A;
+  --spruce:  #007978;
+  --lake:    #004963;
+
+  /* Functional Tokens - Light */
+  --background: var(--white);
+  --foreground: var(--nocturn);
+
+  --primary: var(--jade);
+  --primary-foreground: var(--white);
+
+  --secondary: var(--spruce);
+  --secondary-foreground: var(--white);
+
+  --accent: var(--saffron);
+  --accent-foreground: var(--white);
+
+  --success: var(--spring);
+  --success-foreground: var(--nocturn);
+  --success-light: var(--mint);
+
+  --info: var(--cedar);
+  --info-foreground: var(--white);
+
+  --danger: var(--lake);
+  --danger-foreground: var(--white);
+
+  --warning: var(--saffron);
+  --warning-foreground: var(--white);
+
+  --muted: var(--tea);
+  --muted-foreground: var(--nocturn);
+
+  --neutral: var(--tea);
+  --neutral-foreground: var(--nocturn);
+
+  --border: var(--spruce);
+}
+
+.dark {
+  /* Functional Tokens - Dark */
+  --background: var(--nocturn);
+  --foreground: var(--tea);
+
+  --primary: var(--spring);
+  --primary-foreground: var(--nocturn);
+
+  --secondary: var(--cedar);
+  --secondary-foreground: var(--nocturn);
+
+  --accent: var(--saffron);
+  --accent-foreground: var(--white);
+
+  --success: var(--mint);
+  --success-foreground: var(--nocturn);
+  --success-light: var(--spring);
+
+  --info: var(--jade);
+  --info-foreground: var(--nocturn);
+
+  --danger: var(--saffron);
+  --danger-foreground: var(--white);
+
+  --warning: var(--tea);
+  --warning-foreground: var(--nocturn);
+
+  --muted: var(--lake);
+  --muted-foreground: var(--tea);
+
+  --neutral: var(--nocturn);
+  --neutral-foreground: var(--tea);
+
+  --border: var(--lake);
+}

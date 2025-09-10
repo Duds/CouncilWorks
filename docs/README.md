@@ -12,6 +12,8 @@ This directory contains the documentation set for CouncilWorks - the Council Ass
   - `architecture/resource-naming-convention.md` — Naming conventions
   - SLA & SLM — See `architecture/SAD.md` (modules, timers, alerts), `architecture/service-concept.md` (capabilities, examples), and `architecture/service-blueprint.md` (flows, vendor portal)
   - Critical Controls (CCT) — See `architecture/service-concept.md` (RCM + CCT model), `architecture/service-blueprint.md` (enforcement flow), and `architecture/SAD.md` (rules engine, data model, metrics)
+- Design
+  - `design/brand-guidelines.md` — Brand colours, tokens, Tailwind/shadcn mapping and usage
 - Development
   - `development/developer-brief.md` — Developer standards and workflows
   - `development/testing-guide.md` — Testing strategy and requirements

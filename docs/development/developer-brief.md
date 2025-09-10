@@ -53,6 +53,7 @@ Build the MVP of CouncilWorks (by GridWorks) - the Council Asset Lifecycle Intel
 
 ## Documentation-as-code
 - Update relevant `docs/*` with each change; keep SAD and ADRs current; maintain changelog.
+- Follow `docs/design/brand-guidelines.md` for colours/tokens and Tailwind/shadcn usage.
 
 ## Local Dev Setup (Draft)
 - Requirements: Node LTS, pnpm, Docker, Python 3.11, PostgreSQL with PostGIS.
