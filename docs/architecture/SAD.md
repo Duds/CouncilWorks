@@ -8,7 +8,7 @@ Last updated: 10/09/2025
 
 ## 1. Introduction
 
-- **Purpose**: This document describes the architecture of the **GridWorks Platform**, a civic-focused SaaS solution designed for councils and local governments. It provides asset lifecycle intelligence, risk management, and decision support.
+- **Purpose**: This document describes the architecture of **CouncilWorks**, a civic-focused SaaS solution designed for councils and local governments. It provides asset lifecycle intelligence, risk management, and decision support.
 - **Scope**: The SAD covers system goals, architecture overview, technology stack, integrations, deployment models, and quality attributes. MVP through Phase 2, covering asset register, RCM‑lite templates, scheduling, inspections (offline PWA), dashboards, and integrations (GIS, citizen reporting, ERP).
 - **Stakeholders**: Asset Managers, Works Supervisors, Fleet Coordinators, Council Executives, Councillors, Citizens, IT Administrators, Asset & Infrastructure Managers, Parks Officers, Finance.
 
@@ -47,6 +47,7 @@ Last updated: 10/09/2025
 - **Analytics Engine**: Python services for risk scoring, forecasting, predictive maintenance, and reporting.
 - **Frontend**: React/Next.js dashboards for managers, executives, and councillors.
 - **Mobile App (PWA)**: Offline-enabled inspections, work orders, and field data capture.
+- **SLA & Service Lifecycle Management (SLM)**: Contract records, SLA definitions, vendor portal, SLA timers/alerts, evidence capture, and reporting.
 
 ### Integrations
 
@@ -54,6 +55,7 @@ Last updated: 10/09/2025
 - **GIS Platforms** (ESRI, QGIS): Asset mapping and spatial overlays.
 - **Citizen Reporting Tools** (Snap Send Solve, APIs): Community-reported issues.
 - **IoT/Telematics**: Fleet sensors, solar/battery performance feeds.
+- **Vendor Communications**: Email/SMS/Push notifications for contractor assignment and SLA alerts.
 
 ### Technical Implementation
 
@@ -61,15 +63,16 @@ Last updated: 10/09/2025
 - API Layer: Node.js (TypeScript) REST/GraphQL gateway; validation with Zod; authentication with NextAuth.js (JWT sessions) and RBAC.
 - Analytics & Scheduling: Python services for RCM‑lite, forecasting, optimisation (containers, async jobs/worker queue).
 - Database: PostgreSQL + PostGIS; Prisma ORM for app data access; Postgres RLS for tenant and role scoping.
+- SLA Timers & Alerts: Scheduler/worker service tracks response/resolution windows; notifications on thresholds; idempotent state transitions on work orders.
 - Integrations: Webhooks, adapters for ERP, citizen reporting portals, IoT; message queue for async tasks.
 - Observability: OpenTelemetry traces, structured logs, metrics; dashboards and alerting.
 - Deployment: Containers (Docker, Kubernetes/Azure Container Apps); environments: dev, test, prod.
 
 ### 4.1 C4: System Context (textual)
 
-- Users: Council staff (Admin, Manager, Supervisor, Crew, Exec), Citizens.
+- Users: Council staff (Admin, Manager, Supervisor, Crew, Exec), Citizens, Vendors/Contractors (restricted portal access).
 - External Systems: ERP, GIS (e.g. ArcGIS), Identity Provider (IdP), Email/SMS, File storage, IoT.
-- GridWorks Platform provides secure dashboards, APIs, mobile workflows, analytics, and reporting.
+- CouncilWorks provides secure dashboards, APIs, mobile workflows, analytics, and reporting.
 
 ### 4.2 C4: Containers
 
@@ -81,22 +84,25 @@ Last updated: 10/09/2025
 - Message Broker (e.g. RabbitMQ/Cloud queue)
 - Object Storage (photos, documents)
 - Identity Provider (OIDC/SAML) via NextAuth providers
+- Timer/Scheduler Service (e.g. worker queue + scheduled jobs) for SLA tracking
 
 ### 4.3 Logical View
 
 ```puml
 @startuml
-package "GridWorks Platform" {
+package "CouncilWorks Platform" {
   [API Gateway (Node.js)] --> [PostgreSQL + PostGIS]
   [API Gateway (Node.js)] --> [Analytics Engine (Python)]
   [Analytics Engine (Python)] --> [Dashboards (Next.js)]
   [API Gateway (Node.js)] --> [Mobile PWA]
+  [API Gateway (Node.js)] --> [Timer/SLA Service]
 }
 
 [ERP / Finance Systems] --> [API Gateway (Node.js)]
 [Citizen Reporting Tools] --> [API Gateway (Node.js)]
 [GIS Systems] --> [PostgreSQL + PostGIS]
 [IoT Devices / Fleet Telematics] --> [Analytics Engine (Python)]
+[Email/SMS/Push Providers] --> [API Gateway (Node.js)]
 @enduml
 ```
 
@@ -106,6 +112,7 @@ package "GridWorks Platform" {
 - Spatial: PostGIS geometry for assets; index on geography/geometry columns.
 - Multi-tenancy: `organisation_id` on all tenant-scoped tables; enforced via Postgres RLS and application claims.
 - Auditing: Created/updated timestamps, user IDs, change logs; immutable event trail for critical records.
+- Contracts & SLAs: Entities for Vendor, Contract, SLA definitions; work orders reference contract/SLA; SLA status and timestamps (assigned, acknowledged, started, paused, completed) persisted with auditability.
 - Backups & DR: PITR enabled; daily encrypted backups; tested restores.
 
 ## 6. Process View
@@ -116,11 +123,12 @@ package "GridWorks Platform" {
 - **Citizen Reports**: API intake → normalised into work orders → linked to assets.
 - **Forecasting**: Analytics engine generates 10–20 year renewal models → outputs dashboards.
 - **Reporting**: Managers/execs generate compliance/audit reports → export PDF/Excel.
+- **SLA Tracking**: On work order creation/assignment, SLA timers start; vendor acknowledgements stop response timer; resolution timer runs until closure; breaches trigger alerts and are logged for reporting.
 
 ## 7. Security Architecture
 
 - **Authentication**: OAuth2/JWT with council SSO (Azure AD/Okta).
-- **Authorisation**: RBAC (Admin, Manager, Supervisor, Crew, Exec, Citizen).
+- **Authorisation**: RBAC (Admin, Manager, Supervisor, Crew, Exec, Citizen, Vendor).
 - **Data Protection**: AES-256 encryption at rest, TLS 1.3 in transit.
 - **Monitoring**: Intrusion detection (Wazuh/OSSEC), audit logs immutable.
 - Authentication: NextAuth.js with JWT sessions; configurable providers; session expiry and refresh.
@@ -130,6 +138,7 @@ package "GridWorks Platform" {
 - Passwords (if used): bcrypt 12 rounds; never stored in plain text.
 - Transport: HTTPS everywhere; HSTS; secure cookies.
 - Threat model: Covers auth bypass, multi-tenant data leakage, CSRF/XSS/SQLi, offline tampering, replay, broken access control.
+  - SLA/Contract tampering risks mitigated via audit logs, signed URLs for evidence, and strict scope permissions for vendor users.
 
 ## 8. Quality Attributes
 
@@ -140,6 +149,7 @@ package "GridWorks Platform" {
 - **Interoperability**: Open APIs, standards-based integrations (OGC for GIS, REST/GraphQL for ERP).
 - **Maintainability**: Modular microservices, versioned APIs, automated tests.
 - **Auditability**: Full history of inspections, work orders, risk scores, and reporting logs.
+  - SLA evidence logs: timestamped updates, GPS-stamped photos; exportable audit trails.
 - Reliability: Zero-downtime deploys, health checks, circuit breakers, retries with backoff.
 - Performance: API p95 < 300ms for common endpoints; dashboard p95 < 1s; large exports in async jobs.
 - Scalability: Horizontal scaling for stateless services; DB read replicas as needed; caching layers.
@@ -155,6 +165,7 @@ package "GridWorks Platform" {
 - Inspections (PWA): offline forms, photos, GPS tagging; sync resolution.
 - Reporting & Exports: risk/compliance dashboards; audit-ready packs.
 - Integrations: Citizen intake API, ERP sync, IoT signals.
+- SLA & SLM: Contract management, vendor portal, SLA definitions, timers, alerts, compliance dashboards, exports.
 
 ## 10. Deployment & Environments
 
@@ -188,6 +199,7 @@ package "GridWorks Platform" {
 - OpenTelemetry SDK across Node and Python services.
 - Log format: JSON, correlation IDs, user/tenant IDs where appropriate.
 - Dashboards: performance, error rates, sync lag, job queues, GIS query times.
+- SLA Metrics: response/resolution time percentiles, active timers, imminent breaches, vendor compliance %, contract health scores.
 
 ## 12. Compliance & Governance
 

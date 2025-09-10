@@ -1,7 +1,7 @@
 # Service Concept – CouncilWorks
 
 ## Purpose
-CouncilWorks is the flagship product of GridWorks, designed to help local governments move beyond static asset registers and complex ERP modules. It provides a dedicated intelligence layer for asset lifecycle management, giving councils practical tools to extend asset life, reduce risk, and demonstrate accountability to their communities.
+CouncilWorks is a civic-focused SaaS platform designed to help local governments move beyond static asset registers and complex ERP modules. It provides a dedicated intelligence layer for asset lifecycle management, giving councils practical tools to extend asset life, reduce risk, and demonstrate accountability to their communities.
 
 ---
 
@@ -45,6 +45,15 @@ It unifies registers, risk models, work orders, inspections, and forecasting in 
    - Predictive maintenance from IoT/fleet telemetry.  
    - Sustainability/carbon tracking for EV fleets, solar, batteries.  
    - Benchmarking across councils and digital twin integration.  
+
+9. **SLA & Service Lifecycle Management (SLM)**  
+   Manage outsourced services and contractor performance within CouncilWorks.  
+   - SLA definition at contract level with parameters (response, resolution, frequency, cost model).  
+   - Contract records: vendor details, term dates, scope, alerts for expiry/renewal.  
+   - Vendor portal access with restricted RBAC to view/complete assigned work orders, upload evidence (photos, notes, invoices).  
+   - Automated SLA tracking on work orders with timers, visual indicators (met/breached), and manager alerts.  
+   - Reporting and audits: compliance dashboards per vendor, exportable packs, timestamped evidence logs with GPS photos.  
+   - Lifecycle integration: SLA compliance feeds asset health scoring and renewal forecasts.  
 
 ---
 
@@ -98,5 +107,16 @@ It unifies registers, risk models, work orders, inspections, and forecasting in 
 ---
 
 ## Positioning Statement
-**CouncilWorks by GridWorks is the practical, connected platform for managing the civic grid of assets and services.**  
+**CouncilWorks is the practical, connected platform for managing the civic grid of assets and services.**  
 It ensures public infrastructure works better, costs less, and builds trust with the community.
+
+---
+
+## Additional Example: Graffiti Removal (SLA)
+1. Citizen reports graffiti on community centre wall.  
+2. Work order is generated with contract association and an SLA tag (e.g. 48 hours).  
+3. Contractor receives notification via the vendor portal.  
+4. Contractor removes graffiti and uploads photo evidence.  
+5. System logs timestamps, updates SLA timer, and closes the order if criteria are met.  
+6. SLA compliance is recorded (met or breached) and appears on the contractor compliance dashboard.  
+7. Manager reviews SLA % for contract performance and procurement governance.  

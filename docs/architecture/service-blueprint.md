@@ -1,6 +1,6 @@
 # Service Blueprint – CouncilWorks
 
-CouncilWorks by GridWorks connects front-line crews, council managers, executives, and citizens through a unified asset lifecycle intelligence platform. This blueprint outlines how the service operates across frontstage (user actions), backstage (internal processes), enabling systems, and support layers.
+CouncilWorks connects front-line crews, council managers, executives, and citizens through a unified asset lifecycle intelligence platform. This blueprint outlines how the service operates across frontstage (user actions), backstage (internal processes), enabling systems, and support layers.
 
 ---
 
@@ -18,6 +18,7 @@ CouncilWorks by GridWorks connects front-line crews, council managers, executive
 | **8. Forecasting & Planning** | Exec reviews 10-year renewal forecast. | Lifecycle models simulate repair vs replace; budget scenarios generated. | Python Analytics, ERP data feed, Dashboards | CapEx/OpEx decision support, funding justification. | Forecast accuracy, replacement deferrals, ROI. |
 | **9. Executive Briefing** | Councillor views high-level KPI dashboard. | Aggregates data into plain-English summaries. | Dashboards (Next.js), API Gateway | Evidence for council meetings and community briefings. | Exec dashboard usage, citizen satisfaction survey scores. |
 | **10. Sustainability & Future Assets** | Exec reviews EV fleet/solar farm performance. | IoT/telematics feed into analytics, carbon footprint calculated. | IoT integration, Analytics Engine, Sustainability Module | Emissions reduction metrics and ROI tracking. | % assets reporting telemetry, CO₂ saved vs baseline. |
+| **11. SLA & SLM** | Vendor views assigned work orders and uploads evidence. | SLA timers track response/resolution; contract association validated; alerts on breach. | Vendor Portal (RBAC), API Gateway, Scheduler/Timer Service, DB, Notifications | SLA status (met/breached), auditable evidence, contract performance insights. | SLA compliance %, breaches, mean time to respond/resolve, contract renewal alerts. |
 
 ---
 
@@ -32,6 +33,7 @@ CouncilWorks by GridWorks connects front-line crews, council managers, executive
 | Execution | Crew closes job | Update lifecycle, audit log | PWA, API, DB | Compliance logged, costs captured | closure time, repeat faults |
 | Forecasting | Manager runs scenario | Model simulates, caches results | Python, Postgres | Budget forecast | accuracy vs actuals |
 | Reporting | Exec exports | Compile datasets, generate PDFs | Reporting engine | Audit pack in PDF/CSV | time-to-export, errors |
+| SLA Tracking & Vendor Portal | Vendor accepts/completes job; uploads photos/invoice | Start/stop SLA timers; validate evidence; link to contract; notify on breach | Vendor Portal, API, Object Storage, Notifications | Timestamped updates, GPS photos, invoice attachments; SLA status | SLA met %, breaches, average response/resolution time |
 
 ---
 
@@ -40,15 +42,16 @@ CouncilWorks by GridWorks connects front-line crews, council managers, executive
 - **Data Migration**: Assisted import from ERP/legacy systems.  
 - **Configuration**: Customise templates, workflows, and dashboards per council.  
 - **Continuous Improvement**: Pilots run as *PilotWorks* streams; successful modules promoted to full product.  
+- **Contract Management**: Vendor onboarding, contract records (start/end, scope, SLAs), renewal notifications, performance reviews.  
 
 ---
 
 ## Service Layers
 1. **Frontstage** – Users: citizens, crews, supervisors, managers, executives.  
-2. **Backstage** – CouncilWorks processes: scheduling, validation, reporting, analytics.  
+2. **Backstage** – CouncilWorks processes: scheduling, validation, reporting, analytics, SLA timers and alerts.  
 3. **Systems** – Platform stack: API Gateway (Node.js), Analytics Engine (Python), PostgreSQL + PostGIS, Next.js frontend, PWA mobile.  
-4. **Support** – Training, support desk, SLA-based response, continuous release updates.  
-5. **Metrics Layer** – Operational KPIs, compliance stats, community satisfaction indicators.
+4. **Support** – Training, support desk, SLA-based response, contract performance, continuous release updates.  
+5. **Metrics Layer** – Operational KPIs, SLA compliance, contract health, community satisfaction indicators.
 
 ---
 
@@ -70,6 +73,17 @@ CouncilWorks by GridWorks connects front-line crews, council managers, executive
 7. Councillor references "you said, we did" dashboard in council meeting.  
 
 **Outcome**: Transparent, auditable, citizen-visible process from issue raised → issue resolved.
+
+---
+
+## End-to-End Experience Example: Graffiti Removal under SLA
+1. Citizen reports graffiti via portal.  
+2. Work order created with contract link and `SLA: 48 hours`.  
+3. Vendor notified via portal/email; accepts job.  
+4. SLA response timer stops on acceptance; resolution timer runs until closure.  
+5. Vendor uploads GPS-stamped photos and notes; optionally invoices.  
+6. System validates evidence and closes job; marks SLA Met/Breached.  
+7. Manager reviews vendor SLA dashboard; breaches trigger alerts and contract review tasks.  
 
 ---
 
