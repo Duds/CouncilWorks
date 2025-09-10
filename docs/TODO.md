@@ -1,44 +1,252 @@
-# Product Backlog
+# CouncilWorks Product Backlog
 
-Last updated: $(date +'%d/%m/%Y')
+Last updated: 10/09/2025
 
-## Epics
+## MVP Epics (Phase 1)
 
-- #8 Epic: E6 Sustainability & Carbon Module
-- #7 Epic: E5 Integrations (Citizen, ERP, IoT)
-- #6 Epic: E4 Dashboards & Reporting
-- #5 Epic: E3 Mobile Inspections App
-- #4 Epic: E2 RCM‑lite Templates & Scheduling
-- #3 Epic: E1 Asset Register & GIS Integration
-- #2 Epic: E1 Asset Register & GIS Integration
+### E1: Foundation & Authentication
+**Goal**: Establish secure, multi-tenant foundation with role-based access control
+**Value**: Secure platform foundation enabling council-specific data isolation
 
-## Features
+### E2: Asset Register & GIS Integration  
+**Goal**: Import, manage, and visualise council assets with spatial capabilities
+**Value**: Centralised asset registry with GIS visualisation for better asset management
 
-- #16 Feature: Carbon footprint tracking
-- #15 Feature: Citizen report intake API
-- #14 Feature: Risk/compliance dashboard
-- #13 Feature: Offline inspections with photo upload
-- #12 Feature: Preventive maintenance scheduling
-- #11 Feature: Create/edit RCM templates
-- #10 Feature: GIS map visualisation
-- #9 Feature: Import assets from CSV/ERP
+### E3: RCM-lite Templates & Scheduling
+**Goal**: Implement simplified reliability-centred maintenance with automated scheduling
+**Value**: Proactive maintenance planning reducing reactive work and extending asset life
 
-## User Stories
+### E4: Mobile Inspections (PWA)
+**Goal**: Offline-capable mobile app for field inspections and work order management
+**Value**: Efficient field operations with offline capability and seamless data sync
 
-- #20 Story: Export audit-ready reports
-- #19 Story: Auto-generated work orders
-- #18 Story: Offline mobile inspection
-- #17 Story: Import assets from Excel
+### E5: Dashboards & Reporting
+**Goal**: Executive dashboards and compliance reporting for all user roles
+**Value**: Data-driven decision making and audit-ready compliance reporting
 
-## Bugs
+### E6: Citizen Integration
+**Goal**: Integrate citizen reporting into council workflows
+**Value**: Improved community engagement and streamlined issue resolution
 
-- #22 Bug: Wrong risk score calculation in template
-- #21 Bug: Sync issue in offline mode
+## Future Epics (Phase 2+)
 
-## Tasks
+### E7: Advanced Analytics & Forecasting
+**Goal**: Predictive maintenance and long-term asset renewal planning
+**Value**: Strategic asset planning and budget optimisation
 
-- #27 Task: Containerise API + DB
-- #26 Task: Implement JWT-based RBAC middleware
-- #25 Task: Design playground RCM template
-- #24 Task: Build asset import endpoint
-- #23 Task: Set up DB schema migration pipeline
+### E8: ERP & System Integrations
+**Goal**: Seamless integration with existing council systems
+**Value**: Reduced data silos and improved operational efficiency
+
+### E9: Sustainability & Carbon Tracking
+**Goal**: Track environmental impact and sustainability metrics
+**Value**: Support council climate commitments and sustainability goals
+
+### E10: IoT & Telematics Integration
+**Goal**: Real-time asset monitoring and predictive maintenance
+**Value**: Enhanced asset reliability through real-time monitoring
+
+## Features by Epic
+
+### E1: Foundation & Authentication
+- **F1.1**: Multi-tenant database architecture with RLS
+- **F1.2**: NextAuth.js authentication with JWT sessions
+- **F1.3**: Role-based access control (RBAC) implementation
+- **F1.4**: User management and organisation setup
+- **F1.5**: Security audit logging and monitoring
+
+### E2: Asset Register & GIS Integration
+- **F2.1**: Asset import from CSV/Excel files
+- **F2.2**: ERP system integration for asset data
+- **F2.3**: PostGIS spatial database setup
+- **F2.4**: Interactive GIS map visualisation
+- **F2.5**: Asset CRUD operations with spatial data
+- **F2.6**: Asset search and filtering capabilities
+- **F2.7**: Asset attachment and document management
+
+### E3: RCM-lite Templates & Scheduling
+- **F3.1**: Pre-built RCM templates for top 10 asset classes
+- **F3.2**: Custom RCM template creation and editing
+- **F3.3**: Failure mode and effects analysis (FMEA)
+- **F3.4**: Risk scoring and prioritisation engine
+- **F3.5**: Automated work order generation
+- **F3.6**: Preventive maintenance scheduling
+- **F3.7**: Maintenance task library management
+
+### E4: Mobile Inspections (PWA)
+- **F4.1**: Progressive Web App (PWA) development
+- **F4.2**: Offline data storage and sync
+- **F4.3**: Mobile inspection forms and workflows
+- **F4.4**: Photo capture and GPS tagging
+- **F4.5**: Work order assignment and tracking
+- **F4.6**: Background sync and conflict resolution
+- **F4.7**: Mobile-optimised user interface
+
+### E5: Dashboards & Reporting
+- **F5.1**: Executive KPI dashboard
+- **F5.2**: Manager operational dashboard
+- **F5.3**: Supervisor work order dashboard
+- **F5.4**: Risk and compliance reporting
+- **F5.5**: Asset condition trending
+- **F5.6**: Export functionality (PDF/Excel)
+- **F5.7**: Custom report builder
+
+### E6: Citizen Integration
+- **F6.1**: Citizen reporting portal
+- **F6.2**: Snap Send Solve API integration
+- **F6.3**: Report triage and assignment
+- **F6.4**: Citizen notification system
+- **F6.5**: "You said, we did" dashboard
+- **F6.6**: Report status tracking
+
+## User Stories by Feature
+
+### E1: Foundation & Authentication
+- **US1.1**: As an Admin, I want to set up my council organisation so that I can configure the system for my council
+- **US1.2**: As an Admin, I want to manage user accounts and roles so that I can control access to sensitive data
+- **US1.3**: As a user, I want to log in securely so that I can access the system with appropriate permissions
+- **US1.4**: As a user, I want my data to be isolated from other councils so that privacy is maintained
+
+### E2: Asset Register & GIS Integration
+- **US2.1**: As an Asset Manager, I want to import assets from Excel so that I can quickly populate the system
+- **US2.2**: As an Asset Manager, I want to see assets on a map so that I can understand their spatial distribution
+- **US2.3**: As a Manager, I want to search and filter assets so that I can find specific items quickly
+- **US2.4**: As a Manager, I want to attach documents to assets so that I can maintain complete records
+- **US2.5**: As a Supervisor, I want to view asset details so that I can plan maintenance activities
+
+### E3: RCM-lite Templates & Scheduling
+- **US3.1**: As a Manager, I want to use pre-built RCM templates so that I can quickly set up maintenance programs
+- **US3.2**: As a Manager, I want to create custom RCM templates so that I can tailor maintenance to my assets
+- **US3.3**: As a Manager, I want to see risk scores for assets so that I can prioritise maintenance
+- **US3.4**: As a Supervisor, I want work orders to be generated automatically so that I can focus on execution
+- **US3.5**: As a Manager, I want to schedule preventive maintenance so that I can reduce reactive work
+
+### E4: Mobile Inspections (PWA)
+- **US4.1**: As a Crew member, I want to perform inspections offline so that I can work in areas with poor connectivity
+- **US4.2**: As a Crew member, I want to take photos during inspections so that I can document asset condition
+- **US4.3**: As a Crew member, I want to update work order status so that supervisors know progress
+- **US4.4**: As a Crew member, I want to sync data when connectivity returns so that information is up-to-date
+- **US4.5**: As a Supervisor, I want to assign work orders to crew members so that work is distributed efficiently
+
+### E5: Dashboards & Reporting
+- **US5.1**: As an Executive, I want to see high-level KPIs so that I can monitor council performance
+- **US5.2**: As a Manager, I want to see operational metrics so that I can manage day-to-day operations
+- **US5.3**: As a Manager, I want to generate compliance reports so that I can meet audit requirements
+- **US5.4**: As an Executive, I want to export reports so that I can share information with councillors
+- **US5.5**: As a Manager, I want to see asset condition trends so that I can plan renewals
+
+### E6: Citizen Integration
+- **US6.1**: As a Citizen, I want to report issues easily so that I can help improve my community
+- **US6.2**: As a Citizen, I want to track my report status so that I know it's being addressed
+- **US6.3**: As a Supervisor, I want to receive citizen reports so that I can prioritise community issues
+- **US6.4**: As a Citizen, I want to see what the council has done so that I feel engaged with local government
+- **US6.5**: As a Manager, I want to analyse citizen reports so that I can identify recurring issues
+
+## Technical Tasks
+
+### Infrastructure & DevOps
+- **T1**: Set up PostgreSQL with PostGIS extension
+- **T2**: Implement Prisma ORM with migrations
+- **T3**: Configure NextAuth.js with JWT sessions
+- **T4**: Set up Docker containerisation
+- **T5**: Implement CI/CD pipeline with GitHub Actions
+- **T6**: Configure Azure Container Apps deployment
+- **T7**: Set up monitoring and logging with OpenTelemetry
+
+### Security & Compliance
+- **T8**: Implement bcrypt password hashing
+- **T9**: Set up Row-Level Security (RLS) policies
+- **T10**: Configure CORS and security headers
+- **T11**: Implement input validation with Zod schemas
+- **T12**: Set up audit logging for sensitive operations
+- **T13**: Configure rate limiting and DDoS protection
+
+### Testing & Quality
+- **T14**: Set up Jest testing framework
+- **T15**: Implement React Testing Library for components
+- **T16**: Set up API testing with supertest
+- **T17**: Configure test database with realistic seed data
+- **T18**: Implement E2E testing with Playwright
+- **T19**: Set up code coverage reporting
+- **T20**: Configure linting and code quality checks
+
+## Bugs & Issues
+*To be populated as issues are discovered during development*
+
+## Notes
+- All user stories follow the format: "As a [role], I want [goal] so that [value]"
+- Features are prioritised based on MVP requirements and user value
+- Technical tasks support the implementation of features and user stories
+- Australian English, DD/MM/YYYY dates, 24-hour time, metric units, and $AUD throughout
+
+---
+
+### E1 Detailed Feature Set (Foundation & Authentication)
+
+- Application Scaffolding & Environment Setup
+  - F1.3: Local app scaffolding (Next.js + TypeScript + Tailwind + shadcn/ui)
+    - US1.2: App scaffold runs locally with strict TS and base UI
+  - F1.4: CI/CD pipeline (GitHub Actions: build, test, deploy)
+    - US1.3: CI builds/tests PRs; main deploys staged
+  - F1.5: Environment management (.env for local/dev/test/prod)
+    - US1.4: Environment configs load safely per environment
+  - F1.6: Database initialisation (PostgreSQL + Prisma migrations)
+    - US1.5: Run migrations/seed locally and in CI
+  - F1.7: Logging & monitoring (pino/winston + Sentry)
+    - US1.6: Structured logs and error tracking available
+  - F1.8: Theming & branding setup (tokens, typography, branding hooks)
+    - US1.7: Base components themed with tokens/typography
+
+- Public-Facing Pages
+  - F1.9: Landing/marketing page (overview + CTA for login/register)
+    - US1.8: Landing page communicates value; CTA to auth
+  - F1.10: Documentation/help page scaffold
+    - US1.9: Help scaffold for onboarding
+  - F1.11: Changelog/Release notes section
+    - US1.10: Changelog lists recent changes per environment
+
+- Authentication & Security
+  - F1.12: Auth providers (email/password + Google + Microsoft)
+    - US1.11: Sign in with email or Google/Microsoft
+  - F1.13: Registration with email verification
+    - US1.12: Register and verify via time-limited email link
+  - F1.14: Secure login (rate limiting & lockout)
+    - US1.13: Lockout after failed attempts; monitored
+  - F1.15: Password reset (time-limited token)
+    - US1.14: Reset password securely with one-time token
+  - F1.16: Multifactor authentication (TOTP + SMS/email fallback)
+    - US1.15: MFA via TOTP with fallback and recovery codes
+  - F1.17: Session management (JWT refresh rotation & device tracking)
+    - US1.16: View and revoke active sessions/devices
+
+- User Profile & Management
+  - F1.18: User avatar upload
+    - US1.17: Upload/preview/remove profile picture
+  - F1.19: Profile management (name, email, password, avatar)
+    - US1.18: Update profile; email verification on change
+  - F1.20: Notification preferences
+    - US1.19: Opt-in/out notification categories
+  - F1.21: Activity log (logins, sessions, recent actions)
+    - US1.20: View activity with AEST timestamps; revoke sessions
+
+- Administrative & RBAC Features
+  - F1.22: Role-based access control (ADMIN, MANAGER, SUPERVISOR, CREW, EXEC, CITIZEN)
+    - US1.21: Enforce roles on routes and APIs
+  - F1.23: User assignment UI (assign/change roles)
+    - US1.22: Admin assigns roles with audit trail
+  - F1.24: User status management (enable/disable, force reset)
+    - US1.23: Disable accounts; force password reset
+  - F1.25: Audit logging (account/role changes)
+    - US1.24: Audit log with filters and export
+  - F1.26: Admin dashboard (users, roles, MFA, activity)
+    - US1.25: Security posture dashboard with drill-down
+
+- Developer Experience Enhancements
+  - F1.27: Local first-instance deployment (docker-compose)
+    - US1.26: Run app + Postgres locally via one command
+  - F1.28: Seed data for dev (admin, sample users, roles)
+    - US1.27: Seed re-runnable for quick flows
+  - F1.29: Storybook/Component docs scaffold
+    - US1.28: Storybook for UI consistency and documentation
+  - F1.30: Unit & integration test setup (Jest, Playwright for auth flows)
+    - US1.29: Tests and CI gates to prevent regressions

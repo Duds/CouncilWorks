@@ -1,0 +1,204 @@
+name: GitHub Projects Integration
+
+on:
+  issues:
+    types: [opened, closed, labeled, unlabeled]
+  pull_request:
+    types: [opened, closed, merged, labeled, unlabeled]
+  push:
+    branches: [main, develop]
+
+jobs:
+  update-project:
+    name: Update GitHub Project
+    if: ${{ !contains(github.event.head_commit.message, '[skip project]') }}
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Update project based on issue
+        if: github.event_name == 'issues'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: projects } = await github.rest.projects.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open'
+            });
+            
+            if (projects.length === 0) {
+              console.log('No projects found for this repository');
+              return;
+            }
+            
+            const project = projects[0];
+            const { data: columns } = await github.rest.projects.listColumns({
+              project_id: project.id
+            });
+            
+            // Map labels to columns
+            const labelToColumn = {
+              'bug': 'To Do',
+              'enhancement': 'To Do',
+              'documentation': 'To Do',
+              'security': 'To Do',
+              'database': 'To Do',
+              'auth': 'To Do',
+              'priority-high': 'In Progress',
+              'priority-medium': 'To Do',
+              'priority-low': 'Backlog'
+            };
+            
+            const issue = context.payload.issue;
+            const action = context.payload.action;
+            
+            if (action === 'opened' || action === 'labeled') {
+              // Find appropriate column based on labels
+              let targetColumn = null;
+              
+              for (const label of issue.labels) {
+                if (labelToColumn[label.name]) {
+                  targetColumn = columns.find(col => col.name === labelToColumn[label.name]);
+                  break;
+                }
+              }
+              
+              if (!targetColumn) {
+                targetColumn = columns.find(col => col.name === 'To Do');
+              }
+              
+              if (targetColumn) {
+                await github.rest.projects.createCard({
+                  column_id: targetColumn.id,
+                  content_id: issue.id,
+                  content_type: 'Issue'
+                });
+                console.log(`Added issue #${issue.number} to column: ${targetColumn.name}`);
+              }
+            } else if (action === 'closed') {
+              // Move to Done column
+              const doneColumn = columns.find(col => col.name === 'Done');
+              if (doneColumn) {
+                // Find the card for this issue
+                const { data: cards } = await github.rest.projects.listCards({
+                  column_id: doneColumn.id
+                });
+                
+                const issueCard = cards.find(card => 
+                  card.content_url && card.content_url.includes(`/issues/${issue.number}`)
+                );
+                
+                if (issueCard) {
+                  await github.rest.projects.moveCard({
+                    card_id: issueCard.id,
+                    position: 'top',
+                    column_id: doneColumn.id
+                  });
+                  console.log(`Moved issue #${issue.number} to Done column`);
+                }
+              }
+            }
+
+      - name: Update project based on pull request
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: projects } = await github.rest.projects.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open'
+            });
+            
+            if (projects.length === 0) {
+              console.log('No projects found for this repository');
+              return;
+            }
+            
+            const project = projects[0];
+            const { data: columns } = await github.rest.projects.listColumns({
+              project_id: project.id
+            });
+            
+            const pr = context.payload.pull_request;
+            const action = context.payload.action;
+            
+            if (action === 'opened') {
+              // Add PR to In Progress column
+              const inProgressColumn = columns.find(col => col.name === 'In Progress');
+              if (inProgressColumn) {
+                await github.rest.projects.createCard({
+                  column_id: inProgressColumn.id,
+                  content_id: pr.id,
+                  content_type: 'PullRequest'
+                });
+                console.log(`Added PR #${pr.number} to In Progress column`);
+              }
+            } else if (action === 'merged') {
+              // Move to Done column
+              const doneColumn = columns.find(col => col.name === 'Done');
+              if (doneColumn) {
+                // Find the card for this PR
+                const { data: cards } = await github.rest.projects.listCards({
+                  column_id: doneColumn.id
+                });
+                
+                const prCard = cards.find(card => 
+                  card.content_url && card.content_url.includes(`/pull/${pr.number}`)
+                );
+                
+                if (prCard) {
+                  await github.rest.projects.moveCard({
+                    card_id: prCard.id,
+                    position: 'top',
+                    column_id: doneColumn.id
+                  });
+                  console.log(`Moved PR #${pr.number} to Done column`);
+                }
+              }
+            }
+
+      - name: Update project based on push
+        if: github.event_name == 'push'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: projects } = await github.rest.projects.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open'
+            });
+            
+            if (projects.length === 0) {
+              console.log('No projects found for this repository');
+              return;
+            }
+            
+            const project = projects[0];
+            const { data: columns } = await github.rest.projects.listColumns({
+              project_id: project.id
+            });
+            
+            const branch = context.ref.replace('refs/heads/', '');
+            const commit = context.payload.head_commit;
+            
+            // Determine column based on branch
+            let targetColumn = null;
+            
+            if (branch === 'main') {
+              targetColumn = columns.find(col => col.name === 'Production');
+            } else if (branch === 'develop') {
+              targetColumn = columns.find(col => col.name === 'Staging');
+            }
+            
+            if (targetColumn && commit) {
+              await github.rest.projects.createCard({
+                column_id: targetColumn.id,
+                content_id: commit.id,
+                content_type: 'Commit'
+              });
+              console.log(`Added commit ${commit.id.substring(0, 7)} to ${targetColumn.name} column`);
+            }
