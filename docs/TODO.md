@@ -183,17 +183,35 @@ Last updated: 11/09/2025
 
 ### E1 — Phased Delivery Plan (Foundation & Authentication)
 
-- Phase 0: Project foundations (approx. 1 week)
+- Phase 0: Project foundations (approx. 1 week) ✅ **COMPLETED**
   - Scope: F1.3, F1.4, F1.5, F1.6, F1.7, F1.8, F1.27, F1.28, F1.30; T1–T7, T14–T20
   - Deliverables:
-    - Next.js + TypeScript scaffold with shadcn/ui and branding tokens
-    - CI/CD (build, test, lint) on PRs; protected branches per workflow rules
-    - PostgreSQL + Prisma migrations running locally and in CI
-    - Seed data (admin + sample users/roles) re-runnable
-    - Observability baseline (structured logs, error reporting hooks)
+    - ✅ Next.js + TypeScript scaffold with shadcn/ui and branding tokens
+    - ❌ CI/CD (build, test, lint) on PRs; protected branches per workflow rules
+    - ✅ PostgreSQL + Prisma migrations running locally and in CI
+    - ✅ Seed data (admin + sample users/roles) re-runnable
+    - ✅ Observability baseline (structured logs, error reporting hooks)
   - Acceptance:
-    - One-command local spin-up via docker-compose; migrations + seeds succeed
-    - CI passes for build, lint, unit tests; coverage reporting enabled
+    - ✅ One-command local spin-up via docker-compose; migrations + seeds succeed
+    - ❌ CI passes for build, lint, unit tests; coverage reporting enabled
+
+- Marketing Landing Page ✅ **COMPLETED** (Bonus work)
+  - Scope: F1.9 (Landing/marketing page)
+  - Deliverables:
+    - ✅ Modern, cutting-edge landing page with marketing expert peer review
+    - ✅ Hero section with A/B testing (server-side to prevent flicker)
+    - ✅ "How it works" section with demo carousel
+    - ✅ Condensed persona value propositions
+    - ✅ FAQ section
+    - ✅ Analytics events and A/B test scaffolding
+    - ✅ SEO metadata, Open Graph, and JSON-LD schema
+    - ✅ Professional OG card design
+    - ✅ Local SVG images (no external dependencies)
+  - Acceptance:
+    - ✅ Landing page loads without errors
+    - ✅ A/B testing works without content flicker
+    - ✅ All images load from local files
+    - ✅ SEO metadata properly configured
 
 - Phase 1: Core authentication & session security (approx. 1–1.5 weeks)
   - Scope: F1.12, F1.13, F1.14, F1.15, F1.17 (minimal); T8, T10, T11; Security rules (bcrypt 12 rounds, Zod validation)
