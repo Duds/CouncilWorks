@@ -29,9 +29,7 @@ export default function HomePage() {
               <Link href="/auth/register"><Button variant="secondary">Create account</Button></Link>
               <a href="#features" className="text-sm underline underline-offset-4 text-primary">Explore features</a>
             </div>
-            <p className="mt-3 text-sm text-muted-foreground">
-              Australian English • DD/MM/YYYY • 24‑hour time • Metric units • $AUD
-            </p>
+
           </div>
         </div>
       </section>
@@ -50,37 +48,37 @@ export default function HomePage() {
           <FeatureCard
             title="Secure authentication & RBAC"
             description="NextAuth.js with JWT sessions, bcrypt (12 rounds), role‑based access (ADMIN, MANAGER, SUPERVISOR, CREW, EXEC, CITIZEN)."
-            image="https://images.unsplash.com/photo-1555949963-aa79dcee981d?q=80&w=1200&auto=format&fit=crop"
+            image="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop"
           />
           {/* E2: Asset Register & GIS */}
           <FeatureCard
             title="Asset register with GIS"
             description="PostGIS‑powered spatial data, map visualisation, CRUD, attachments, search and filtering for fast operations."
-            image="https://images.unsplash.com/photo-1470137430626-983a37b8ea46?q=80&w=1200&auto=format&fit=crop"
+            image="https://images.unsplash.com/photo-1544989164-31dc3c645987?q=80&w=1600&auto=format&fit=crop"
           />
           {/* E3: RCM-lite & Scheduling */}
           <FeatureCard
             title="RCM‑lite & scheduling"
             description="Templates for top asset classes, risk scoring, automated work orders and preventive maintenance scheduling."
-            image="https://images.unsplash.com/photo-1483097365279-e8ac985230b0?q=80&w=1200&auto=format&fit=crop"
+            image="https://images.unsplash.com/photo-1556761175-129418cb2dfe?q=80&w=1600&auto=format&fit=crop"
           />
           {/* E4: Mobile Inspections (PWA) */}
           <FeatureCard
             title="Mobile inspections (PWA)"
             description="Offline forms, GPS tagging and photo capture, background sync, and conflict resolution for crews in the field."
-            image="https://images.unsplash.com/photo-1538970277800-7f3277a71299?q=80&w=1200&auto=format&fit=crop"
+            image="https://images.unsplash.com/photo-1552642986-ccb41e7059e7?q=80&w=1600&auto=format&fit=crop"
           />
           {/* E5: Dashboards & Reporting */}
           <FeatureCard
             title="Dashboards & reporting"
             description="Executive KPIs and operational dashboards, compliance reports, and export to PDF/Excel."
-            image="https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=1200&auto=format&fit=crop"
+            image="https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?q=80&w=1600&auto=format&fit=crop"
           />
           {/* E6: Citizen Integration */}
           <FeatureCard
             title="Citizen integration"
-            description="Citizen reporting portal, triage and assignment, status tracking and engagement (\"You said, we did\")."
-            image="https://images.unsplash.com/photo-1444212477490-ca407925329e?q=80&w=1200&auto=format&fit=crop"
+            description={'Citizen reporting portal, triage and assignment, status tracking and engagement ("You said, we did").'}
+            image="https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1600&auto=format&fit=crop"
           />
         </div>
       </section>
