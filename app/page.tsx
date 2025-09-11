@@ -20,7 +20,7 @@ export default async function HomePage() {
         <div className="absolute inset-0 -z-10">
           <div className="absolute inset-0">
             <Image
-              src="https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=1920&auto=format&fit=crop"
+              src="/images/hero-dashboard.svg"
               alt="Product dashboard UI preview"
               fill
               priority
