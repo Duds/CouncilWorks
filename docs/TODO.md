@@ -187,13 +187,13 @@ Last updated: 11/09/2025
   - Scope: F1.3, F1.4, F1.5, F1.6, F1.7, F1.8, F1.27, F1.28, F1.30; T1–T7, T14–T20
   - Deliverables:
     - ✅ Next.js + TypeScript scaffold with shadcn/ui and branding tokens
-    - ❌ CI/CD (build, test, lint) on PRs; protected branches per workflow rules
+    - ✅ CI/CD (build, test, lint) on PRs; protected branches per workflow rules
     - ✅ PostgreSQL + Prisma migrations running locally and in CI
     - ✅ Seed data (admin + sample users/roles) re-runnable
     - ✅ Observability baseline (structured logs, error reporting hooks)
   - Acceptance:
     - ✅ One-command local spin-up via docker-compose; migrations + seeds succeed
-    - ❌ CI passes for build, lint, unit tests; coverage reporting enabled
+    - ✅ CI passes for build, lint, unit tests; coverage reporting enabled
 
 - Marketing Landing Page ✅ **COMPLETED** (Bonus work)
   - Scope: F1.9 (Landing/marketing page)

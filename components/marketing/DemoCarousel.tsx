@@ -25,7 +25,7 @@ export default function DemoCarousel() {
 
   return (
     <div className="relative w-full overflow-hidden rounded-lg border border-border shadow-sm">
-      <div className="relative aspect-[16/10] w-full">
+      <div className="relative aspect-[16/10] w-full overflow-hidden">
         <Image
           key={index}
           src={current.src}
@@ -33,7 +33,7 @@ export default function DemoCarousel() {
           fill
           sizes="(max-width: 1024px) 100vw, 50vw"
           priority={false}
-          className="object-cover transition-opacity duration-500"
+          className="object-cover object-bottom transition-opacity duration-500"
         />
       </div>
     </div>
