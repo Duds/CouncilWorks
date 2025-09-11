@@ -4,9 +4,9 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const IMAGES = [
-  { src: "/images/demo-1.svg", alt: "GIS map and asset register interface" },
-  { src: "/images/demo-2.svg", alt: "Work orders and scheduling dashboard" },
-  { src: "/images/demo-3.svg", alt: "Analytics dashboards and reporting" },
+  { src: "/images/GIS_Interface.png", alt: "GIS map and asset register interface" },
+  { src: "/images/Workorders_Scheduling.png", alt: "Work orders and scheduling dashboard" },
+  { src: "/images/Analytics_Reporting.png", alt: "Analytics dashboards and reporting" },
 ];
 
 export default function DemoCarousel() {
