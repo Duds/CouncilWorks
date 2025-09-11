@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('http://localhost:3000'),
   title: 'CouncilWorks — Council asset management software (Australia)',
   description: 'GIS‑powered asset lifecycle management for Australian councils. Mobile inspections (offline), scheduling, dashboards, and audit‑ready reporting. $AUD pricing.',
   openGraph: {

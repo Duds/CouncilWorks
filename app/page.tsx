@@ -43,21 +43,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Credibility strip */}
-      <section id="proof" className="mx-auto max-w-6xl px-6 py-10">
-        <div className="mb-6 text-sm text-muted-foreground">Trusted by local governments across Australia</div>
-        <div className="flex flex-wrap items-center gap-6 opacity-80">
-          <Image src="/images/logos/city-of-melbourne.svg" alt="City of Melbourne" width={160} height={48} />
-          <Image src="/images/logos/city-of-sydney.svg" alt="City of Sydney" width={160} height={48} />
-          <Image src="/images/logos/brisbane-city-council.svg" alt="Brisbane City Council" width={160} height={48} />
-        </div>
-        <div className="mt-6 grid gap-3 sm:grid-cols-3 text-sm">
-          <div className="rounded-md border border-border p-3">↓ 32% unplanned outages</div>
-          <div className="rounded-md border border-border p-3">↑ 21% SLA compliance</div>
-          <div className="rounded-md border border-border p-3">Audit‑ready in minutes</div>
-        </div>
-      </section>
-
       {/* How it works */}
       <section id="how" className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
         <div className="mb-10 max-w-3xl">
@@ -139,7 +124,7 @@ export default async function HomePage() {
           </div>
         </div>
       </footer>
-      <SectionObserver sectionIds={["hero","proof","how","personas","faqs"]} />
+      <SectionObserver sectionIds={["hero","how","personas","faqs"]} />
     </main>
   );
 }
