@@ -146,6 +146,47 @@ module.exports = {
 
 ---
 
+### shadcn/ui Usage
+
+Because shadcn/ui components are built on Tailwind utilities, they automatically use the semantic functional tokens once mapped in Tailwind:
+
+```tsx
+import { Button } from "@/components/ui/button";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+
+export function ThemeDemo() {
+  return (
+    <div className="space-y-4">
+      <Button className="bg-primary text-primary-foreground">Primary</Button>
+      <Button className="bg-secondary text-secondary-foreground">Secondary</Button>
+      <Button className="bg-accent text-accent-foreground">Accent</Button>
+
+      <Alert className="bg-success text-success-foreground">
+        <AlertTitle>Success</AlertTitle>
+        <AlertDescription>Task completed successfully.</AlertDescription>
+      </Alert>
+
+      <Alert className="bg-info text-info-foreground">
+        <AlertTitle>Information</AlertTitle>
+        <AlertDescription>Here’s some useful context.</AlertDescription>
+      </Alert>
+
+      <Alert className="bg-warning text-warning-foreground">
+        <AlertTitle>Warning</AlertTitle>
+        <AlertDescription>Check this before proceeding.</AlertDescription>
+      </Alert>
+
+      <Alert className="bg-danger text-danger-foreground">
+        <AlertTitle>Error</AlertTitle>
+        <AlertDescription>Something went wrong.</AlertDescription>
+      </Alert>
+    </div>
+  );
+}
+```
+
+---
+
 ### Usage Examples
 
 - **Backgrounds and Text**
