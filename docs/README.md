@@ -25,6 +25,8 @@ This directory contains the documentation set for CouncilWorks - the Council Ass
   - `database/seed-implementation.md` — Seed strategy
   - `database/ERD.puml` — ERD (PlantUML)
   - Contracts, Vendors, and SLA entities introduced
+- Integrations
+  - `integrations/postgres-mcp.md` — PostgreSQL MCP server integration
 - Product Backlog
   - `TODO.md` — Epics, features, and user stories
 - Support

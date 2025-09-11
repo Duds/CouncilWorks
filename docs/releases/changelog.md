@@ -23,6 +23,10 @@ All notable changes to this project will be documented in this file.
 - Comprehensive test coverage for RBAC and RLS
 - Authentication flow with proper redirect handling
 
+## [0.2.0] - 10/09/2025
+- Added PostgreSQL MCP server integration guide `docs/integrations/postgres-mcp.md`
+- Added helper script `scripts/run-postgres-mcp.sh` to run the server with env connection string
+
 ## [0.1.1] - 10/09/2025
 - Design: Added shadcn/ui usage examples and semantic token mapping guidance in `docs/design/brand-guidelines.md`
 - Theming: Confirmed `styles/brand-tokens.css` functional tokens for light/dark and Tailwind `colors` mapping

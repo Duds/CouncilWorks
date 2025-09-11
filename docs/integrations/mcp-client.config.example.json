@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "postgresql-mcp": {
+      "command": "npx",
+      "args": [
+        "@henkey/postgres-mcp-server",
+        "--connection-string", "${POSTGRES_MCP_CONNECTION_STRING}"
+      ]
+    }
+  }
+}
