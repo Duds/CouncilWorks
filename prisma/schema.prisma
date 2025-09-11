@@ -13,15 +13,18 @@ enum Role {
   SUPERVISOR
   CREW
   EXEC
+  CONTRACTOR
+  PARTNER
   CITIZEN
 }
 
 model Organisation {
-  id        String   @id @default(cuid())
-  name      String   @unique
+  id        String     @id @default(cuid())
+  name      String     @unique
   users     User[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  auditLogs AuditLog[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }
 
 model User {
@@ -36,6 +39,10 @@ model User {
   image           String?
   accounts        Account[]
   sessions        Session[]
+  isActive        Boolean      @default(true)
+  lastLoginAt     DateTime?
+  passwordResetAt DateTime?
+  auditLogs       AuditLog[]
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
 }
@@ -73,4 +80,36 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+enum AuditAction {
+  USER_LOGIN
+  USER_LOGOUT
+  USER_ROLE_CHANGE
+  USER_STATUS_CHANGE
+  USER_PASSWORD_RESET
+  USER_CREATED
+  USER_UPDATED
+  USER_DELETED
+  ORGANISATION_CREATED
+  ORGANISATION_UPDATED
+  ORGANISATION_DELETED
+}
+
+model AuditLog {
+  id             String      @id @default(cuid())
+  action         AuditAction
+  userId         String?
+  user           User?       @relation(fields: [userId], references: [id])
+  organisationId String?
+  organisation   Organisation? @relation(fields: [organisationId], references: [id])
+  details        Json?
+  ipAddress      String?
+  userAgent      String?
+  createdAt      DateTime    @default(now())
+
+  @@index([userId])
+  @@index([organisationId])
+  @@index([action])
+  @@index([createdAt])
 }

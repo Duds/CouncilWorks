@@ -28,12 +28,10 @@ export default function SignInPage() {
 
       if (result?.error) {
         setError("Invalid email or password");
-      } else {
-        // Check if user is authenticated
-        const session = await getSession();
-        if (session) {
-          router.push("/dashboard");
-        }
+      } else if (result?.ok) {
+        // Force immediate redirect to dashboard
+        console.log("Login successful, redirecting immediately...");
+        window.location.replace("/dashboard");
       }
     } catch {
       setError("An error occurred. Please try again.");

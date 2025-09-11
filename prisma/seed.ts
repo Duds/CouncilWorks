@@ -12,17 +12,64 @@ async function main() {
 
   const passwordHash = await bcrypt.hash('ChangeMe_123!', 12);
 
-  await prisma.user.upsert({
-    where: { email: 'admin@sample.council' },
-    update: {},
-    create: {
+  // Create users with different roles
+  const users = [
+    {
       email: 'admin@sample.council',
-      name: 'Admin',
-      passwordHash,
+      name: 'Admin User',
       role: Role.ADMIN,
-      organisationId: organisation.id
-    }
-  });
+    },
+    {
+      email: 'manager@sample.council',
+      name: 'Manager User',
+      role: Role.MANAGER,
+    },
+    {
+      email: 'supervisor@sample.council',
+      name: 'Supervisor User',
+      role: Role.SUPERVISOR,
+    },
+    {
+      email: 'crew@sample.council',
+      name: 'Crew Member',
+      role: Role.CREW,
+    },
+    {
+      email: 'exec@sample.council',
+      name: 'Executive User',
+      role: Role.EXEC,
+    },
+    {
+      email: 'contractor@sample.council',
+      name: 'Contractor User',
+      role: Role.CONTRACTOR,
+    },
+    {
+      email: 'partner@sample.council',
+      name: 'Partner User',
+      role: Role.PARTNER,
+    },
+    {
+      email: 'citizen@sample.council',
+      name: 'Citizen User',
+      role: Role.CITIZEN,
+    },
+  ];
+
+  for (const userData of users) {
+    await prisma.user.upsert({
+      where: { email: userData.email },
+      update: {},
+      create: {
+        ...userData,
+        passwordHash,
+        organisationId: organisation.id,
+        isActive: true,
+      }
+    });
+  }
+
+  console.log('Seed data created successfully');
 }
 
 main()
