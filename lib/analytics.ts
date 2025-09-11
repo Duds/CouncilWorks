@@ -10,7 +10,7 @@ export function trackEvent(name: string, properties?: Record<string, unknown>) {
     // Lightweight client-side event tracker placeholder
     console.debug("analytics:event", { name, properties, ts: Date.now() });
     // Future: sendBeacon to /api/analytics
-  } catch (err) {
+  } catch {
     // Swallow to avoid breaking UX
   }
 }
