@@ -38,7 +38,7 @@ export default async function HomePage() {
               management built for Australian councils.
             </p>
             <CTAs location="hero" variant={variant} />
-            <p className="mt-2 text-xs text-muted-foreground">No credit card. $AUD pricing.</p>
+                  <p className="mt-2 text-xs text-muted-foreground">No credit card required.</p>
           </div>
         </div>
       </section>

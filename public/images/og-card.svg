@@ -31,5 +31,5 @@
   
   <!-- Bottom accent -->
   <rect x="0" y="580" width="1200" height="50" fill="#0EA5E9" opacity="0.1"/>
-  <text x="80" y="610" fill="#0EA5E9" font-family="Arial, Helvetica, sans-serif" font-size="16">Built for Australian councils • DD/MM/YYYY • 24-hour time • $AUD pricing</text>
+  <text x="80" y="610" fill="#0EA5E9" font-family="Arial, Helvetica, sans-serif" font-size="16">Built for Australian councils • Asset lifecycle intelligence</text>
 </svg>
