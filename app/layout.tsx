@@ -2,6 +2,7 @@ import type { Metadata, Route } from 'next';
 import '@/styles/globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { ThemeToggle } from '@/components/theme-toggle';
+import AuthSessionProvider from '@/components/providers/session-provider';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
@@ -27,7 +28,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="bg-background text-foreground">
-        <ThemeProvider>
+        <AuthSessionProvider>
+          <ThemeProvider>
           <header className="p-4 border-b border-border">
             <div className="mx-auto flex max-w-6xl items-center justify-between">
               <Link href="/" className="font-semibold">CouncilWorks</Link>
@@ -61,7 +63,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             }}
           />
           {children}
-        </ThemeProvider>
+          </ThemeProvider>
+        </AuthSessionProvider>
       </body>
     </html>
   );

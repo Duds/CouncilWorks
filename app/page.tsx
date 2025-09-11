@@ -20,8 +20,8 @@ export default async function HomePage() {
         <div className="absolute inset-0 -z-10">
           <div className="absolute inset-0">
             <Image
-              src="/images/hero-dashboard.svg"
-              alt="Product dashboard UI preview"
+              src="/images/CouncilWorks_HERO.png"
+              alt="CouncilWorks dashboard interface"
               fill
               priority
               sizes="100vw"

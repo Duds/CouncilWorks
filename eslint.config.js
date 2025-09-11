@@ -67,7 +67,7 @@ export default [
         { allowConstantExport: true },
       ],
       'react/react-in-jsx-scope': 'off',
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
       '@typescript-eslint/no-explicit-any': 'warn',
       'no-undef': 'off', // TypeScript handles this
     },
