@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import type { Route } from "next";
 import { Button } from "@/components/ui/button";
 import { trackEvent } from "@/lib/analytics";
 
@@ -19,7 +20,7 @@ export default function CTAs({ location, variant }: Props) {
         <Button>Book a 30‑minute demo</Button>
       </a>
       <Link
-        href="/auth/register"
+        href={"/auth/register" as Route}
         onClick={() => trackEvent("cta_get_sandbox", { location, variant })}
       >
         <Button variant="secondary">Get a sandbox</Button>

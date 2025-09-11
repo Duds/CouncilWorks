@@ -39,3 +39,11 @@ All docs use Australian English, DD/MM/YYYY dates, 24-hour time, metric units, a
 - Analytics events for CTAs and section views in `lib/analytics.ts`
 - Simple A/B testing hook in `hooks/useAbVariant.ts` (hero variants A/B)
 - SEO: Open Graph/Twitter metadata in `app/layout.tsx` and JSON‑LD structured data
+
+### Path Aliases
+
+- `@/components/*` → `components/*`
+- `@/lib/*` → `lib/*`
+- `@/hooks/*` → `hooks/*`
+- `@/utils/*` → `utils/*`
+- `@/styles/*` → `styles/*`

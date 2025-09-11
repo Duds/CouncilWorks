@@ -1,4 +1,5 @@
 FROM node:20-alpine
+RUN apk add --no-cache openssl libc6-compat netcat-openbsd postgresql-client
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci

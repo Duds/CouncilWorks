@@ -1,45 +1,14 @@
-"use client";
-
 import Link from 'next/link';
+import type { Route } from 'next';
 import Image from 'next/image';
 import CTAs from '@/components/marketing/CTAs';
 import DemoCarousel from '@/components/marketing/DemoCarousel';
-import { useAbVariant } from '@/hooks/useAbVariant';
-import { useEffect, useRef } from 'react';
-import { trackEvent } from '@/lib/analytics';
+import SectionObserver from '@/components/marketing/SectionObserver';
+import { cookies } from 'next/headers';
 
-export default function HomePage() {
-  const variant = useAbVariant('hero');
-
-  const heroRef = useRef<HTMLElement | null>(null);
-  const proofRef = useRef<HTMLElement | null>(null);
-  const howRef = useRef<HTMLElement | null>(null);
-  const personasRef = useRef<HTMLElement | null>(null);
-  const faqRef = useRef<HTMLElement | null>(null);
-
-  useEffect(() => {
-    trackEvent('page_view', { page: 'landing' });
-
-    const map = new Map<HTMLElement, string>();
-    if (heroRef.current) map.set(heroRef.current, 'hero');
-    if (proofRef.current) map.set(proofRef.current, 'proof');
-    if (howRef.current) map.set(howRef.current, 'how');
-    if (personasRef.current) map.set(personasRef.current, 'personas');
-    if (faqRef.current) map.set(faqRef.current, 'faqs');
-
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting && e.target instanceof HTMLElement) {
-          const key = map.get(e.target);
-          if (key) trackEvent('section_view', { key });
-        }
-      });
-    }, { threshold: 0.4 });
-
-    map.forEach((_, el) => io.observe(el));
-    return () => io.disconnect();
-  }, []);
-
+export default async function HomePage() {
+  const cookieStore = await cookies();
+  const variant = cookieStore.get('cw-ab-hero')?.value === 'B' ? 'B' : 'A';
   const headline = variant === 'A'
     ? 'Modern asset management for Australian councils'
     : 'From reactive maintenance to predictable outcomes';
@@ -47,12 +16,12 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* Hero */}
-      <section ref={heroRef} className="relative isolate">
+      <section id="hero" className="relative isolate">
         <div className="absolute inset-0 -z-10">
           <div className="absolute inset-0">
             <Image
-              src="/images/hero-dashboard.svg"
-              alt="Asset dashboard preview"
+              src="https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=1920&auto=format&fit=crop"
+              alt="Product dashboard UI preview"
               fill
               priority
               sizes="100vw"
@@ -66,7 +35,7 @@ export default function HomePage() {
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">{headline}</h1>
             <p className="mt-4 text-lg text-muted-foreground">
               Reduce downtime, lift compliance, and see everything in one place. GIS‑powered asset lifecycle
-              management built for Australian councils — DD/MM/YYYY, 24‑hour time, and local support.
+              management built for Australian councils.
             </p>
             <CTAs location="hero" variant={variant} />
             <p className="mt-2 text-xs text-muted-foreground">No credit card. $AUD pricing.</p>
@@ -75,7 +44,7 @@ export default function HomePage() {
       </section>
 
       {/* Credibility strip */}
-      <section ref={proofRef} className="mx-auto max-w-6xl px-6 py-10">
+      <section id="proof" className="mx-auto max-w-6xl px-6 py-10">
         <div className="mb-6 text-sm text-muted-foreground">Trusted by local governments across Australia</div>
         <div className="flex flex-wrap items-center gap-6 opacity-80">
           <Image src="/images/logos/city-of-melbourne.svg" alt="City of Melbourne" width={160} height={48} />
@@ -90,7 +59,7 @@ export default function HomePage() {
       </section>
 
       {/* How it works */}
-      <section ref={howRef} className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+      <section id="how" className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
         <div className="mb-10 max-w-3xl">
           <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">How it works</h2>
           <p className="mt-3 text-muted-foreground">Three steps to proactive, predictable maintenance.</p>
@@ -116,7 +85,7 @@ export default function HomePage() {
       </section>
 
       {/* Condensed persona value */}
-      <section ref={personasRef} className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+      <section id="personas" className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
         <div className="mb-10 max-w-3xl">
           <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">Built for every role</h2>
           <p className="mt-3 text-muted-foreground">Value for each user, aligned to your council’s responsibilities.</p>
@@ -132,7 +101,7 @@ export default function HomePage() {
       </section>
 
       {/* FAQs */}
-      <section ref={faqRef} className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+      <section id="faqs" className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
         <div className="mb-10 max-w-3xl">
           <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">Frequently asked questions</h2>
           <p className="mt-3 text-muted-foreground">Everything you need to know before you get started.</p>
@@ -163,13 +132,14 @@ export default function HomePage() {
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="text-sm text-muted-foreground">© {new Date().getFullYear()} CouncilWorks. All rights reserved.</div>
             <nav className="flex items-center gap-4 text-sm text-muted-foreground">
-              <Link href="/docs">Docs</Link>
-              <Link href="/changelog">Changelog</Link>
+              <Link href={"/docs" as Route}>Docs</Link>
+              <Link href={"/changelog" as Route}>Changelog</Link>
               <a href="mailto:support@councilworks.au">Support</a>
             </nav>
           </div>
         </div>
       </footer>
+      <SectionObserver sectionIds={["hero","proof","how","personas","faqs"]} />
     </main>
   );
 }

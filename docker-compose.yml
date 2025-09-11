@@ -12,6 +12,11 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
       - ./scripts/db:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d councilworks -h localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 15
   app:
     build: .
     env_file:
@@ -22,7 +27,8 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - db
-    command: sh -c "npx prisma migrate deploy && npm run dev"
+      db:
+        condition: service_healthy
+    command: sh -c "until pg_isready -h db -p 5432 -U postgres; do echo waiting for db; sleep 1; done; npx prisma migrate deploy && npm run dev"
 volumes:
   db_data:

@@ -17,13 +17,19 @@ export default function DemoCarousel() {
     return () => clearInterval(id);
   }, []);
 
+  if (IMAGES.length === 0) return null;
+
+  const idx = IMAGES.length > 0 ? index % IMAGES.length : 0;
+  const current = IMAGES.at(idx);
+  if (!current) return null;
+
   return (
     <div className="relative w-full overflow-hidden rounded-lg border border-border shadow-sm">
       <div className="relative aspect-[16/10] w-full">
         <Image
           key={index}
-          src={IMAGES[index].src}
-          alt={IMAGES[index].alt}
+          src={current.src}
+          alt={current.alt}
           fill
           sizes="(max-width: 1024px) 100vw, 50vw"
           priority={false}
