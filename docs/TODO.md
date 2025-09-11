@@ -1,6 +1,6 @@
 # CouncilWorks Product Backlog
 
-Last updated: 10/09/2025
+Last updated: 11/09/2025
 
 ## MVP Epics (Phase 1)
 
@@ -180,6 +180,83 @@ Last updated: 10/09/2025
 - Australian English, DD/MM/YYYY dates, 24-hour time, metric units, and $AUD throughout
 
 ---
+
+### E1 — Phased Delivery Plan (Foundation & Authentication)
+
+- Phase 0: Project foundations (approx. 1 week) ✅ **COMPLETED**
+  - Scope: F1.3, F1.4, F1.5, F1.6, F1.7, F1.8, F1.27, F1.28, F1.30; T1–T7, T14–T20
+  - Deliverables:
+    - ✅ Next.js + TypeScript scaffold with shadcn/ui and branding tokens
+    - ✅ CI/CD (build, test, lint) on PRs; protected branches per workflow rules
+    - ✅ PostgreSQL + Prisma migrations running locally and in CI
+    - ✅ Seed data (admin + sample users/roles) re-runnable
+    - ✅ Observability baseline (structured logs, error reporting hooks)
+  - Acceptance:
+    - ✅ One-command local spin-up via docker-compose; migrations + seeds succeed
+    - ✅ CI passes for build, lint, unit tests; coverage reporting enabled
+
+- Marketing Landing Page ✅ **COMPLETED** (Bonus work)
+  - Scope: F1.9 (Landing/marketing page)
+  - Deliverables:
+    - ✅ Modern, cutting-edge landing page with marketing expert peer review
+    - ✅ Hero section with A/B testing (server-side to prevent flicker)
+    - ✅ "How it works" section with demo carousel
+    - ✅ Condensed persona value propositions
+    - ✅ FAQ section
+    - ✅ Analytics events and A/B test scaffolding
+    - ✅ SEO metadata, Open Graph, and JSON-LD schema
+    - ✅ Professional OG card design
+    - ✅ Local SVG images (no external dependencies)
+  - Acceptance:
+    - ✅ Landing page loads without errors
+    - ✅ A/B testing works without content flicker
+    - ✅ All images load from local files
+    - ✅ SEO metadata properly configured
+
+- Phase 1: Core authentication & session security (approx. 1–1.5 weeks) ✅ **COMPLETED**
+  - Scope: F1.12, F1.13, F1.14, F1.15, F1.17 (minimal); T8, T10, T11; Security rules (bcrypt 12 rounds, Zod validation)
+  - Deliverables:
+    - ✅ NextAuth.js with email/password authentication
+    - ✅ Registration with email/password validation
+    - ✅ Secure login with proper error handling
+    - ❌ Password reset with time-limited token (future)
+    - ✅ JWT session management; protected routes and API guards in place
+  - Acceptance:
+    - ✅ Auth flows implemented (success/failure, validation)
+    - ✅ Zod input validation present on auth APIs; security headers configured
+
+- Phase 2: RBAC, RLS and admin controls (approx. 1 week)
+  - Scope: F1.22, F1.23, F1.24, F1.25, F1.26 (minimal); T9, T12, T13
+  - Deliverables:
+    - Role enforcement across routes/APIs for ADMIN, MANAGER, SUPERVISOR, CREW, EXEC, CITIZEN
+    - Admin UI to assign/change roles; enable/disable users; force reset
+    - Audit logging for sensitive operations; basic admin dashboard
+    - Row-Level Security (RLS) policies for multi-tenancy
+  - Acceptance:
+    - RBAC checks covered by unit/integration tests; RLS verified via tests
+    - Audit log entries generated for role/user status changes
+
+- Phase 3: Profile, UX polish and MFA (approx. 0.5–1 week)
+  - Scope: F1.18, F1.19, F1.20, F1.21, F1.16; Public pages F1.9, F1.11 (minimal)
+  - Deliverables:
+    - User profile management (name, email, password, avatar), notification prefs
+    - Activity log with AEST timestamps and device/session management UI
+    - TOTP MFA with backup codes; SMS/email fallback wiring
+    - Minimal landing page and changelog section
+  - Acceptance:
+    - MFA enrol/verify/recovery tested; profile updates require re-auth where appropriate
+    - Accessibility checks (WCAG AA) on new screens; keyboard navigation verified
+
+- Dependencies & Risks
+  - Email delivery/verification requires configured provider; mitigate with local dev inbox
+  - Rate limiting depends on runtime layer (Next.js middleware/edge or proxy); ensure deterministic tests
+  - RLS misconfiguration can block access; pair tests with seed tenants and roles
+
+- Non-functional requirements (applies across phases)
+  - Security: bcrypt (12 rounds), NextAuth.js, Zod validation, secure session handling
+  - Testing: unit, integration and E2E for auth/RBAC; realistic seed data
+  - Documentation: update README, security docs and architectural notes per change
+  - Regional: Australian English, DD/MM/YYYY, 24-hour time, metric units, $AUD
 
 ### E1 Detailed Feature Set (Foundation & Authentication)
 
