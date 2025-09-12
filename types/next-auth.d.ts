@@ -13,6 +13,7 @@ declare module "next-auth" {
         id: string;
         name: string;
       } | null;
+      mfaRequired?: boolean;
     };
   }
 
@@ -26,16 +27,19 @@ declare module "next-auth" {
       id: string;
       name: string;
     } | null;
+    mfaRequired?: boolean;
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
+    id: string;
     role: Role;
     organisationId?: string | null;
     organisation?: {
       id: string;
       name: string;
     } | null;
+    mfaRequired?: boolean;
   }
 }

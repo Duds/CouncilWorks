@@ -1,16 +1,20 @@
 import { NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
+import AzureADProvider from "next-auth/providers/azure-ad";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { Role } from "@prisma/client";
 import { logAuditEvent } from "@/lib/audit";
 import { AuditAction } from "@prisma/client";
+import { verifyMFAToken, verifyBackupCode } from "@/lib/mfa";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z.string().min(8, "Password must be at least 8 characters"),
+  mfaToken: z.string().optional(),
 });
 
 export const authOptions: NextAuthOptions = {
@@ -21,10 +25,11 @@ export const authOptions: NextAuthOptions = {
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
+        mfaToken: { label: "MFA Token", type: "text" },
       },
       async authorize(credentials) {
         try {
-          const { email, password } = loginSchema.parse(credentials);
+          const { email, password, mfaToken } = loginSchema.parse(credentials);
 
           const user = await prisma.user.findUnique({
             where: { email },
@@ -44,6 +49,28 @@ export const authOptions: NextAuthOptions = {
 
           if (!isValidPassword) {
             return null;
+          }
+
+          // Check MFA if enabled
+          if (user.mfaEnabled) {
+            if (!mfaToken) {
+              // Return a special object to indicate MFA is required
+              return {
+                id: user.id,
+                email: user.email,
+                name: user.name,
+                role: user.role,
+                organisationId: user.organisationId,
+                organisation: user.organisation,
+                mfaRequired: true,
+              };
+            }
+
+            // Verify MFA token
+            const isValidMFA = await verifyMFAToken(user.id, mfaToken);
+            if (!isValidMFA) {
+              return null;
+            }
           }
 
           // Update last login time
@@ -66,6 +93,15 @@ export const authOptions: NextAuthOptions = {
         }
       },
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+    }),
+    AzureADProvider({
+      clientId: process.env.AZURE_AD_CLIENT_ID || "",
+      clientSecret: process.env.AZURE_AD_CLIENT_SECRET || "",
+      tenantId: process.env.AZURE_AD_TENANT_ID || "common",
+    }),
   ],
   session: {
     strategy: "jwt",
@@ -77,6 +113,7 @@ export const authOptions: NextAuthOptions = {
         token.role = user.role;
         token.organisationId = user.organisationId;
         token.organisation = user.organisation;
+        token.mfaRequired = (user as any).mfaRequired || false;
       }
       return token;
     },
@@ -86,6 +123,7 @@ export const authOptions: NextAuthOptions = {
         session.user.role = token.role as Role;
         session.user.organisationId = token.organisationId as string;
         session.user.organisation = token.organisation as { id: string; name: string };
+        session.user.mfaRequired = token.mfaRequired as boolean;
       }
       return session;
     },

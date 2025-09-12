@@ -21,3 +21,6 @@ yarn-error.log*
 .DS_Store
 coverage/
 dist/
+
+*storybook.log
+storybook-static

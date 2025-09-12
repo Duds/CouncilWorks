@@ -45,6 +45,21 @@ model User {
   auditLogs       AuditLog[]
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
+  
+  // MFA fields
+  mfaEnabled      Boolean      @default(false)
+  mfaSecret       String?
+  mfaBackupCodes  String[]     @default([])
+  mfaVerifiedAt   DateTime?
+  
+  // Profile fields
+  phoneNumber     String?
+  bio             String?
+  timezone        String       @default("Australia/Sydney")
+  language        String       @default("en-AU")
+  
+  // Notification preferences
+  notificationPreferences Json @default("{}")
 }
 
 model Account {
@@ -72,6 +87,15 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Session tracking fields
+  ipAddress    String?
+  userAgent    String?
+  deviceInfo   String?
+  location     String?
+  isActive     Boolean  @default(true)
+  lastUsed     DateTime @default(now())
+  createdAt    DateTime @default(now())
 }
 
 model VerificationToken {
@@ -94,6 +118,10 @@ enum AuditAction {
   ORGANISATION_CREATED
   ORGANISATION_UPDATED
   ORGANISATION_DELETED
+  MFA_ENABLED
+  MFA_DISABLED
+  MFA_VERIFIED
+  MFA_BACKUP_CODE_USED
 }
 
 model AuditLog {
