@@ -74,3 +74,52 @@ The application includes a comprehensive settings page (`/settings`) that provid
 - Security settings
 
 All settings are role-based and respect the RBAC (Role-Based Access Control) system.
+
+## Asset Management System
+
+### Core Features
+- **Asset Register**: Comprehensive asset database with spatial capabilities
+- **PostGIS Integration**: Full spatial database support for asset locations
+- **Asset CRUD Operations**: Create, read, update, and delete assets with role-based access control
+- **Search & Filtering**: Advanced search and filtering capabilities for asset discovery
+- **Asset Types**: Support for buildings, roads, bridges, parks, infrastructure, and more
+- **Status Tracking**: Asset status, condition, and priority management
+- **Financial Tracking**: Purchase price, current value, replacement cost, and depreciation
+- **Maintenance Integration**: Links to inspections, maintenance records, and work orders
+
+### Asset Types Supported
+- Buildings (libraries, community centres, offices)
+- Infrastructure (roads, bridges, footpaths)
+- Recreational (parks, playgrounds, sports facilities)
+- Utilities (street lights, traffic lights, drainage)
+- Services (water supply, sewer, electrical, telecommunications)
+
+### Role-Based Access
+- **MANAGER+**: Create, update, and manage assets
+- **ADMIN**: Delete assets and full administrative control
+- **SUPERVISOR**: View and manage assigned assets
+- **CREW**: View asset details for work execution
+- **EXEC**: View asset summaries and reports
+- **CITIZEN**: Read-only access to public assets
+
+### Spatial Capabilities
+- **PostGIS Integration**: Full spatial database support
+- **Point Geometry**: Asset location coordinates (latitude/longitude)
+- **Spatial Queries**: Find assets within bounding boxes, calculate distances
+- **Address Management**: Full Australian address format support
+- **Suburb/Postcode Filtering**: Location-based asset filtering
+
+### API Endpoints
+- `GET /api/assets` - List assets with filtering and pagination
+- `GET /api/assets/[id]` - Get individual asset details
+- `POST /api/assets` - Create new assets
+- `PUT /api/assets/[id]` - Update existing assets
+- `DELETE /api/assets/[id]` - Delete assets (admin only)
+
+### Database Schema
+- **Asset Model**: Core asset information with spatial data
+- **AssetDocument**: Document attachments and file management
+- **AssetInspection**: Inspection records and condition tracking
+- **AssetMaintenance**: Maintenance history and cost tracking
+- **WorkOrder**: Work order management and assignment
+- **Audit Logging**: Complete audit trail for all asset operations
