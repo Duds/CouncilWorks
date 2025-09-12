@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -9,6 +10,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   User, 
   Mail, 
@@ -18,7 +20,9 @@ import {
   Shield, 
   Save,
   Upload,
-  Camera
+  Camera,
+  Key,
+  Lock
 } from "lucide-react";
 
 interface UserProfile {
@@ -47,6 +51,8 @@ interface NotificationPreferences {
  * Allows users to update their profile information and preferences
  */
 export function ProfileManagement() {
+  const searchParams = useSearchParams();
+  const activeTab = searchParams.get("tab") || "profile";
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [notifications, setNotifications] = useState<NotificationPreferences>({
     emailNotifications: true,
@@ -180,253 +186,330 @@ export function ProfileManagement() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Profile Settings</h1>
+    <div className="container mx-auto py-8 px-4 max-w-4xl">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-foreground mb-2">Profile Settings</h1>
         <p className="text-muted-foreground">
-          Manage your account information and preferences
+          Manage your personal information and account preferences.
         </p>
       </div>
 
       {error && (
-        <Alert variant="destructive">
+        <Alert variant="destructive" className="mb-6">
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
 
       {success && (
-        <Alert>
+        <Alert className="mb-6">
           <AlertDescription>{success}</AlertDescription>
         </Alert>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Profile Information */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <User className="h-5 w-5" />
-              Profile Information
-            </CardTitle>
-            <CardDescription>
-              Update your personal information
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {/* Avatar */}
-            <div className="flex items-center gap-4">
-              <Avatar className="h-20 w-20">
-                <AvatarImage src={profile.image || ""} />
-                <AvatarFallback>
-                  {profile.name?.charAt(0) || profile.email.charAt(0)}
-                </AvatarFallback>
-              </Avatar>
-              <div>
-                <Button variant="outline" size="sm" className="mb-2">
-                  <Camera className="h-4 w-4 mr-2" />
-                  Change Photo
+      <Tabs value={activeTab} className="w-full">
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="profile" className="flex items-center gap-2">
+            <User className="h-4 w-4" />
+            Profile
+          </TabsTrigger>
+          <TabsTrigger value="notifications" className="flex items-center gap-2">
+            <Bell className="h-4 w-4" />
+            Notifications
+          </TabsTrigger>
+          <TabsTrigger value="mfa" className="flex items-center gap-2">
+            <Key className="h-4 w-4" />
+            Security
+          </TabsTrigger>
+          <TabsTrigger value="password" className="flex items-center gap-2">
+            <Lock className="h-4 w-4" />
+            Password
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="profile" className="mt-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <User className="h-5 w-5" />
+                Profile Information
+              </CardTitle>
+              <CardDescription>
+                Update your personal information
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {/* Avatar */}
+              <div className="flex items-center gap-4">
+                <Avatar className="h-20 w-20">
+                  <AvatarImage src={profile.image || ""} />
+                  <AvatarFallback>
+                    {profile.name?.charAt(0) || profile.email.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
+                <div>
+                  <Button variant="outline" size="sm" className="mb-2">
+                    <Camera className="h-4 w-4 mr-2" />
+                    Change Photo
+                  </Button>
+                  <p className="text-sm text-muted-foreground">
+                    JPG, PNG or GIF. Max size 2MB.
+                  </p>
+                </div>
+              </div>
+
+              <form onSubmit={handleProfileUpdate} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="name">Full Name</Label>
+                  <Input
+                    id="name"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    placeholder="Enter your full name"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email Address</Label>
+                  <div className="flex items-center gap-2">
+                    <Mail className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm text-muted-foreground">{profile.email}</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Email cannot be changed. Contact support if needed.
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="phoneNumber">Phone Number</Label>
+                  <Input
+                    id="phoneNumber"
+                    value={formData.phoneNumber}
+                    onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+                    placeholder="+61 4XX XXX XXX"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="bio">Bio</Label>
+                  <Textarea
+                    id="bio"
+                    value={formData.bio}
+                    onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                    placeholder="Tell us about yourself..."
+                    rows={3}
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="timezone">Timezone</Label>
+                    <select
+                      id="timezone"
+                      value={formData.timezone}
+                      onChange={(e) => setFormData({ ...formData, timezone: e.target.value })}
+                      className="w-full px-3 py-2 border border-border rounded-md"
+                      title="Select your timezone"
+                    >
+                      <option value="Australia/Sydney">Australia/Sydney</option>
+                      <option value="Australia/Melbourne">Australia/Melbourne</option>
+                      <option value="Australia/Brisbane">Australia/Brisbane</option>
+                      <option value="Australia/Perth">Australia/Perth</option>
+                      <option value="Australia/Adelaide">Australia/Adelaide</option>
+                      <option value="Australia/Darwin">Australia/Darwin</option>
+                    </select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="language">Language</Label>
+                    <select
+                      id="language"
+                      value={formData.language}
+                      onChange={(e) => setFormData({ ...formData, language: e.target.value })}
+                      className="w-full px-3 py-2 border border-border rounded-md"
+                      title="Select your language preference"
+                    >
+                      <option value="en-AU">English (Australia)</option>
+                      <option value="en-US">English (US)</option>
+                      <option value="en-GB">English (UK)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <Button type="submit" disabled={saving} className="w-full">
+                  {saving ? "Saving..." : "Save Changes"}
                 </Button>
-                <p className="text-sm text-muted-foreground">
-                  JPG, PNG or GIF. Max size 2MB.
+              </form>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="notifications" className="mt-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Bell className="h-5 w-5" />
+                Notification Preferences
+              </CardTitle>
+              <CardDescription>
+                Choose how you want to be notified
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-1">
+                    <Label htmlFor="email-notifications">Email Notifications</Label>
+                    <p className="text-sm text-muted-foreground">
+                      Receive notifications via email
+                    </p>
+                  </div>
+                  <Switch
+                    id="email-notifications"
+                    checked={notifications.emailNotifications}
+                    onCheckedChange={(checked) => 
+                      handleNotificationUpdate("emailNotifications", checked)
+                    }
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="space-y-1">
+                    <Label htmlFor="sms-notifications">SMS Notifications</Label>
+                    <p className="text-sm text-muted-foreground">
+                      Receive notifications via SMS
+                    </p>
+                  </div>
+                  <Switch
+                    id="sms-notifications"
+                    checked={notifications.smsNotifications}
+                    onCheckedChange={(checked) => 
+                      handleNotificationUpdate("smsNotifications", checked)
+                    }
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="space-y-1">
+                    <Label htmlFor="push-notifications">Push Notifications</Label>
+                    <p className="text-sm text-muted-foreground">
+                      Receive browser push notifications
+                    </p>
+                  </div>
+                  <Switch
+                    id="push-notifications"
+                    checked={notifications.pushNotifications}
+                    onCheckedChange={(checked) => 
+                      handleNotificationUpdate("pushNotifications", checked)
+                    }
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="space-y-1">
+                    <Label htmlFor="weekly-digest">Weekly Digest</Label>
+                    <p className="text-sm text-muted-foreground">
+                      Receive weekly summary emails
+                    </p>
+                  </div>
+                  <Switch
+                    id="weekly-digest"
+                    checked={notifications.weeklyDigest}
+                    onCheckedChange={(checked) => 
+                      handleNotificationUpdate("weeklyDigest", checked)
+                    }
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="space-y-1">
+                    <Label htmlFor="security-alerts">Security Alerts</Label>
+                    <p className="text-sm text-muted-foreground">
+                      Important security notifications
+                    </p>
+                  </div>
+                  <Switch
+                    id="security-alerts"
+                    checked={notifications.securityAlerts}
+                    onCheckedChange={(checked) => 
+                      handleNotificationUpdate("securityAlerts", checked)
+                    }
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="space-y-1">
+                    <Label htmlFor="maintenance-updates">Maintenance Updates</Label>
+                    <p className="text-sm text-muted-foreground">
+                      System maintenance notifications
+                    </p>
+                  </div>
+                  <Switch
+                    id="maintenance-updates"
+                    checked={notifications.maintenanceUpdates}
+                    onCheckedChange={(checked) => 
+                      handleNotificationUpdate("maintenanceUpdates", checked)
+                    }
+                  />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="mfa" className="mt-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Key className="h-5 w-5" />
+                Multi-Factor Authentication
+              </CardTitle>
+              <CardDescription>
+                Enhance your account security with MFA
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="text-center py-8">
+                <Shield className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-lg font-semibold mb-2">MFA Setup</h3>
+                <p className="text-muted-foreground mb-4">
+                  Multi-factor authentication is not yet implemented in this component.
                 </p>
+                <Button variant="outline">
+                  <Key className="h-4 w-4 mr-2" />
+                  Set Up MFA
+                </Button>
               </div>
-            </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
-            <form onSubmit={handleProfileUpdate} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="name">Full Name</Label>
-                <Input
-                  id="name"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="Enter your full name"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="email">Email Address</Label>
-                <div className="flex items-center gap-2">
-                  <Mail className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm text-muted-foreground">{profile.email}</span>
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  Email cannot be changed. Contact support if needed.
+        <TabsContent value="password" className="mt-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Lock className="h-5 w-5" />
+                Password Settings
+              </CardTitle>
+              <CardDescription>
+                Change your account password
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="text-center py-8">
+                <Lock className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-lg font-semibold mb-2">Password Change</h3>
+                <p className="text-muted-foreground mb-4">
+                  Password change functionality is not yet implemented in this component.
                 </p>
+                <Button variant="outline">
+                  <Lock className="h-4 w-4 mr-2" />
+                  Change Password
+                </Button>
               </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="phoneNumber">Phone Number</Label>
-                <Input
-                  id="phoneNumber"
-                  value={formData.phoneNumber}
-                  onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
-                  placeholder="+61 4XX XXX XXX"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="bio">Bio</Label>
-                <Textarea
-                  id="bio"
-                  value={formData.bio}
-                  onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-                  placeholder="Tell us about yourself..."
-                  rows={3}
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="timezone">Timezone</Label>
-                  <select
-                    id="timezone"
-                    value={formData.timezone}
-                    onChange={(e) => setFormData({ ...formData, timezone: e.target.value })}
-                    className="w-full px-3 py-2 border border-border rounded-md"
-                  >
-                    <option value="Australia/Sydney">Australia/Sydney</option>
-                    <option value="Australia/Melbourne">Australia/Melbourne</option>
-                    <option value="Australia/Brisbane">Australia/Brisbane</option>
-                    <option value="Australia/Perth">Australia/Perth</option>
-                    <option value="Australia/Adelaide">Australia/Adelaide</option>
-                    <option value="Australia/Darwin">Australia/Darwin</option>
-                  </select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="language">Language</Label>
-                  <select
-                    id="language"
-                    value={formData.language}
-                    onChange={(e) => setFormData({ ...formData, language: e.target.value })}
-                    className="w-full px-3 py-2 border border-border rounded-md"
-                  >
-                    <option value="en-AU">English (Australia)</option>
-                    <option value="en-US">English (US)</option>
-                    <option value="en-GB">English (UK)</option>
-                  </select>
-                </div>
-              </div>
-
-              <Button type="submit" disabled={saving} className="w-full">
-                {saving ? "Saving..." : "Save Changes"}
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
-
-        {/* Notification Preferences */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Bell className="h-5 w-5" />
-              Notification Preferences
-            </CardTitle>
-            <CardDescription>
-              Choose how you want to be notified
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="space-y-1">
-                  <Label htmlFor="email-notifications">Email Notifications</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Receive notifications via email
-                  </p>
-                </div>
-                <Switch
-                  id="email-notifications"
-                  checked={notifications.emailNotifications}
-                  onCheckedChange={(checked) => 
-                    handleNotificationUpdate("emailNotifications", checked)
-                  }
-                />
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div className="space-y-1">
-                  <Label htmlFor="sms-notifications">SMS Notifications</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Receive notifications via SMS
-                  </p>
-                </div>
-                <Switch
-                  id="sms-notifications"
-                  checked={notifications.smsNotifications}
-                  onCheckedChange={(checked) => 
-                    handleNotificationUpdate("smsNotifications", checked)
-                  }
-                />
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div className="space-y-1">
-                  <Label htmlFor="push-notifications">Push Notifications</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Receive browser push notifications
-                  </p>
-                </div>
-                <Switch
-                  id="push-notifications"
-                  checked={notifications.pushNotifications}
-                  onCheckedChange={(checked) => 
-                    handleNotificationUpdate("pushNotifications", checked)
-                  }
-                />
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div className="space-y-1">
-                  <Label htmlFor="weekly-digest">Weekly Digest</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Receive weekly summary emails
-                  </p>
-                </div>
-                <Switch
-                  id="weekly-digest"
-                  checked={notifications.weeklyDigest}
-                  onCheckedChange={(checked) => 
-                    handleNotificationUpdate("weeklyDigest", checked)
-                  }
-                />
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div className="space-y-1">
-                  <Label htmlFor="security-alerts">Security Alerts</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Important security notifications
-                  </p>
-                </div>
-                <Switch
-                  id="security-alerts"
-                  checked={notifications.securityAlerts}
-                  onCheckedChange={(checked) => 
-                    handleNotificationUpdate("securityAlerts", checked)
-                  }
-                />
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div className="space-y-1">
-                  <Label htmlFor="maintenance-updates">Maintenance Updates</Label>
-                  <p className="text-sm text-muted-foreground">
-                    System maintenance notifications
-                  </p>
-                </div>
-                <Switch
-                  id="maintenance-updates"
-                  checked={notifications.maintenanceUpdates}
-                  onCheckedChange={(checked) => 
-                    handleNotificationUpdate("maintenanceUpdates", checked)
-                  }
-                />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

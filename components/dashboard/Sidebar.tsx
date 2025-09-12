@@ -41,7 +41,7 @@ export default function Sidebar() {
           </div>
           <div className="mt-8 space-y-1">
             <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">General</div>
-            <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
+            <a href="/settings" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
               <Settings className="w-4 h-4" />Settings
             </a>
             <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">

@@ -353,53 +353,6 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Admin Panel Access */}
-      {session?.user && canAccessAdmin(session.user.role) && (
-        <div className="bg-card border border-border rounded-lg p-6">
-          <h2 className="text-xl font-semibold mb-4">Administration</h2>
-          <p className="text-muted-foreground mb-4">
-            Access administrative functions and system management tools.
-          </p>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Link
-              href="/admin"
-              className="flex items-center p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors"
-            >
-              <BarChart3 className="h-5 w-5 text-primary mr-3" />
-              <div>
-                <div className="font-medium">Admin Dashboard</div>
-                <div className="text-sm text-muted-foreground">
-                  System overview
-                </div>
-              </div>
-            </Link>
-            <Link
-              href="/admin/users"
-              className="flex items-center p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors"
-            >
-              <Users className="h-5 w-5 text-primary mr-3" />
-              <div>
-                <div className="font-medium">User Management</div>
-                <div className="text-sm text-muted-foreground">
-                  Manage users
-                </div>
-              </div>
-            </Link>
-            <Link
-              href="/admin/audit-logs"
-              className="flex items-center p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors"
-            >
-              <Activity className="h-5 w-5 text-primary mr-3" />
-              <div>
-                <div className="font-medium">Audit Logs</div>
-                <div className="text-sm text-muted-foreground">
-                  System activity
-                </div>
-              </div>
-            </Link>
-          </div>
-        </div>
-      )}
           </DashboardShell>
         </main>
       </div>
