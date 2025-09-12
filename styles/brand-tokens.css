@@ -47,7 +47,7 @@
   --warning: var(--saffron);
   --warning-foreground: var(--white);
 
-  --muted: var(--tea);
+  --muted: var(--grey-3);
   --muted-foreground: var(--nocturn);
 
   --neutral: var(--tea);

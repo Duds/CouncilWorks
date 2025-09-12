@@ -18,6 +18,7 @@ All notable changes to this project will be documented in this file.
  - Sidebar: Added Help link under General group
 - Dashboard: Changed search shortcut hint to grey keycap “Ctrl F” in `components/dashboard/Header.tsx`
 - Theming: Added optional light grey muted variants (`.muted-grey-1/2/3`) and cards sandbox at `/sandbox/cards`
+- Theming: Updated global `--muted` token to Grey Option C (--grey-3) for cleaner card backgrounds
 
 ### Added
 - Outcome‑led landing page with revised hero, single primary CTA, and credibility strip
