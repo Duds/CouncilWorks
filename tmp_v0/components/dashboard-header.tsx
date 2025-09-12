@@ -1,5 +1,6 @@
 import { Search, Bell, Mail } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { getKeyboardShortcut } from "@/lib/device-detection"
 
 export function DashboardHeader() {
   return (
@@ -15,7 +16,7 @@ export function DashboardHeader() {
                 className="pl-10 pr-4 py-2 bg-muted border border-border rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary w-80"
               />
               <kbd className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-muted-foreground bg-background border border-border px-2 py-1 rounded">
-                ⌘F
+                {getKeyboardShortcut('F')}
               </kbd>
             </div>
           </div>

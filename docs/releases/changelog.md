@@ -16,7 +16,9 @@ All notable changes to this project will be documented in this file.
 - Dashboard: Moved Team Status beside Recent Activity (right column)
 - Docs: Added `docs/dashboard-ideas.md` to capture further RCM/CCT dashboard ideas
  - Sidebar: Added Help link under General group
-- Dashboard: Changed search shortcut hint to grey keycap “Ctrl F” in `components/dashboard/Header.tsx`
+- Dashboard: Implemented device detection for search shortcut display (⌘F on Apple devices, ^F on others) in `components/dashboard/Header.tsx`
+- Utils: Added `lib/device-detection.ts` with platform detection utilities for UI consistency
+- Testing: Added comprehensive tests for device detection functionality
 - Theming: Added optional light grey muted variants (`.muted-grey-1/2/3`) and cards sandbox at `/sandbox/cards`
 - Theming: Updated global `--muted` token to Grey Option C (--grey-3) for cleaner card backgrounds
 - Documentation: Added comprehensive theming framework at `docs/design/theming-framework.md`

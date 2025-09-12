@@ -1,6 +1,7 @@
 import { Search, Bell, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getKeyboardShortcut } from "@/lib/device-detection";
 
 export default function Header() {
   return (
@@ -16,7 +17,7 @@ export default function Header() {
                 className="pl-10 pr-10 py-2 bg-white rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary w-80"
               />
               <kbd className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-foreground bg-muted border border-border px-2 py-0.5 rounded-md shadow-sm">
-                Ctrl&nbsp;F
+                {getKeyboardShortcut('F')}
               </kbd>
             </div>
           </div>
