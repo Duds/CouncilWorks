@@ -12,6 +12,11 @@
   --spruce:  #007978;
   --lake:    #004963;
 
+  /* Neutral Greys (light) for optional muted backgrounds */
+  --grey-1:  #F7F9F8; /* lightest grey */
+  --grey-2:  #F1F4F3; /* light grey */
+  --grey-3:  #ECEFEF; /* slightly deeper */
+
   /* Functional Tokens - Light */
   --background: var(--white);
   --foreground: var(--nocturn);
@@ -42,9 +47,8 @@
   --warning: var(--saffron);
   --warning-foreground: var(--white);
 
-  /* Muted should be neutral grey, not green-tinted */
-  --muted: #F1F3F5;
-  --muted-foreground: #4B5563;
+  --muted: var(--tea);
+  --muted-foreground: var(--nocturn);
 
   --neutral: var(--tea);
   --neutral-foreground: var(--nocturn);
@@ -83,12 +87,27 @@
   --warning: var(--tea);
   --warning-foreground: var(--nocturn);
 
-  /* Dark mode muted neutral */
-  --muted: #1F2937;
-  --muted-foreground: #D1D5DB;
+  --muted: var(--lake);
+  --muted-foreground: var(--tea);
 
   --neutral: var(--nocturn);
   --neutral-foreground: var(--tea);
 
   --border: var(--lake);
+}
+
+/* Scoped Muted Variants: apply to a container to preview alternative greys */
+.muted-grey-1 {
+  --muted: var(--grey-1);
+  --muted-foreground: var(--nocturn);
+}
+
+.muted-grey-2 {
+  --muted: var(--grey-2);
+  --muted-foreground: var(--nocturn);
+}
+
+.muted-grey-3 {
+  --muted: var(--grey-3);
+  --muted-foreground: var(--nocturn);
 }

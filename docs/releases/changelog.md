@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file.
 - Docs: Added `docs/dashboard-ideas.md` to capture further RCM/CCT dashboard ideas
  - Sidebar: Added Help link under General group
 - Dashboard: Changed search shortcut hint to grey keycap “Ctrl F” in `components/dashboard/Header.tsx`
+- Theming: Added optional light grey muted variants (`.muted-grey-1/2/3`) and cards sandbox at `/sandbox/cards`
 
 ### Added
 - Outcome‑led landing page with revised hero, single primary CTA, and credibility strip
