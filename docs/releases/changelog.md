@@ -7,8 +7,27 @@ All notable changes to this project will be documented in this file.
 - Wired functional tokens into Tailwind + shadcn/ui theme mapping
 - Added shadcn/ui base components, theme provider and branding integration
 - Added Epic 1 phased delivery plan (phases 0–3, deliverables, acceptance) in `docs/TODO.md` on 11/09/2025
+- **12/09/2025**: Moved administrative functions to dedicated settings page
+- **12/09/2025**: Enhanced profile management with tabbed interface
+- **12/09/2025**: Fixed NextAuth.js configuration issues
 
 ### Added
+- Settings: Comprehensive settings page (`/settings`) with Personal, Security, Notification, and Administrative sections
+- Settings: Tabbed profile management interface with Profile, Notifications, Security (MFA), and Password tabs
+- Settings: Role-based access control for administrative functions
+- UI: Tabs component (`components/ui/tabs.tsx`) for consistent tabbed interfaces
+- Navigation: Updated sidebar to link to dedicated settings page
+
+### Changed
+- Dashboard: Removed administrative functions card from main dashboard
+- Profile: Enhanced profile management component with tabbed interface
+- Auth: Improved NextAuth.js configuration with conditional OAuth providers
+- Navigation: Settings link now points to dedicated settings page instead of placeholder
+
+### Fixed
+- Auth: Resolved NextAuth.js CLIENT_FETCH_ERROR by making OAuth provider configuration conditional
+- Accessibility: Added proper ARIA attributes to select elements in profile management
+
 - Dashboard: Inserted Maintenance Schedule section below Quick Actions in `app/dashboard/page.tsx`
 - Dashboard: Added Risk Assessment overview card with circular progress ring (0–100% mapped to 0–360°)
 - Dashboard: Replaced Maintenance Schedule with Maintenance Backlog; removed Reminders and Upcoming Tasks

@@ -47,3 +47,30 @@ All docs use Australian English, DD/MM/YYYY dates, 24-hour time, metric units, a
 - `@/hooks/*` → `hooks/*`
 - `@/utils/*` → `utils/*`
 - `@/styles/*` → `styles/*`
+
+## Settings & Administration
+
+The application includes a comprehensive settings page (`/settings`) that provides:
+
+### Personal Settings
+- Profile management with tabbed interface
+- Activity log viewing
+- Session management
+
+### Security Settings
+- Multi-factor authentication (MFA) setup
+- Password change functionality
+- Security session review
+
+### Notification Settings
+- Email/SMS notification preferences
+- Language and timezone configuration
+- Push notification settings
+
+### Administrative Functions (Admin Users Only)
+- Admin dashboard access
+- User management
+- Audit logs
+- Security settings
+
+All settings are role-based and respect the RBAC (Role-Based Access Control) system.

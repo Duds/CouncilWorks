@@ -1,6 +1,6 @@
 # CouncilWorks Product Backlog
 
-Last updated: 11/09/2025
+Last updated: 12/09/2025
 
 ## MVP Epics (Phase 1)
 
@@ -9,6 +9,12 @@ Last updated: 11/09/2025
 **Value**: Secure platform foundation enabling council-specific data isolation
 
 **Status**: Core foundation complete - ready for Epic 2 development.
+
+**Recent Updates (12/09/2025)**:
+- ✅ Moved administrative functions to dedicated settings page
+- ✅ Enhanced profile management with tabbed interface
+- ✅ Improved navigation and user experience
+- ✅ Fixed NextAuth.js configuration issues
 
 ### E2: Asset Register & GIS Integration  
 **Goal**: Import, manage, and visualise council assets with spatial capabilities
