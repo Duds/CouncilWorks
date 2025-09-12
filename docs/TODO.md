@@ -22,23 +22,23 @@ Last updated: 12/09/2025
 **Goal**: Import, manage, and visualise council assets with spatial capabilities
 **Value**: Centralised asset registry with GIS visualisation for better asset management
 
-**Status**: Starting Epic 2 implementation - Phase 1 in progress.
+**Status**: Phase 1 completed - Phase 2 in progress.
 
 **Epic 2 Phased Delivery Plan**:
 
-- **Phase 1: Database Schema & Core Infrastructure** (Week 1)
+- **Phase 1: Database Schema & Core Infrastructure** ✅ **COMPLETED**
   - Scope: F2.3 (PostGIS setup), Asset database schema design
   - Deliverables:
-    - PostGIS spatial database configuration
-    - Asset database schema with spatial fields
-    - Prisma migrations for asset tables
-    - Basic asset CRUD API endpoints
+    - ✅ PostGIS spatial database configuration
+    - ✅ Asset database schema with spatial fields
+    - ✅ Prisma migrations for asset tables
+    - ✅ Basic asset CRUD API endpoints
   - Acceptance:
-    - PostGIS extension enabled and tested
-    - Asset schema supports spatial data (points, polygons)
-    - Basic asset operations work via API
+    - ✅ PostGIS extension enabled and tested
+    - ✅ Asset schema supports spatial data (points, polygons)
+    - ✅ Basic asset operations work via API
 
-- **Phase 2: Asset Import & Management** (Week 2)
+- **Phase 2: Asset Import & Management** 🚧 **IN PROGRESS**
   - Scope: F2.1 (CSV/Excel import), F2.5 (Asset CRUD), F2.6 (Search/Filter)
   - Deliverables:
     - CSV/Excel file upload and parsing
