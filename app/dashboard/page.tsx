@@ -2,8 +2,6 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { NestedCard } from "@/components/ui/card";
-import { useAbVariant } from "@/hooks/useAbVariant";
 import Sidebar from "@/components/dashboard/Sidebar";
 import Header from "@/components/dashboard/Header";
 // import StatsCard from "@/components/dashboard/StatsCard";
@@ -22,8 +20,6 @@ import { canAccessAdmin } from "@/lib/rbac";
 
 export default function DashboardPage() {
   const { data: session } = useSession();
-  const nestedVariant: "left-border" | "top-bar" =
-    useAbVariant("nestedCards") === "A" ? "left-border" : "top-bar";
   // Note: Projects & Time Tracking removed per requirements
 
   return (
@@ -97,7 +93,7 @@ export default function DashboardPage() {
                   </Button>
                 </div>
                 <div className="space-y-3">
-                  <NestedCard variant={nestedVariant} className="p-3" accentClassName="bg-emerald-500/70 border-emerald-500/60">
+                  <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
                     <div>
                       <p className="font-medium text-sm">Water Pump Station A</p>
                       <p className="text-xs text-muted-foreground">Overdue • Preventive Maintenance</p>
@@ -106,8 +102,8 @@ export default function DashboardPage() {
                       <p className="text-xs text-muted-foreground">Due: 15/03/2024</p>
                       <p className="text-xs text-muted-foreground">09:00</p>
                     </div>
-                  </NestedCard>
-                  <NestedCard variant={nestedVariant} className="p-3" accentClassName="bg-emerald-500/70 border-emerald-500/60">
+                  </div>
+                  <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
                     <div>
                       <p className="font-medium text-sm">Bridge Inspection - Main St</p>
                       <p className="text-xs text-muted-foreground">Due this week • RCM Assessment</p>
@@ -116,8 +112,8 @@ export default function DashboardPage() {
                       <p className="text-xs text-muted-foreground">Due: 18/03/2024</p>
                       <p className="text-xs text-muted-foreground">14:30</p>
                     </div>
-                  </NestedCard>
-                  <NestedCard variant={nestedVariant} className="p-3" accentClassName="bg-emerald-500/70 border-emerald-500/60">
+                  </div>
+                  <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
                     <div>
                       <p className="font-medium text-sm">Traffic Light System</p>
                       <p className="text-xs text-muted-foreground">Due next week • Critical Control Check</p>
@@ -126,7 +122,7 @@ export default function DashboardPage() {
                       <p className="text-xs text-muted-foreground">Due: 20/03/2024</p>
                       <p className="text-xs text-muted-foreground">11:00</p>
                     </div>
-                  </NestedCard>
+                  </div>
                 </div>
               </div>
             </div>
@@ -268,18 +264,18 @@ export default function DashboardPage() {
           <div className="bg-white rounded-lg p-6">
             <h2 className="text-xl font-semibold mb-4">Spare Parts Risk</h2>
             <div className="space-y-3 text-sm">
-              <NestedCard variant={nestedVariant} className="p-3" accentClassName="bg-emerald-500/70 border-emerald-500/60">
+              <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
                 <span>Bearing 6205-2RS</span>
                 <span className="text-red-600 font-medium">Stock-out risk</span>
-              </NestedCard>
-              <NestedCard variant={nestedVariant} className="p-3" accentClassName="bg-emerald-500/70 border-emerald-500/60">
+              </div>
+              <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
                 <span>Oil Filter HF304</span>
                 <span className="text-yellow-600 font-medium">Reorder soon</span>
-              </NestedCard>
-              <NestedCard variant={nestedVariant} className="p-3" accentClassName="bg-emerald-500/70 border-emerald-500/60">
+              </div>
+              <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
                 <span>Hydraulic Hose H12</span>
                 <span className="text-green-600 font-medium">Healthy</span>
-              </NestedCard>
+              </div>
             </div>
           </div>
 

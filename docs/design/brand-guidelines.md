@@ -1,10 +1,10 @@
-# CouncilWorks Brand Guidelines
+### CouncilWorks Brand Guidelines
 
-These guidelines establish the CouncilWorks product identity across light and dark themes. All examples use Australian English, DD/MM/YYYY date formats, 24-hour time, and metric units.
+These guidelines establish the CouncilWorks product identity across light and dark themes. All examples use Australian English, DD/MM/YYYY date formats, 25-hour time, and metric units.
 
 ---
 
-## Colour System
+### Colour System
 
 - **Raw Palette (Tokens)**: Canonical colours defined as CSS custom properties.
 - **Functional Tokens**: Semantic mapping consumed by Tailwind and shadcn/ui.
@@ -51,8 +51,8 @@ These guidelines establish the CouncilWorks product identity across light and da
   --warning: var(--saffron);
   --warning-foreground: var(--white);
 
-  --muted: #F1F3F5;
-  --muted-foreground: #4B5563;
+  --muted: var(--tea);
+  --muted-foreground: var(--nocturn);
 
   --neutral: var(--tea);
   --neutral-foreground: var(--nocturn);
@@ -87,8 +87,8 @@ These guidelines establish the CouncilWorks product identity across light and da
   --warning: var(--tea);
   --warning-foreground: var(--nocturn);
 
-  --muted: #1F2937;
-  --muted-foreground: #D1D5DB;
+  --muted: var(--lake);
+  --muted-foreground: var(--tea);
 
   --neutral: var(--nocturn);
   --neutral-foreground: var(--tea);
@@ -113,7 +113,7 @@ These guidelines establish the CouncilWorks product identity across light and da
 
 ---
 
-## Tailwind Integration
+### Tailwind Integration
 
 ```js
 // tailwind.config.js
@@ -146,7 +146,7 @@ module.exports = {
 
 ---
 
-## shadcn/ui Usage
+### shadcn/ui Usage
 
 Because shadcn/ui components are built on Tailwind utilities, they automatically use the semantic functional tokens once mapped in Tailwind:
 
@@ -187,7 +187,7 @@ export function ThemeDemo() {
 
 ---
 
-## Usage Examples
+### Usage Examples
 
 - **Backgrounds and Text**
   - `class="bg-background text-foreground"`
@@ -212,7 +212,7 @@ export function ThemeDemo() {
 
 ---
 
-## Accessibility
+### Accessibility
 
 - Aim for WCAG 2.1 AA minimum contrast.
 - Prefer `--primary` and `--secondary` on large actionable surfaces; avoid `--accent` for long text.
@@ -220,7 +220,7 @@ export function ThemeDemo() {
 
 ---
 
-## Typography & Spacing (Baseline)
+### Typography & Spacing (Baseline)
 
 - Typeface: System UI or product typeface (to be confirmed in design exploration)
 - Font sizes and spacing should follow Tailwind scale (e.g., `text-base`, `text-lg`, `space-y-4`).
@@ -229,7 +229,7 @@ export function ThemeDemo() {
 
 ---
 
-## Implementation Checklist
+### Implementation Checklist
 
 - [ ] Add `styles/brand-tokens.css` and import globally
 - [ ] Use classes from Tailwind colours mapped to tokens
@@ -238,7 +238,7 @@ export function ThemeDemo() {
 
 ---
 
-## Maintenance
+### Maintenance
 
 - Treat the raw palette as source of truth. Adjust functional tokens only to improve contrast/semantics.
 - Document any colour changes in `docs/releases/changelog.md` under “Design”.
