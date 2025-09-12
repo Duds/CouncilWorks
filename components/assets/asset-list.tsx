@@ -14,7 +14,8 @@ import {
   Plus,
   Search,
   Filter,
-  MoreHorizontal
+  MoreHorizontal,
+  Upload
 } from "lucide-react";
 import Link from "next/link";
 
@@ -193,12 +194,20 @@ export function AssetList({ initialAssets = [] }: AssetListProps) {
             Manage and monitor council assets
           </p>
         </div>
-        <Button asChild>
-          <Link href="/assets/new">
-            <Plus className="h-4 w-4 mr-2" />
-            Add Asset
-          </Link>
-        </Button>
+        <div className="flex gap-2">
+          <Button asChild variant="outline">
+            <Link href="/assets/import">
+              <Upload className="h-4 w-4 mr-2" />
+              Import Assets
+            </Link>
+          </Button>
+          <Button asChild>
+            <Link href="/assets/new">
+              <Plus className="h-4 w-4 mr-2" />
+              Add Asset
+            </Link>
+          </Button>
+        </div>
       </div>
 
       {/* Search and Filters */}
