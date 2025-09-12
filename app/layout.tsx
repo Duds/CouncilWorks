@@ -1,10 +1,8 @@
-import type { Metadata, Route } from 'next';
+import type { Metadata } from 'next';
 import '@/styles/globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
-import { ThemeToggle } from '@/components/theme-toggle';
 import AuthSessionProvider from '@/components/providers/session-provider';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+import ConditionalHeader from '@/components/layout/conditional-header';
 
 export const metadata: Metadata = {
   metadataBase: new URL('http://localhost:3000'),
@@ -27,42 +25,32 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="bg-background text-foreground">
+      <body className="bg-white text-foreground">
         <AuthSessionProvider>
           <ThemeProvider>
-          <header className="p-4 border-b border-border">
-            <div className="mx-auto flex max-w-6xl items-center justify-between">
-              <Link href="/" className="font-semibold">CouncilWorks</Link>
-              <div className="flex items-center gap-3">
-                <nav className="hidden sm:flex items-center gap-2">
-                  <Link href={"/auth/sign-in" as Route}><Button variant="ghost">Log in</Button></Link>
-                  <Link href={"/auth/register" as Route}><Button>Register</Button></Link>
-                </nav>
-                <ThemeToggle />
-              </div>
-            </div>
-          </header>
-          {/* Structured data for SEO */}
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify({
-                '@context': 'https://schema.org',
-                '@type': 'SoftwareApplication',
-                name: 'CouncilWorks',
-                applicationCategory: 'BusinessApplication',
-                operatingSystem: 'Web',
-                offers: { '@type': 'Offer', priceCurrency: 'AUD', price: '0', availability: 'https://schema.org/InStock' },
-                featureList: [
-                  'GIS asset register',
-                  'Mobile inspections (offline)',
-                  'Scheduling and work orders',
-                  'Dashboards and reporting'
-                ]
-              })
-            }}
-          />
-          {children}
+            <ConditionalHeader>
+              {/* Structured data for SEO */}
+              <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                  __html: JSON.stringify({
+                    '@context': 'https://schema.org',
+                    '@type': 'SoftwareApplication',
+                    name: 'CouncilWorks',
+                    applicationCategory: 'BusinessApplication',
+                    operatingSystem: 'Web',
+                    offers: { '@type': 'Offer', priceCurrency: 'AUD', price: '0', availability: 'https://schema.org/InStock' },
+                    featureList: [
+                      'GIS asset register',
+                      'Mobile inspections (offline)',
+                      'Scheduling and work orders',
+                      'Dashboards and reporting'
+                    ]
+                  })
+                }}
+              />
+              {children}
+            </ConditionalHeader>
           </ThemeProvider>
         </AuthSessionProvider>
       </body>

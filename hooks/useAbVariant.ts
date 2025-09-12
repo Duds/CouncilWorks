@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-export type AbKey = "hero" | "global";
+export type AbKey = "hero" | "global" | "nestedCards";
 export type AbVariant = "A" | "B";
 
 export function useAbVariant(key: AbKey): AbVariant {

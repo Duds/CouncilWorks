@@ -18,6 +18,10 @@ module.exports = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        surface: {
+          DEFAULT: "var(--surface)",
+          foreground: "var(--surface-foreground)",
+        },
 
         primary: {
           DEFAULT: "var(--primary)",

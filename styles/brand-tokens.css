@@ -16,6 +16,10 @@
   --background: var(--white);
   --foreground: var(--nocturn);
 
+  /* New complementary light grey surface for shells/wrappers */
+  --surface: #F5F7F6; /* light neutral grey tuned to CouncilWorks greens */
+  --surface-foreground: var(--nocturn);
+
   --primary: var(--jade);
   --primary-foreground: var(--white);
 
@@ -38,8 +42,9 @@
   --warning: var(--saffron);
   --warning-foreground: var(--white);
 
-  --muted: var(--tea);
-  --muted-foreground: var(--nocturn);
+  /* Muted should be neutral grey, not green-tinted */
+  --muted: #F1F3F5;
+  --muted-foreground: #4B5563;
 
   --neutral: var(--tea);
   --neutral-foreground: var(--nocturn);
@@ -51,6 +56,10 @@
   /* Functional Tokens - Dark */
   --background: var(--nocturn);
   --foreground: var(--tea);
+
+  /* Dark counterpart for surface */
+  --surface: #0F2F2E;
+  --surface-foreground: var(--tea);
 
   --primary: var(--spring);
   --primary-foreground: var(--nocturn);
@@ -74,8 +83,9 @@
   --warning: var(--tea);
   --warning-foreground: var(--nocturn);
 
-  --muted: var(--lake);
-  --muted-foreground: var(--tea);
+  /* Dark mode muted neutral */
+  --muted: #1F2937;
+  --muted-foreground: #D1D5DB;
 
   --neutral: var(--nocturn);
   --neutral-foreground: var(--tea);

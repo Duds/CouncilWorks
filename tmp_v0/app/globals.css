@@ -1,0 +1,125 @@
+@import "../styles/brand-tokens.css";
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: var(--pearl);
+  --foreground: var(--nocturn);
+  --card: var(--white);
+  --card-foreground: var(--nocturn);
+  --popover: var(--white);
+  --popover-foreground: var(--nocturn);
+  --primary: var(--jade);
+  --primary-foreground: var(--nocturn); /* Updated primary foreground to use nocturn for better contrast */
+  --secondary: var(--mist);
+  --secondary-foreground: var(--charcoal);
+  --muted: var(--mist);
+  --muted-foreground: var(--slate);
+  --accent: var(--saffron);
+  --accent-foreground: var(--white);
+  --destructive: var(--lake);
+  --destructive-foreground: var(--white);
+  --border: var(--mist);
+  --input: var(--mist);
+  --ring: var(--jade);
+  --chart-1: var(--jade);
+  --chart-2: var(--cedar);
+  --chart-3: var(--spruce);
+  --chart-4: var(--spring);
+  --chart-5: var(--saffron);
+  --radius: 0.625rem;
+  --sidebar: var(--white);
+  --sidebar-foreground: var(--nocturn);
+  --sidebar-primary: var(--jade);
+  --sidebar-primary-foreground: var(--nocturn); /* Updated sidebar primary foreground for better contrast */
+  --sidebar-accent: var(--mist);
+  --sidebar-accent-foreground: var(--charcoal);
+  --sidebar-border: var(--mist);
+  --sidebar-ring: var(--jade);
+}
+
+.dark {
+  --background: var(--nocturn);
+  --foreground: var(--tea);
+  --card: var(--charcoal);
+  --card-foreground: var(--tea);
+  --popover: var(--charcoal);
+  --popover-foreground: var(--tea);
+  --primary: var(--spring);
+  --primary-foreground: var(--nocturn);
+  --secondary: var(--lake);
+  --secondary-foreground: var(--tea);
+  --muted: var(--lake);
+  --muted-foreground: var(--tea);
+  --accent: var(--saffron);
+  --accent-foreground: var(--white);
+  --destructive: var(--saffron);
+  --destructive-foreground: var(--white);
+  --border: var(--lake);
+  --input: var(--lake);
+  --ring: var(--spring);
+  --chart-1: var(--spring);
+  --chart-2: var(--jade);
+  --chart-3: var(--cedar);
+  --chart-4: var(--mint);
+  --chart-5: var(--saffron);
+  --sidebar: var(--charcoal);
+  --sidebar-foreground: var(--tea);
+  --sidebar-primary: var(--spring);
+  --sidebar-primary-foreground: var(--nocturn);
+  --sidebar-accent: var(--lake);
+  --sidebar-accent-foreground: var(--tea);
+  --sidebar-border: var(--lake);
+  --sidebar-ring: var(--spring);
+}
+
+@theme inline {
+  --font-sans: system-ui, -apple-system, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
