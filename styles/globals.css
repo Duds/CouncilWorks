@@ -2,5 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Leaflet CSS */
+@import "leaflet/dist/leaflet.css";
+
 /* Import brand tokens */
 @import './brand-tokens.css';

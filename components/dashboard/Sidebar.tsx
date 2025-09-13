@@ -26,8 +26,8 @@ export default function Sidebar() {
             <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
               <Calendar className="w-4 h-4" />Schedule
             </a>
-            <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
-              <MapPin className="w-4 h-4" />GIS Mapping
+            <a href="/assets/map" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
+              <MapPin className="w-4 h-4" />Asset Map
             </a>
             <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
               <AlertTriangle className="w-4 h-4" />Risk Analysis
