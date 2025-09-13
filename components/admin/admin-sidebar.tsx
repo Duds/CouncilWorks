@@ -50,7 +50,7 @@ export default function AdminSidebar() {
       <div className="p-6">
         <h2 className="text-lg font-semibold text-foreground">Admin Panel</h2>
         <p className="text-sm text-muted-foreground mt-1">
-          CouncilWorks Administration
+          Aegrid Administration
         </p>
       </div>
       

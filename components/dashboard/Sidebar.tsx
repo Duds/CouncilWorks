@@ -7,7 +7,7 @@ export default function Sidebar() {
       <div className="bg-surface rounded-xl shadow-sm h-full flex flex-col">
         <div className="pt-4 pl-4 pb-4">
           <div className="flex items-center">
-            <span className="text-xl font-semibold text-foreground">CouncilWorks</span>
+            <span className="text-xl font-semibold text-foreground">Aegrid</span>
           </div>
         </div>
         <nav className="flex-1 p-4">

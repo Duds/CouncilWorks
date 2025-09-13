@@ -1,6 +1,6 @@
-# CouncilWorks
+# Aegrid
 
-Council Asset Lifecycle Intelligence Platform
+Asset Lifecycle Intelligence Platform
 
 ## Phase 0 - Local Setup
 

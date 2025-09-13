@@ -6,14 +6,14 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: councilworks
+      POSTGRES_DB: aegrid
     ports:
       - "5433:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
       - ./scripts/db:/docker-entrypoint-initdb.d
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d councilworks -h localhost"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d aegrid -h localhost"]
       interval: 5s
       timeout: 3s
       retries: 15
@@ -22,7 +22,7 @@ services:
     env_file:
       - .env
     environment:
-      DATABASE_URL: postgres://postgres:postgres@db:5432/councilworks
+      DATABASE_URL: postgres://postgres:postgres@db:5432/aegrid
       NODE_ENV: development
     ports:
       - "3000:3000"

@@ -12,8 +12,8 @@ import { AuditAction } from "@prisma/client";
  */
 export async function generateMFASecret(userId: string, userEmail: string) {
   const secret = speakeasy.generateSecret({
-    name: `CouncilWorks (${userEmail})`,
-    issuer: "CouncilWorks",
+    name: `Aegrid (${userEmail})`,
+    issuer: "Aegrid",
     length: 32,
   });
 

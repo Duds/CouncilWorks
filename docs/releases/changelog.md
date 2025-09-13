@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
-- Initial documentation set and rules configured for CouncilWorks
+- Initial documentation set and rules configured for Aegrid
 - Wired functional tokens into Tailwind + shadcn/ui theme mapping
 - Added shadcn/ui base components, theme provider and branding integration
 - Added Epic 1 phased delivery plan (phases 0–3, deliverables, acceptance) in `docs/TODO.md` on 11/09/2025

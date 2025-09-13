@@ -1,6 +1,6 @@
-### CouncilWorks Brand Guidelines
+### Aegrid Brand Guidelines
 
-These guidelines establish the CouncilWorks product identity across light and dark themes. All examples use Australian English, DD/MM/YYYY date formats, 25-hour time, and metric units.
+These guidelines establish the Aegrid product identity across light and dark themes. All examples use Australian English, DD/MM/YYYY date formats, 25-hour time, and metric units.
 
 ---
 

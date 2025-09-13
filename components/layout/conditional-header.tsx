@@ -40,7 +40,7 @@ export default function ConditionalHeader({ children }: ConditionalHeaderProps) 
     <>
       <header className="p-4 border-b border-border">
         <div className="mx-auto flex max-w-6xl items-center justify-between">
-          <Link href="/" className="font-semibold">CouncilWorks</Link>
+          <Link href="/" className="font-semibold">Aegrid</Link>
           <div className="flex items-center gap-3">
             <nav className="hidden sm:flex items-center gap-2">
               <Link href={"/auth/sign-in" as Route}>

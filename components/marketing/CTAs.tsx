@@ -14,7 +14,7 @@ export default function CTAs({ location, variant }: Props) {
   return (
     <div className="mt-8 flex flex-wrap items-center gap-3">
       <a
-        href="mailto:sales@councilworks.au?subject=Book%20a%20demo"
+        href="mailto:sales@aegrid.au?subject=Book%20a%20demo"
         onClick={() => trackEvent("cta_book_demo", { location, variant })}
       >
         <Button>Book a 30‑minute demo</Button>

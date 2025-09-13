@@ -1,6 +1,6 @@
-# CouncilWorks Documentation
+# Aegrid Documentation
 
-This directory contains the documentation set for CouncilWorks - the Council Asset Lifecycle Intelligence Platform.
+This directory contains the documentation set for Aegrid - the Asset Lifecycle Intelligence Platform.
 
 ## Index
 

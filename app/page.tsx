@@ -10,7 +10,7 @@ export default async function HomePage() {
   const cookieStore = await cookies();
   const variant = cookieStore.get('cw-ab-hero')?.value === 'B' ? 'B' : 'A';
   const headline = variant === 'A'
-    ? 'Modern asset management for Australian councils'
+    ? 'Modern asset management for Australian organisations'
     : 'From reactive maintenance to predictable outcomes';
 
   return (
@@ -20,8 +20,8 @@ export default async function HomePage() {
         <div className="absolute inset-0 -z-10">
           <div className="absolute inset-0">
             <Image
-              src="/images/CouncilWorks_HERO.png"
-              alt="CouncilWorks dashboard interface"
+              src="/images/Aegrid_HERO.png"
+              alt="Aegrid dashboard interface"
               fill
               priority
               sizes="100vw"
@@ -115,11 +115,11 @@ export default async function HomePage() {
       <footer className="border-t border-border">
         <div className="mx-auto max-w-6xl px-6 py-10">
           <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="text-sm text-muted-foreground">© {new Date().getFullYear()} CouncilWorks. All rights reserved.</div>
+            <div className="text-sm text-muted-foreground">© {new Date().getFullYear()} Aegrid. All rights reserved.</div>
             <nav className="flex items-center gap-4 text-sm text-muted-foreground">
               <Link href={"/docs" as Route}>Docs</Link>
               <Link href={"/changelog" as Route}>Changelog</Link>
-              <a href="mailto:support@councilworks.au">Support</a>
+              <a href="mailto:support@aegrid.au">Support</a>
             </nav>
           </div>
         </div>

@@ -22,7 +22,7 @@
   --foreground: var(--nocturn);
 
   /* New complementary light grey surface for shells/wrappers */
-  --surface: #F5F7F6; /* light neutral grey tuned to CouncilWorks greens */
+  --surface: #F5F7F6; /* light neutral grey tuned to Aegrid greens */
   --surface-foreground: var(--nocturn);
 
   --primary: var(--jade);

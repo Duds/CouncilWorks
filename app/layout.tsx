@@ -6,18 +6,18 @@ import ConditionalHeader from '@/components/layout/conditional-header';
 
 export const metadata: Metadata = {
   metadataBase: new URL('http://localhost:3000'),
-  title: 'CouncilWorks — Council asset management software (Australia)',
-  description: 'GIS‑powered asset lifecycle management for Australian councils. Mobile inspections (offline), scheduling, dashboards, and audit‑ready reporting. $AUD pricing.',
+  title: 'Aegrid — Asset lifecycle management software (Australia)',
+  description: 'GIS‑powered asset lifecycle management for Australian organisations. Mobile inspections (offline), scheduling, dashboards, and audit‑ready reporting. $AUD pricing.',
   openGraph: {
-    title: 'CouncilWorks — Council asset management software (Australia)',
-    description: 'GIS‑powered asset lifecycle management for Australian councils. Mobile inspections (offline), scheduling, dashboards, and audit‑ready reporting. $AUD pricing.',
+    title: 'Aegrid — Asset lifecycle management software (Australia)',
+    description: 'GIS‑powered asset lifecycle management for Australian organisations. Mobile inspections (offline), scheduling, dashboards, and audit‑ready reporting. $AUD pricing.',
     images: [{ url: '/images/og-card.svg', width: 1200, height: 630 }],
     type: 'website'
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'CouncilWorks — Council asset management software (Australia)',
-    description: 'GIS‑powered asset lifecycle management for Australian councils.',
+    title: 'Aegrid — Asset lifecycle management software (Australia)',
+    description: 'GIS‑powered asset lifecycle management for Australian organisations.',
     images: ['/images/og-card.svg']
   }
 };

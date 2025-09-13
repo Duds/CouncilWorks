@@ -131,7 +131,7 @@ export default function SignInPage() {
       <div className="max-w-md w-full space-y-8 p-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-bold text-foreground">
-            Sign in to CouncilWorks
+            Sign in to Aegrid
           </h2>
           <p className="mt-2 text-center text-sm text-muted-foreground">
             Or{" "}
