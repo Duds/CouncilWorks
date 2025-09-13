@@ -120,7 +120,7 @@ Last updated: 12/09/2025
 - **F2.4**: Interactive GIS map visualisation
 - **F2.5**: Asset CRUD operations with spatial data ✅
 - **F2.6**: Asset search and filtering capabilities ✅
-- **F2.7**: Asset attachment and document management
+- **F2.7**: Asset attachment and document management with Azure cost optimization
 
 ### E3: RCM-lite Templates & Scheduling
 - **F3.1**: Pre-built RCM templates for top 10 asset classes
@@ -180,6 +180,12 @@ Last updated: 12/09/2025
 - **US2.3**: As a Manager, I want to search and filter assets so that I can find specific items quickly ✅
 - **US2.4**: As a Manager, I want to attach documents to assets so that I can maintain complete records
 - **US2.5**: As a Supervisor, I want to view asset details so that I can plan maintenance activities ✅
+- **US2.6**: As a Manager, I want to upload documents with automatic optimization so that storage costs are minimized
+- **US2.7**: As a Manager, I want to categorize documents by type so that I can organize asset documentation
+- **US2.8**: As a Supervisor, I want to search documents by content and metadata so that I can find information quickly
+- **US2.9**: As an Admin, I want to monitor storage costs so that I can control cloud expenses
+- **US2.10**: As a Manager, I want automatic document lifecycle management so that old files are archived appropriately
+- **US2.11**: As a Supervisor, I want to generate thumbnails for images so that I can preview documents quickly
 
 ### E3: RCM-lite Templates & Scheduling
 - **US3.1**: As a Manager, I want to use pre-built RCM templates so that I can quickly set up maintenance programs
@@ -482,3 +488,164 @@ Last updated: 12/09/2025
     - US1.28: Storybook for UI consistency and documentation
   - F1.30: Unit & integration test setup (Jest, Playwright for auth flows)
     - US1.29: Tests and CI gates to prevent regressions
+
+---
+
+## F2.7: Document Management & Storage Strategy
+
+### **📋 Feature Overview**
+Comprehensive document management system for asset attachments with Azure cost optimization, automatic file processing, and intelligent storage tiering.
+
+### **🎯 Core Requirements**
+- **File Upload & Validation**: Support multiple file types with size limits and security scanning
+- **Storage Optimization**: Multi-tier Azure storage with automatic compression and lifecycle management
+- **Cost Management**: Real-time cost tracking and optimization recommendations
+- **Search & Organization**: Full-text search, categorization, and metadata management
+- **Access Control**: Role-based permissions with audit logging
+
+### **🏗️ Implementation Phases**
+
+#### **Phase 1: Core Document Upload (Week 1-2)**
+- **Scope**: US2.4, US2.6, US2.7
+- **Deliverables**:
+  - File upload API with validation and security scanning
+  - Azure Blob Storage integration with basic hot tier
+  - Document categorization by type (MANUAL, WARRANTY, INSPECTION, PHOTO, DRAWING)
+  - Basic CRUD operations for asset documents
+  - Simple cost tracking per organization
+- **Technical Implementation**:
+  - Enhanced AssetDocument model with storage metadata
+  - Azure Blob Storage service with upload/download endpoints
+  - File validation with virus scanning (Azure Security Center)
+  - Document type classification and tagging system
+
+#### **Phase 2: Storage Optimization (Week 3-4)**
+- **Scope**: US2.9, US2.10, US2.11
+- **Deliverables**:
+  - Multi-tier storage (Hot/Cool/Archive) with automatic migration
+  - Image compression and thumbnail generation
+  - Access pattern tracking and optimization
+  - Lifecycle management with retention policies
+  - Storage cost monitoring dashboard
+- **Technical Implementation**:
+  - Azure Storage Lifecycle Management policies
+  - Image processing service (Sharp.js) for compression
+  - Access pattern analyzer with ML-based tier recommendations
+  - Cost calculation engine with monthly reporting
+
+#### **Phase 3: Advanced Features (Week 5-6)**
+- **Scope**: US2.8
+- **Deliverables**:
+  - Full-text search across document content and metadata
+  - Advanced filtering and bulk operations
+  - Document versioning and change tracking
+  - Compliance reporting and audit trails
+  - Performance optimization and CDN integration
+- **Technical Implementation**:
+  - Azure Cognitive Search integration
+  - Document indexing service with OCR capabilities
+  - Version control system with delta storage
+  - Azure CDN for frequently accessed documents
+
+### **💾 Storage Architecture**
+
+#### **Multi-Tier Storage Strategy**
+```
+Hot Tier (0-30 days):
+├── Recent uploads and frequently accessed files
+├── Cost: ~$0.0184 per GB/month
+└── Access: <1ms latency
+
+Cool Tier (30-365 days):
+├── Archived documents with occasional access
+├── Cost: ~$0.01 per GB/month
+└── Access: <1ms latency
+
+Archive Tier (365+ days):
+├── Long-term retention for compliance
+├── Cost: ~$0.002 per GB/month
+└── Access: 1-5 minutes retrieval time
+```
+
+#### **File Type Optimization**
+```typescript
+const STORAGE_STRATEGIES = {
+  PHOTOS: {
+    compression: 'webp',
+    quality: 85,
+    thumbnails: [150, 300, 600],
+    maxSize: '5MB',
+    retention: '7years',
+    tier: 'hot-to-cool'
+  },
+  MANUALS: {
+    compression: 'pdf',
+    maxSize: '50MB',
+    retention: '10years',
+    tier: 'hot-to-archive'
+  },
+  WARRANTIES: {
+    compression: 'none',
+    maxSize: '10MB',
+    retention: '15years',
+    tier: 'hot-to-archive'
+  }
+}
+```
+
+### **🔒 Security & Compliance**
+
+#### **Access Control Matrix**
+```typescript
+const DOCUMENT_PERMISSIONS = {
+  ADMIN: ['read', 'write', 'delete', 'manage', 'export'],
+  MANAGER: ['read', 'write', 'delete', 'export'],
+  SUPERVISOR: ['read', 'write'],
+  CREW: ['read'],
+  EXEC: ['read'],
+  CITIZEN: ['read'] // Only public documents
+}
+```
+
+#### **Retention Policies**
+- **Safety Documents**: 10 years
+- **Maintenance Records**: 7 years
+- **Inspection Reports**: 5 years
+- **Photos**: 7 years
+- **Temporary Files**: 7 days (auto-delete)
+
+### **💰 Cost Optimization Features**
+
+#### **Real-Time Cost Tracking**
+- Monthly storage cost per organization
+- Cost breakdown by document type and storage tier
+- Projected annual costs with optimization recommendations
+- Usage alerts and budget controls
+
+#### **Automated Optimization**
+- Access pattern analysis with tier recommendations
+- Automatic compression for images and documents
+- Lifecycle management with policy enforcement
+- Cleanup of temporary and duplicate files
+
+### **📊 Success Metrics**
+- **Storage Efficiency**: 60-80% size reduction through compression
+- **Cost Savings**: 40-60% reduction through tiering
+- **Performance**: <2s upload time for 10MB files
+- **Availability**: 99.9% uptime for document access
+- **Security**: Zero data breaches or unauthorized access
+
+### **🛠️ Technical Dependencies**
+- Azure Blob Storage with lifecycle management
+- Azure Cognitive Search for full-text search
+- Azure Security Center for virus scanning
+- Sharp.js for image processing
+- Azure CDN for content delivery
+- Azure Monitor for cost tracking
+
+### **📈 Expected Outcomes**
+- Complete document lifecycle management
+- Significant reduction in Azure storage costs
+- Improved user experience with fast document access
+- Enhanced compliance with automated retention policies
+- Scalable architecture supporting thousands of documents per asset
