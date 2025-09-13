@@ -23,6 +23,7 @@ import {
   ClipboardList
 } from "lucide-react";
 import Link from "next/link";
+import { DocumentManager } from "@/components/assets/document-manager";
 
 interface Asset {
   id: string;
@@ -483,6 +484,11 @@ export default function AssetDetailPage() {
               </CardContent>
             </Card>
           </div>
+        </div>
+
+        {/* Documents Section */}
+        <div className="mt-8">
+          <DocumentManager assetId={asset.id} assetName={asset.name} />
         </div>
       </div>
     </ProtectedRoute>
