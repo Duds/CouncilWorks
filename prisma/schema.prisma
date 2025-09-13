@@ -24,6 +24,7 @@ model Organisation {
   users     User[]
   assets    Asset[]
   auditLogs AuditLog[]
+  rcmTemplates RCMTemplate[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
@@ -70,6 +71,10 @@ model User {
   assetMaintenance AssetMaintenance[]
   workOrdersAssigned WorkOrder[]
   workOrdersCreated WorkOrder[] @relation("WorkOrderAssignedBy")
+  
+  // RCM Templates & Scheduling
+  rcmTemplatesCreated RCMTemplate[] @relation("RCMTemplateCreatedBy")
+  // maintenanceSchedulesAssigned MaintenanceSchedule[] @relation("MaintenanceScheduleAssignedTo")
 }
 
 model Account {
@@ -263,6 +268,10 @@ model Asset {
   workOrders     WorkOrder[]
   auditLogs      AuditLog[]
   
+  // RCM Templates & Scheduling
+  rcmTemplates   AssetRCMTemplate[]
+  maintenanceSchedules MaintenanceSchedule[]
+  
   // Audit fields
   createdBy      String?
   createdByUser  User?        @relation("AssetCreatedBy", fields: [createdBy], references: [id])
@@ -412,4 +421,220 @@ model WorkOrder {
   @@index([priority])
   @@index([assignedTo])
   @@index([dueDate])
+}
+
+// =============================================================================
+// RCM Templates & Scheduling Models
+// =============================================================================
+
+enum RCMTemplateStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+  REVIEW_REQUIRED
+}
+
+enum FailureModeType {
+  FUNCTIONAL_FAILURE
+  DEGRADED_PERFORMANCE
+  COMPLETE_FAILURE
+  INTERMITTENT_FAILURE
+}
+
+enum FailureEffectSeverity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum MaintenanceTaskType {
+  INSPECTION
+  CLEANING
+  LUBRICATION
+  ADJUSTMENT
+  REPLACEMENT
+  REPAIR
+  CALIBRATION
+  TESTING
+}
+
+enum MaintenanceFrequency {
+  DAILY
+  WEEKLY
+  MONTHLY
+  QUARTERLY
+  SEMI_ANNUALLY
+  ANNUALLY
+  BIENNIALLY
+  AS_NEEDED
+  CONDITION_BASED
+}
+
+model RCMTemplate {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  assetType   String   // Links to Asset.assetType
+  
+  // Template metadata
+  version     String   @default("1.0")
+  status      RCMTemplateStatus @default(DRAFT)
+  isPublic    Boolean  @default(false)
+  
+  // Ownership
+  createdBy   String
+  createdByUser User   @relation("RCMTemplateCreatedBy", fields: [createdBy], references: [id])
+  organisationId String
+  organisation Organisation @relation(fields: [organisationId], references: [id])
+  
+  // Template content
+  failureModes RCMFailureMode[]
+  maintenanceTasks RCMMaintenanceTask[]
+  
+  // Usage tracking
+  assetsUsingTemplate AssetRCMTemplate[]
+  
+  // Metadata
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([assetType])
+  @@index([status])
+  @@index([createdBy])
+  @@index([organisationId])
+}
+
+model RCMFailureMode {
+  id          String   @id @default(cuid())
+  templateId  String
+  template    RCMTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  
+  // Failure mode details
+  name        String
+  description String?
+  type        FailureModeType
+  cause       String?
+  
+  // Effects analysis
+  effect      String
+  severity    FailureEffectSeverity
+  consequences String?
+  
+  // Detection and prevention
+  detectionMethod String?
+  preventionMethod String?
+  
+  // Risk assessment
+  probability Int? // 1-10 scale
+  impact      Int? // 1-10 scale
+  riskScore   Int? // Calculated: probability * impact
+  
+  // Metadata
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([templateId])
+  @@index([type])
+  @@index([severity])
+}
+
+model RCMMaintenanceTask {
+  id          String   @id @default(cuid())
+  templateId  String
+  template    RCMTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  
+  // Task details
+  name        String
+  description String?
+  type        MaintenanceTaskType
+  frequency   MaintenanceFrequency
+  
+  // Task specifics
+  duration    Int? // Estimated duration in minutes
+  skillLevel  String? // Required skill level
+  tools       String? // Required tools
+  materials   String? // Required materials
+  instructions String? // Step-by-step instructions
+  
+  // Safety and compliance
+  safetyRequirements String?
+  complianceNotes    String?
+  
+  // Cost estimation
+  estimatedCost Decimal? @db.Decimal(10, 2)
+  
+  // Metadata
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([templateId])
+  @@index([type])
+  @@index([frequency])
+}
+
+model AssetRCMTemplate {
+  id          String   @id @default(cuid())
+  assetId     String
+  asset       Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  templateId  String
+  template    RCMTemplate @relation(fields: [templateId], references: [id])
+  
+  // Customization
+  // customFailureModes RCMFailureMode[]
+  // customMaintenanceTasks RCMMaintenanceTask[]
+  
+  // Status
+  isActive    Boolean  @default(true)
+  lastReview  DateTime?
+  nextReview  DateTime?
+  
+  // Metadata
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@unique([assetId, templateId])
+  @@index([assetId])
+  @@index([templateId])
+  @@index([isActive])
+}
+
+model MaintenanceSchedule {
+  id          String   @id @default(cuid())
+  assetId     String
+  asset       Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  templateId  String?
+  // template    RCMTemplate? @relation(fields: [templateId], references: [id])
+  
+  // Schedule details
+  taskName    String
+  taskType    MaintenanceTaskType
+  frequency   MaintenanceFrequency
+  
+  // Timing
+  scheduledDate DateTime
+  dueDate     DateTime
+  completedDate DateTime?
+  
+  // Assignment
+  assignedTo String?
+  // assignedToUser User? @relation(fields: [assignedTo], references: [id])
+  
+  // Status
+  status     String @default("PENDING") // PENDING, IN_PROGRESS, COMPLETED, CANCELLED
+  priority   AssetPriority @default(MEDIUM)
+  
+  // Results
+  workPerformed String?
+  notes        String?
+  
+  // Metadata
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([assetId])
+  @@index([scheduledDate])
+  @@index([dueDate])
+  @@index([status])
+  @@index([assignedTo])
 }

@@ -20,8 +20,8 @@ export default function Sidebar() {
               <Building2 className="w-4 h-4" />Assets
               <span className="ml-auto bg-accent text-accent-foreground text-xs px-2 py-1 rounded-full">1,247</span>
             </a>
-            <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
-              <Wrench className="w-4 h-4" />Maintenance
+            <a href="/rcm-templates" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
+              <Wrench className="w-4 h-4" />RCM Templates
             </a>
             <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
               <Calendar className="w-4 h-4" />Schedule
