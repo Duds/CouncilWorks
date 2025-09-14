@@ -25,6 +25,7 @@ import {
   Loader2,
   Settings,
   Sync,
+  Wrench,
 } from "lucide-react";
 import { toast } from "sonner";
 import { offlineStorage, OfflineInspection } from "@/lib/offline-storage";
@@ -260,16 +261,16 @@ export function MobileDashboard() {
             </Button>
             
             <Button variant="outline" className="h-16 flex-col gap-2" asChild>
-              <a href="/mobile/assets">
-                <MapPin className="h-6 w-6" />
-                <span className="text-sm">View Assets</span>
+              <a href="/mobile/work-orders">
+                <Wrench className="h-6 w-6" />
+                <span className="text-sm">Work Orders</span>
               </a>
             </Button>
             
             <Button variant="outline" className="h-16 flex-col gap-2" asChild>
-              <a href="/mobile/maintenance">
-                <Calendar className="h-6 w-6" />
-                <span className="text-sm">Maintenance</span>
+              <a href="/mobile/assets">
+                <MapPin className="h-6 w-6" />
+                <span className="text-sm">View Assets</span>
               </a>
             </Button>
             
