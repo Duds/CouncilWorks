@@ -857,3 +857,185 @@ const DOCUMENT_PERMISSIONS = {
 - Improved user experience with fast document access
 - Enhanced compliance with automated retention policies
 - Scalable architecture supporting thousands of documents per asset
+
+---
+
+## 🚧 **OUTSTANDING & INCOMPLETE ITEMS**
+
+### **🔧 Technical Infrastructure Tasks**
+
+#### **Infrastructure & DevOps**
+- **T6**: Configure Azure Container Apps deployment 🚧 **IN PROGRESS**
+  - **Issue**: #119
+  - **Status**: Azure deployment configuration pending
+  - **Priority**: High
+  - **Effort**: 3-5 days
+
+- **T7**: Set up monitoring and logging with OpenTelemetry 🚧 **IN PROGRESS**
+  - **Issue**: #120
+  - **Status**: Production monitoring setup required
+  - **Priority**: High
+  - **Effort**: 2-3 days
+
+#### **Security & Compliance**
+- **T13**: Configure rate limiting and DDoS protection 🚧 **IN PROGRESS**
+  - **Issue**: #121
+  - **Status**: Production security hardening needed
+  - **Priority**: High
+  - **Effort**: 1-2 days
+
+### **📋 Future Epic Features**
+
+#### **E7: Advanced Analytics & Forecasting**
+- **Goal**: Predictive maintenance and long-term asset renewal planning
+- **Value**: Strategic asset planning and budget optimisation
+- **Status**: 📋 **PLANNED** - Not started
+- **Priority**: Medium
+- **Effort**: 4-6 weeks
+
+#### **E8: ERP & System Integrations**
+- **Goal**: Seamless integration with existing council systems
+- **Value**: Reduced data silos and improved operational efficiency
+- **Status**: 📋 **PLANNED** - Not started
+- **Priority**: Medium
+- **Effort**: 6-8 weeks
+
+#### **E9: Sustainability & Carbon Tracking**
+- **Goal**: Track environmental impact and sustainability metrics
+- **Value**: Support council climate commitments and sustainability goals
+- **Status**: 📋 **PLANNED** - Not started
+- **Priority**: Low
+- **Effort**: 3-4 weeks
+
+#### **E10: IoT & Telematics Integration**
+- **Goal**: Real-time asset monitoring and predictive maintenance
+- **Value**: Enhanced asset reliability through real-time monitoring
+- **Status**: 📋 **PLANNED** - Not started
+- **Priority**: Low
+- **Effort**: 4-5 weeks
+
+### **🔍 Missing Features & Enhancements**
+
+#### **Asset Management Enhancements**
+- **F2.2**: ERP system integration for asset data
+  - **Status**: ❌ **NOT IMPLEMENTED**
+  - **Priority**: Medium
+  - **Effort**: 2-3 weeks
+
+#### **Document Management Advanced Features**
+- **F2.7**: Advanced document management features from detailed specification
+  - **Status**: 🚧 **PARTIAL** - Basic upload/download implemented, advanced features pending
+  - **Missing**:
+    - Azure Blob Storage integration with multi-tier storage
+    - Automatic image compression and thumbnail generation
+    - Full-text search across document content
+    - Document versioning and change tracking
+    - Compliance reporting and audit trails
+  - **Priority**: Medium
+  - **Effort**: 3-4 weeks
+
+### **🧪 Testing & Quality Assurance**
+
+#### **Missing Test Coverage**
+- **Unit Tests**: Some components lack comprehensive unit tests
+  - **Status**: 🚧 **PARTIAL**
+  - **Priority**: Medium
+  - **Effort**: 1-2 weeks
+
+- **Integration Tests**: API endpoints need more integration testing
+  - **Status**: 🚧 **PARTIAL**
+  - **Priority**: Medium
+  - **Effort**: 1 week
+
+- **E2E Tests**: End-to-end testing for critical user flows
+  - **Status**: 🚧 **PARTIAL**
+  - **Priority**: Medium
+  - **Effort**: 2 weeks
+
+#### **Performance Testing**
+- **Load Testing**: System performance under load
+  - **Status**: ❌ **NOT IMPLEMENTED**
+  - **Priority**: Medium
+  - **Effort**: 1 week
+
+- **Database Performance**: Query optimization and indexing
+  - **Status**: 🚧 **BASIC** - Basic indexing implemented, optimization needed
+  - **Priority**: Medium
+  - **Effort**: 1 week
+
+### **📚 Documentation & User Experience**
+
+#### **User Documentation**
+- **User Manuals**: Comprehensive user guides for each role
+  - **Status**: ❌ **NOT IMPLEMENTED**
+  - **Priority**: Medium
+  - **Effort**: 2-3 weeks
+
+- **API Documentation**: Complete API documentation
+  - **Status**: 🚧 **PARTIAL** - Basic documentation exists
+  - **Priority**: Low
+  - **Effort**: 1 week
+
+#### **Admin Documentation**
+- **Administration Guide**: System administration procedures
+  - **Status**: ❌ **NOT IMPLEMENTED**
+  - **Priority**: Medium
+  - **Effort**: 1 week
+
+- **Deployment Guide**: Production deployment procedures
+  - **Status**: 🚧 **PARTIAL** - Basic deployment info exists
+  - **Priority**: High
+  - **Effort**: 1 week
+
+### **🔧 Bug Fixes & Issues**
+
+#### **Known Issues**
+- **Authentication**: Password validation error (working as intended - security feature)
+  - **Status**: ✅ **RESOLVED** - This is correct behavior
+  - **Priority**: None
+
+- **Database**: Some relationship constraints temporarily commented out
+  - **Status**: 🚧 **NEEDS REVIEW**
+  - **Priority**: Medium
+  - **Effort**: 1 day
+
+### **🎯 Immediate Priorities (Next 2-4 Weeks)**
+
+#### **High Priority**
+1. **T6**: Azure Container Apps deployment configuration
+2. **T7**: Production monitoring and logging setup
+3. **T13**: Rate limiting and DDoS protection
+4. **Deployment Guide**: Complete production deployment documentation
+
+#### **Medium Priority**
+1. **F2.2**: ERP system integration planning
+2. **Document Management**: Advanced Azure Blob Storage features
+3. **Testing**: Comprehensive test coverage
+4. **User Documentation**: User manuals and guides
+
+#### **Low Priority**
+1. **Future Epics**: E7-E10 planning and design
+2. **API Documentation**: Complete API documentation
+3. **Performance Optimization**: Database and query optimization
+
+### **📊 Summary Statistics**
+
+#### **Completion Status**
+- **Completed Epics**: 6/6 (100%) ✅
+- **Completed Features**: 37/39 (95%) ✅
+- **Completed User Stories**: 48/48 (100%) ✅
+- **Completed Technical Tasks**: 17/20 (85%) ✅
+
+#### **Outstanding Items**
+- **Technical Tasks**: 3 items (15%)
+- **Future Epics**: 4 items (planned)
+- **Missing Features**: 2 items
+- **Testing**: 5 items
+- **Documentation**: 4 items
+- **Bug Fixes**: 1 item
+
+#### **Total Outstanding Effort**
+- **High Priority**: ~10-15 days
+- **Medium Priority**: ~15-25 days  
+- **Low Priority**: ~10-15 days
+- **Total Estimated Effort**: ~35-55 days
