@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { DocumentManager } from "@/components/assets/document-manager";
+import { FMEAAnalysis } from "@/components/rcm/fmea-analysis";
 
 interface Asset {
   id: string;
@@ -489,6 +490,12 @@ export default function AssetDetailPage() {
         {/* Documents Section */}
         <div className="mt-8">
           <DocumentManager assetId={asset.id} assetName={asset.name} />
+        </div>
+
+        {/* FMEA Analysis */}
+        <div className="mt-8">
+          <h3 className="text-lg font-semibold mb-4">FMEA Analysis</h3>
+          <FMEAAnalysis assetId={asset.id} assetName={asset.name} />
         </div>
       </div>
     </ProtectedRoute>
