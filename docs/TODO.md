@@ -135,8 +135,8 @@ Last updated: 13/09/2025
 ### E3: RCM Templates & Scheduling 🚧 **STARTING**
 - **F3.1**: Pre-built RCM templates for top 10 asset classes ✅
 - **F3.2**: Custom RCM template creation and editing ✅
-- **F3.3**: Failure mode and effects analysis (FMEA) 🚧
-- **F3.4**: Risk scoring and prioritisation engine 📋
+- **F3.3**: Failure mode and effects analysis (FMEA) ✅
+- **F3.4**: Risk scoring and prioritisation engine ✅
 - **F3.5**: Automated work order generation 📋
 - **F3.6**: Preventive maintenance scheduling 📋
 - **F3.7**: Maintenance task library management 📋
@@ -201,7 +201,7 @@ Last updated: 13/09/2025
 **Goal**: Implement Reliability Centered Maintenance (RCM) templates and automated scheduling
 **Value**: Proactive maintenance planning based on failure modes and risk analysis
 
-**Status**: 🚧 **IN PROGRESS** - Phase 1 completed, Phase 2 starting.
+**Status**: 🚧 **IN PROGRESS** - Phase 1 & 2 completed, Phase 3 starting.
 
 **Epic 3 Phased Delivery Plan**:
 
@@ -227,17 +227,26 @@ Last updated: 13/09/2025
 - ✅ **Access Control**: Role-based permissions for template creation, editing, and deletion
 - ✅ **User Experience**: Intuitive interface with statistics, information cards, and responsive design
 
-- **Phase 2: FMEA & Risk Analysis** 📋 **PLANNED**
+- **Phase 2: FMEA & Risk Analysis** ✅ **COMPLETED**
   - Scope: F3.3 (FMEA), F3.4 (Risk scoring), F3.5 (Prioritization)
   - Deliverables:
-    - Failure Mode Effects Analysis interface
-    - Risk scoring algorithms
-    - Asset prioritization system
-    - Risk visualization dashboards
+    - ✅ Failure Mode Effects Analysis interface with comprehensive risk calculation
+    - ✅ Risk scoring algorithms based on condition, age, maintenance, and inspections
+    - ✅ Asset prioritization system with risk-based sorting and filtering
+    - ✅ Risk visualization dashboards with statistics and distribution
   - Acceptance:
-    - FMEA analysis for each asset
-    - Risk scores calculated automatically
-    - Assets prioritized by risk level
+    - ✅ FMEA analysis for each asset with failure modes and risk factors
+    - ✅ Risk scores calculated automatically using multi-factor algorithms
+    - ✅ Assets prioritized by risk level with comprehensive filtering
+    - ✅ Risk dashboard with statistics, charts, and actionable insights
+
+**Epic 3 Phase 2 Completion Summary (13/09/2025)**:
+- ✅ **FMEA Analysis**: Individual asset failure mode analysis with risk calculation and maintenance recommendations
+- ✅ **Risk Scoring**: Multi-factor risk algorithms considering condition, age, maintenance history, and inspections
+- ✅ **Asset Prioritization**: Risk-based asset sorting and filtering with comprehensive search capabilities
+- ✅ **Risk Dashboard**: Comprehensive risk visualization with statistics, distribution charts, and filtering
+- ✅ **Integration**: Seamless integration with asset management, RCM templates, and existing systems
+- ✅ **User Experience**: Intuitive risk analysis interface with actionable insights and recommendations
 
 - **Phase 3: Automated Scheduling** 📋 **PLANNED**
   - Scope: F3.6 (Work order generation), F3.7 (Scheduling), F3.8 (Integration)
