@@ -141,10 +141,10 @@ Last updated: 13/09/2025
 - **F3.6**: Preventive maintenance scheduling ✅
 - **F3.7**: Maintenance task library management ✅
 
-### E4: Mobile Inspections (PWA)
-- **F4.1**: Progressive Web App (PWA) development
-- **F4.2**: Offline data storage and sync
-- **F4.3**: Mobile inspection forms and workflows
+### E4: Mobile Inspections (PWA) 🚧 **IN PROGRESS**
+- **F4.1**: Progressive Web App (PWA) development ✅
+- **F4.2**: Offline data storage and sync ✅
+- **F4.3**: Mobile inspection forms and workflows ✅
 - **F4.4**: Photo capture and GPS tagging
 - **F4.5**: Work order assignment and tracking
 - **F4.6**: Background sync and conflict resolution
@@ -271,6 +271,50 @@ Last updated: 13/09/2025
 - ✅ **User Experience**: Intuitive scheduling interface with comprehensive filtering and management capabilities
 
 **Epic 3: RCM Templates & Scheduling - FULLY COMPLETED** 🎉
+
+### E4: Mobile Inspections (PWA) 🚧 **STARTING**
+**Goal**: Create a Progressive Web App for mobile inspections with offline capabilities
+**Value**: Enable field workers to perform inspections without internet connectivity
+
+**Status**: 🚧 **IN PROGRESS** - Phase 1 completed, Phase 2 starting.
+
+**Epic 4 Phased Delivery Plan**:
+
+- **Phase 1: PWA Foundation & Mobile Inspections** ✅ **COMPLETED**
+  - Scope: F4.1 (PWA setup), F4.2 (Offline storage), F4.3 (Mobile forms)
+  - Deliverables:
+    - ✅ Progressive Web App configuration with manifest and service worker
+    - ✅ Offline data storage with IndexedDB for inspections, assets, and maintenance
+    - ✅ Mobile inspection forms with GPS integration and photo capture
+    - ✅ Data synchronization system with background sync and offline queue
+    - ✅ Mobile-optimized UI components and responsive design
+  - Acceptance:
+    - ✅ PWA installable on mobile devices with offline capabilities
+    - ✅ Inspections saved locally and synced when online
+    - ✅ GPS location capture for asset verification
+    - ✅ Photo capture and storage for inspection documentation
+
+**Epic 4 Phase 1 Completion Summary (13/09/2025)**:
+- ✅ **PWA Configuration**: Comprehensive manifest with app icons, shortcuts, and metadata
+- ✅ **Service Worker**: Offline caching, background sync, and push notifications
+- ✅ **IndexedDB Storage**: Offline storage for inspections, assets, and maintenance data
+- ✅ **Mobile Inspection Forms**: GPS location, photo capture, and offline capabilities
+- ✅ **Data Synchronization**: Background sync system with offline queue management
+- ✅ **Mobile Dashboard**: Offline data management and sync status monitoring
+- ✅ **Offline Architecture**: Seamless online/offline transitions with data persistence
+
+- **Phase 2: Advanced Mobile Features** 📋 **PLANNED**
+  - Scope: F4.4 (Photo/GPS), F4.5 (Work orders), F4.6 (Sync), F4.7 (Mobile UI)
+  - Deliverables:
+    - Advanced photo capture with GPS tagging
+    - Work order assignment and tracking
+    - Background sync with conflict resolution
+    - Mobile-optimized user interface enhancements
+  - Acceptance:
+    - Photo metadata includes GPS coordinates
+    - Work orders assigned and tracked on mobile
+    - Sync conflicts resolved automatically
+    - Enhanced mobile user experience
 - **US2.11**: As a Supervisor, I want to generate thumbnails for images so that I can preview documents quickly
 
 ### E3: RCM-lite Templates & Scheduling
