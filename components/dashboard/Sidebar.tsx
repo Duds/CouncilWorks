@@ -1,4 +1,4 @@
-import { Building2, BarChart3, Calendar, Settings, Users, MapPin, Wrench, AlertTriangle, FileText, LogOut, HelpCircle, Smartphone } from "lucide-react";
+import { Building2, BarChart3, Calendar, Settings, Users, MapPin, Wrench, AlertTriangle, FileText, LogOut, HelpCircle, Smartphone, Bell } from "lucide-react";
 import ReleaseBadge from "@/components/release-badge";
 
 export default function Sidebar() {
@@ -49,6 +49,12 @@ export default function Sidebar() {
             </a>
             <a href="/reports/builder" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
               <Settings className="w-4 h-4" />Custom Reports
+            </a>
+            <a href="/admin/triage" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
+              <AlertTriangle className="w-4 h-4" />Report Triage
+            </a>
+            <a href="/admin/notifications" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
+              <Bell className="w-4 h-4" />Notifications
             </a>
             <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
               <Users className="w-4 h-4" />Team
