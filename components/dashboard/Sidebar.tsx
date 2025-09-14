@@ -23,8 +23,8 @@ export default function Sidebar() {
             <a href="/rcm-templates" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
               <Wrench className="w-4 h-4" />RCM Templates
             </a>
-            <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
-              <Calendar className="w-4 h-4" />Schedule
+            <a href="/maintenance" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
+              <Calendar className="w-4 h-4" />Maintenance
             </a>
             <a href="/assets/map" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
               <MapPin className="w-4 h-4" />Asset Map
