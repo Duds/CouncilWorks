@@ -8,6 +8,14 @@ export const metadata: Metadata = {
   metadataBase: new URL('http://localhost:3000'),
   title: 'Aegrid — Asset lifecycle management software (Australia)',
   description: 'GIS‑powered asset lifecycle management for Australian organisations. Mobile inspections (offline), scheduling, dashboards, and audit‑ready reporting. $AUD pricing.',
+  manifest: '/manifest.json',
+  themeColor: '#059669',
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Aegrid',
+  },
   openGraph: {
     title: 'Aegrid — Asset lifecycle management software (Australia)',
     description: 'GIS‑powered asset lifecycle management for Australian organisations. Mobile inspections (offline), scheduling, dashboards, and audit‑ready reporting. $AUD pricing.',
