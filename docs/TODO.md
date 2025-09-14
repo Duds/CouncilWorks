@@ -159,13 +159,12 @@ Last updated: 13/09/2025
 - **F5.6**: Export functionality (PDF/Excel) ✅
 - **F5.7**: Custom report builder ✅
 
-### E6: Citizen Integration
-- **F6.1**: Citizen reporting portal
-- **F6.2**: Snap Send Solve API integration
-- **F6.3**: Report triage and assignment
-- **F6.4**: Citizen notification system
-- **F6.5**: "You said, we did" dashboard
-- **F6.6**: Report status tracking
+### E6: Citizen Integration ✅ **FULLY COMPLETED**
+- **F6.1**: Citizen reporting portal ✅
+- **F6.2**: Snap Send Solve API integration ✅
+- **F6.3**: Report triage and assignment ✅
+- **F6.4**: Citizen notification system ✅
+- **F6.5**: 'You said, we did' public dashboard ✅
 
 ## User Stories by Feature
 
@@ -382,6 +381,18 @@ Last updated: 13/09/2025
 - ✅ **Role-Based Access**: Proper access controls for all reporting features and data
 
 **Epic 5: Dashboards & Reporting - FULLY COMPLETED** 🎉
+
+**Epic 6 Completion Summary (13/09/2025)**:
+- ✅ **Citizen Reporting Portal**: Multi-step form with file uploads and anonymous reporting
+- ✅ **Snap Send Solve Integration**: Webhook processing and external report aggregation
+- ✅ **Report Triage System**: Administrative dashboard for assignment and status management
+- ✅ **Citizen Notification System**: Multi-channel notifications with template management
+- ✅ **"You Said, We Did" Dashboard**: Public transparency with impact metrics and success stories
+- ✅ **Report Status Tracking**: Comprehensive timeline and progress monitoring
+- ✅ **Multi-Source Integration**: Portal, Snap Send Solve, email, and phone report aggregation
+- ✅ **Administrative Workflows**: Staff assignment, priority management, and note tracking
+
+**Epic 6: Citizen Integration - FULLY COMPLETED** 🎉
 - **US2.11**: As a Supervisor, I want to generate thumbnails for images so that I can preview documents quickly
 
 ### E3: RCM-lite Templates & Scheduling
