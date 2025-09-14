@@ -416,12 +416,12 @@ Last updated: 13/09/2025
 - **US5.4**: As an Executive, I want to export reports so that I can share information with councillors
 - **US5.5**: As a Manager, I want to see asset condition trends so that I can plan renewals
 
-### E6: Citizen Integration
-- **US6.1**: As a Citizen, I want to report issues easily so that I can help improve my community
-- **US6.2**: As a Citizen, I want to track my report status so that I know it's being addressed
-- **US6.3**: As a Supervisor, I want to receive citizen reports so that I can prioritise community issues
-- **US6.4**: As a Citizen, I want to see what the council has done so that I feel engaged with local government
-- **US6.5**: As a Manager, I want to analyse citizen reports so that I can identify recurring issues
+### E6: Citizen Integration ✅ **FULLY COMPLETED**
+- **US6.1**: As a Citizen, I want to report issues easily so that I can help improve my community ✅
+- **US6.2**: As a Citizen, I want to track my report status so that I know it's being addressed ✅
+- **US6.3**: As a Supervisor, I want to receive citizen reports so that I can prioritise community issues ✅
+- **US6.4**: As a Citizen, I want to see what the council has done so that I feel engaged with local government ✅
+- **US6.5**: As a Manager, I want to analyse citizen reports so that I can identify recurring issues ✅
 
 ## Technical Tasks
 
