@@ -150,10 +150,10 @@ Last updated: 13/09/2025
 - **F4.6**: Background sync and conflict resolution ✅
 - **F4.7**: Mobile-optimised user interface ✅
 
-### E5: Dashboards & Reporting
-- **F5.1**: Executive KPI dashboard
-- **F5.2**: Manager operational dashboard
-- **F5.3**: Supervisor work order dashboard
+### E5: Dashboards & Reporting 🚧 **IN PROGRESS**
+- **F5.1**: Executive KPI dashboard ✅
+- **F5.2**: Manager operational dashboard ✅
+- **F5.3**: Supervisor work order dashboard ✅
 - **F5.4**: Risk and compliance reporting
 - **F5.5**: Asset condition trending
 - **F5.6**: Export functionality (PDF/Excel)
@@ -324,6 +324,52 @@ Last updated: 13/09/2025
 - ✅ **Barcode Scanning**: Camera-based and manual entry for asset identification
 - ✅ **Enhanced UI**: Improved navigation, user experience, and mobile optimization
 - ✅ **Offline Management**: Comprehensive data persistence and synchronization
+
+**Epic 4: Mobile Inspections (PWA) - FULLY COMPLETED** 🎉
+
+### E5: Dashboards & Reporting 🚧 **STARTING**
+**Goal**: Create comprehensive dashboards and reporting system for different user roles
+**Value**: Provide role-specific insights and analytics for better decision-making
+
+**Status**: 🚧 **IN PROGRESS** - Phase 1 completed, Phase 2 starting.
+
+**Epic 5 Phased Delivery Plan**:
+
+- **Phase 1: Role-Based Dashboards** ✅ **COMPLETED**
+  - Scope: F5.1 (Executive), F5.2 (Manager), F5.3 (Supervisor)
+  - Deliverables:
+    - ✅ Executive KPI dashboard with high-level metrics and performance indicators
+    - ✅ Manager operational dashboard with team performance and work order management
+    - ✅ Supervisor work order dashboard with task tracking and status management
+    - ✅ Role-based access control for dashboard access (ADMIN, MANAGER, SUPERVISOR, EXEC)
+    - ✅ Real-time metrics with trend indicators and progress tracking
+  - Acceptance:
+    - ✅ Executive dashboard shows financial and operational KPIs with trend analysis
+    - ✅ Manager dashboard displays team performance and work order metrics
+    - ✅ Supervisor dashboard provides work order management and task tracking
+    - ✅ Role-based access control restricts dashboard access appropriately
+
+**Epic 5 Phase 1 Completion Summary (13/09/2025)**:
+- ✅ **Executive Dashboard**: High-level KPIs with financial metrics, compliance rates, and risk scores
+- ✅ **Manager Dashboard**: Team performance tracking with utilization rates and work order management
+- ✅ **Supervisor Dashboard**: Work order management with status updates and task tracking
+- ✅ **Role-Based Access**: Proper access control for ADMIN, MANAGER, SUPERVISOR, and EXEC roles
+- ✅ **Real-Time Metrics**: Live data with trend indicators and progress tracking
+- ✅ **Navigation Integration**: Dashboard links integrated into main sidebar navigation
+- ✅ **Responsive Design**: Optimized layouts for different screen sizes and devices
+
+- **Phase 2: Advanced Reporting & Analytics** 📋 **PLANNED**
+  - Scope: F5.4 (Risk reporting), F5.5 (Asset trending), F5.6 (Export), F5.7 (Custom reports)
+  - Deliverables:
+    - Risk and compliance reporting with automated alerts
+    - Asset condition trending and predictive analytics
+    - Export functionality for PDF and Excel reports
+    - Custom report builder with drag-and-drop interface
+  - Acceptance:
+    - Risk reports generated automatically with compliance tracking
+    - Asset condition trends visualized with predictive insights
+    - Reports exported in multiple formats (PDF, Excel, CSV)
+    - Custom reports created with intuitive builder interface
 - **US2.11**: As a Supervisor, I want to generate thumbnails for images so that I can preview documents quickly
 
 ### E3: RCM-lite Templates & Scheduling
