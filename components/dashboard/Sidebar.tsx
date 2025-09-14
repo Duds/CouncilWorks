@@ -41,8 +41,14 @@ export default function Sidebar() {
             <a href="/mobile/dashboard" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
               <Smartphone className="w-4 h-4" />Mobile App
             </a>
-            <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
-              <FileText className="w-4 h-4" />Reports
+            <a href="/reports/risk-compliance" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
+              <AlertTriangle className="w-4 h-4" />Risk & Compliance
+            </a>
+            <a href="/reports/asset-condition" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
+              <BarChart3 className="w-4 h-4" />Asset Trending
+            </a>
+            <a href="/reports/builder" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
+              <Settings className="w-4 h-4" />Custom Reports
             </a>
             <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
               <Users className="w-4 h-4" />Team
