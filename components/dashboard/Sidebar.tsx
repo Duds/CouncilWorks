@@ -13,8 +13,14 @@ export default function Sidebar() {
         <nav className="flex-1 p-4">
           <div className="space-y-1">
             <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">Menu</div>
-            <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary text-primary-foreground">
-              <BarChart3 className="w-4 h-4" />Dashboard
+            <a href="/dashboards/executive" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
+              <BarChart3 className="w-4 h-4" />Executive Dashboard
+            </a>
+            <a href="/dashboards/manager" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
+              <Users className="w-4 h-4" />Manager Dashboard
+            </a>
+            <a href="/dashboards/supervisor" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
+              <Wrench className="w-4 h-4" />Supervisor Dashboard
             </a>
             <a href="/assets" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
               <Building2 className="w-4 h-4" />Assets
