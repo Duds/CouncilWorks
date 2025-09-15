@@ -34,7 +34,7 @@ export default function AppLayout({ children, requiredRoles, title, description 
         defaultOpen={true}
         style={
           {
-            "--sidebar-width": "16rem",
+            "--sidebar-width": "14rem",
             "--sidebar-width-icon": "3rem",
           } as React.CSSProperties
         }
@@ -43,7 +43,7 @@ export default function AppLayout({ children, requiredRoles, title, description 
         <SidebarInset>
           <Header title={title} description={description} />
           <main className="flex-1 p-6">
-            <div className="max-w-7xl mx-auto">
+            <div className="w-full">
               {children}
             </div>
           </main>
