@@ -446,7 +446,6 @@ export default function CriticalControls() {
                           asset.compliance >= 98 ? 'bg-green-600' : 
                           asset.compliance >= 95 ? 'bg-yellow-600' : 'bg-red-600'
                         }`}
-                        style={{ width: `${asset.compliance}%` }}
                       ></div>
                     </div>
                   </div>
