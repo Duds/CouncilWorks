@@ -255,7 +255,7 @@ export function DataCard({ card, data, loading }: CardComponentProps) {
                   <div key={colIndex} className="flex items-center gap-2">
                     {column === 'Icon' && row[column] ? (
                       <div className="text-muted-foreground">
-                        {React.createElement((LucideIcons as any)[row[column]], { className: "h-4 w-4" })}
+                        {React.createElement(iconMap[row[column] as keyof typeof iconMap] || Activity, { className: "h-4 w-4" })}
                       </div>
                     ) : (
                       <span className="text-sm font-medium">{row[column]}</span>
