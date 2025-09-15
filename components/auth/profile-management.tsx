@@ -157,8 +157,84 @@ export function ProfileManagement() {
   };
 
   const handleAvatarUpload = async (file: File) => {
-    // TODO: Implement avatar upload
-    console.log("Avatar upload not yet implemented", file);
+    if (!file) return;
+    
+    // Validate file type and size
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      setError('Please select a valid image file (JPG, PNG, GIF, or WebP)');
+      return;
+    }
+    
+    if (file.size > 2 * 1024 * 1024) { // 2MB limit
+      setError('File size must be less than 2MB');
+      return;
+    }
+    
+    setSaving(true);
+    setError("");
+    
+    try {
+      // Create FormData for file upload
+      const formData = new FormData();
+      formData.append('avatar', file);
+      
+      const response = await fetch('/api/profile/avatar', {
+        method: 'POST',
+        body: formData,
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to upload avatar');
+      }
+      
+      const result = await response.json();
+      
+      // Update the profile with new avatar URL
+      setProfile(prev => prev ? { ...prev, image: result.avatarUrl } : null);
+      setSuccess('Avatar updated successfully');
+      
+      // Refresh the page to update the session
+      window.location.reload();
+      
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to upload avatar');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleAvatarRemoval = async () => {
+    if (!confirm('Are you sure you want to remove your avatar?')) {
+      return;
+    }
+    
+    setSaving(true);
+    setError("");
+    
+    try {
+      const response = await fetch('/api/profile/avatar', {
+        method: 'DELETE',
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to remove avatar');
+      }
+      
+      // Update the profile to remove avatar
+      setProfile(prev => prev ? { ...prev, image: null } : null);
+      setSuccess('Avatar removed successfully');
+      
+      // Refresh the page to update the session
+      window.location.reload();
+      
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to remove avatar');
+    } finally {
+      setSaving(false);
+    }
   };
 
   if (loading) {
@@ -241,19 +317,45 @@ export function ProfileManagement() {
               {/* Avatar */}
               <div className="flex items-center gap-4">
                 <Avatar className="h-20 w-20">
-                  <AvatarImage src={profile.image || ""} />
+                  <AvatarImage src={profile.image || ""} alt={profile.name || "User avatar"} />
                   <AvatarFallback>
                     {profile.name?.charAt(0) || profile.email.charAt(0)}
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <Button variant="outline" size="sm" className="mb-2">
+                  <input
+                    type="file"
+                    id="avatar-upload"
+                    accept="image/jpeg,image/png,image/gif,image/webp"
+                    onChange={handleFileInputChange}
+                    className="hidden"
+                    disabled={saving}
+                    aria-label="Upload avatar image"
+                  />
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="mb-2"
+                    onClick={() => document.getElementById('avatar-upload')?.click()}
+                    disabled={saving}
+                  >
                     <Camera className="h-4 w-4 mr-2" />
-                    Change Photo
+                    {saving ? "Uploading..." : "Change Photo"}
                   </Button>
                   <p className="text-sm text-muted-foreground">
-                    JPG, PNG or GIF. Max size 2MB.
+                    JPG, PNG, GIF or WebP. Max size 2MB.
                   </p>
+                  {profile.image && (
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="mt-1 text-destructive hover:text-destructive"
+                      onClick={handleAvatarRemoval}
+                      disabled={saving}
+                    >
+                      Remove Photo
+                    </Button>
+                  )}
                 </div>
               </div>
 

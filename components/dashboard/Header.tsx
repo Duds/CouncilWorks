@@ -1,9 +1,25 @@
+"use client";
+
 import { Search, Bell, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getKeyboardShortcut } from "@/lib/device-detection";
+import { useSession } from "next-auth/react";
 
 export default function Header() {
+  const { data: session } = useSession();
+  
+  // Get user initials for fallback avatar
+  const getUserInitials = (name?: string | null) => {
+    if (!name) return "U";
+    return name
+      .split(" ")
+      .map(word => word.charAt(0))
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
   return (
     <div className="pt-4 pl-4 pr-4 pb-0">
       <header className="bg-surface rounded-xl shadow-sm px-6 py-4">
@@ -35,12 +51,21 @@ export default function Header() {
               </button>
               <div className="flex items-center gap-3 ml-4">
                 <div className="text-right">
-                  <div className="text-sm font-medium text-foreground">Sarah Mitchell</div>
-                  <div className="text-xs text-muted-foreground">s.mitchell@council.gov.au</div>
+                  <div className="text-sm font-medium text-foreground">
+                    {session?.user?.name || "User"}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    {session?.user?.email || "user@example.com"}
+                  </div>
                 </div>
                 <Avatar className="h-10 w-10">
-                  <AvatarImage src={`https://tapback.co/api/avatar/${encodeURIComponent("Sarah Mitchell")}.webp`} />
-                  <AvatarFallback>SM</AvatarFallback>
+                  <AvatarImage 
+                    src={session?.user?.image || undefined} 
+                    alt={session?.user?.name || "User avatar"}
+                  />
+                  <AvatarFallback>
+                    {getUserInitials(session?.user?.name)}
+                  </AvatarFallback>
                 </Avatar>
               </div>
             </div>

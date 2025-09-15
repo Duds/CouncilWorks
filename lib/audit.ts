@@ -19,6 +19,20 @@ export async function logAuditEvent(
   userAgent?: string
 ) {
   try {
+    // Only create audit log if userId exists and is valid
+    if (userId) {
+      // Verify user exists before creating audit log
+      const userExists = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { id: true }
+      });
+      
+      if (!userExists) {
+        console.warn(`Cannot log audit event: User ${userId} does not exist`);
+        return;
+      }
+    }
+    
     await prisma.auditLog.create({
       data: {
         action,

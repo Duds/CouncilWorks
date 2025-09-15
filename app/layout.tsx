@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import '@/styles/globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import AuthSessionProvider from '@/components/providers/session-provider';
@@ -9,8 +9,6 @@ export const metadata: Metadata = {
   title: 'Aegrid — Asset lifecycle management software (Australia)',
   description: 'GIS‑powered asset lifecycle management for Australian organisations. Mobile inspections (offline), scheduling, dashboards, and audit‑ready reporting. $AUD pricing.',
   manifest: '/manifest.json',
-  themeColor: '#059669',
-  viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
@@ -28,6 +26,14 @@ export const metadata: Metadata = {
     description: 'GIS‑powered asset lifecycle management for Australian organisations.',
     images: ['/images/og-card.svg']
   }
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: '#059669',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

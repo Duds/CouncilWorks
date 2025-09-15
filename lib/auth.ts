@@ -133,7 +133,7 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
-  debug: process.env.NODE_ENV === "development",
+  debug: false, // Set to true only when debugging auth issues
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
@@ -152,6 +152,9 @@ export const authOptions: NextAuthOptions = {
         session.user.organisationId = token.organisationId as string;
         session.user.organisation = token.organisation as { id: string; name: string };
         session.user.mfaRequired = token.mfaRequired as boolean;
+        session.user.image = token.image as string;
+        session.user.name = token.name as string;
+        session.user.email = token.email as string;
       }
       return session;
     },
@@ -165,10 +168,13 @@ export const authOptions: NextAuthOptions = {
         token.organisationId = user.organisationId;
         token.organisation = user.organisation;
         token.mfaRequired = (user as any).mfaRequired || false;
+        token.image = user.image;
+        token.name = user.name;
+        token.email = user.email;
       }
       return token;
     },
-    async signIn({ user, account, profile: _profile }) {
+    async signIn({ user, account, profile }) {
       if (user?.id) {
         // Log successful login
         await logAuditEvent(
@@ -180,6 +186,38 @@ export const authOptions: NextAuthOptions = {
             timestamp: new Date().toISOString(),
           }
         );
+
+        // For OAuth providers, update user profile with latest data
+        if (account?.provider && profile) {
+          try {
+            const updateData: any = {
+              lastLoginAt: new Date(),
+            };
+
+            // Update name if provided and different
+            if (profile.name && profile.name !== user.name) {
+              updateData.name = profile.name;
+            }
+
+            // Update image/avatar if provided and different
+            if (profile.picture && profile.picture !== user.image) {
+              updateData.image = profile.picture;
+            }
+
+            // Only update if there are changes
+            if (Object.keys(updateData).length > 1) {
+              await prisma.user.update({
+                where: { id: user.id },
+                data: updateData,
+              });
+              
+              console.log(`Updated ${account.provider} profile for user ${user.id}`);
+            }
+          } catch (error) {
+            console.error("Error updating OAuth profile:", error);
+            // Don't fail the sign-in if profile update fails
+          }
+        }
       }
       return true;
     },
