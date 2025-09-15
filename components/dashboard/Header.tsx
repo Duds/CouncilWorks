@@ -3,6 +3,7 @@
 import { Search, Bell, Mail, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { getKeyboardShortcut } from "@/lib/device-detection";
 
@@ -34,16 +35,16 @@ export default function Header({ title, description }: HeaderProps) {
         
         {/* Search and Actions */}
         <div className="flex items-center gap-4">
-          <div className="relative">
+          <div className="relative flex-1 max-w-2xl">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               type="search"
               placeholder="Search assets..."
-              className="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
+              className="w-full appearance-none bg-background pl-8 pr-20 shadow-none"
             />
-            <kbd className="pointer-events-none absolute right-2.5 top-2.5 hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
-              <span className="text-xs">{getKeyboardShortcut('F')}</span>
-            </kbd>
+            <Badge variant="outline" className="absolute right-2.5 top-2.5 h-5 px-1.5 text-[10px] font-mono pointer-events-none">
+              {getKeyboardShortcut('F')}
+            </Badge>
           </div>
           <div className="flex items-center gap-2">
             <Button size="sm" className="h-8 gap-1">
