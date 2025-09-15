@@ -1,0 +1,148 @@
+---
+Description: The Aegrid Rules - Core North Star Principles
+alwaysApply: true
+---
+
+# The Aegrid Rules - Core North Star Principles
+
+@context {
+"type": "core_principles",
+"purpose": "aegrid_rules",
+"format_version": "1.0.0",
+"enforced_for": "all contributors",
+"project": "Aegrid - Asset Lifecycle Intelligence Platform"
+}
+
+## Rule 1: Every Asset Has a Purpose → Function-based anchoring
+
+### What This Means
+Structure assets around what they do (their service purpose), not just where they sit. Hierarchies or tags should reflect intended function (e.g. mowing, transport, lifting) so value is always visible. Avoid "miscellaneous" or "other" buckets that obscure purpose.
+
+### Implementation Principles
+- **Function-First Modeling**: Every asset must have a clearly defined service purpose
+- **Purpose-Driven Hierarchy**: Organize assets by function, not just location or type
+- **Value Visibility**: Ensure asset purpose and value contribution are always apparent
+- **No Orphaned Assets**: Every asset must serve a defined business function
+
+### Technical Implementation
+```cypher
+// Graph query to find assets by function
+MATCH (a:Asset)-[:SERVES_PURPOSE]->(f:Function)
+WHERE f.name = "Transportation"
+RETURN a.name, a.purpose, f.description
+```
+
+### User Story Alignment
+- **As a Manager**: I want to see all assets grouped by their service purpose so I can understand value contribution
+- **As a Supervisor**: I want to filter assets by function so I can focus on specific operational areas
+- **As an Executive**: I want to see asset purpose alignment with strategic objectives
+
+---
+
+## Rule 2: Match Maintenance to Risk → Criticality-driven grouping
+
+### What This Means
+Asset hierarchy should enable risk-based maintenance by clearly tagging/structuring criticality, failure modes, and service impact. Allow grouping by condition, risk, and performance, not just asset type or location. This supports RCM-lite approaches — easy to filter assets into "inspect quarterly vs run-to-fail."
+
+### Implementation Principles
+- **Risk-Based Prioritization**: Maintenance frequency and methods based on asset criticality
+- **Failure Mode Analysis**: Document and track potential failure modes for each asset
+- **Service Impact Assessment**: Understand consequences of asset failure
+- **RCM-Lite Integration**: Support reliability-centered maintenance approaches
+
+### Technical Implementation
+```cypher
+// Graph query for risk-based maintenance grouping
+MATCH (a:Asset)-[:HAS_RISK]->(r:Risk)
+WHERE r.criticality = "High"
+RETURN a.name, r.failureMode, r.serviceImpact, r.maintenanceFrequency
+```
+
+### User Story Alignment
+- **As a Manager**: I want to see high-risk assets grouped together so I can prioritize maintenance
+- **As a Supervisor**: I want to filter by risk level so I can allocate resources appropriately
+- **As a Crew Member**: I want to see criticality indicators so I know which assets need immediate attention
+
+---
+
+## Rule 3: Protect the Critical Few → Visibility of crown jewels
+
+### What This Means
+Hierarchy must make the critical assets stand out from the noise. Ensure the system can flag and elevate "high consequence" assets in any view (finance, location, engineering). Don't bury the vital 10% of assets in a deep tree — surface them with tags, dashboards, or dedicated groupings.
+
+### Implementation Principles
+- **Critical Asset Identification**: Clearly identify and tag high-consequence assets
+- **Elevated Visibility**: Critical assets must be prominent in all views
+- **Dedicated Groupings**: Special categories for critical assets
+- **Cross-View Consistency**: Critical assets visible in finance, operations, and compliance views
+
+### Technical Implementation
+```cypher
+// Graph query to identify critical assets
+MATCH (a:Asset)-[:HAS_CRITICALITY]->(c:Criticality)
+WHERE c.level = "Critical" AND c.consequence = "High"
+RETURN a.name, c.reason, c.controls, c.escalationPath
+```
+
+### User Story Alignment
+- **As an Executive**: I want critical assets highlighted in all reports so I can focus on what matters most
+- **As a Manager**: I want critical asset dashboards so I can monitor crown jewels
+- **As a Supervisor**: I want critical asset alerts so I can respond immediately to issues
+
+---
+
+## Rule 4: Plan for Tomorrow, Today → Flexible, future-proof models
+
+### What This Means
+Use graph-based or tag-enabled hierarchies that can adapt when organisations, depots, or funding models change. Avoid hardcoding today's org chart into the structure — assets outlive reporting lines. Enable multiple views (ops, finance, compliance, digital twin) without restructuring.
+
+### Implementation Principles
+- **Flexible Modeling**: Use graph-based structures that can adapt to organizational changes
+- **Multiple Views**: Support different perspectives (operational, financial, compliance) without restructuring
+- **Future-Proof Design**: Avoid hardcoded organizational structures
+- **Adaptive Hierarchies**: Enable easy reconfiguration as needs change
+
+### Technical Implementation
+```cypher
+// Graph query for flexible organizational views
+MATCH (a:Asset)-[:BELONGS_TO]->(o:OrganizationalUnit)
+MATCH (a)-[:VIEWABLE_BY]->(v:View)
+WHERE v.type = "Financial"
+RETURN a.name, o.name, v.perspective, a.financialValue
+```
+
+### User Story Alignment
+- **As a Manager**: I want to reorganize asset views without restructuring data so I can adapt to changes
+- **As an Executive**: I want multiple perspectives on the same assets so I can make informed decisions
+- **As a Planner**: I want flexible modeling so I can plan for future organizational changes
+
+---
+
+## Implementation Requirements
+
+### Mandatory Compliance
+- **All Features**: Must align with at least one Aegrid Rule
+- **All User Stories**: Must reference relevant Aegrid Rules
+- **All Database Models**: Must support function-based anchoring and multiple hierarchies
+- **All UI/UX**: Must reflect journey-centric design and critical asset visibility
+
+### Quality Gates
+- **Feature Review**: Every feature must demonstrate Aegrid Rules alignment
+- **Code Review**: Verify technical implementation supports the rules
+- **Testing**: Ensure rules are validated in test scenarios
+- **Documentation**: All documentation must reference relevant rules
+
+### Success Metrics
+- **Rule 1**: 100% of assets have defined service purpose
+- **Rule 2**: Risk-based maintenance schedules implemented
+- **Rule 3**: Critical assets visible in all relevant views
+- **Rule 4**: Flexible modeling supports multiple organizational views
+
+---
+
+## Related Documentation
+
+- `../../docs/core/aegrid-rules.md` — Detailed Aegrid Rules documentation
+- `../../docs/architecture/hybrid-database-strategy.md` — Database architecture supporting the rules
+- `../../docs/architecture/database-technology-choice.md` — Technology choices aligned with rules
+- `../../docs/TODO-PI2.md` — PI2 implementation plan with rules integration
