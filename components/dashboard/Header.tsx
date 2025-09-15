@@ -42,9 +42,14 @@ export default function Header({ title, description }: HeaderProps) {
               placeholder="Search assets..."
               className="w-full appearance-none bg-background pl-8 pr-20 shadow-none"
             />
-            <Badge variant="outline" className="absolute right-2.5 top-2.5 h-5 px-1.5 text-[10px] font-mono pointer-events-none">
-              {getKeyboardShortcut('F')}
-            </Badge>
+            <div className="absolute right-2.5 top-2.5 flex items-center gap-1 pointer-events-none">
+              <Badge variant="outline" className="h-5 px-1.5 text-[10px] font-mono">
+                ^
+              </Badge>
+              <Badge variant="outline" className="h-5 px-1.5 text-[10px] font-mono">
+                F
+              </Badge>
+            </div>
           </div>
           <div className="flex items-center gap-2">
             <Button size="sm" className="h-8 gap-1">
