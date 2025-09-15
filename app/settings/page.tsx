@@ -36,16 +36,12 @@ export default function SettingsPage() {
   const { data: session } = useSession();
 
   return (
-    <AppLayout requiredRoles={['ADMIN', 'EXEC', 'MANAGER', 'SUPERVISOR', 'CREW']}>
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
-          <p className="text-muted-foreground">
-            Manage your account settings, preferences, and system configuration.
-          </p>
-        </div>
-
-        <div className="grid gap-6">
+    <AppLayout 
+      requiredRoles={['ADMIN', 'EXEC', 'MANAGER', 'SUPERVISOR', 'CREW']}
+      title="Settings"
+      description="Manage your account settings, preferences, and system configuration"
+    >
+      <div className="grid gap-6">
         {/* Personal Settings */}
         <Card>
           <CardHeader>
@@ -262,7 +258,6 @@ export default function SettingsPage() {
             </Card>
           </>
         )}
-        </div>
       </div>
     </AppLayout>
   );

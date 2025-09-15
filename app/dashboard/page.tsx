@@ -67,25 +67,21 @@ export default function UnifiedDashboardPage() {
   const RoleIcon = userRole ? getRoleIcon(userRole) : User;
 
   return (
-    <AppLayout requiredRoles={['ADMIN', 'EXEC', 'MANAGER', 'SUPERVISOR', 'CREW']}>
+    <AppLayout 
+      requiredRoles={['ADMIN', 'EXEC', 'MANAGER', 'SUPERVISOR', 'CREW']}
+      title={`${getRoleDisplayName(userRole || '')} Dashboard`}
+      description="Unified dashboard with role-based customisation"
+    >
       <div className="space-y-6">
-        {/* Dashboard Header */}
+        {/* Dashboard Controls */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <RoleIcon className="h-8 w-8 text-primary" />
-              <div>
-                <h1 className="text-3xl font-bold tracking-tight">
-                  {getRoleDisplayName(userRole || '')} Dashboard
-                </h1>
-                <p className="text-muted-foreground">
-                  Unified dashboard with role-based customisation
-                </p>
-              </div>
+              <Badge variant="outline" className="capitalize">
+                {preferences.defaultView} view
+              </Badge>
             </div>
-            <Badge variant="outline" className="capitalize">
-              {preferences.defaultView} view
-            </Badge>
           </div>
           
           <div className="flex items-center gap-2">

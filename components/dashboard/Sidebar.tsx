@@ -1,12 +1,15 @@
 "use client";
 
 import { Building2, BarChart3, Calendar, Settings, Users, MapPin, Wrench, AlertTriangle, FileText, LogOut, HelpCircle, Smartphone, Bell } from "lucide-react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import ReleaseBadge from "@/components/release-badge";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function Sidebar() {
+  const { data: session } = useSession();
+
   const handleLogout = async () => {
     try {
       await signOut({ 
@@ -16,6 +19,17 @@ export default function Sidebar() {
     } catch (error) {
       console.error("Logout error:", error);
     }
+  };
+
+  // Get user initials for fallback avatar
+  const getUserInitials = (name?: string | null) => {
+    if (!name) return "U";
+    return name
+      .split(" ")
+      .map(word => word.charAt(0))
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
   };
 
   const navigationItems = [
@@ -100,7 +114,28 @@ export default function Sidebar() {
             </button>
           </nav>
         </div>
-        <div className="mt-auto p-4">
+        
+        {/* User Info Section */}
+        <div className="p-4 border-t">
+          <div className="flex items-center gap-3 mb-4">
+            <Avatar className="h-8 w-8">
+              <AvatarImage 
+                src={session?.user?.image || undefined} 
+                alt={session?.user?.name || "User avatar"}
+              />
+              <AvatarFallback>
+                {getUserInitials(session?.user?.name)}
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex-1 min-w-0">
+              <div className="text-sm font-medium truncate">
+                {session?.user?.name || "User"}
+              </div>
+              <div className="text-xs text-muted-foreground truncate">
+                {session?.user?.email || "user@example.com"}
+              </div>
+            </div>
+          </div>
           <ReleaseBadge />
         </div>
       </div>

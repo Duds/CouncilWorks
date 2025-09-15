@@ -7,6 +7,8 @@ import Header from '@/components/dashboard/Header';
 interface AppLayoutProps {
   children: React.ReactNode;
   requiredRoles?: string[];
+  title?: string;
+  description?: string;
 }
 
 /**
@@ -15,7 +17,7 @@ interface AppLayoutProps {
  * @component AppLayout
  * @example
  * ```tsx
- * <AppLayout requiredRoles={['ADMIN', 'MANAGER']}>
+ * <AppLayout requiredRoles={['ADMIN', 'MANAGER']} title="Settings" description="Manage your account settings">
  *   <SettingsPage />
  * </AppLayout>
  * ```
@@ -24,14 +26,14 @@ interface AppLayoutProps {
  * - Keyboard navigation: Tab through sidebar and main content
  * - Screen reader: Announces current page and navigation state
  */
-export default function AppLayout({ children, requiredRoles }: AppLayoutProps) {
+export default function AppLayout({ children, requiredRoles, title, description }: AppLayoutProps) {
   return (
     <ProtectedRoute requiredRoles={requiredRoles}>
       <div className="min-h-screen bg-background">
         <div className="flex">
           <Sidebar />
           <div className="flex-1 flex flex-col">
-            <Header />
+            <Header title={title} description={description} />
             <main className="flex-1 p-6">
               <div className="max-w-7xl mx-auto">
                 {children}
