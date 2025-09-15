@@ -27,6 +27,25 @@ import {
 } from 'lucide-react';
 import { DashboardCard } from '@/types/dashboard';
 
+// Icon mapping for dynamic icon access
+const iconMap = {
+  TrendingUp,
+  TrendingDown,
+  Activity,
+  CheckCircle,
+  Clock,
+  AlertTriangle,
+  Users,
+  Building2,
+  Wrench,
+  Calendar,
+  BarChart3,
+  DollarSign,
+  MapPin,
+  Eye,
+  Edit
+} as const;
+
 interface CardComponentProps {
   card: DashboardCard;
   data?: any;
@@ -46,7 +65,7 @@ export function KPICard({ card, data, loading }: CardComponentProps) {
   const format = config.format ?? 'number';
 
   // Get icon component
-  const IconComponent = config.icon ? (LucideIcons as any)[config.icon] : Activity;
+  const IconComponent = config.icon ? iconMap[config.icon as keyof typeof iconMap] : Activity;
 
   const formatValue = (val: number, fmt: string) => {
     switch (fmt) {
