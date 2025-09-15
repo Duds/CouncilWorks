@@ -1,7 +1,21 @@
+"use client";
+
 import { Building2, BarChart3, Calendar, Settings, Users, MapPin, Wrench, AlertTriangle, FileText, LogOut, HelpCircle, Smartphone, Bell } from "lucide-react";
+import { signOut } from "next-auth/react";
 import ReleaseBadge from "@/components/release-badge";
 
 export default function Sidebar() {
+  const handleLogout = async () => {
+    try {
+      await signOut({ 
+        callbackUrl: "/auth/sign-in",
+        redirect: true 
+      });
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
+
   return (
     <aside className="w-64 h-screen flex flex-col pt-4 pl-4 pb-4">
       <div className="bg-surface rounded-xl shadow-sm h-full flex flex-col">
@@ -62,9 +76,12 @@ export default function Sidebar() {
             <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
               <HelpCircle className="w-4 h-4" />Help
             </a>
-            <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
+            <button 
+              onClick={handleLogout}
+              className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors w-full text-left"
+            >
               <LogOut className="w-4 h-4" />Logout
-            </a>
+            </button>
           </div>
         </nav>
 
