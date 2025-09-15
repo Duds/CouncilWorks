@@ -1,8 +1,9 @@
 "use client";
 
 import { ProtectedRoute } from '@/components/auth/protected-route';
-import Sidebar from '@/components/dashboard/Sidebar';
+import AppSidebar from '@/components/dashboard/AppSidebar';
 import Header from '@/components/dashboard/Header';
+import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -13,7 +14,7 @@ interface AppLayoutProps {
 
 /**
  * Shared app layout for authenticated pages following shadcn/ui standards
- * Provides sidebar navigation and header for all app pages
+ * Provides sidebar navigation and header for all app pages using SidebarProvider
  * @component AppLayout
  * @example
  * ```tsx
@@ -29,19 +30,28 @@ interface AppLayoutProps {
 export default function AppLayout({ children, requiredRoles, title, description }: AppLayoutProps) {
   return (
     <ProtectedRoute requiredRoles={requiredRoles}>
-      <div className="min-h-screen bg-background">
-        <div className="flex">
-          <Sidebar />
-          <div className="flex-1 flex flex-col">
-            <Header title={title} description={description} />
-            <main className="flex-1 p-6">
-              <div className="max-w-7xl mx-auto">
-                {children}
+      <SidebarProvider
+        style={
+          {
+            "--sidebar-width": "calc(var(--spacing) * 72)",
+            "--header-height": "calc(var(--spacing) * 12)",
+          } as React.CSSProperties
+        }
+      >
+        <AppSidebar variant="inset" />
+        <SidebarInset>
+          <Header title={title} description={description} />
+          <div className="flex flex-1 flex-col">
+            <div className="@container/main flex flex-1 flex-col gap-2">
+              <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+                <div className="px-4 lg:px-6">
+                  {children}
+                </div>
               </div>
-            </main>
+            </div>
           </div>
-        </div>
-      </div>
+        </SidebarInset>
+      </SidebarProvider>
     </ProtectedRoute>
   );
 }

@@ -6,7 +6,7 @@
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: "class",
+  darkMode: ["class", "class"],
   content: [
     "./app/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -14,64 +14,64 @@ module.exports = {
     "./src/**/*.{ts,tsx}",
   ],
   theme: {
-    extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-        surface: {
-          DEFAULT: "var(--surface)",
-          foreground: "var(--surface-foreground)",
-        },
-
-        primary: {
-          DEFAULT: "var(--primary)",
-          foreground: "var(--primary-foreground)",
-        },
-
-        secondary: {
-          DEFAULT: "var(--secondary)",
-          foreground: "var(--secondary-foreground)",
-        },
-
-        accent: {
-          DEFAULT: "var(--accent)",
-          foreground: "var(--accent-foreground)",
-        },
-
-        success: {
-          DEFAULT: "var(--success)",
-          light: "var(--success-light)",
-          foreground: "var(--success-foreground)",
-        },
-
-        info: {
-          DEFAULT: "var(--info)",
-          foreground: "var(--info-foreground)",
-        },
-
-        danger: {
-          DEFAULT: "var(--danger)",
-          foreground: "var(--danger-foreground)",
-        },
-
-        warning: {
-          DEFAULT: "var(--warning)",
-          foreground: "var(--warning-foreground)",
-        },
-
-        muted: {
-          DEFAULT: "var(--muted)",
-          foreground: "var(--muted-foreground)",
-        },
-
-        neutral: {
-          DEFAULT: "var(--neutral)",
-          foreground: "var(--neutral-foreground)",
-        },
-
-        border: "var(--border)",
-      },
-    },
+  	extend: {
+  		colors: {
+  			background: 'var(--background)',
+  			foreground: 'var(--foreground)',
+  			surface: {
+  				DEFAULT: 'var(--surface)',
+  				foreground: 'var(--surface-foreground)'
+  			},
+  			primary: {
+  				DEFAULT: 'var(--primary)',
+  				foreground: 'var(--primary-foreground)'
+  			},
+  			secondary: {
+  				DEFAULT: 'var(--secondary)',
+  				foreground: 'var(--secondary-foreground)'
+  			},
+  			accent: {
+  				DEFAULT: 'var(--accent)',
+  				foreground: 'var(--accent-foreground)'
+  			},
+  			success: {
+  				DEFAULT: 'var(--success)',
+  				light: 'var(--success-light)',
+  				foreground: 'var(--success-foreground)'
+  			},
+  			info: {
+  				DEFAULT: 'var(--info)',
+  				foreground: 'var(--info-foreground)'
+  			},
+  			danger: {
+  				DEFAULT: 'var(--danger)',
+  				foreground: 'var(--danger-foreground)'
+  			},
+  			warning: {
+  				DEFAULT: 'var(--warning)',
+  				foreground: 'var(--warning-foreground)'
+  			},
+  			muted: {
+  				DEFAULT: 'var(--muted)',
+  				foreground: 'var(--muted-foreground)'
+  			},
+  			neutral: {
+  				DEFAULT: 'var(--neutral)',
+  				foreground: 'var(--neutral-foreground)'
+  			},
+  			border: 'var(--border)',
+  			sidebar: {
+  				DEFAULT: 'hsl(var(--sidebar-background))',
+  				foreground: 'hsl(var(--sidebar-foreground))',
+  				primary: 'hsl(var(--sidebar-primary))',
+  				'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+  				accent: 'hsl(var(--sidebar-accent))',
+  				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+  				border: 'hsl(var(--sidebar-border))',
+  				ring: 'hsl(var(--sidebar-ring))'
+  			}
+  		}
+  	}
   },
   plugins: [],
 };
