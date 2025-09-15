@@ -34,7 +34,7 @@ export default function AppLayout({ children, requiredRoles, title, description 
         defaultOpen={true}
         style={
           {
-            "--sidebar-width": "14rem",
+            "--sidebar-width": "16rem",
             "--sidebar-width-icon": "3rem",
           } as React.CSSProperties
         }
