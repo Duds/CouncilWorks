@@ -72,24 +72,34 @@ export default function OnboardingWelcomePage() {
   };
 
   const handleTrialSelection = async (trialType: 'blank' | 'sample' | 'import') => {
+    console.log("Trial selection clicked:", trialType);
     setLoading(true);
     setError("");
 
     try {
+      console.log("Sending trial setup request...");
       const response = await fetch('/api/onboarding/trial', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ trialType }),
       });
 
+      console.log("Trial setup response status:", response.status);
+      
       if (!response.ok) {
         const errorData = await response.json();
+        console.log("Trial setup error response:", errorData);
         throw new Error(errorData.error || 'Failed to setup trial');
       }
 
+      const result = await response.json();
+      console.log("Trial setup success:", result);
+
       // Redirect to dashboard
+      console.log("Redirecting to dashboard...");
       router.push('/dashboard');
     } catch (err) {
+      console.error("Trial selection error:", err);
       setError(err instanceof Error ? err.message : 'Failed to setup trial');
     } finally {
       setLoading(false);
@@ -283,7 +293,10 @@ export default function OnboardingWelcomePage() {
             </div>
 
             <Button 
-              onClick={() => handleTrialSelection(data.trialType)}
+              onClick={() => {
+                console.log("Complete Setup button clicked, trialType:", data.trialType);
+                handleTrialSelection(data.trialType);
+              }}
               disabled={loading}
               className="w-full"
             >

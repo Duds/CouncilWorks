@@ -12,11 +12,16 @@ export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     
+    console.log("Trial setup request - Session:", session ? "exists" : "null");
+    
     if (!session?.user?.id) {
+      console.log("No session or user ID found for trial setup");
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const body = await request.json();
+    console.log("Trial setup request body:", body);
+    
     const { trialType } = trialSchema.parse(body);
 
     // Get user with organisation
@@ -26,26 +31,35 @@ export async function POST(request: NextRequest) {
     });
 
     if (!user?.organisationId) {
+      console.log("User has no organisation for trial setup");
       return NextResponse.json({ error: "User must have an organisation" }, { status: 400 });
     }
+
+    console.log("Setting up trial type:", trialType, "for organisation:", user.organisationId);
 
     // Handle different trial types
     switch (trialType) {
       case 'sample':
+        console.log("Creating sample assets...");
         // Create sample assets for the organisation
         await createSampleAssets(user.organisationId);
+        console.log("Sample assets created successfully");
         break;
       
       case 'import':
+        console.log("Setting up import trial...");
         // For now, just mark as ready for import
         // In a real implementation, you'd set up import queues or similar
         break;
       
       case 'blank':
       default:
+        console.log("Setting up blank trial...");
         // No additional setup needed for blank account
         break;
     }
+
+    console.log("Trial setup completed successfully for type:", trialType);
 
     return NextResponse.json({ 
       success: true, 
@@ -54,6 +68,7 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     if (error instanceof z.ZodError) {
+      console.log("Trial setup validation error:", error.errors);
       return NextResponse.json(
         { error: error.errors[0]?.message || "Validation error" },
         { status: 400 }

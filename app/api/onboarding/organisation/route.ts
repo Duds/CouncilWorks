@@ -13,11 +13,16 @@ export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     
+    console.log("Organisation creation request - Session:", session ? "exists" : "null");
+    
     if (!session?.user?.id) {
+      console.log("No session or user ID found");
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const body = await request.json();
+    console.log("Request body:", body);
+    
     const { name, domain } = organisationSchema.parse(body);
 
     // Check if user already has an organisation
@@ -27,6 +32,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (existingUser?.organisationId) {
+      console.log("User already has organisation:", existingUser.organisationId);
       return NextResponse.json({ error: "User already has an organisation" }, { status: 400 });
     }
 
@@ -41,10 +47,13 @@ export async function POST(request: NextRequest) {
     });
 
     if (existingOrg) {
+      console.log("Organisation already exists:", existingOrg.name);
       return NextResponse.json({ 
         error: "An organisation with this name or domain already exists" 
       }, { status: 400 });
     }
+
+    console.log("Creating organisation:", { name, domain, userId: session.user.id });
 
     // Create organisation and update user
     const organisation = await prisma.organisation.create({
@@ -65,6 +74,8 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    console.log("Organisation created successfully:", organisation.id);
+
     return NextResponse.json({ 
       success: true, 
       organisation: {
@@ -75,6 +86,7 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     if (error instanceof z.ZodError) {
+      console.log("Validation error:", error.errors);
       return NextResponse.json(
         { error: error.errors[0]?.message || "Validation error" },
         { status: 400 }
