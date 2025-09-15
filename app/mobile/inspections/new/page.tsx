@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { ProtectedRoute } from "@/components/auth/protected-route";
 import { InspectionForm } from "@/components/mobile/inspection-form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -36,6 +35,7 @@ interface Asset {
 /**
  * New Mobile Inspection Page
  * Create a new asset inspection on mobile devices
+ * Uses separate mobile layout without main app authentication
  */
 export default function NewMobileInspectionPage() {
   const router = useRouter();
@@ -102,19 +102,16 @@ export default function NewMobileInspectionPage() {
 
   if (loading) {
     return (
-      <ProtectedRoute>
-        <div className="min-h-screen bg-background flex items-center justify-center">
-          <div className="text-center">
-            <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
-            <p className="text-muted-foreground">Loading assets...</p>
-          </div>
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading assets...</p>
         </div>
-      </ProtectedRoute>
+      </div>
     );
   }
 
   return (
-    <ProtectedRoute>
       <div className="min-h-screen bg-background">
         <div className="sticky top-0 bg-background border-b p-4 z-10">
           <div className="flex items-center gap-3">
@@ -231,6 +228,5 @@ export default function NewMobileInspectionPage() {
           )}
         </div>
       </div>
-    </ProtectedRoute>
   );
 }

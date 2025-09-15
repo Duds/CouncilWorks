@@ -3,18 +3,16 @@
  * Manages the layout and rendering of dashboard cards
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import { DashboardCard, DashboardPreferences } from '@/types/dashboard';
 import { DashboardCardComponent } from './DashboardCard';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
-  RefreshCw, 
-  Settings, 
   Grid3X3, 
   List, 
   Maximize2,
-  Download
+  Settings
 } from 'lucide-react';
 
 interface DashboardGridProps {
@@ -22,7 +20,6 @@ interface DashboardGridProps {
   preferences: DashboardPreferences;
   loading?: boolean;
   onCardAction?: (cardId: string, action: string) => void;
-  onRefresh?: () => void;
   onSettingsClick?: () => void;
 }
 
@@ -35,18 +32,8 @@ export function DashboardGrid({
   preferences, 
   loading = false,
   onCardAction,
-  onRefresh,
   onSettingsClick
 }: DashboardGridProps) {
-  const [refreshing, setRefreshing] = useState(false);
-
-  const handleRefresh = async () => {
-    setRefreshing(true);
-    if (onRefresh) {
-      await onRefresh();
-    }
-    setRefreshing(false);
-  };
 
   const getCardSizeClass = (size: string) => {
     switch (size) {
@@ -89,45 +76,6 @@ export function DashboardGrid({
 
   return (
     <div className="space-y-6">
-      {/* Dashboard Controls */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
-          <Badge variant="outline" className="capitalize">
-            {preferences.defaultView} view
-          </Badge>
-        </div>
-        
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleRefresh}
-            disabled={refreshing}
-          >
-            <RefreshCw className={`h-4 w-4 mr-2 ${refreshing ? 'animate-spin' : ''}`} />
-            Refresh
-          </Button>
-          
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={onSettingsClick}
-          >
-            <Settings className="h-4 w-4 mr-2" />
-            Settings
-          </Button>
-          
-          <Button
-            variant="outline"
-            size="sm"
-          >
-            <Download className="h-4 w-4 mr-2" />
-            Export
-          </Button>
-        </div>
-      </div>
-
       {/* Layout Toggle */}
       <div className="flex items-center gap-2">
         <span className="text-sm text-muted-foreground">Layout:</span>

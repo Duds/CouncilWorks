@@ -11,12 +11,12 @@ interface ConditionalHeaderProps {
 }
 
 /**
- * Conditional header that only shows on non-dashboard pages
+ * Landing page header that only shows on public pages
  * @component ConditionalHeader
  * @example
  * ```tsx
  * <ConditionalHeader>
- *   <PageContent />
+ *   <LandingPageContent />
  * </ConditionalHeader>
  * ```
  * @accessibility
@@ -27,12 +27,15 @@ interface ConditionalHeaderProps {
 export default function ConditionalHeader({ children }: ConditionalHeaderProps) {
   const pathname = usePathname();
   
-  // Don't show header on dashboard pages or auth pages
-  const hideHeader = pathname.startsWith('/dashboard') || 
-                    pathname.startsWith('/admin') || 
-                    pathname.startsWith('/auth');
+  // Show header on landing pages and citizen pages
+  const isPublicPage = pathname === '/' || 
+                      pathname.startsWith('/pricing') || 
+                      pathname.startsWith('/about') || 
+                      pathname.startsWith('/contact') ||
+                      pathname.startsWith('/features') ||
+                      pathname.startsWith('/citizen');
 
-  if (hideHeader) {
+  if (!isPublicPage) {
     return <>{children}</>;
   }
 

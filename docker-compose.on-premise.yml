@@ -1,0 +1,212 @@
+# Docker Compose for On-Premise Deployment
+# This configuration runs entirely on customer infrastructure
+
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DEPLOYMENT_TIER=on-premise
+      - DATABASE_URL=${LOCAL_DATABASE_URL}
+      - LOCAL_STORAGE_PATH=/app/storage
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - NEXTAUTH_URL=${NEXTAUTH_URL}
+      - LDAP_URL=${LDAP_URL}
+      - LDAP_BIND_DN=${LDAP_BIND_DN}
+      - LDAP_BIND_CREDENTIALS=${LDAP_BIND_CREDENTIALS}
+      - LDAP_SEARCH_BASE=${LDAP_SEARCH_BASE}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - LOCAL_ERP_ENDPOINT=${LOCAL_ERP_ENDPOINT}
+      - LOCAL_ERP_API_KEY=${LOCAL_ERP_API_KEY}
+    depends_on:
+      - db
+      - redis
+      - ldap
+    volumes:
+      - ./uploads:/app/uploads
+      - ./storage:/app/storage
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  db:
+    image: postgres:15-postgis
+    environment:
+      - POSTGRES_DB=councilworks
+      - POSTGRES_USER=${POSTGRES_USER:-councilworks}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - local_postgres_data:/var/lib/postgresql/data
+      - ./scripts/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./backups:/backups
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-councilworks}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - local_redis_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Local LDAP server for authentication
+  ldap:
+    image: osixia/openldap:latest
+    environment:
+      - LDAP_ORGANISATION=${LDAP_ORGANISATION:-"Customer Organisation"}
+      - LDAP_DOMAIN=${LDAP_DOMAIN:-"customer.local"}
+      - LDAP_ADMIN_PASSWORD=${LDAP_ADMIN_PASSWORD}
+      - LDAP_CONFIG_PASSWORD=${LDAP_CONFIG_PASSWORD}
+      - LDAP_READONLY_USER=${LDAP_READONLY_USER:-false}
+      - LDAP_RFC2307BIS_SCHEMA=${LDAP_RFC2307BIS_SCHEMA:-false}
+      - LDAP_BACKEND=${LDAP_BACKEND:-mdb}
+      - LDAP_TLS=${LDAP_TLS:-false}
+      - LDAP_REPLICATION=${LDAP_REPLICATION:-false}
+      - KEEPALIVED=${KEEPALIVED:-false}
+    volumes:
+      - local_ldap_data:/var/lib/ldap
+      - local_ldap_config:/etc/ldap/slapd.d
+      - ./ldap/config:/container/service/slapd/assets/config/bootstrap/ldif/custom
+    ports:
+      - "389:389"
+      - "636:636"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "ldapsearch", "-x", "-H", "ldap://localhost:389", "-b", "dc=customer,dc=local"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Local analytics service
+  analytics:
+    image: councilworks-analytics:latest
+    environment:
+      - ANALYTICS_TYPE=local
+      - DATABASE_URL=${LOCAL_DATABASE_URL}
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - db
+      - redis
+    restart: unless-stopped
+
+  # Local monitoring
+  monitoring:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus-local.yml:/etc/prometheus/prometheus.yml
+      - local_prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
+      - GF_SERVER_ROOT_URL=http://localhost:3001
+    volumes:
+      - local_grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/local-dashboards:/etc/grafana/provisioning/dashboards
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources
+    depends_on:
+      - monitoring
+    restart: unless-stopped
+
+  # Local backup service
+  backup:
+    image: postgres:15-alpine
+    environment:
+      - PGPASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - ./backups:/backups
+    command: >
+      sh -c "
+        while true; do
+          pg_dump -h db -U ${POSTGRES_USER:-councilworks} -d councilworks > /backups/backup_$$(date +%Y%m%d_%H%M%S).sql
+          # Keep only last 30 days of backups
+          find /backups -name 'backup_*.sql' -mtime +30 -delete
+          sleep 86400
+        done
+      "
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  # Local file storage service
+  file-storage:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./storage:/usr/share/nginx/html
+      - ./nginx/file-storage.conf:/etc/nginx/conf.d/default.conf
+    restart: unless-stopped
+
+  # Local email server (optional)
+  mailserver:
+    image: mailserver/docker-mailserver:latest
+    ports:
+      - "25:25"
+      - "143:143"
+      - "587:587"
+      - "993:993"
+    volumes:
+      - local_mail_data:/var/mail
+      - local_mail_state:/var/mail-state
+      - local_mail_logs:/var/log/mail
+      - ./mailserver/config:/tmp/docker-mailserver
+    environment:
+      - ENABLE_SPAMASSASSIN=1
+      - ENABLE_CLAMAV=1
+      - ENABLE_FAIL2BAN=1
+      - ENABLE_POSTGREY=1
+      - ENABLE_MANAGESIEVE=1
+      - ONE_DIR=1
+      - DMS_DEBUG=0
+    restart: unless-stopped
+
+volumes:
+  local_postgres_data:
+  local_redis_data:
+  local_ldap_data:
+  local_ldap_config:
+  local_prometheus_data:
+  local_grafana_data:
+  local_mail_data:
+  local_mail_state:
+  local_mail_logs:
+
+networks:
+  default:
+    name: councilworks-onpremise

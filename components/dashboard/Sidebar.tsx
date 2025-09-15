@@ -3,6 +3,8 @@
 import { Building2, BarChart3, Calendar, Settings, Users, MapPin, Wrench, AlertTriangle, FileText, LogOut, HelpCircle, Smartphone, Bell } from "lucide-react";
 import { signOut } from "next-auth/react";
 import ReleaseBadge from "@/components/release-badge";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 export default function Sidebar() {
   const handleLogout = async () => {
@@ -16,79 +18,92 @@ export default function Sidebar() {
     }
   };
 
+  const navigationItems = [
+    { href: "/dashboard", icon: BarChart3, label: "Dashboard" },
+    { href: "/assets", icon: Building2, label: "Assets", badge: "1,247" },
+    { href: "/rcm-templates", icon: Wrench, label: "RCM Templates" },
+    { href: "/maintenance", icon: Calendar, label: "Maintenance" },
+    { href: "/assets/map", icon: MapPin, label: "Asset Map" },
+    { href: "/risk-analysis", icon: AlertTriangle, label: "Risk Analysis" },
+    { href: "/mobile/dashboard", icon: Smartphone, label: "Mobile App" },
+    { href: "/reports/risk-compliance", icon: AlertTriangle, label: "Risk & Compliance" },
+    { href: "/reports/asset-condition", icon: BarChart3, label: "Asset Trending" },
+    { href: "/reports/builder", icon: Settings, label: "Custom Reports" },
+    { href: "/admin/triage", icon: AlertTriangle, label: "Report Triage" },
+    { href: "/admin/notifications", icon: Bell, label: "Notifications" },
+    { href: "#", icon: Users, label: "Team" },
+  ];
+
+  const generalItems = [
+    { href: "/settings", icon: Settings, label: "Settings" },
+    { href: "#", icon: HelpCircle, label: "Help" },
+  ];
+
   return (
-    <aside className="w-64 h-screen flex flex-col pt-4 pl-4 pb-4">
-      <div className="bg-surface rounded-xl shadow-sm h-full flex flex-col">
-        <div className="pt-4 pl-4 pb-4">
-          <div className="flex items-center">
-            <span className="text-xl font-semibold text-foreground">Aegrid</span>
-          </div>
+    <div className="hidden border-r bg-muted/40 md:block">
+      <div className="flex h-full max-h-screen flex-col gap-2">
+        <div className="flex h-[60px] items-center border-b px-6">
+          <Link href="/dashboard" className="flex items-center gap-2 font-semibold">
+            <span className="text-xl">Aegrid</span>
+          </Link>
         </div>
-        <nav className="flex-1 p-4">
-          <div className="space-y-1">
-            <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">Menu</div>
-            <a href="/dashboard" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
-              <BarChart3 className="w-4 h-4" />Dashboard
-            </a>
-            <a href="/assets" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
-              <Building2 className="w-4 h-4" />Assets
-              <span className="ml-auto bg-accent text-accent-foreground text-xs px-2 py-1 rounded-full">1,247</span>
-            </a>
-            <a href="/rcm-templates" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
-              <Wrench className="w-4 h-4" />RCM Templates
-            </a>
-            <a href="/maintenance" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
-              <Calendar className="w-4 h-4" />Maintenance
-            </a>
-            <a href="/assets/map" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
-              <MapPin className="w-4 h-4" />Asset Map
-            </a>
-            <a href="/risk-analysis" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
-              <AlertTriangle className="w-4 h-4" />Risk Analysis
-            </a>
-            <a href="/mobile/dashboard" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
-              <Smartphone className="w-4 h-4" />Mobile App
-            </a>
-            <a href="/reports/risk-compliance" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
-              <AlertTriangle className="w-4 h-4" />Risk & Compliance
-            </a>
-            <a href="/reports/asset-condition" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
-              <BarChart3 className="w-4 h-4" />Asset Trending
-            </a>
-            <a href="/reports/builder" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
-              <Settings className="w-4 h-4" />Custom Reports
-            </a>
-            <a href="/admin/triage" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
-              <AlertTriangle className="w-4 h-4" />Report Triage
-            </a>
-            <a href="/admin/notifications" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
-              <Bell className="w-4 h-4" />Notifications
-            </a>
-            <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
-              <Users className="w-4 h-4" />Team
-            </a>
-          </div>
-          <div className="mt-8 space-y-1">
-            <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">General</div>
-            <a href="/settings" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
-              <Settings className="w-4 h-4" />Settings
-            </a>
-            <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors">
-              <HelpCircle className="w-4 h-4" />Help
-            </a>
+        <div className="flex-1 overflow-auto py-2">
+          <nav className="grid items-start px-4 text-sm font-medium">
+            <div className="px-3 py-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+              Menu
+            </div>
+            {navigationItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+                  "hover:bg-accent hover:text-accent-foreground"
+                )}
+              >
+                <item.icon className="h-4 w-4" />
+                {item.label}
+                {item.badge && (
+                  <span className="ml-auto bg-accent text-accent-foreground text-xs px-2 py-1 rounded-full">
+                    {item.badge}
+                  </span>
+                )}
+              </Link>
+            ))}
+            
+            <div className="px-3 py-2 text-xs font-medium text-muted-foreground uppercase tracking-wider mt-6">
+              General
+            </div>
+            {generalItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+                  "hover:bg-accent hover:text-accent-foreground"
+                )}
+              >
+                <item.icon className="h-4 w-4" />
+                {item.label}
+              </Link>
+            ))}
+            
             <button 
               onClick={handleLogout}
-              className="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors w-full text-left"
+              className={cn(
+                "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+                "hover:bg-accent hover:text-accent-foreground w-full text-left"
+              )}
             >
-              <LogOut className="w-4 h-4" />Logout
+              <LogOut className="h-4 w-4" />
+              Logout
             </button>
-          </div>
-        </nav>
-
-        <div className="p-4 mt-auto">
+          </nav>
+        </div>
+        <div className="mt-auto p-4">
           <ReleaseBadge />
         </div>
       </div>
-    </aside>
+    </div>
   );
 }

@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import AppLayout from '@/components/layout/app-layout';
 import { 
   Users, 
   Activity, 
@@ -19,7 +20,7 @@ import {
 import { canAccessAdmin } from "@/lib/rbac";
 
 /**
- * Settings Page
+ * Settings Page following shadcn/ui standards
  * Central location for all user and system settings
  * @component SettingsPage
  * @example
@@ -35,15 +36,16 @@ export default function SettingsPage() {
   const { data: session } = useSession();
 
   return (
-    <main className="container mx-auto py-8 px-4 max-w-6xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-foreground mb-2">Settings</h1>
-        <p className="text-muted-foreground">
-          Manage your account settings, preferences, and system configuration.
-        </p>
-      </div>
+    <AppLayout requiredRoles={['ADMIN', 'EXEC', 'MANAGER', 'SUPERVISOR', 'CREW']}>
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
+          <p className="text-muted-foreground">
+            Manage your account settings, preferences, and system configuration.
+          </p>
+        </div>
 
-      <div className="grid gap-6">
+        <div className="grid gap-6">
         {/* Personal Settings */}
         <Card>
           <CardHeader>
@@ -260,7 +262,8 @@ export default function SettingsPage() {
             </Card>
           </>
         )}
+        </div>
       </div>
-    </main>
+    </AppLayout>
   );
 }

@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect } from "react";
-import { ProtectedRoute } from "@/components/auth/protected-route";
 import { MobileDashboard } from "@/components/mobile/mobile-dashboard";
 
 /**
  * Mobile Dashboard Page
  * Main dashboard for mobile PWA users
+ * Uses separate mobile layout without main app authentication
  */
 export default function MobileDashboardPage() {
   useEffect(() => {
@@ -27,11 +27,5 @@ export default function MobileDashboardPage() {
     });
   }, []);
 
-  return (
-    <ProtectedRoute>
-      <div className="min-h-screen bg-background">
-        <MobileDashboard />
-      </div>
-    </ProtectedRoute>
-  );
+  return <MobileDashboard />;
 }

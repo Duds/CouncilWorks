@@ -21,6 +21,11 @@ export async function middleware(request: NextRequest) {
     });
   }
 
+  // Skip authentication for citizen and mobile apps
+  if (pathname.startsWith('/citizen') || pathname.startsWith('/mobile')) {
+    return response;
+  }
+
   // Authentication checks for protected routes
   const token = await getToken({ req: request });
   const { pathname } = request.nextUrl;

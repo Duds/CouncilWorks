@@ -1,8 +1,9 @@
 "use client";
 
-import { Search, Bell, Mail } from "lucide-react";
+import { Search, Bell, Mail, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Input } from "@/components/ui/input";
 import { getKeyboardShortcut } from "@/lib/device-detection";
 import { useSession } from "next-auth/react";
 
@@ -21,57 +22,63 @@ export default function Header() {
   };
 
   return (
-    <div className="pt-4 pl-4 pr-4 pb-0">
-      <header className="bg-surface rounded-xl shadow-sm px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
-              <input
-                type="text"
-                placeholder="Search assets..."
-                className="pl-10 pr-10 py-2 bg-white rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary w-80"
-              />
-              <kbd className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-foreground bg-muted border border-border px-2 py-0.5 rounded-md shadow-sm">
-                {getKeyboardShortcut('F')}
-              </kbd>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <Button className="bg-primary text-primary-foreground hover:bg-primary/90">+ Add Asset</Button>
-            <Button variant="outline" className="border-border text-foreground hover:bg-muted bg-transparent">Import Data</Button>
-            <div className="flex items-center gap-2">
-              <button className="p-2 hover:bg-muted rounded-lg transition-colors" aria-label="Open messages" title="Open messages">
-                <Mail className="w-5 h-5 text-foreground" />
-              </button>
-              <button className="p-2 hover:bg-muted rounded-lg transition-colors relative" aria-label="Notifications" title="Notifications">
-                <Bell className="w-5 h-5 text-foreground" />
-                <span className="absolute -top-1 -right-1 w-3 h-3 bg-accent rounded-full"></span>
-              </button>
-              <div className="flex items-center gap-3 ml-4">
-                <div className="text-right">
-                  <div className="text-sm font-medium text-foreground">
-                    {session?.user?.name || "User"}
-                  </div>
-                  <div className="text-xs text-muted-foreground">
-                    {session?.user?.email || "user@example.com"}
-                  </div>
-                </div>
-                <Avatar className="h-10 w-10">
-                  <AvatarImage 
-                    src={session?.user?.image || undefined} 
-                    alt={session?.user?.name || "User avatar"}
-                  />
-                  <AvatarFallback>
-                    {getUserInitials(session?.user?.name)}
-                  </AvatarFallback>
-                </Avatar>
-              </div>
-            </div>
+    <header className="flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
+      <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
+        <div className="w-full flex-1">
+          <div className="relative">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input
+              type="search"
+              placeholder="Search assets..."
+              className="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
+            />
+            <kbd className="pointer-events-none absolute right-2.5 top-2.5 hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
+              <span className="text-xs">{getKeyboardShortcut('F')}</span>
+            </kbd>
           </div>
         </div>
-      </header>
-    </div>
+        <div className="flex items-center gap-2">
+          <Button size="sm" className="h-8 gap-1">
+            <Plus className="h-4 w-4" />
+            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+              Add Asset
+            </span>
+          </Button>
+          <Button variant="outline" size="sm" className="h-8 gap-1">
+            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+              Import Data
+            </span>
+          </Button>
+          <Button variant="outline" size="icon" className="h-8 w-8">
+            <Mail className="h-4 w-4" />
+            <span className="sr-only">Open messages</span>
+          </Button>
+          <Button variant="outline" size="icon" className="h-8 w-8 relative">
+            <Bell className="h-4 w-4" />
+            <span className="sr-only">Notifications</span>
+            <span className="absolute -top-1 -right-1 h-3 w-3 bg-accent rounded-full"></span>
+          </Button>
+          <div className="flex items-center gap-2">
+            <div className="text-right">
+              <div className="text-sm font-medium">
+                {session?.user?.name || "User"}
+              </div>
+              <div className="text-xs text-muted-foreground">
+                {session?.user?.email || "user@example.com"}
+              </div>
+            </div>
+            <Avatar className="h-8 w-8">
+              <AvatarImage 
+                src={session?.user?.image || undefined} 
+                alt={session?.user?.name || "User avatar"}
+              />
+              <AvatarFallback>
+                {getUserInitials(session?.user?.name)}
+              </AvatarFallback>
+            </Avatar>
+          </div>
+        </div>
+      </div>
+    </header>
   );
 }
