@@ -25,6 +25,7 @@ model Organisation {
   assets    Asset[]
   auditLogs AuditLog[]
   rcmTemplates RCMTemplate[]
+  invitations Invitation[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
@@ -75,6 +76,9 @@ model User {
   // RCM Templates & Scheduling
   rcmTemplatesCreated RCMTemplate[] @relation("RCMTemplateCreatedBy")
   // maintenanceSchedulesAssigned MaintenanceSchedule[] @relation("MaintenanceScheduleAssignedTo")
+  
+  // Invitations
+  invitationsSent Invitation[] @relation("InvitedBy")
 }
 
 model Account {
@@ -637,4 +641,28 @@ model MaintenanceSchedule {
   @@index([dueDate])
   @@index([status])
   @@index([assignedTo])
+}
+
+model Invitation {
+  id            String     @id @default(cuid())
+  email         String
+  role          Role
+  organisationId String
+  organisation  Organisation @relation(fields: [organisationId], references: [id])
+  invitedBy     String
+  invitedByUser User       @relation("InvitedBy", fields: [invitedBy], references: [id])
+  message       String?
+  status        InvitationStatus @default(PENDING)
+  expiresAt     DateTime
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  
+  @@unique([email, organisationId])
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  EXPIRED
+  CANCELLED
 }

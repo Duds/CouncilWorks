@@ -42,6 +42,11 @@ export async function middleware(request: NextRequest) {
     if (!token) {
       return NextResponse.redirect(new URL('/auth/sign-in', request.url));
     }
+    
+    // Check if user needs onboarding (no organisation)
+    if (!token.organisationId) {
+      return NextResponse.redirect(new URL('/onboarding/welcome', request.url));
+    }
   }
 
   return response;
