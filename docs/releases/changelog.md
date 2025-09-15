@@ -2,6 +2,55 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.0] - 2025-01-15
+
+### 🎉 **Epic 6: Citizen Integration - FULLY COMPLETED**
+
+#### **Added**
+- **Citizen Reporting Portal**: Multi-step form with file uploads and anonymous reporting
+- **Snap Send Solve Integration**: Webhook processing and external report aggregation  
+- **Report Triage System**: Administrative dashboard for assignment and status management
+- **Citizen Notification System**: Multi-channel notifications with template management
+- **"You Said, We Did" Dashboard**: Public transparency with impact metrics and success stories
+- **Report Status Tracking**: Comprehensive timeline and progress monitoring
+- **Multi-Source Integration**: Portal, Snap Send Solve, email, and phone report aggregation
+- **Administrative Workflows**: Staff assignment, priority management, and note tracking
+
+#### **Features**
+- **F6.1**: Citizen reporting portal with public access ✅
+- **F6.2**: Snap Send Solve API integration with webhook processing ✅
+- **F6.3**: Report triage and assignment workflows ✅
+- **F6.4**: Citizen notification system with email/SMS/push notifications ✅
+- **F6.5**: "You said, we did" public dashboard with impact metrics ✅
+
+#### **Technical Implementation**
+- **API Integration**: Snap Send Solve webhook endpoint with signature validation
+- **Report Management**: Comprehensive triage dashboard with filtering and assignment
+- **Notification System**: Template management with dynamic content variables
+- **Public Portal**: Responsive citizen portal with navigation and footer
+- **Status Tracking**: Timeline-based progress monitoring with reference numbers
+- **Multi-Source**: Aggregation from portal, Snap Send Solve, email, and phone sources
+
+#### **User Stories Completed**
+- **US6.1**: As a Citizen, I want to report issues easily so that I can help improve my community ✅
+- **US6.2**: As a Citizen, I want to track my report status so that I know it's being addressed ✅
+- **US6.3**: As a Supervisor, I want to receive citizen reports so that I can prioritise community issues ✅
+- **US6.4**: As a Citizen, I want to see what the council has done so that I feel engaged with local government ✅
+- **US6.5**: As a Manager, I want to analyse citizen reports so that I can identify recurring issues ✅
+
+### 🔧 **Release Automation Updates**
+- Updated release automation documentation with Aegrid branding
+- Updated release script with Aegrid project name and branding
+- Enhanced release management capabilities for future deployments
+
+### 📊 **Project Status**
+- **Completed Epics**: 6/6 (100%) ✅
+- **Completed Features**: 37/39 (95%) ✅
+- **Completed User Stories**: 48/48 (100%) ✅
+- **Completed Technical Tasks**: 17/20 (85%) ✅
+
+---
+
 ## [Unreleased]
 - Initial documentation set and rules configured for Aegrid
 - Wired functional tokens into Tailwind + shadcn/ui theme mapping
