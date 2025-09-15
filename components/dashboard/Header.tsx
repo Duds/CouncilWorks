@@ -3,6 +3,7 @@
 import { Search, Bell, Mail, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 import { getKeyboardShortcut } from "@/lib/device-detection";
 
 interface HeaderProps {
@@ -14,6 +15,9 @@ export default function Header({ title, description }: HeaderProps) {
   return (
     <header className="flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
       <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
+        {/* Sidebar Trigger for mobile */}
+        <SidebarTrigger className="md:hidden" />
+        
         {/* Page Title Section */}
         <div className="flex-1">
           {title && (

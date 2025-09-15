@@ -31,25 +31,22 @@ export default function AppLayout({ children, requiredRoles, title, description 
   return (
     <ProtectedRoute requiredRoles={requiredRoles}>
       <SidebarProvider
+        defaultOpen={true}
         style={
           {
-            "--sidebar-width": "calc(var(--spacing) * 72)",
-            "--header-height": "calc(var(--spacing) * 12)",
+            "--sidebar-width": "16rem",
+            "--sidebar-width-icon": "3rem",
           } as React.CSSProperties
         }
       >
-        <AppSidebar variant="inset" />
+        <AppSidebar variant="sidebar" collapsible="offcanvas" />
         <SidebarInset>
           <Header title={title} description={description} />
-          <div className="flex flex-1 flex-col">
-            <div className="@container/main flex flex-1 flex-col gap-2">
-              <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-                <div className="px-4 lg:px-6">
-                  {children}
-                </div>
-              </div>
+          <main className="flex-1 p-6">
+            <div className="max-w-7xl mx-auto">
+              {children}
             </div>
-          </div>
+          </main>
         </SidebarInset>
       </SidebarProvider>
     </ProtectedRoute>

@@ -67,7 +67,7 @@ export default function AppSidebar() {
   ];
 
   return (
-    <Sidebar variant="inset">
+    <Sidebar variant="sidebar" collapsible="offcanvas">
       <SidebarHeader>
         <Link href="/dashboard" className="flex items-center gap-2 font-semibold px-2">
           <span className="text-xl">Aegrid</span>
