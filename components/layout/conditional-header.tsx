@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import type { Route } from "next";
@@ -43,7 +44,16 @@ export default function ConditionalHeader({ children }: ConditionalHeaderProps) 
     <>
       <header className="p-4 border-b border-border">
         <div className="mx-auto flex max-w-6xl items-center justify-between">
-          <Link href="/" className="font-semibold">Aegrid</Link>
+          <Link href="/" className="flex items-center gap-2 font-semibold">
+            <Image 
+              src="/images/logos/Aegrid.svg" 
+              alt="Aegrid Logo" 
+              width={40} 
+              height={24}
+              className="h-6 w-auto"
+            />
+            <span>Aegrid</span>
+          </Link>
           <div className="flex items-center gap-3">
             <nav className="hidden sm:flex items-center gap-2">
               <Link href={"/auth/sign-in" as Route}>

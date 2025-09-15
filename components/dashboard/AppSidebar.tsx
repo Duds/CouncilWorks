@@ -4,6 +4,7 @@ import { Building2, BarChart3, Calendar, Settings, Users, MapPin, Wrench, AlertT
 import { signOut, useSession } from "next-auth/react";
 import ReleaseBadge from "@/components/release-badge";
 import Link from "next/link";
+import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -70,6 +71,13 @@ export default function AppSidebar() {
     <Sidebar variant="sidebar" collapsible="offcanvas">
       <SidebarHeader>
         <Link href="/dashboard" className="flex items-center gap-2 font-semibold px-2">
+          <Image 
+            src="/images/logos/Aegrid.svg" 
+            alt="Aegrid Logo" 
+            width={32} 
+            height={20}
+            className="h-5 w-auto"
+          />
           <span className="text-xl">Aegrid</span>
         </Link>
       </SidebarHeader>
