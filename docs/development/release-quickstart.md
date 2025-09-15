@@ -1,4 +1,4 @@
-# CouncilWorks Release Automation Quick Start Guide
+# Aegrid Release Automation Quick Start Guide
 
 ## Prerequisites
 
@@ -20,21 +20,21 @@ ACR_USERNAME=your-acr-username
 ACR_PASSWORD=your-acr-password
 
 # Azure Container Apps
-CONTAINER_APP_NAME_STAGING=councilworks-staging
-CONTAINER_APP_NAME_PRODUCTION=councilworks-production
+CONTAINER_APP_NAME_STAGING=aegrid-staging
+CONTAINER_APP_NAME_PRODUCTION=aegrid-production
 RESOURCE_GROUP=your-resource-group
 
 # Database URLs
-STAGING_DATABASE_URL=postgresql://user:password@staging-db:5432/councilworks_staging
-PRODUCTION_DATABASE_URL=postgresql://user:password@production-db:5432/councilworks_production
+STAGING_DATABASE_URL=postgresql://user:password@staging-db:5432/aegrid_staging
+PRODUCTION_DATABASE_URL=postgresql://user:password@production-db:5432/aegrid_production
 
 # Authentication
 STAGING_NEXTAUTH_SECRET=your-staging-secret-32-chars-min
 PRODUCTION_NEXTAUTH_SECRET=your-production-secret-32-chars-min
 
 # URLs
-STAGING_URL=https://councilworks-staging.azurecontainerapps.io
-PRODUCTION_URL=https://councilworks.azurecontainerapps.io
+STAGING_URL=https://aegrid-staging.azurecontainerapps.io
+PRODUCTION_URL=https://aegrid.azurecontainerapps.io
 
 # Notifications
 SLACK_WEBHOOK_URL=https://hooks.slack.com/services/your/webhook
@@ -140,7 +140,7 @@ pnpm dev
 ./scripts/environment.sh deploy staging
 
 # Check deployment status
-# Visit: https://councilworks-staging.azurecontainerapps.io
+# Visit: https://aegrid-staging.azurecontainerapps.io
 ```
 
 ### Production Deployment
@@ -149,7 +149,7 @@ pnpm dev
 ./scripts/environment.sh deploy production
 
 # Check deployment status
-# Visit: https://councilworks.azurecontainerapps.io
+# Visit: https://aegrid.azurecontainerapps.io
 ```
 
 ## Monitoring and Troubleshooting

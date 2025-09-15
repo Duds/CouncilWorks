@@ -14,6 +14,6 @@
 
 ## Code & Files
 - Folders: kebab-case; files kebab-case; TypeScript identifiers camelCase.
-- Docker images: `councilworks-{service}`; tags as semver or git SHA.
+- Docker images: `aegrid-{service}`; tags as semver or git SHA.
 - Branches: `feature/{name}`, `fix/{name}`, `docs/{name}`; semantic commits.
 - Infrastructure: consistent labels/annotations; K8s names kebab-case.

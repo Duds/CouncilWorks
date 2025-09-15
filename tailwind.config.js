@@ -1,5 +1,5 @@
 /**
- * CouncilWorks Tailwind Config
+ * Aegrid Tailwind Config
  * Brand tokens are defined as CSS variables in styles/brand-tokens.css
  * Dark mode toggled via .dark class on <html> (compatible with shadcn/ui)
  */

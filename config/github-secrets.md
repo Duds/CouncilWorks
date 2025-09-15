@@ -1,4 +1,4 @@
-# CouncilWorks GitHub Secrets Configuration
+# Aegrid GitHub Secrets Configuration
 
 This document outlines the required secrets for GitHub Actions workflows and deployment automation.
 
@@ -13,33 +13,33 @@ ACR_PASSWORD=your-acr-password
 
 ### Azure Container Apps
 ```
-CONTAINER_APP_NAME_STAGING=councilworks-staging
-CONTAINER_APP_NAME_PRODUCTION=councilworks-production
+CONTAINER_APP_NAME_STAGING=aegrid-staging
+CONTAINER_APP_NAME_PRODUCTION=aegrid-production
 RESOURCE_GROUP=your-resource-group
 ```
 
 ### Database Configuration
 ```
-STAGING_DATABASE_URL=postgresql://user:password@staging-db:5432/councilworks_staging
-STAGING_DIRECT_URL=postgresql://user:password@staging-db:5432/councilworks_staging
-PRODUCTION_DATABASE_URL=postgresql://user:password@production-db:5432/councilworks_production
-PRODUCTION_DIRECT_URL=postgresql://user:password@production-db:5432/councilworks_production
+STAGING_DATABASE_URL=postgresql://user:password@staging-db:5432/aegrid_staging
+STAGING_DIRECT_URL=postgresql://user:password@staging-db:5432/aegrid_staging
+PRODUCTION_DATABASE_URL=postgresql://user:password@production-db:5432/aegrid_production
+PRODUCTION_DIRECT_URL=postgresql://user:password@production-db:5432/aegrid_production
 ```
 
 ### Authentication Secrets
 ```
-STAGING_NEXTAUTH_URL=https://councilworks-staging.azurecontainerapps.io
+STAGING_NEXTAUTH_URL=https://aegrid-staging.azurecontainerapps.io
 STAGING_NEXTAUTH_SECRET=your-staging-nextauth-secret-32-chars-min
-PRODUCTION_NEXTAUTH_URL=https://councilworks.azurecontainerapps.io
+PRODUCTION_NEXTAUTH_URL=https://aegrid.azurecontainerapps.io
 PRODUCTION_NEXTAUTH_SECRET=your-production-nextauth-secret-32-chars-min
 ```
 
 ### External Service URLs
 ```
-STAGING_API_URL=https://councilworks-staging.azurecontainerapps.io/api
-PRODUCTION_API_URL=https://councilworks.azurecontainerapps.io/api
-STAGING_URL=https://councilworks-staging.azurecontainerapps.io
-PRODUCTION_URL=https://councilworks.azurecontainerapps.io
+STAGING_API_URL=https://aegrid-staging.azurecontainerapps.io/api
+PRODUCTION_API_URL=https://aegrid.azurecontainerapps.io/api
+STAGING_URL=https://aegrid-staging.azurecontainerapps.io
+PRODUCTION_URL=https://aegrid.azurecontainerapps.io
 ```
 
 ### Azure Storage
@@ -56,7 +56,7 @@ PRODUCTION_APPLICATION_INSIGHTS_CONNECTION_STRING=InstrumentationKey=production-
 
 ### Security Configuration
 ```
-PRODUCTION_CORS_ORIGIN=https://councilworks.azurecontainerapps.io
+PRODUCTION_CORS_ORIGIN=https://aegrid.azurecontainerapps.io
 PRODUCTION_RATE_LIMIT_MAX=100
 ```
 

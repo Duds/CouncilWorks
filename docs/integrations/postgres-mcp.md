@@ -1,6 +1,6 @@
 ### PostgreSQL MCP Server Integration (Claude/Model Context Protocol)
 
-This guide documents how to run the PostgreSQL MCP server locally for CouncilWorks to allow AI assistants to safely query and manage PostgreSQL.
+This guide documents how to run the PostgreSQL MCP server locally for Aegrid to allow AI assistants to safely query and manage PostgreSQL.
 
 - **Upstream**: `https://github.com/HenkDz/postgresql-mcp-server`
 - **Requirements**: Node.js ≥ 18, access to a PostgreSQL instance
@@ -35,7 +35,7 @@ cp .env.local.example .env.local
 Example `.env.local` entry:
 
 ```bash
-POSTGRES_MCP_CONNECTION_STRING="postgresql://cw_dev_mcp:changeme@localhost:5432/councilworks_dev"
+POSTGRES_MCP_CONNECTION_STRING="postgresql://cw_dev_mcp:changeme@localhost:5432/aegrid_dev"
 ```
 
 Run the server:
@@ -67,7 +67,7 @@ If your MCP client supports JSON configuration (example below), add:
 - Use least-privilege DB users; avoid superuser for day-to-day operations.
 - Validate inputs and prefer parameterised operations (the server enforces this by design).
 - Store secrets locally in `.env.local` (do not commit) and use separate dev/test DBs.
-- Follow `docs/security/rbac-implementation.md` for role mapping in CouncilWorks.
+- Follow `docs/security/rbac-implementation.md` for role mapping in Aegrid.
 - Australian conventions: dates DD/MM/YYYY, 24-hour time, Australian English.
 
 #### Provision a dev-only database user (least privilege)
@@ -75,7 +75,7 @@ If your MCP client supports JSON configuration (example below), add:
 Use the provided SQL to create a minimal-privilege user for local development:
 
 - File: `scripts/db/create-dev-user.sql`
-- Defaults: user `cw_dev_mcp`, password `changeme`, database `councilworks_dev`
+- Defaults: user `cw_dev_mcp`, password `changeme`, database `aegrid_dev`
 
 Run with psql (adjust connection as needed):
 
@@ -86,13 +86,13 @@ psql -U postgres -h localhost -p 5432 -f scripts/db/create-dev-user.sql
 Optional: create the database if it does not exist:
 
 ```sql
-CREATE DATABASE councilworks_dev;
+CREATE DATABASE aegrid_dev;
 ```
 
 #### Seed template for development
 
 - File: `scripts/db/seed-template.sql`
-- Replace placeholders with CouncilWorks domain seed data per `docs/database/seed-implementation.md`
+- Replace placeholders with Aegrid domain seed data per `docs/database/seed-implementation.md`
 
 Run:
 
@@ -109,7 +109,7 @@ psql "${POSTGRES_MCP_CONNECTION_STRING}" -f scripts/db/seed-template.sql
 - Auth failed: verify user/password and privileges; try connecting with `psql` using the same string
 - SSL errors: append `?sslmode=disable` for local-only if appropriate, or configure certificates
 - PATH issues for global install: output npm bin path `npm bin -g` and add to your shell's PATH
-- Multiple projects: ensure distinct DB names/ports (e.g., CapOpt vs CouncilWorks) to avoid conflicts
+- Multiple projects: ensure distinct DB names/ports (e.g., CapOpt vs Aegrid) to avoid conflicts
 
 #### Cursor setup (MCP & Integrations)
 

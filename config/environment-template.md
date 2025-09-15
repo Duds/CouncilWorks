@@ -1,4 +1,4 @@
-# CouncilWorks Environment Configuration
+# Aegrid Environment Configuration
 # This file contains environment-specific settings for different deployment environments
 
 # Environment Types
@@ -18,8 +18,8 @@
 # NEXT_PUBLIC_APP_ENV=local
 
 # Database Configuration
-# DATABASE_URL="postgresql://councilworks:password@localhost:5432/councilworks_dev"
-# DIRECT_URL="postgresql://councilworks:password@localhost:5432/councilworks_dev"
+# DATABASE_URL="postgresql://aegrid:password@localhost:5432/aegrid_dev"
+# DIRECT_URL="postgresql://aegrid:password@localhost:5432/aegrid_dev"
 
 # Authentication
 # NEXTAUTH_URL=http://localhost:3000
@@ -114,21 +114,21 @@
 # ACR_PASSWORD=your-acr-password
 
 # Azure Container Apps
-# CONTAINER_APP_NAME_STAGING=councilworks-staging
-# CONTAINER_APP_NAME_PRODUCTION=councilworks-production
+# CONTAINER_APP_NAME_STAGING=aegrid-staging
+# CONTAINER_APP_NAME_PRODUCTION=aegrid-production
 # RESOURCE_GROUP=your-resource-group
 
 # Database URLs
-# STAGING_DATABASE_URL=postgresql://user:password@staging-db:5432/councilworks_staging
-# PRODUCTION_DATABASE_URL=postgresql://user:password@production-db:5432/councilworks_production
+# STAGING_DATABASE_URL=postgresql://user:password@staging-db:5432/aegrid_staging
+# PRODUCTION_DATABASE_URL=postgresql://user:password@production-db:5432/aegrid_production
 
 # Authentication Secrets
 # STAGING_NEXTAUTH_SECRET=your-staging-nextauth-secret
 # PRODUCTION_NEXTAUTH_SECRET=your-production-nextauth-secret
 
 # External Service URLs
-# STAGING_URL=https://councilworks-staging.azurecontainerapps.io
-# PRODUCTION_URL=https://councilworks.azurecontainerapps.io
+# STAGING_URL=https://aegrid-staging.azurecontainerapps.io
+# PRODUCTION_URL=https://aegrid.azurecontainerapps.io
 
 # Notification
 # SLACK_WEBHOOK_URL=https://hooks.slack.com/services/your/slack/webhook

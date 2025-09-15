@@ -1,6 +1,6 @@
-# CouncilWorks GitHub Project Setup
+# Aegrid GitHub Project Setup
 
-This document provides instructions for setting up GitHub Projects integration with the CouncilWorks release automation system.
+This document provides instructions for setting up GitHub Projects integration with the Aegrid release automation system.
 
 ## Project Structure
 
@@ -28,7 +28,7 @@ This document provides instructions for setting up GitHub Projects integration w
 2. Click on **Projects** tab
 3. Click **New project**
 4. Choose **Table** or **Board** view
-5. Name it "CouncilWorks Release Management"
+5. Name it "Aegrid Release Management"
 
 ### 2. Configure Columns
 

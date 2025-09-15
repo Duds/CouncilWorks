@@ -6,7 +6,7 @@
 
 ## Overview
 
-Successfully implemented and tested the complete CI/CD pipeline for CouncilWorks, fulfilling all Phase 0 requirements for automated build, test, lint, and security checks.
+Successfully implemented and tested the complete CI/CD pipeline for Aegrid, fulfilling all Phase 0 requirements for automated build, test, lint, and security checks.
 
 ## Implementation Details
 

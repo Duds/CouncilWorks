@@ -4,7 +4,7 @@ Last updated: 10/09/2025
 Owner: Engineering Lead
 
 ## Vision
-Build the MVP of CouncilWorks (by GridWorks) - the Council Asset Lifecycle Intelligence Platform - focusing on RCM‑lite, GIS-enabled asset registry, preventive scheduling, offline inspections, SLA/SLM, Critical Controls (CCT), and executive dashboards. Align to Australian standards (language, dates, time, units, currency, holidays).
+Build the MVP of Aegrid (by GridWorks) - the Council Asset Lifecycle Intelligence Platform - focusing on RCM‑lite, GIS-enabled asset registry, preventive scheduling, offline inspections, SLA/SLM, Critical Controls (CCT), and executive dashboards. Align to Australian standards (language, dates, time, units, currency, holidays).
 
 ## Technology Stack
 - Frontend: Next.js (App Router), React 18, TypeScript strict mode, shadcn/ui.

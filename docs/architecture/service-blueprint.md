@@ -1,6 +1,6 @@
-# Service Blueprint – CouncilWorks
+# Service Blueprint – Aegrid
 
-CouncilWorks connects front-line crews, council managers, executives, and citizens through a unified asset lifecycle intelligence platform. This blueprint outlines how the service operates across frontstage (user actions), backstage (internal processes), enabling systems, and support layers.
+Aegrid connects front-line crews, council managers, executives, and citizens through a unified asset lifecycle intelligence platform. This blueprint outlines how the service operates across frontstage (user actions), backstage (internal processes), enabling systems, and support layers.
 
 ---
 
@@ -8,7 +8,7 @@ CouncilWorks connects front-line crews, council managers, executives, and citize
 
 | **Step** | **Frontstage (User Actions)** | **Backstage (Processes)** | **Systems / Tools** | **Outputs / Value** | **Metrics** |
 |----------|--------------------------------|----------------------------|----------------------|----------------------|-------------|
-| **1. Login & Access** | User logs into CouncilWorks dashboard or mobile app. | Role-based access applied; user session validated. | API Gateway, Auth service (OAuth2/SSO), Postgres | Personalised dashboard view. | Login success %, failed logins, active users. |
+| **1. Login & Access** | User logs into Aegrid dashboard or mobile app. | Role-based access applied; user session validated. | API Gateway, Auth service (OAuth2/SSO), Postgres | Personalised dashboard view. | Login success %, failed logins, active users. |
 | **2. Asset Data Capture** | Asset Manager imports assets or Crew records an inspection in field. | Data validation, standardisation, and mapping to asset model. | ERP integration, Mobile PWA, Postgres + PostGIS | Updated register with location, type, and condition. | Number of assets imported, inspection completion rate. |
 | **3. Preventive Maintenance Scheduling** | Supervisor views upcoming jobs and work orders. | RCM-lite templates generate schedules; jobs auto-prioritised by risk. | Analytics Engine (Python), Scheduler Service, DB | Work order queue aligned to risk and lifecycle stage. | % preventive vs reactive jobs, overdue tasks. |
 | **4. Citizen Issue Report** | Citizen reports a playground fault via portal/Snap Send Solve. | Report normalised, linked to asset, converted into work order. | API Gateway, Citizen App integration, DB | Seamless intake of citizen issues into workflows. | Avg. citizen-to-work-order processing time. |
@@ -51,7 +51,7 @@ CouncilWorks connects front-line crews, council managers, executives, and citize
 
 ## Service Layers
 1. **Frontstage** – Users: citizens, crews, supervisors, managers, executives.  
-2. **Backstage** – CouncilWorks processes: scheduling, validation, reporting, analytics, SLA timers and alerts.  
+2. **Backstage** – Aegrid processes: scheduling, validation, reporting, analytics, SLA timers and alerts.  
 3. **Systems** – Platform stack: API Gateway (Node.js), Analytics Engine (Python), PostgreSQL + PostGIS, Next.js frontend, PWA mobile.  
 4. **Support** – Training, support desk, SLA-based response, contract performance, continuous release updates.  
 5. **Metrics Layer** – Operational KPIs, SLA compliance, contract health, community satisfaction indicators.

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# CouncilWorks Environment Management Script
+# Aegrid Environment Management Script
 # Manages environment-specific configurations and deployments
 
 set -e
@@ -56,8 +56,8 @@ NODE_ENV=development
 NEXT_PUBLIC_APP_ENV=local
 
 # Database
-DATABASE_URL="postgresql://councilworks:password@localhost:5432/councilworks_dev"
-DIRECT_URL="postgresql://councilworks:password@localhost:5432/councilworks_dev"
+DATABASE_URL="postgresql://aegrid:password@localhost:5432/aegrid_dev"
+DIRECT_URL="postgresql://aegrid:password@localhost:5432/aegrid_dev"
 
 # Authentication
 NEXTAUTH_URL=http://localhost:3000
@@ -344,7 +344,7 @@ show_status() {
 # Show help
 show_help() {
     cat << EOF
-CouncilWorks Environment Management Script
+Aegrid Environment Management Script
 
 Usage: $0 <command> [options]
 

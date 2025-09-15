@@ -31,7 +31,7 @@ Last updated: 13/09/2025
 - ✅ Document management system with local storage
 - ✅ Spatial queries and map-based asset selection
 - ✅ Asset search, filtering, and pagination
-- ✅ Complete Aegrid rebranding (CouncilWorks → Aegrid)
+- ✅ Complete Aegrid rebranding (Aegrid → Aegrid)
 - ✅ All database and configuration updates completed
 
 **Epic 2 Phased Delivery Plan**:

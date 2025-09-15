@@ -1,4 +1,4 @@
--- Creates a least-privilege dev user for CouncilWorks local development
+-- Creates a least-privilege dev user for Aegrid local development
 -- Adjust password and database name as needed
 
 DO $$
@@ -12,13 +12,13 @@ END
 $$;
 
 -- Ensure database exists (run separately if needed)
--- CREATE DATABASE councilworks_dev;
+-- CREATE DATABASE aegrid_dev;
 
 -- Grant minimal privileges on target database
-GRANT CONNECT ON DATABASE councilworks_dev TO cw_dev_mcp;
+GRANT CONNECT ON DATABASE aegrid_dev TO cw_dev_mcp;
 
 -- Connect to the database and set schema privileges
--- \c councilworks_dev
+-- \c aegrid_dev
 
 -- For public schema: usage only by default; grant needed tables explicitly later
 GRANT USAGE ON SCHEMA public TO cw_dev_mcp;

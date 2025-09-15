@@ -1,8 +1,8 @@
-# CouncilWorks Theming Framework
+# Aegrid Theming Framework
 
 ## Overview
 
-The CouncilWorks theming framework provides a systematic approach to visual design, ensuring consistency, accessibility, and maintainability across the platform. Built on Tailwind CSS with shadcn/ui components, it leverages CSS custom properties for dynamic theming and supports both light and dark modes.
+The Aegrid theming framework provides a systematic approach to visual design, ensuring consistency, accessibility, and maintainability across the platform. Built on Tailwind CSS with shadcn/ui components, it leverages CSS custom properties for dynamic theming and supports both light and dark modes.
 
 ## Core Design Principles
 

@@ -1,7 +1,7 @@
-# Service Concept – CouncilWorks
+# Service Concept – Aegrid
 
 ## Purpose
-CouncilWorks is the flagship product of GridWorks, designed to help local governments move beyond static asset registers and complex ERP modules. It provides a dedicated intelligence layer for asset lifecycle management, giving councils practical tools to extend asset life, reduce risk, and demonstrate accountability to their communities.
+Aegrid is the flagship product of GridWorks, designed to help local governments move beyond static asset registers and complex ERP modules. It provides a dedicated intelligence layer for asset lifecycle management, giving councils practical tools to extend asset life, reduce risk, and demonstrate accountability to their communities.
 
 ---
 
@@ -16,7 +16,7 @@ The result: **reactive maintenance, inefficient spending, audit risk, and public
 ---
 
 ## Service Proposition
-**CouncilWorks delivers proactive, connected asset lifecycle intelligence.**  
+**Aegrid delivers proactive, connected asset lifecycle intelligence.**  
 It unifies registers, risk models, work orders, inspections, and forecasting in a single SaaS platform built specifically for councils.
 
 ### Key Capabilities
@@ -35,7 +35,7 @@ It unifies registers, risk models, work orders, inspections, and forecasting in 
 
 ## RCM + CCT Integration Model
 
-CouncilWorks combines **Reliability-Centred Maintenance (RCM-lite)** and **Critical Control Theory (CCT)** into a unified framework:
+Aegrid combines **Reliability-Centred Maintenance (RCM-lite)** and **Critical Control Theory (CCT)** into a unified framework:
 
 ```puml
 @startuml
@@ -66,10 +66,10 @@ package "Critical Control Theory" {
 ### How It Works
 1. **RCM-lite** identifies the right mix of preventive, reactive, and condition-based maintenance for all assets.  
 2. **Critical Control Theory overlay** elevates certain tasks as *critical controls* for high-risk assets (e.g. bridge inspection, dam safety audit).  
-3. These controls are enforced by CouncilWorks with **SLA tracking, escalation alerts, and compliance dashboards**.  
+3. These controls are enforced by Aegrid with **SLA tracking, escalation alerts, and compliance dashboards**.  
 
 9. **SLA & Service Lifecycle Management (SLM)**  
-   Manage outsourced services and contractor performance within CouncilWorks.  
+   Manage outsourced services and contractor performance within Aegrid.  
    - SLA definition at contract level with parameters (response, resolution, frequency, cost model).  
    - Contract records: vendor details, term dates, scope, alerts for expiry/renewal.  
    - Vendor portal access with restricted RBAC to view/complete assigned work orders, upload evidence (photos, notes, invoices).  
@@ -132,7 +132,7 @@ package "Critical Control Theory" {
 ---
 
 ## Positioning Statement
-**CouncilWorks by GridWorks unites Reliability-Centred Maintenance with Critical Control Theory to deliver practical asset lifecycle intelligence.**  
+**Aegrid by GridWorks unites Reliability-Centred Maintenance with Critical Control Theory to deliver practical asset lifecycle intelligence.**  
 It ensures that all assets are managed efficiently, while the critical few are controlled with absolute assurance.
 
 ---

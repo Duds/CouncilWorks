@@ -5,7 +5,7 @@ Owner: Development Team
 
 ## Overview
 
-This document defines the standard patterns for writing GitHub issues in the CouncilWorks project. All issues should follow these patterns to ensure consistency, clarity, and proper project management.
+This document defines the standard patterns for writing GitHub issues in the Aegrid project. All issues should follow these patterns to ensure consistency, clarity, and proper project management.
 
 ## Issue Types and Patterns
 

@@ -1,5 +1,5 @@
 -- Seed template for business-specific dev data (example placeholders)
--- Replace with CouncilWorks domain seed data per docs/database/seed-implementation.md
+-- Replace with Aegrid domain seed data per docs/database/seed-implementation.md
 
 BEGIN;
 

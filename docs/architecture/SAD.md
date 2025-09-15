@@ -8,7 +8,7 @@ Last updated: 10/09/2025
 
 ## 1. Introduction
 
-- **Purpose**: This document describes the architecture of **CouncilWorks**, the flagship product of GridWorks. It provides asset lifecycle intelligence, SLA/contractor tracking, and critical asset assurance.
+- **Purpose**: This document describes the architecture of **Aegrid**, the flagship product of GridWorks. It provides asset lifecycle intelligence, SLA/contractor tracking, and critical asset assurance.
 - **Scope**: Covers system goals, architecture overview, technology stack, integrations, deployment, and quality attributes, including **RCM-lite** and **Critical Control Theory (CCT)** integration.
 - **Stakeholders**: Asset Managers, Works Supervisors, Fleet Coordinators, Council Executives, Councillors, Citizens, Contractors, IT Administrators.
 
@@ -76,7 +76,7 @@ Last updated: 10/09/2025
 
 - Users: Council staff (Admin, Manager, Supervisor, Crew, Exec), Citizens, Vendors/Contractors (restricted portal access).
 - External Systems: ERP, GIS (e.g. ArcGIS), Identity Provider (IdP), Email/SMS, File storage, IoT.
-- CouncilWorks provides secure dashboards, APIs, mobile workflows, analytics, and reporting.
+- Aegrid provides secure dashboards, APIs, mobile workflows, analytics, and reporting.
 
 ### 4.2 C4: Containers
 
@@ -96,7 +96,7 @@ Last updated: 10/09/2025
 
 ```puml
 @startuml
-package "CouncilWorks Platform" {
+package "Aegrid Platform" {
   [API Gateway (Node.js)] --> [PostgreSQL + PostGIS]
   [API Gateway (Node.js)] --> [Analytics Engine (Python)]
   [Analytics Engine (Python)] --> [Dashboards (Next.js)]
@@ -163,7 +163,7 @@ package "CouncilWorks Platform" {
 - RCM defines the maintenance strategy.  
 - CCT defines the non-negotiable tasks.  
 - SLA module ensures contractors deliver on time.  
-- CouncilWorks enforces compliance with escalation, alerts, and reports.  
+- Aegrid enforces compliance with escalation, alerts, and reports.  
 
 ## 7. Security Architecture
 

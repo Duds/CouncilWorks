@@ -234,15 +234,15 @@ Local Development → Staging → Production
 ACR_NAME=your-acr-name
 ACR_USERNAME=your-acr-username
 ACR_PASSWORD=your-acr-password
-CONTAINER_APP_NAME_STAGING=councilworks-staging
-CONTAINER_APP_NAME_PRODUCTION=councilworks-production
+CONTAINER_APP_NAME_STAGING=aegrid-staging
+CONTAINER_APP_NAME_PRODUCTION=aegrid-production
 RESOURCE_GROUP=your-resource-group
 ```
 
 #### Database Configuration
 ```
-STAGING_DATABASE_URL=postgresql://user:password@staging-db:5432/councilworks_staging
-PRODUCTION_DATABASE_URL=postgresql://user:password@production-db:5432/councilworks_production
+STAGING_DATABASE_URL=postgresql://user:password@staging-db:5432/aegrid_staging
+PRODUCTION_DATABASE_URL=postgresql://user:password@production-db:5432/aegrid_production
 ```
 
 #### Authentication
@@ -262,7 +262,7 @@ SLACK_WEBHOOK_URL=https://hooks.slack.com/services/your/webhook
 ```bash
 NODE_ENV=development
 NEXT_PUBLIC_APP_ENV=local
-DATABASE_URL=postgresql://councilworks:password@localhost:5432/councilworks_dev
+DATABASE_URL=postgresql://aegrid:password@localhost:5432/aegrid_dev
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=local-development-secret
 ```

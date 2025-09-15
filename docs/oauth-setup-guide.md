@@ -1,4 +1,4 @@
-# OAuth Setup Guide for CouncilWorks
+# OAuth Setup Guide for Aegrid
 
 ## Google OAuth Configuration
 
@@ -10,16 +10,19 @@ The Google sign-in button is not working because the OAuth configuration needs t
    - Visit: https://console.cloud.google.com/
    - Select your project or create a new one
 
-2. **Enable Google+ API**
+2. **Enable Required APIs (Optional)**
    - Go to "APIs & Services" > "Library"
-   - Search for "Google+ API" and enable it
-   - Also enable "Google OAuth2 API"
+   - For basic OAuth sign-in, you typically don't need to enable additional APIs
+   - If you need extended user profile data, you can enable:
+     - "People API" (for detailed user profile information)
+   - Note: Google OAuth2 is built-in and doesn't need to be enabled separately
+   - Most OAuth sign-in flows work with just the basic OAuth2 scopes
 
 3. **Configure OAuth Consent Screen**
    - Go to "APIs & Services" > "OAuth consent screen"
    - Choose "External" user type
    - Fill in required fields:
-     - App name: "CouncilWorks"
+     - App name: "Aegrid"
      - User support email: Your email
      - Developer contact: Your email
    - Add scopes: `email`, `profile`, `openid`
@@ -29,7 +32,7 @@ The Google sign-in button is not working because the OAuth configuration needs t
    - Go to "APIs & Services" > "Credentials"
    - Click "Create Credentials" > "OAuth 2.0 Client IDs"
    - Application type: "Web application"
-   - Name: "CouncilWorks Web Client"
+   - Name: "Aegrid Web Client"
    - Authorized redirect URIs:
      ```
      http://localhost:3000/api/auth/callback/google
@@ -58,7 +61,9 @@ The Google sign-in button is not working because the OAuth configuration needs t
    - Ensure these scopes are added: `email`, `profile`, `openid`
 
 4. **API Not Enabled**
-   - Verify that Google+ API and Google OAuth2 API are enabled
+   - For basic OAuth sign-in, no additional APIs need to be enabled
+   - Google OAuth2 is built-in and works automatically
+   - Only enable People API if you need extended user profile data
 
 ## Microsoft Azure AD Configuration
 
@@ -70,7 +75,7 @@ For Microsoft sign-in, you need to configure Azure AD:
 
 2. **Register Application**
    - Go to "App registrations" > "New registration"
-   - Name: "CouncilWorks"
+   - Name: "Aegrid"
    - Supported account types: "Accounts in any organizational directory and personal Microsoft accounts"
    - Redirect URI: `http://localhost:3000/api/auth/callback/azure-ad`
 

@@ -44,7 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   __html: JSON.stringify({
                     '@context': 'https://schema.org',
                     '@type': 'SoftwareApplication',
-                    name: 'CouncilWorks',
+                    name: 'Aegrid',
                     applicationCategory: 'BusinessApplication',
                     operatingSystem: 'Web',
                     offers: { '@type': 'Offer', priceCurrency: 'AUD', price: '0', availability: 'https://schema.org/InStock' },

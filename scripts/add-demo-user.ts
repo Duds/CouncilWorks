@@ -16,7 +16,7 @@ async function addDemoUser() {
     const passwordHash = await bcrypt.hash('demo12345', 12);
 
     const demoUser = await prisma.user.upsert({
-      where: { email: 'demo@councilworks.com' },
+      where: { email: 'demo@aegrid.com' },
       update: {
         name: 'Demo User',
         passwordHash,
@@ -25,7 +25,7 @@ async function addDemoUser() {
         isActive: true,
       },
       create: {
-        email: 'demo@councilworks.com',
+        email: 'demo@aegrid.com',
         name: 'Demo User',
         passwordHash,
         role: Role.ADMIN,
@@ -35,7 +35,7 @@ async function addDemoUser() {
     });
 
     console.log('✅ Demo user created successfully!');
-    console.log('📧 Email: demo@councilworks.com');
+    console.log('📧 Email: demo@aegrid.com');
     console.log('🔑 Password: demo12345');
     console.log('👤 Role: ADMIN');
     console.log('🏢 Organisation:', organisation.name);
@@ -44,19 +44,19 @@ async function addDemoUser() {
     // Also create a few other demo users with different roles
     const users = [
       {
-        email: 'manager@councilworks.com',
+        email: 'manager@aegrid.com',
         name: 'Demo Manager',
         role: Role.MANAGER,
         password: 'demo12345'
       },
       {
-        email: 'contractor@councilworks.com',
+        email: 'contractor@aegrid.com',
         name: 'Demo Contractor',
         role: Role.CONTRACTOR,
         password: 'demo12345'
       },
       {
-        email: 'citizen@councilworks.com',
+        email: 'citizen@aegrid.com',
         name: 'Demo Citizen',
         role: Role.CITIZEN,
         password: 'demo12345'
@@ -89,10 +89,10 @@ async function addDemoUser() {
     }
 
     console.log('\n🎉 All demo users created! You can now test with:');
-    console.log('👑 Admin: demo@councilworks.com / demo12345');
-    console.log('👨‍💼 Manager: manager@councilworks.com / demo12345');
-    console.log('🔧 Contractor: contractor@councilworks.com / demo12345');
-    console.log('👤 Citizen: citizen@councilworks.com / demo12345');
+    console.log('👑 Admin: demo@aegrid.com / demo12345');
+    console.log('👨‍💼 Manager: manager@aegrid.com / demo12345');
+    console.log('🔧 Contractor: contractor@aegrid.com / demo12345');
+    console.log('👤 Citizen: citizen@aegrid.com / demo12345');
 
   } catch (error) {
     console.error('❌ Error creating demo user:', error);
