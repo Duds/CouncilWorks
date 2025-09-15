@@ -6,6 +6,7 @@ const MAX_AGE_DAYS = 180; // ~6 months
 
 export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
+  const { pathname } = request.nextUrl;
   
   // A/B testing for hero section
   const existing = request.cookies.get(COOKIE_KEY)?.value;
@@ -28,7 +29,6 @@ export async function middleware(request: NextRequest) {
 
   // Authentication checks for protected routes
   const token = await getToken({ req: request });
-  const { pathname } = request.nextUrl;
 
   // Admin routes require authentication and admin role
   if (pathname.startsWith('/admin')) {
