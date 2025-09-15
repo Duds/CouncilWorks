@@ -268,7 +268,7 @@ export function MobileDashboard() {
             </Button>
             
             <Button variant="outline" className="h-16 flex-col gap-2" asChild>
-              <a href="/mobile/assets">
+              <a href="/assets/map">
                 <MapPin className="h-6 w-6" />
                 <span className="text-sm">View Assets</span>
               </a>

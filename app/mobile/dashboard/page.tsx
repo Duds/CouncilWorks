@@ -1,31 +1,26 @@
 "use client";
 
 import { useEffect } from "react";
-import { MobileDashboard } from "@/components/mobile/mobile-dashboard";
+import { useRouter } from "next/navigation";
 
 /**
  * Mobile Dashboard Page
- * Main dashboard for mobile PWA users
- * Uses separate mobile layout without main app authentication
+ * Redirects to the dedicated field tool
+ * Field workers should use the field tool instead of the main dashboard
  */
 export default function MobileDashboardPage() {
+  const router = useRouter();
+
   useEffect(() => {
-    // Register service worker
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js')
-        .then((registration) => {
-          console.log('Service Worker registered successfully:', registration);
-        })
-        .catch((error) => {
-          console.error('Service Worker registration failed:', error);
-        });
-    }
+    // Redirect to field tool
+    router.replace('/field-tool');
+  }, [router]);
 
-    // Initialize offline storage
-    import('@/lib/offline-storage').then(({ offlineStorage }) => {
-      offlineStorage.init().catch(console.error);
-    });
-  }, []);
-
-  return <MobileDashboard />;
+  return (
+    <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="text-center">
+        <p className="text-muted-foreground">Redirecting to Field Tool...</p>
+      </div>
+    </div>
+  );
 }

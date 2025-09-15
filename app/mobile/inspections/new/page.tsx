@@ -93,11 +93,11 @@ export default function NewMobileInspectionPage() {
 
   const handleSave = (inspection: any) => {
     toast.success("Inspection saved successfully");
-    router.push('/mobile/dashboard');
+    router.push('/field-tool');
   };
 
   const handleCancel = () => {
-    router.back();
+    router.push('/field-tool');
   };
 
   if (loading) {
@@ -118,7 +118,7 @@ export default function NewMobileInspectionPage() {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => router.back()}
+              onClick={() => router.push('/field-tool')}
             >
               <ArrowLeft className="h-4 w-4" />
             </Button>
@@ -210,9 +210,9 @@ export default function NewMobileInspectionPage() {
                     </Button>
                     
                     <Button variant="outline" className="h-16 flex-col gap-2" asChild>
-                      <a href="/mobile/dashboard">
+                      <a href="/field-tool">
                         <Smartphone className="h-6 w-6" />
-                        <span className="text-sm">Dashboard</span>
+                        <span className="text-sm">Field Tool</span>
                       </a>
                     </Button>
                   </div>

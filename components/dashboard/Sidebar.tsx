@@ -1,6 +1,6 @@
 "use client";
 
-import { Building2, BarChart3, Calendar, Settings, Users, MapPin, Wrench, AlertTriangle, FileText, LogOut, HelpCircle, Smartphone, Bell } from "lucide-react";
+import { Building2, BarChart3, Calendar, Settings, Users, MapPin, Wrench, AlertTriangle, FileText, LogOut, HelpCircle, Bell } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import ReleaseBadge from "@/components/release-badge";
 import Link from "next/link";
@@ -39,7 +39,6 @@ export default function Sidebar() {
     { href: "/maintenance", icon: Calendar, label: "Maintenance" },
     { href: "/assets/map", icon: MapPin, label: "Asset Map" },
     { href: "/risk-analysis", icon: AlertTriangle, label: "Risk Analysis" },
-    { href: "/mobile/dashboard", icon: Smartphone, label: "Mobile App" },
     { href: "/reports/risk-compliance", icon: AlertTriangle, label: "Risk & Compliance" },
     { href: "/reports/asset-condition", icon: BarChart3, label: "Asset Trending" },
     { href: "/reports/builder", icon: Settings, label: "Custom Reports" },
