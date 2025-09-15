@@ -1,0 +1,76 @@
+@startuml Manager Customer Journey
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam activity {
+  BackgroundColor #E8F5E8
+  BorderColor #388E3C
+  FontColor #000000
+}
+skinparam activityDiamond {
+  BackgroundColor #FFF3E0
+  BorderColor #F57C00
+  FontColor #000000
+}
+
+title Manager Customer Journey - Operational Asset Management
+
+start
+
+:Manager logs into Aegrid dashboard;
+note right: Role-based access control\napplies MANAGER permissions
+
+:Views operational dashboard;
+note right: Day-to-day metrics:\n- Work order status\n- Crew utilisation\n- Asset condition\n- Maintenance schedules
+
+:Reviews Asset Register;
+note right: Checks asset inventory\nUpdates asset information\nManages asset lifecycle
+
+:Accesses RCM Templates;
+note right: Configures maintenance\nprograms for asset classes\nCustomises templates
+
+:Reviews Maintenance Schedule;
+note right: Preventive maintenance\nplanning and scheduling\nRisk-based prioritisation
+
+if (Maintenance overdue?) then (yes)
+  :Assigns work orders to crews;
+  :Sets priority levels;
+  :Monitors completion status;
+else (no)
+  :Continues routine planning;
+endif
+
+:Uses Asset Map for spatial analysis;
+note right: GIS visualisation\nLocation-based planning\nGeographic asset distribution
+
+:Conducts Risk Analysis;
+note right: Asset risk assessment\nFailure mode analysis\nRisk scoring updates
+
+:Reviews citizen reports via Triage;
+note right: Citizen issue management\nReport assignment\nStatus tracking
+
+:Generates operational reports;
+note right: Custom report builder\nPerformance metrics\nTeam productivity
+
+:Manages team assignments;
+note right: Crew allocation\nWorkload distribution\nSkill matching
+
+:Monitors SLA compliance;
+note right: Service level agreements\nContractor performance\nVendor management
+
+if (SLA breach detected?) then (yes)
+  :Escalates to vendor;
+  :Updates contract records;
+  :Reviews performance metrics;
+else (no)
+  :Continues monitoring;
+endif
+
+:Reviews critical controls;
+note right: Critical asset monitoring\nCompliance tracking\nEscalation management
+
+:Updates asset condition data;
+note right: Inspection results\nCondition assessments\nLifecycle updates
+
+stop
+
+@enduml

@@ -2,14 +2,14 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { canAccessAdmin } from "@/lib/rbac";
-import AdminSidebar from "@/components/admin/admin-sidebar";
+import AppLayout from "@/components/layout/app-layout";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
 }
 
 /**
- * Admin layout with role-based access control
+ * Admin layout with role-based access control using unified AppLayout
  * @component AdminLayout
  * @example
  * ```tsx
@@ -33,15 +33,8 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="flex">
-        <AdminSidebar />
-        <main className="flex-1 p-6">
-          <div className="max-w-7xl mx-auto">
-            {children}
-          </div>
-        </main>
-      </div>
-    </div>
+    <AppLayout requiredRoles={['ADMIN', 'MANAGER']}>
+      {children}
+    </AppLayout>
   );
 }

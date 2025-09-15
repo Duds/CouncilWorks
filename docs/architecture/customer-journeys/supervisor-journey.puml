@@ -1,0 +1,82 @@
+@startuml Supervisor Customer Journey
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam activity {
+  BackgroundColor #FFF8E1
+  BorderColor #FBC02D
+  FontColor #000000
+}
+skinparam activityDiamond {
+  BackgroundColor #FFF3E0
+  BorderColor #F57C00
+  FontColor #000000
+}
+
+title Supervisor Customer Journey - Work Coordination
+
+start
+
+:Supervisor logs into Aegrid dashboard;
+note right: Role-based access control\napplies SUPERVISOR permissions
+
+:Views supervisor dashboard;
+note right: Work coordination metrics:\n- Assigned work orders\n- Crew availability\n- Inspection schedules\n- Completion rates
+
+:Reviews assigned work orders;
+note right: Work order queue\nPriority assessment\nResource allocation
+
+:Accesses Maintenance schedule;
+note right: Preventive maintenance\nplanning and coordination\nSchedule optimisation
+
+:Assigns work orders to crew members;
+note right: Skill-based assignment\nGeographic optimisation\nWorkload balancing
+
+:Monitors work order progress;
+note right: Real-time status updates\nCompletion tracking\nQuality control
+
+if (Work order requires inspection?) then (yes)
+  :Assigns inspection tasks;
+  :Reviews inspection results;
+  :Updates asset condition;
+else (no)
+  :Continues work monitoring;
+endif
+
+:Uses Asset Map for field planning;
+note right: Geographic work planning\nRoute optimisation\nAsset location verification
+
+:Reviews Risk Analysis for prioritisation;
+note right: Risk-based work prioritisation\nCritical asset focus\nSafety considerations
+
+:Manages citizen reports via Triage;
+note right: Citizen issue triage\nReport assignment\nPublic communication
+
+:Conducts field inspections;
+note right: On-site asset assessment\nCondition evaluation\nPhoto documentation
+
+:Updates work order status;
+note right: Progress reporting\nCompletion confirmation\nQuality verification
+
+:Reviews crew performance;
+note right: Productivity metrics\nQuality assessments\nTraining needs
+
+:Manages critical controls;
+note right: Critical asset monitoring\nCompliance verification\nEscalation procedures
+
+if (Critical control at risk?) then (yes)
+  :Escalates to Manager;
+  :Implements emergency procedures;
+  :Documents actions taken;
+else (no)
+  :Continues routine monitoring;
+endif
+
+:Generates completion reports;
+note right: Work completion summaries\nPerformance metrics\nResource utilisation
+
+:Coordinates with vendors;
+note right: Contractor management\nSLA monitoring\nQuality assurance
+
+stop
+
+@enduml

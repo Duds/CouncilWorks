@@ -249,21 +249,25 @@ export function DataCard({ card, data, loading }: CardComponentProps) {
       <CardContent>
         <div className="space-y-3">
           {rows.map((row: any, index: number) => (
-            <div key={index} className="flex items-center justify-between p-3 bg-muted rounded-lg">
-              <div className="flex-1">
-                {columns.map((column: string, colIndex: number) => (
-                  <div key={colIndex} className="flex items-center gap-2">
-                    {column === 'Icon' && row[column] ? (
-                      <div className="text-muted-foreground">
-                        {React.createElement(iconMap[row[column] as keyof typeof iconMap] || Activity, { className: "h-4 w-4" })}
+            <Card key={index} className="border border-border">
+              <CardContent className="p-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex-1">
+                    {columns.map((column: string, colIndex: number) => (
+                      <div key={colIndex} className="flex items-center gap-2">
+                        {column === 'Icon' && row[column] ? (
+                          <div className="text-muted-foreground">
+                            {React.createElement(iconMap[row[column] as keyof typeof iconMap] || Activity, { className: "h-4 w-4" })}
+                          </div>
+                        ) : (
+                          <span className="text-sm font-medium">{row[column]}</span>
+                        )}
                       </div>
-                    ) : (
-                      <span className="text-sm font-medium">{row[column]}</span>
-                    )}
+                    ))}
                   </div>
-                ))}
-              </div>
-            </div>
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </CardContent>

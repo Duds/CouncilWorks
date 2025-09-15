@@ -40,21 +40,24 @@ Aegrid connects front-line crews, council managers, executives, and citizens thr
 ---
 
 ## Supporting Processes
-- **User Support**: Helpdesk, knowledge base, onboarding training modules.  
-- **Data Migration**: Assisted import from ERP/legacy systems.  
-- **Configuration**: Customise templates, workflows, and dashboards per council.  
+- **User Support**: Help desk, knowledge base, onboarding training modules, user management.  
+- **Data Migration**: Assisted import from ERP/legacy systems, data validation, quality assurance.  
+- **Configuration**: Customise templates, workflows, and dashboards per council, system settings.  
 - **Continuous Improvement**: Pilots run as *PilotWorks* streams; successful modules promoted to full product.  
 - **Contract Management**: Vendor onboarding, contract records (start/end, scope, SLAs), renewal notifications, performance reviews.  
 - **Critical Controls Configuration**: Identify critical assets, define control rules/windows, map to RCM tasks, and maintain escalation paths.
+- **Team Management**: User role assignment, permission management, crew coordination, skill tracking.
+- **Import/Export Tools**: Data migration utilities, bulk operations, system integration tools.
+- **Activity Logging**: Comprehensive audit trails, user activity monitoring, system event tracking.
 
 ---
 
 ## Service Layers
-1. **Frontstage** – Users: citizens, crews, supervisors, managers, executives.  
-2. **Backstage** – Aegrid processes: scheduling, validation, reporting, analytics, SLA timers and alerts.  
-3. **Systems** – Platform stack: API Gateway (Node.js), Analytics Engine (Python), PostgreSQL + PostGIS, Next.js frontend, PWA mobile.  
-4. **Support** – Training, support desk, SLA-based response, contract performance, continuous release updates.  
-5. **Metrics Layer** – Operational KPIs, SLA compliance, contract health, community satisfaction indicators.
+1. **Frontstage** – Users: citizens, crews, supervisors, managers, executives, administrators.  
+2. **Backstage** – Aegrid processes: scheduling, validation, reporting, analytics, SLA timers and alerts, critical control enforcement.  
+3. **Systems** – Platform stack: API Gateway (Node.js), Analytics Engine (Python), PostgreSQL + PostGIS, Next.js frontend, PWA mobile, Citizen Portal.  
+4. **Support** – Training, help desk, knowledge base, onboarding modules, SLA-based response, contract performance, continuous release updates.  
+5. **Metrics Layer** – Operational KPIs, SLA compliance, contract health, community satisfaction indicators, critical control compliance.
 
 ---
 
@@ -97,8 +100,48 @@ Aegrid connects front-line crews, council managers, executives, and citizens thr
 
 ---
 
+## Sidebar Feature Audit & Recommendations
+
+### Current Implementation Status
+**✅ Fully Implemented Features:**
+- Dashboard (Executive KPI dashboard)
+- Assets (Asset register with GIS integration)
+- RCM Templates (Pre-built maintenance templates)
+- Maintenance (Preventive maintenance scheduling)
+- Asset Map (Interactive GIS map visualisation)
+- Risk Analysis (Risk scoring and prioritisation)
+- Risk & Compliance (Compliance reporting)
+- Asset Trending (Asset condition trending)
+- Custom Reports (Report builder)
+- Report Triage (Citizen report management)
+- Notifications (Notification management)
+- Settings (System configuration)
+
+**❌ Missing Features Requiring Implementation:**
+- **Team Management** - User role assignment, crew coordination, skill tracking
+- **Work Orders** - Direct access to work order management from main sidebar
+- **Field Tool** - Mobile inspection access and offline capabilities
+- **SLA Management** - Service Level Agreement tracking and vendor management
+- **Vendor Portal** - Contractor management interface and performance monitoring
+- **Sustainability Module** - EV fleet/solar farm performance tracking
+- **Critical Controls (CCT)** - Critical control enforcement and compliance monitoring
+- **Import/Export** - Data migration tools and bulk operations
+- **Activity Logs** - Audit trail access and system event monitoring
+- **Help/Support** - Knowledge base and user support integration
+
+### Recommended Sidebar Enhancements
+1. **Consolidate Work Order Access** - Add direct work order management to main sidebar
+2. **Implement Team Management** - Replace placeholder with functional team coordination
+3. **Add SLA Dashboard** - Integrate vendor management and contract performance
+4. **Enhance Mobile Integration** - Better visibility of mobile PWA features
+5. **Implement Help System** - Replace placeholder with integrated knowledge base
+6. **Add Sustainability Tracking** - Environmental impact and green asset management
+7. **Critical Controls Interface** - Dedicated critical control management
+8. **Data Management Tools** - Import/export utilities and migration tools
+
 ## Blueprint Outcomes
 - **Operational Efficiency**: More preventive work, less reactive firefighting.  
 - **Compliance Readiness**: Audit packs generated automatically.  
 - **Community Trust**: Citizens see how issues are addressed.  
 - **Strategic Value**: Councils can forecast, justify budgets, and extend asset life.
+- **User Experience**: Streamlined navigation aligned with user personas and workflows.

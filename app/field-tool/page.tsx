@@ -98,7 +98,7 @@ export default function FieldToolPage() {
         {/* Quick Access Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Work Orders */}
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => router.push('/mobile/work-orders')}>
+          <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => router.push('/mobile/work-orders')}>
             <CardHeader>
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-blue-100 rounded-lg">
@@ -133,7 +133,7 @@ export default function FieldToolPage() {
           </Card>
 
           {/* Inspections */}
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => router.push('/mobile/inspections/new')}>
+          <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => router.push('/mobile/inspections/new')}>
             <CardHeader>
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-green-100 rounded-lg">
@@ -168,7 +168,7 @@ export default function FieldToolPage() {
           </Card>
 
           {/* Asset Map */}
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => router.push('/assets/map')}>
+          <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => router.push('/assets/map')}>
             <CardHeader>
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-purple-100 rounded-lg">

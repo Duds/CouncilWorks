@@ -1,4 +1,8 @@
-# Aegrid Product Backlog
+# Aegrid Product Backlog - PI1 (Archived)
+
+**Product Increment 1 (PI1) - Foundation & Core Features**
+**Period**: September 2024 - January 2025
+**Status**: ✅ **COMPLETED**
 
 Last updated: 13/09/2025
 

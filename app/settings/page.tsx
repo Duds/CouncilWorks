@@ -55,42 +55,51 @@ export default function SettingsPage() {
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-              <Link
-                href="/profile"
-                className="flex items-center p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors"
-              >
-                <User className="h-5 w-5 text-primary mr-3" />
-                <div>
-                  <div className="font-medium">Profile Management</div>
-                  <div className="text-sm text-muted-foreground">
-                    Update personal details
-                  </div>
-                </div>
-              </Link>
-              <Link
-                href="/activity"
-                className="flex items-center p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors"
-              >
-                <Activity className="h-5 w-5 text-primary mr-3" />
-                <div>
-                  <div className="font-medium">Activity Log</div>
-                  <div className="text-sm text-muted-foreground">
-                    View account activity
-                  </div>
-                </div>
-              </Link>
-              <Link
-                href="/sessions"
-                className="flex items-center p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors"
-              >
-                <Monitor className="h-5 w-5 text-primary mr-3" />
-                <div>
-                  <div className="font-medium">Session Management</div>
-                  <div className="text-sm text-muted-foreground">
-                    Manage active sessions
-                  </div>
-                </div>
-              </Link>
+              <Card className="hover:bg-muted/50 transition-colors">
+                <Link href="/profile" className="block">
+                  <CardContent className="p-4">
+                    <div className="flex items-center">
+                      <User className="h-5 w-5 text-primary mr-3" />
+                      <div>
+                        <div className="font-medium">Profile Management</div>
+                        <div className="text-sm text-muted-foreground">
+                          Update personal details
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Link>
+              </Card>
+              <Card className="hover:bg-muted/50 transition-colors">
+                <Link href="/activity" className="block">
+                  <CardContent className="p-4">
+                    <div className="flex items-center">
+                      <Activity className="h-5 w-5 text-primary mr-3" />
+                      <div>
+                        <div className="font-medium">Activity Log</div>
+                        <div className="text-sm text-muted-foreground">
+                          View account activity
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Link>
+              </Card>
+              <Card className="hover:bg-muted/50 transition-colors">
+                <Link href="/sessions" className="block">
+                  <CardContent className="p-4">
+                    <div className="flex items-center">
+                      <Monitor className="h-5 w-5 text-primary mr-3" />
+                      <div>
+                        <div className="font-medium">Session Management</div>
+                        <div className="text-sm text-muted-foreground">
+                          Manage active sessions
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Link>
+              </Card>
             </div>
           </CardContent>
         </Card>
@@ -108,42 +117,51 @@ export default function SettingsPage() {
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-              <Link
-                href="/profile?tab=mfa"
-                className="flex items-center p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors"
-              >
-                <Key className="h-5 w-5 text-primary mr-3" />
-                <div>
-                  <div className="font-medium">Multi-Factor Authentication</div>
-                  <div className="text-sm text-muted-foreground">
-                    Enable MFA security
-                  </div>
-                </div>
-              </Link>
-              <Link
-                href="/profile?tab=password"
-                className="flex items-center p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors"
-              >
-                <Shield className="h-5 w-5 text-primary mr-3" />
-                <div>
-                  <div className="font-medium">Password Settings</div>
-                  <div className="text-sm text-muted-foreground">
-                    Change password
-                  </div>
-                </div>
-              </Link>
-              <Link
-                href="/sessions"
-                className="flex items-center p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors"
-              >
-                <Monitor className="h-5 w-5 text-primary mr-3" />
-                <div>
-                  <div className="font-medium">Security Sessions</div>
-                  <div className="text-sm text-muted-foreground">
-                    Review login history
-                  </div>
-                </div>
-              </Link>
+              <Card className="hover:bg-muted/50 transition-colors">
+                <Link href="/profile?tab=mfa" className="block">
+                  <CardContent className="p-4">
+                    <div className="flex items-center">
+                      <Key className="h-5 w-5 text-primary mr-3" />
+                      <div>
+                        <div className="font-medium">Multi-Factor Authentication</div>
+                        <div className="text-sm text-muted-foreground">
+                          Enable MFA security
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Link>
+              </Card>
+              <Card className="hover:bg-muted/50 transition-colors">
+                <Link href="/profile?tab=password" className="block">
+                  <CardContent className="p-4">
+                    <div className="flex items-center">
+                      <Shield className="h-5 w-5 text-primary mr-3" />
+                      <div>
+                        <div className="font-medium">Password Settings</div>
+                        <div className="text-sm text-muted-foreground">
+                          Change password
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Link>
+              </Card>
+              <Card className="hover:bg-muted/50 transition-colors">
+                <Link href="/sessions" className="block">
+                  <CardContent className="p-4">
+                    <div className="flex items-center">
+                      <Monitor className="h-5 w-5 text-primary mr-3" />
+                      <div>
+                        <div className="font-medium">Security Sessions</div>
+                        <div className="text-sm text-muted-foreground">
+                          Review login history
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Link>
+              </Card>
             </div>
           </CardContent>
         </Card>
@@ -161,30 +179,36 @@ export default function SettingsPage() {
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-              <Link
-                href="/profile?tab=notifications"
-                className="flex items-center p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors"
-              >
-                <Bell className="h-5 w-5 text-primary mr-3" />
-                <div>
-                  <div className="font-medium">Notification Preferences</div>
-                  <div className="text-sm text-muted-foreground">
-                    Email and alert settings
-                  </div>
-                </div>
-              </Link>
-              <Link
-                href="/profile?tab=language"
-                className="flex items-center p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors"
-              >
-                <Globe className="h-5 w-5 text-primary mr-3" />
-                <div>
-                  <div className="font-medium">Language & Region</div>
-                  <div className="text-sm text-muted-foreground">
-                    Timezone and language
-                  </div>
-                </div>
-              </Link>
+              <Card className="hover:bg-muted/50 transition-colors">
+                <Link href="/profile?tab=notifications" className="block">
+                  <CardContent className="p-4">
+                    <div className="flex items-center">
+                      <Bell className="h-5 w-5 text-primary mr-3" />
+                      <div>
+                        <div className="font-medium">Notification Preferences</div>
+                        <div className="text-sm text-muted-foreground">
+                          Email and alert settings
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Link>
+              </Card>
+              <Card className="hover:bg-muted/50 transition-colors">
+                <Link href="/profile?tab=language" className="block">
+                  <CardContent className="p-4">
+                    <div className="flex items-center">
+                      <Globe className="h-5 w-5 text-primary mr-3" />
+                      <div>
+                        <div className="font-medium">Language & Region</div>
+                        <div className="text-sm text-muted-foreground">
+                          Timezone and language
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Link>
+              </Card>
             </div>
           </CardContent>
         </Card>
@@ -205,54 +229,66 @@ export default function SettingsPage() {
               </CardHeader>
               <CardContent>
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                  <Link
-                    href="/admin"
-                    className="flex items-center p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors"
-                  >
-                    <BarChart3 className="h-5 w-5 text-primary mr-3" />
-                    <div>
-                      <div className="font-medium">Admin Dashboard</div>
-                      <div className="text-sm text-muted-foreground">
-                        System overview
-                      </div>
-                    </div>
-                  </Link>
-                  <Link
-                    href="/admin/users"
-                    className="flex items-center p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors"
-                  >
-                    <Users className="h-5 w-5 text-primary mr-3" />
-                    <div>
-                      <div className="font-medium">User Management</div>
-                      <div className="text-sm text-muted-foreground">
-                        Manage users
-                      </div>
-                    </div>
-                  </Link>
-                  <Link
-                    href="/admin/audit-logs"
-                    className="flex items-center p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors"
-                  >
-                    <Activity className="h-5 w-5 text-primary mr-3" />
-                    <div>
-                      <div className="font-medium">Audit Logs</div>
-                      <div className="text-sm text-muted-foreground">
-                        System activity
-                      </div>
-                    </div>
-                  </Link>
-                  <Link
-                    href="/admin/security"
-                    className="flex items-center p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors"
-                  >
-                    <Shield className="h-5 w-5 text-primary mr-3" />
-                    <div>
-                      <div className="font-medium">Security Settings</div>
-                      <div className="text-sm text-muted-foreground">
-                        System security
-                      </div>
-                    </div>
-                  </Link>
+                  <Card className="hover:bg-muted/50 transition-colors">
+                    <Link href="/admin" className="block">
+                      <CardContent className="p-4">
+                        <div className="flex items-center">
+                          <BarChart3 className="h-5 w-5 text-primary mr-3" />
+                          <div>
+                            <div className="font-medium">Admin Dashboard</div>
+                            <div className="text-sm text-muted-foreground">
+                              System overview
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Link>
+                  </Card>
+                  <Card className="hover:bg-muted/50 transition-colors">
+                    <Link href="/admin/users" className="block">
+                      <CardContent className="p-4">
+                        <div className="flex items-center">
+                          <Users className="h-5 w-5 text-primary mr-3" />
+                          <div>
+                            <div className="font-medium">User Management</div>
+                            <div className="text-sm text-muted-foreground">
+                              Manage users
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Link>
+                  </Card>
+                  <Card className="hover:bg-muted/50 transition-colors">
+                    <Link href="/admin/audit-logs" className="block">
+                      <CardContent className="p-4">
+                        <div className="flex items-center">
+                          <Activity className="h-5 w-5 text-primary mr-3" />
+                          <div>
+                            <div className="font-medium">Audit Logs</div>
+                            <div className="text-sm text-muted-foreground">
+                              System activity
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Link>
+                  </Card>
+                  <Card className="hover:bg-muted/50 transition-colors">
+                    <Link href="/admin/security" className="block">
+                      <CardContent className="p-4">
+                        <div className="flex items-center">
+                          <Shield className="h-5 w-5 text-primary mr-3" />
+                          <div>
+                            <div className="font-medium">Security Settings</div>
+                            <div className="text-sm text-muted-foreground">
+                              System security
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Link>
+                  </Card>
                 </div>
               </CardContent>
             </Card>

@@ -349,7 +349,7 @@ export function AssetList({ initialAssets = [] }: AssetListProps) {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {assets.map((asset) => (
-            <Card key={asset.id} className="hover:shadow-lg transition-shadow">
+            <Card key={asset.id} className="hover:shadow-md transition-shadow">
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Building2, BarChart3, Calendar, Settings, Users, MapPin, Wrench, AlertTriangle, LogOut, HelpCircle, Bell } from "lucide-react";
+import { Building2, BarChart3, Calendar, Settings, Users, MapPin, Wrench, AlertTriangle, LogOut, HelpCircle, Bell, Shield, Activity } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import ReleaseBadge from "@/components/release-badge";
 import Link from "next/link";
@@ -47,6 +47,11 @@ export default function AppSidebar() {
       .slice(0, 2);
   };
 
+  // Check if user has admin access
+  const canAccessAdmin = (role?: string) => {
+    return role === 'ADMIN' || role === 'MANAGER';
+  };
+
   const navigationItems = [
     { href: "/dashboard", icon: BarChart3, label: "Dashboard" },
     { href: "/assets", icon: Building2, label: "Assets", badge: "1,247" },
@@ -60,6 +65,13 @@ export default function AppSidebar() {
     { href: "/admin/triage", icon: AlertTriangle, label: "Report Triage" },
     { href: "/admin/notifications", icon: Bell, label: "Notifications" },
     { href: "#", icon: Users, label: "Team" },
+  ];
+
+  // Admin-specific navigation items
+  const adminItems = [
+    { href: "/admin", icon: BarChart3, label: "Admin Dashboard" },
+    { href: "/admin/users", icon: Users, label: "User Management" },
+    { href: "/admin/audit-logs", icon: Activity, label: "Audit Logs" },
   ];
 
   const generalItems = [
@@ -110,6 +122,30 @@ export default function AppSidebar() {
         
         <SidebarSeparator />
         
+        {/* Admin Section - Only show for admin users */}
+        {canAccessAdmin(session?.user?.role) && (
+          <>
+            <SidebarGroup>
+              <SidebarGroupLabel>Administration</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {adminItems.map((item) => (
+                    <SidebarMenuItem key={item.href}>
+                      <SidebarMenuButton asChild>
+                        <Link href={item.href as Route}>
+                          <item.icon className="h-4 w-4" />
+                          <span>{item.label}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+            <SidebarSeparator />
+          </>
+        )}
+        
         <SidebarGroup>
           <SidebarGroupLabel>General</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -137,6 +173,9 @@ export default function AppSidebar() {
       </SidebarContent>
       
       <SidebarFooter>
+        <div className="p-2">
+          <ReleaseBadge />
+        </div>
         <div className="flex items-center gap-3 p-2 min-w-0">
           <Avatar className="h-8 w-8 shrink-0">
             <AvatarImage 
@@ -155,9 +194,6 @@ export default function AppSidebar() {
               {session?.user?.email || "user@example.com"}
             </div>
           </div>
-        </div>
-        <div className="p-2">
-          <ReleaseBadge />
         </div>
       </SidebarFooter>
     </Sidebar>

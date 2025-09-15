@@ -1,0 +1,109 @@
+@startuml Journey-Centric Navigation Structure
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam rectangle {
+  BackgroundColor #E3F2FD
+  BorderColor #1976D2
+  FontColor #000000
+}
+skinparam package {
+  BackgroundColor #F3E5F5
+  BorderColor #7B1FA2
+  FontColor #000000
+}
+
+title CouncilWorks Journey-Centric Navigation Structure
+
+package "Strategic Overview" as Strategic {
+  rectangle "Dashboard\n(KPI Overview)" as Dashboard
+  rectangle "Compliance\n(Risk & Compliance)" as Compliance
+  rectangle "Trends\n(Asset Trending)" as Trends
+  rectangle "Reports\n(Custom Reports)" as Reports
+}
+
+package "Asset Planning" as Planning {
+  rectangle "Register\n(Asset Inventory)" as Register
+  rectangle "Templates\n(RCM Templates)" as Templates
+  rectangle "Risk\n(Risk Analysis)" as Risk
+  rectangle "Planning\n(Maintenance Planning)" as PlanningTab
+  rectangle "Sustainability\n(Environmental Impact)" as Sustainability
+}
+
+package "Operations Management" as Operations {
+  rectangle "Work Orders\n(Task Management)" as WorkOrders
+  rectangle "Field Tool\n(Mobile Inspections)" as FieldTool
+  rectangle "Map\n(Spatial Navigation)" as Map
+  rectangle "Team\n(Crew Management)" as Team
+  rectangle "Controls\n(Critical Controls)" as Controls
+}
+
+package "Community Engagement" as Community {
+  rectangle "Triage\n(Citizen Reports)" as Triage
+  rectangle "Public\n(You Said, We Did)" as Public
+  rectangle "Portal\n(Citizen Interface)" as Portal
+  rectangle "Notifications\n(Communication)" as Notifications
+}
+
+package "System Administration" as Admin {
+  rectangle "Users\n(User Management)" as Users
+  rectangle "Data\n(Import/Export)" as Data
+  rectangle "Logs\n(Audit Trails)" as Logs
+  rectangle "Settings\n(System Config)" as Settings
+  rectangle "Help\n(Knowledge Base)" as Help
+}
+
+' User Persona Connections
+actor "Executive" as EXEC
+actor "Manager" as MGR
+actor "Asset Planner" as PLANNER
+actor "Supervisor" as SUP
+actor "Crew" as CREW
+actor "Citizen" as CITIZEN
+actor "Admin" as ADMIN
+
+' Primary persona connections
+EXEC --> Strategic
+MGR --> Strategic
+MGR --> Planning
+PLANNER --> Planning
+SUP --> Operations
+CREW --> Operations
+CITIZEN --> Community
+ADMIN --> Admin
+
+' Secondary persona connections
+MGR --> Operations
+SUP --> Community
+MGR --> Community
+
+note right of Strategic
+  **Primary Personas**: EXEC, MGR
+  **Journey Stage**: Discovery, Monitoring, Reporting
+  **Focus**: Strategic oversight and decision-making
+end note
+
+note right of Planning
+  **Primary Personas**: MGR, PLANNER
+  **Journey Stage**: Planning, Configuration, Analysis
+  **Focus**: Asset lifecycle planning and maintenance strategy
+end note
+
+note right of Operations
+  **Primary Personas**: SUP, CREW, MGR
+  **Journey Stage**: Execution, Assignment, Coordination
+  **Focus**: Day-to-day operations and field execution
+end note
+
+note right of Community
+  **Primary Personas**: CITIZEN, SUP, MGR
+  **Journey Stage**: Communication, Transparency, Feedback
+  **Focus**: Citizen interaction and public transparency
+end note
+
+note right of Admin
+  **Primary Personas**: ADMIN
+  **Journey Stage**: Configuration, Management, Monitoring
+  **Focus**: System configuration and user management
+end note
+
+@enduml

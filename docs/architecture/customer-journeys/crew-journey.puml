@@ -1,0 +1,80 @@
+@startuml Crew Customer Journey
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam activity {
+  BackgroundColor #F3E5F5
+  BorderColor #7B1FA2
+  FontColor #000000
+}
+skinparam activityDiamond {
+  BackgroundColor #FFF3E0
+  BorderColor #F57C00
+  FontColor #000000
+}
+
+title Crew Customer Journey - Field Work Execution
+
+start
+
+:Crew member opens mobile PWA;
+note right: Progressive Web App\nOffline capabilities\nField-optimised interface
+
+:Views mobile dashboard;
+note right: Field work metrics:\n- Assigned work orders\n- Inspection tasks\n- Asset locations\n- Offline data status
+
+:Checks assigned work orders;
+note right: Work order queue\nTask details\nAsset information\nLocation data
+
+:Reviews Asset Map for navigation;
+note right: GPS navigation\nAsset location\nRoute planning\nOffline maps
+
+:Travels to asset location;
+note right: Field work execution\nMobile connectivity\nGPS tracking
+
+if (Internet connection available?) then (yes)
+  :Syncs offline data;
+  :Downloads latest work orders;
+  :Updates status in real-time;
+else (no)
+  :Works in offline mode;
+  :Stores data locally;
+endif
+
+:Performs asset inspection;
+note right: Condition assessment\nPhoto documentation\nGPS tagging\nDefect identification
+
+:Captures inspection photos;
+note right: High-quality images\nGPS coordinates\nTimestamp recording\nAsset identification
+
+:Updates asset condition;
+note right: Condition rating\nDefect documentation\nMaintenance recommendations\nSafety notes
+
+:Completes work order tasks;
+note right: Task execution\nProgress updates\nResource usage\nTime tracking
+
+if (Critical issues found?) then (yes)
+  :Reports critical findings;
+  :Escalates to supervisor;
+  :Implements safety measures;
+else (no)
+  :Continues routine work;
+endif
+
+:Updates work order status;
+note right: Completion confirmation\nQuality verification\nResource reporting\nTime logging
+
+:Syncs data when online;
+note right: Background sync\nConflict resolution\nData validation\nUpload confirmation
+
+:Reviews next assigned tasks;
+note right: Work queue management\nPriority assessment\nSchedule planning
+
+:Documents maintenance performed;
+note right: Work completion details\nResource consumption\nQuality notes\nFollow-up requirements
+
+:Reports equipment issues;
+note right: Tool/equipment problems\nSafety concerns\nResource needs\nMaintenance requests
+
+stop
+
+@enduml
