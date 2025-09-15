@@ -29,6 +29,7 @@ Build the MVP of Aegrid (by GridWorks) - the Council Asset Lifecycle Intelligenc
 - Vendor Role: implement restricted vendor portal with least-privilege access scoped by `vendorId`; enforce RLS and scope checks on APIs and storage.
  - Critical Controls: require explicit justifications for overrides; log multi-party acknowledgements; ensure non-bypassable enforcement paths for critical tasks.
 - Australian regional settings: DD/MM/YYYY, 24-hour time, AUD, metric units, AU time zones.
+- **Icon Standards**: Use Lucide React exclusively; named imports for tree-shaking; consistent sizing (`h-4 w-4`, `h-5 w-5`, `h-6 w-6`); semantic color classes; accessibility labels for icon-only buttons.
 - Lint and test on every PR; maintain coverage; semantic commits.
 
 ## Workflows

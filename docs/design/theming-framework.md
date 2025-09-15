@@ -69,6 +69,180 @@ The Aegrid theming framework provides a systematic approach to visual design, en
 | `--muted` | `--grey-3` | `--lake` | Subtle backgrounds |
 | `--border` | `--spruce` | `--lake` | Borders, dividers |
 
+## Icon System
+
+### Icon Library Standardization
+
+**Primary Icon Library**: Lucide React
+- **Consistency**: All icons use Lucide React for uniform appearance and behavior
+- **Performance**: Tree-shakable imports reduce bundle size
+- **Accessibility**: Built-in accessibility features and semantic naming
+- **Maintenance**: Single source of truth for icon updates and additions
+
+### Icon Usage Guidelines
+
+#### Import Pattern
+```tsx
+// Preferred: Named imports for tree-shaking
+import { 
+  Building2, 
+  BarChart3, 
+  Calendar, 
+  Settings, 
+  Users, 
+  MapPin, 
+  Wrench, 
+  AlertTriangle 
+} from "lucide-react";
+
+// Avoid: Wildcard imports (unless for dynamic icon mapping)
+import * as LucideIcons from "lucide-react";
+```
+
+#### Dynamic Icon Access
+```tsx
+// For components requiring dynamic icon selection
+const iconMap = {
+  Building2,
+  BarChart3,
+  Calendar,
+  Settings,
+  Users,
+  MapPin,
+  Wrench,
+  AlertTriangle
+} as const;
+
+// Type-safe dynamic access
+const IconComponent = iconMap[iconName as keyof typeof iconMap] || DefaultIcon;
+```
+
+#### Icon Sizing Standards
+```tsx
+// Consistent sizing across components
+className="h-4 w-4"  // Small icons (buttons, badges)
+className="h-5 w-5"  // Medium icons (navigation, cards)
+className="h-6 w-6"  // Large icons (headers, prominent elements)
+className="h-8 w-8"  // Extra large icons (hero sections, major CTAs)
+```
+
+#### Icon Color Integration
+```tsx
+// Use semantic color classes with icons
+<Building2 className="h-5 w-5 text-primary" />
+<AlertTriangle className="h-4 w-4 text-warning" />
+<CheckCircle className="h-5 w-5 text-success" />
+
+// Dynamic color based on state
+<IconComponent 
+  className="h-4 w-4" 
+  style={{ color: condition === 'critical' ? '#ef4444' : '#10b981' }} 
+/>
+```
+
+### Icon Categories
+
+#### Navigation Icons
+- `Building2` - Assets, buildings, infrastructure
+- `BarChart3` - Dashboard, analytics, reports
+- `Calendar` - Scheduling, maintenance, events
+- `MapPin` - Location, mapping, geographic data
+- `Settings` - Configuration, preferences, admin
+
+#### Status Icons
+- `CheckCircle` - Success, completion, approval
+- `AlertTriangle` - Warnings, alerts, attention
+- `Clock` - Pending, time-sensitive, scheduling
+- `Activity` - Progress, activity, sports facilities
+
+#### Action Icons
+- `Edit` - Edit, modify, update
+- `Eye` - View, preview, visibility
+- `Plus` - Add, create, new
+- `Search` - Find, filter, locate
+- `RefreshCw` - Refresh, reload, sync
+
+#### User Interface Icons
+- `Users` - Team, personnel, collaboration
+- `Bell` - Notifications, alerts, reminders
+- `LogOut` - Sign out, logout, exit
+- `HelpCircle` - Help, support, information
+
+### Accessibility Considerations
+
+#### Screen Reader Support
+```tsx
+// Always provide accessible labels
+<Button>
+  <Settings className="h-4 w-4" />
+  <span className="sr-only">Open settings</span>
+</Button>
+
+// Or use aria-label
+<Settings className="h-4 w-4" aria-label="Settings" />
+```
+
+#### Icon-Only Buttons
+```tsx
+// Ensure icon-only buttons have proper accessibility
+<Button size="icon" aria-label="Toggle sidebar">
+  <PanelLeftClose className="h-4 w-4" />
+</Button>
+```
+
+### Migration from Other Icon Libraries
+
+#### Completed Migrations
+- ✅ **Radix UI Icons**: Replaced with Lucide equivalents
+- ✅ **Emoji Icons**: Replaced with semantic Lucide icons
+- ✅ **Custom Icons**: Standardized to Lucide where possible
+
+#### Icon Mapping Reference
+| Previous Icon | Lucide Equivalent | Usage |
+|---------------|-------------------|-------|
+| `ViewVerticalIcon` | `PanelLeftClose`/`PanelLeftOpen` | Sidebar toggle |
+| `Cross2Icon` | `X` | Close buttons |
+| `CheckIcon` | `CheckCircle` | Success states |
+| `ChevronRightIcon` | `ChevronRight` | Navigation |
+| `DotFilledIcon` | `Circle` | Indicators |
+
+### Performance Optimization
+
+#### Bundle Size Management
+- Use named imports to enable tree-shaking
+- Avoid importing entire icon library
+- Consider icon sprites for high-volume usage
+- Monitor bundle size impact of new icons
+
+#### Loading Strategy
+```tsx
+// Lazy load icons for non-critical components
+const LazyIcon = React.lazy(() => import('lucide-react').then(module => ({
+  default: module.SomeIcon
+})));
+
+// Use Suspense for lazy-loaded icons
+<Suspense fallback={<div className="h-4 w-4 bg-muted animate-pulse" />}>
+  <LazyIcon />
+</Suspense>
+```
+
+### Future Considerations
+
+#### Icon Library Evolution
+- Monitor Lucide React updates for new icons
+- Plan migration path if switching icon libraries
+- Maintain icon mapping documentation
+- Consider custom icon additions for brand-specific needs
+
+#### Design System Integration
+- Align icon choices with brand personality
+- Ensure icons work across all theme variations
+- Test icon legibility at different sizes
+- Validate icon accessibility across devices
+
+---
+
 ## Typography System
 
 ### Font Scale
