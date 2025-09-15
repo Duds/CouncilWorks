@@ -19,6 +19,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarSeparator,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 
 export default function AppSidebar() {
@@ -70,16 +71,19 @@ export default function AppSidebar() {
   return (
     <Sidebar variant="sidebar" collapsible="offcanvas">
       <SidebarHeader>
-        <Link href="/dashboard" className="flex items-center gap-2 font-semibold px-2">
-          <Image 
-            src="/images/logos/Aegrid.svg" 
-            alt="Aegrid Logo" 
-            width={32} 
-            height={20}
-            className="h-5 w-auto"
-          />
-          <span className="text-xl">Aegrid</span>
-        </Link>
+        <div className="flex items-center justify-between px-2">
+          <Link href="/dashboard" className="flex items-center gap-2 font-semibold">
+            <Image 
+              src="/images/logos/Aegrid.svg" 
+              alt="Aegrid Logo" 
+              width={32} 
+              height={20}
+              className="h-5 w-auto"
+            />
+            <span className="text-xl">Aegrid</span>
+          </Link>
+          <SidebarTrigger />
+        </div>
       </SidebarHeader>
       
       <SidebarContent>
