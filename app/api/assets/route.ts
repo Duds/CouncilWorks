@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
-import { canAccessAdmin, canAccessManager } from "@/lib/rbac";
+import { isManagerOrHigher } from "@/lib/rbac";
 
 /**
  * Asset creation schema validation
@@ -153,7 +153,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check permissions - only MANAGER and above can create assets
-    if (!canAccessManager(session.user.role)) {
+    if (!isManagerOrHigher(session.user.role)) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 

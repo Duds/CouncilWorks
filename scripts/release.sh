@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# CouncilWorks Release Management Script
+# Aegrid Release Management Script
 # This script provides local release management capabilities
 
 set -e
@@ -13,7 +13,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-REPO_NAME="CouncilWorks"
+REPO_NAME="Aegrid"
 MAIN_BRANCH="main"
 DEVELOP_BRANCH="develop"
 CHANGELOG_FILE="docs/releases/changelog.md"
@@ -383,7 +383,7 @@ hotfix() {
 # Show help
 show_help() {
     cat << EOF
-CouncilWorks Release Management Script
+Aegrid Release Management Script
 
 Usage: $0 <command> [options]
 
@@ -413,7 +413,7 @@ EOF
 
 # Show status
 show_status() {
-    log_info "CouncilWorks Release Status"
+    log_info "Aegrid Release Status"
     echo
     
     # Current branch

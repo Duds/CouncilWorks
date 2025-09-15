@@ -1,8 +1,8 @@
-# CouncilWorks Release Automation System
+# Aegrid Release Automation System
 
 ## Overview
 
-The CouncilWorks Release Automation System provides comprehensive CI/CD capabilities integrated with GitHub, Azure Container Apps, and local development environments. This system automates the entire release lifecycle from development to production deployment.
+The Aegrid Release Automation System provides comprehensive CI/CD capabilities integrated with GitHub, Azure Container Apps, and local development environments. This system automates the entire release lifecycle from development to production deployment.
 
 ## Architecture
 

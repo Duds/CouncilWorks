@@ -1,361 +1,212 @@
 "use client";
-import { useSession } from "next-auth/react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import Sidebar from "@/components/dashboard/Sidebar";
-import Header from "@/components/dashboard/Header";
-// import StatsCard from "@/components/dashboard/StatsCard";
-import DashboardShell from "@/components/layout/DashboardShell";
-import type { Route } from "next";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { 
-  Users, 
-  Activity, 
-  BarChart3, 
-  MapPin, 
-  Wrench, 
-  Plus,
-} from "lucide-react";
-import { canAccessAdmin } from "@/lib/rbac";
 
-export default function DashboardPage() {
-  const { data: session } = useSession();
-  // Note: Projects & Time Tracking removed per requirements
+import React, { useState } from 'react';
+import { ProtectedRoute } from '@/components/auth/protected-route';
+import Sidebar from '@/components/dashboard/Sidebar';
+import Header from '@/components/dashboard/Header';
+import { DashboardGrid } from '@/components/dashboard/DashboardGrid';
+import { useDashboardCards, useDashboardPreferences, useCardData, useDashboardActions } from '@/hooks/useDashboard';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { 
+  Settings, 
+  RefreshCw, 
+  Grid3X3, 
+  List, 
+  Maximize2,
+  User,
+  Shield,
+  Wrench
+} from 'lucide-react';
+
+/**
+ * Unified Dashboard Page
+ * Single dashboard that adapts based on user role and preferences
+ */
+export default function UnifiedDashboardPage() {
+  const [showSettings, setShowSettings] = useState(false);
+  
+  // Dashboard hooks
+  const { cards, loading: cardsLoading, refreshCards, userRole } = useDashboardCards();
+  const { preferences, loading: prefsLoading, updateLayout, updateDefaultView } = useDashboardPreferences();
+  const { refreshCardData } = useCardData(cards, preferences.refreshInterval);
+  const { handleCardAction } = useDashboardActions();
+
+  const handleRefresh = async () => {
+    await refreshCards();
+    await refreshCardData();
+  };
+
+  const handleSettingsClick = () => {
+    setShowSettings(!showSettings);
+  };
+
+  const getRoleDisplayName = (role: string) => {
+    switch (role) {
+      case 'EXEC': return 'Executive';
+      case 'ADMIN': return 'Administrator';
+      case 'MANAGER': return 'Manager';
+      case 'SUPERVISOR': return 'Supervisor';
+      case 'CREW': return 'Crew Member';
+      case 'CITIZEN': return 'Citizen';
+      default: return role;
+    }
+  };
+
+  const getRoleIcon = (role: string) => {
+    switch (role) {
+      case 'EXEC': return Shield;
+      case 'ADMIN': return Shield;
+      case 'MANAGER': return User;
+      case 'SUPERVISOR': return Wrench;
+      case 'CREW': return Wrench;
+      case 'CITIZEN': return User;
+      default: return User;
+    }
+  };
+
+  const RoleIcon = userRole ? getRoleIcon(userRole) : User;
 
   return (
-    <div className="flex h-screen bg-white">
-      <Sidebar />
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <Header />
-        <main className="flex-1 overflow-auto p0">
-          <DashboardShell>
-      
-      
-      {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column - 2/3 width */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Quick Actions */}
-          <div className="bg-white rounded-lg p-6">
-            <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Link
-                href={("/dashboard/assets" as Route)}
-                className="flex items-center p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors"
-              >
-                <MapPin className="h-6 w-6 text-primary mr-3" />
-                <div>
-                  <div className="font-medium">Asset Management</div>
-                  <div className="text-sm text-muted-foreground">
-                    Manage council assets
+    <ProtectedRoute requiredRoles={['ADMIN', 'EXEC', 'MANAGER', 'SUPERVISOR', 'CREW']}>
+      <div className="flex h-screen bg-background">
+        <Sidebar />
+        <div className="flex-1 flex flex-col overflow-hidden">
+          <Header />
+          <main className="flex-1 overflow-auto p-6">
+            <div className="max-w-7xl mx-auto space-y-6">
+              {/* Dashboard Header */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2">
+                    <RoleIcon className="h-8 w-8 text-primary" />
+                    <div>
+                      <h1 className="text-3xl font-bold text-foreground">
+                        {getRoleDisplayName(userRole || '')} Dashboard
+                      </h1>
+                      <p className="text-muted-foreground">
+                        Unified dashboard with role-based customization
+                      </p>
+                    </div>
                   </div>
+                  <Badge variant="outline" className="capitalize">
+                    {preferences.defaultView} view
+                  </Badge>
                 </div>
-              </Link>
-
-              <Link
-                href={("/dashboard/work-orders" as Route)}
-                className="flex items-center p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors"
-              >
-                <Wrench className="h-6 w-6 text-primary mr-3" />
-                <div>
-                  <div className="font-medium">Work Orders</div>
-                  <div className="text-sm text-muted-foreground">
-                    Create and track orders
-                  </div>
-                </div>
-              </Link>
-
-              <Link
-                href={("/dashboard/reports" as Route)}
-                className="flex items-center p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors"
-              >
-                <BarChart3 className="h-6 w-6 text-primary mr-3" />
-                <div>
-                  <div className="font-medium">Reports</div>
-                  <div className="text-sm text-muted-foreground">
-                    Generate reports
-                  </div>
-                </div>
-              </Link>
-            </div>
-          </div>
-
-          {/* Backlog + Risk */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-            {/* Maintenance Schedule */}
-            <div className="md:col-span-2">
-              <div className="bg-white rounded-lg p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-xl font-semibold">Maintenance Backlog</h2>
-                  <Button variant="outline" size="sm">
-                    <Plus className="h-4 w-4 mr-2" />
-                    New Task
+                
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={handleRefresh}
+                    disabled={cardsLoading}
+                  >
+                    <RefreshCw className={`h-4 w-4 mr-2 ${cardsLoading ? 'animate-spin' : ''}`} />
+                    Refresh
+                  </Button>
+                  
+                  <Button
+                    variant="outline"
+                    onClick={handleSettingsClick}
+                  >
+                    <Settings className="h-4 w-4 mr-2" />
+                    Settings
                   </Button>
                 </div>
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
-                    <div>
-                      <p className="font-medium text-sm">Water Pump Station A</p>
-                      <p className="text-xs text-muted-foreground">Overdue • Preventive Maintenance</p>
+              </div>
+
+              {/* Settings Panel */}
+              {showSettings && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Settings className="h-5 w-5" />
+                      Dashboard Settings
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Layout</label>
+                        <div className="flex items-center gap-2">
+                          <Button
+                            variant={preferences.layout === 'grid' ? 'default' : 'outline'}
+                            size="sm"
+                            onClick={() => updateLayout('grid')}
+                          >
+                            <Grid3X3 className="h-4 w-4 mr-2" />
+                            Grid
+                          </Button>
+                          <Button
+                            variant={preferences.layout === 'list' ? 'default' : 'outline'}
+                            size="sm"
+                            onClick={() => updateLayout('list')}
+                          >
+                            <List className="h-4 w-4 mr-2" />
+                            List
+                          </Button>
+                          <Button
+                            variant={preferences.layout === 'compact' ? 'default' : 'outline'}
+                            size="sm"
+                            onClick={() => updateLayout('compact')}
+                          >
+                            <Maximize2 className="h-4 w-4 mr-2" />
+                            Compact
+                          </Button>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Default View</label>
+                        <div className="flex items-center gap-2">
+                          <Button
+                            variant={preferences.defaultView === 'executive' ? 'default' : 'outline'}
+                            size="sm"
+                            onClick={() => updateDefaultView('executive')}
+                          >
+                            Executive
+                          </Button>
+                          <Button
+                            variant={preferences.defaultView === 'manager' ? 'default' : 'outline'}
+                            size="sm"
+                            onClick={() => updateDefaultView('manager')}
+                          >
+                            Manager
+                          </Button>
+                          <Button
+                            variant={preferences.defaultView === 'supervisor' ? 'default' : 'outline'}
+                            size="sm"
+                            onClick={() => updateDefaultView('supervisor')}
+                          >
+                            Supervisor
+                          </Button>
+                          <Button
+                            variant={preferences.defaultView === 'custom' ? 'default' : 'outline'}
+                            size="sm"
+                            onClick={() => updateDefaultView('custom')}
+                          >
+                            Custom
+                          </Button>
+                        </div>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <p className="text-xs text-muted-foreground">Due: 15/03/2024</p>
-                      <p className="text-xs text-muted-foreground">09:00</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
-                    <div>
-                      <p className="font-medium text-sm">Bridge Inspection - Main St</p>
-                      <p className="text-xs text-muted-foreground">Due this week • RCM Assessment</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-xs text-muted-foreground">Due: 18/03/2024</p>
-                      <p className="text-xs text-muted-foreground">14:30</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
-                    <div>
-                      <p className="font-medium text-sm">Traffic Light System</p>
-                      <p className="text-xs text-muted-foreground">Due next week • Critical Control Check</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-xs text-muted-foreground">Due: 20/03/2024</p>
-                      <p className="text-xs text-muted-foreground">11:00</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+                  </CardContent>
+                </Card>
+              )}
 
-            {/* Risk Assessment */}
-            <div className="space-y-6">
-              {/* Risk Assessment Overview with circular progress */}
-              <div className="bg-white rounded-lg p-6">
-                <h2 className="text-xl font-semibold mb-4">Risk Assessment Overview</h2>
-                <div className="flex items-center justify-center mb-4">
-                  <div className="relative w-32 h-32">
-                    <svg viewBox="0 0 36 36" className="w-32 h-32">
-                      <path
-                        className="text-muted-foreground stroke-current"
-                        strokeWidth="3.8"
-                        fill="none"
-                        d="M18 2.0845
-                           a 15.9155 15.9155 0 0 1 0 31.831
-                           a 15.9155 15.9155 0 0 1 0 -31.831"
-                        opacity="0.25"
-                      />
-                      <path
-                        className="text-primary stroke-current"
-                        strokeWidth="3.8"
-                        strokeLinecap="round"
-                        fill="none"
-                        d="M18 2.0845
-                           a 15.9155 15.9155 0 0 1 0 31.831
-                           a 15.9155 15.9155 0 0 1 0 -31.831"
-                        strokeDasharray="73, 100"
-                      />
-                      <text x="18" y="20.35" className="fill-current text-foreground" textAnchor="middle" fontSize="8">73%</text>
-                    </svg>
-                  </div>
-                </div>
-                <div className="space-y-2 text-sm">
-                  <div className="flex items-center"><span className="w-2 h-2 rounded-full bg-green-500 mr-2"></span>Low Risk<span className="ml-auto text-muted-foreground">847 assets</span></div>
-                  <div className="flex items-center"><span className="w-2 h-2 rounded-full bg-yellow-500 mr-2"></span>Medium Risk<span className="ml-auto text-muted-foreground">312 assets</span></div>
-                  <div className="flex items-center"><span className="w-2 h-2 rounded-full bg-red-500 mr-2"></span>High Risk<span className="ml-auto text-muted-foreground">88 assets</span></div>
-                </div>
-              </div>
+              {/* Dashboard Grid */}
+              <DashboardGrid
+                cards={cards}
+                preferences={preferences}
+                loading={cardsLoading || prefsLoading}
+                onCardAction={handleCardAction}
+                onRefresh={handleRefresh}
+                onSettingsClick={handleSettingsClick}
+              />
             </div>
-          </div>
-
-          {/* Recent Activity */}
-          <div className="bg-white rounded-lg p-6">
-            <h2 className="text-xl font-semibold mb-4">Recent Activity</h2>
-            <div className="space-y-4">
-              <div className="flex items-center space-x-3">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium">Asset inspection completed</p>
-                  <p className="text-xs text-muted-foreground">Bridge #123 - 2 hours ago</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium">New work order created</p>
-                  <p className="text-xs text-muted-foreground">Road maintenance - 4 hours ago</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium">Inspection scheduled</p>
-                  <p className="text-xs text-muted-foreground">Playground equipment - 6 hours ago</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Team Status (moved here under Risk when on smaller screens, still right column on lg)*/}
-          <div className="bg-white rounded-lg p-6 lg:hidden">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold">Team Status</h2>
-              <Button variant="ghost" size="sm">
-                <Plus className="h-4 w-4 mr-1" />
-                Add Member
-              </Button>
-            </div>
-            <div className="space-y-3">
-              <div className="flex items-center space-x-3">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src={`https://tapback.co/api/avatar/${encodeURIComponent("Alexandra Deff")}.webp`} />
-                  <AvatarFallback>AD</AvatarFallback>
-                </Avatar>
-                <div className="flex-1">
-                  <p className="text-sm font-medium">Alexandra Deff</p>
-                  <p className="text-xs text-green-600">Completed</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src={`https://tapback.co/api/avatar/${encodeURIComponent("Edwin Adenike")}.webp`} />
-                  <AvatarFallback>EA</AvatarFallback>
-                </Avatar>
-                <div className="flex-1">
-                  <p className="text-sm font-medium">Edwin Adenike</p>
-                  <p className="text-xs text-blue-600">In Progress</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src={`https://tapback.co/api/avatar/${encodeURIComponent("Isaac Oluwatemilorun")}.webp`} />
-                  <AvatarFallback>IO</AvatarFallback>
-                </Avatar>
-                <div className="flex-1">
-                  <p className="text-sm font-medium">Isaac Oluwatemilorun</p>
-                  <p className="text-xs text-orange-600">Pending</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Column - 1/3 width */}
-        <div className="space-y-6">
-          {/* Crew Utilisation */}
-          <div className="bg-white rounded-lg p-6">
-            <h2 className="text-xl font-semibold mb-4">Crew Utilisation</h2>
-            <div className="space-y-2 text-sm">
-              <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">This week</span>
-                <span className="font-medium">78%</span>
-              </div>
-              <div className="w-full h-2 bg-muted rounded">
-                <div className="h-2 bg-primary rounded w-[78%]"></div>
-              </div>
-              <div className="grid grid-cols-3 gap-2 text-xs text-muted-foreground">
-                <div>Scheduled: 220h</div>
-                <div>Capacity: 280h</div>
-                <div>Overtime: 12h</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Spare Parts Risk */}
-          <div className="bg-white rounded-lg p-6">
-            <h2 className="text-xl font-semibold mb-4">Spare Parts Risk</h2>
-            <div className="space-y-3 text-sm">
-              <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
-                <span>Bearing 6205-2RS</span>
-                <span className="text-red-600 font-medium">Stock-out risk</span>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
-                <span>Oil Filter HF304</span>
-                <span className="text-yellow-600 font-medium">Reorder soon</span>
-              </div>
-              <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
-                <span>Hydraulic Hose H12</span>
-                <span className="text-green-600 font-medium">Healthy</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Failure Modes Watchlist */}
-          <div className="bg-white rounded-lg p-6">
-            <h2 className="text-xl font-semibold mb-4">Failure Modes Watchlist</h2>
-            <div className="space-y-3 text-sm">
-              <div className="flex items-center justify-between">
-                <span>Pump cavitation</span>
-                <span className="text-muted-foreground">12 occurrences</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span>Corrosion under insulation</span>
-                <span className="text-muted-foreground">7 occurrences</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span>Electrical short (panel)</span>
-                <span className="text-muted-foreground">5 occurrences</span>
-              </div>
-            </div>
-          </div>
-
-          {/* GIS HotSpots */}
-          <div className="bg-white rounded-lg p-6">
-            <h2 className="text-xl font-semibold mb-4">GIS HotSpots</h2>
-            <div className="aspect-video w-full bg-muted rounded-lg flex items-center justify-center text-muted-foreground text-sm">
-              Map preview (clusters)
-            </div>
-          </div>
-
-          {/* Team Status */}
-          <div className="bg-white rounded-lg p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold">Team Status</h2>
-              <Button variant="ghost" size="sm">
-                <Plus className="h-4 w-4 mr-1" />
-                Add Member
-              </Button>
-            </div>
-            <div className="space-y-3">
-              <div className="flex items-center space-x-3">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src={`https://tapback.co/api/avatar/${encodeURIComponent("Alexandra Deff")}.webp`} />
-                  <AvatarFallback>AD</AvatarFallback>
-                </Avatar>
-                <div className="flex-1">
-                  <p className="text-sm font-medium">Alexandra Deff</p>
-                  <p className="text-xs text-green-600">Completed</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src={`https://tapback.co/api/avatar/${encodeURIComponent("Edwin Adenike")}.webp`} />
-                  <AvatarFallback>EA</AvatarFallback>
-                </Avatar>
-                <div className="flex-1">
-                  <p className="text-sm font-medium">Edwin Adenike</p>
-                  <p className="text-xs text-blue-600">In Progress</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src={`https://tapback.co/api/avatar/${encodeURIComponent("Isaac Oluwatemilorun")}.webp`} />
-                  <AvatarFallback>IO</AvatarFallback>
-                </Avatar>
-                <div className="flex-1">
-                  <p className="text-sm font-medium">Isaac Oluwatemilorun</p>
-                  <p className="text-xs text-orange-600">Pending</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* (Time Tracker intentionally removed) */}
+          </main>
         </div>
       </div>
-
-          </DashboardShell>
-        </main>
-      </div>
-    </div>
+    </ProtectedRoute>
   );
 }

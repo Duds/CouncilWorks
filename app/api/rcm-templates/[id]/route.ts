@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
-import { hasPermission } from "@/lib/rbac";
+import { isManagerOrHigher } from "@/lib/rbac";
 import { AuditAction } from "@prisma/client";
-import { recordAuditLog } from "@/lib/audit";
+import { logAuditEvent } from "@/lib/audit";
 
 /**
  * RCM Template update schema
@@ -83,7 +83,7 @@ export async function PUT(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user || !hasPermission(session.user.role, "asset:write")) {
+    if (!session?.user || !isManagerOrHigher(session.user.role)) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -122,12 +122,13 @@ export async function PUT(
       },
     });
 
-    await recordAuditLog(
+    await logAuditEvent(
       AuditAction.ASSET_UPDATED,
-      `RCM Template '${updatedTemplate.name}' updated`,
       session.user.id,
       session.user.organisationId,
-      templateId
+      { message: `RCM Template '${updatedTemplate.name}' updated`, templateId },
+      request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip"),
+      request.headers.get("user-agent")
     );
 
     return NextResponse.json(updatedTemplate);
@@ -150,7 +151,7 @@ export async function DELETE(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user || !hasPermission(session.user.role, "asset:delete")) {
+    if (!session?.user || !isManagerOrHigher(session.user.role)) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -187,12 +188,13 @@ export async function DELETE(
       where: { id: templateId },
     });
 
-    await recordAuditLog(
+    await logAuditEvent(
       AuditAction.ASSET_DELETED,
-      `RCM Template '${existingTemplate.name}' deleted`,
       session.user.id,
       session.user.organisationId,
-      templateId
+      { message: `RCM Template '${existingTemplate.name}' deleted`, templateId },
+      request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip"),
+      request.headers.get("user-agent")
     );
 
     return NextResponse.json({ message: "Template deleted successfully" });

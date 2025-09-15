@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
-import { hasPermission } from "@/lib/rbac";
+import { isManagerOrHigher } from "@/lib/rbac";
 import { AuditAction } from "@prisma/client";
-import { recordAuditLog } from "@/lib/audit";
+import { logAuditEvent } from "@/lib/audit";
 
 /**
  * RCM Template creation schema
@@ -133,7 +133,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user || !hasPermission(session.user.role, "asset:write")) {
+    if (!session?.user || !isManagerOrHigher(session.user.role)) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -201,11 +201,13 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    await recordAuditLog(
+    await logAuditEvent(
       AuditAction.ASSET_CREATED,
-      `RCM Template '${template.name}' created for asset type '${template.assetType}'`,
       session.user.id,
-      session.user.organisationId
+      session.user.organisationId,
+      { message: `RCM Template '${template.name}' created for asset type '${template.assetType}'` },
+      request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip"),
+      request.headers.get("user-agent")
     );
 
     return NextResponse.json(template, { status: 201 });

@@ -8,9 +8,10 @@ import type { Route } from "next";
 interface ProtectedRouteProps {
   children: React.ReactNode;
   requiredRole?: string;
+  requiredRoles?: string[];
 }
 
-export default function ProtectedRoute({ children, requiredRole }: ProtectedRouteProps) {
+export function ProtectedRoute({ children, requiredRole, requiredRoles }: ProtectedRouteProps) {
   const { data: session, status } = useSession();
   const router = useRouter();
 
@@ -22,11 +23,15 @@ export default function ProtectedRoute({ children, requiredRole }: ProtectedRout
       return;
     }
 
-    if (requiredRole && session.user.role !== requiredRole) {
+    // Check role permissions
+    const userRole = session.user.role;
+    const rolesToCheck = requiredRoles || (requiredRole ? [requiredRole] : []);
+    
+    if (rolesToCheck.length > 0 && !rolesToCheck.includes(userRole)) {
       router.push("/unauthorized" as Route);
       return;
     }
-  }, [session, status, router, requiredRole]);
+  }, [session, status, router, requiredRole, requiredRoles]);
 
   if (status === "loading") {
     return (
@@ -43,7 +48,11 @@ export default function ProtectedRoute({ children, requiredRole }: ProtectedRout
     return null; // Will redirect
   }
 
-  if (requiredRole && session.user.role !== requiredRole) {
+  // Check role permissions
+  const userRole = session.user.role;
+  const rolesToCheck = requiredRoles || (requiredRole ? [requiredRole] : []);
+  
+  if (rolesToCheck.length > 0 && !rolesToCheck.includes(userRole)) {
     return null; // Will redirect
   }
 

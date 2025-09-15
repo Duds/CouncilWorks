@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { storageService } from "@/lib/storage/storage-service";
 import { z } from "zod";
-import { canAccessManager } from "@/lib/rbac";
+import { isManagerOrHigher } from "@/lib/rbac";
 
 /**
  * Document type enum
@@ -44,7 +44,7 @@ export async function POST(
     }
 
     // Check permissions - MANAGER and above can upload documents
-    if (!canAccessManager(session.user.role)) {
+    if (!isManagerOrHigher(session.user.role)) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 

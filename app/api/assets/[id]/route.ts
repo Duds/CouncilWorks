@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
-import { canAccessManager, canAccessSupervisor } from "@/lib/rbac";
+import { isManagerOrHigher } from "@/lib/rbac";
 
 /**
  * Asset update schema validation
@@ -156,7 +156,7 @@ export async function PUT(
     }
 
     // Check permissions - MANAGER and above can update assets
-    if (!canAccessManager(session.user.role)) {
+    if (!isManagerOrHigher(session.user.role)) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
