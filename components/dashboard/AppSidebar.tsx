@@ -5,6 +5,7 @@ import { signOut, useSession } from "next-auth/react";
 import ReleaseBadge from "@/components/release-badge";
 import Link from "next/link";
 import Image from "next/image";
+import type { Route } from "next";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -19,7 +20,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarSeparator,
-  SidebarTrigger,
 } from "@/components/ui/sidebar";
 
 export default function AppSidebar() {
@@ -71,19 +71,16 @@ export default function AppSidebar() {
   return (
     <Sidebar variant="sidebar" collapsible="offcanvas">
       <SidebarHeader>
-        <div className="flex items-center justify-between px-2">
-          <Link href="/dashboard" className="flex items-center gap-2 font-semibold">
-            <Image 
-              src="/images/logos/Aegrid.svg" 
-              alt="Aegrid Logo" 
-              width={32} 
-              height={20}
-              className="h-5 w-auto"
-            />
-            <span className="text-xl">Aegrid</span>
-          </Link>
-          <SidebarTrigger />
-        </div>
+        <Link href="/dashboard" className="flex items-center gap-2 font-semibold px-2">
+          <Image 
+            src="/images/logos/Aegrid.svg" 
+            alt="Aegrid Logo" 
+            width={32} 
+            height={20}
+            className="h-5 w-auto"
+          />
+          <span className="text-xl">Aegrid</span>
+        </Link>
       </SidebarHeader>
       
       <SidebarContent>
@@ -94,7 +91,7 @@ export default function AppSidebar() {
               {navigationItems.map((item) => (
                 <SidebarMenuItem key={item.href}>
                   <SidebarMenuButton asChild>
-                    <Link href={item.href} className="flex items-center justify-between w-full min-w-0">
+                    <Link href={item.href as Route} className="flex items-center justify-between w-full min-w-0">
                       <div className="flex items-center gap-2 min-w-0 flex-1">
                         <item.icon className="h-4 w-4 shrink-0" />
                         <span className="truncate">{item.label}</span>
@@ -121,7 +118,7 @@ export default function AppSidebar() {
               {generalItems.map((item) => (
                 <SidebarMenuItem key={item.href}>
                   <SidebarMenuButton asChild>
-                    <Link href={item.href}>
+                    <Link href={item.href as Route}>
                       <item.icon className="h-4 w-4" />
                       <span>{item.label}</span>
                     </Link>
