@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { signIn, getSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { MFAVerification } from "@/components/auth/mfa-verification";
@@ -17,6 +17,30 @@ export default function SignInPage() {
   const [mfaRequired, setMfaRequired] = useState(false);
   const [mfaLoading, setMfaLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Check for OAuth errors in URL parameters
+  useEffect(() => {
+    const oauthError = searchParams.get("error");
+    if (oauthError) {
+      switch (oauthError) {
+        case "google":
+          setError("Google sign-in failed. Please check your Google account settings or try again.");
+          break;
+        case "azure-ad":
+          setError("Microsoft sign-in failed. Please check your Microsoft account settings or try again.");
+          break;
+        case "Configuration":
+          setError("OAuth configuration error. Please contact support.");
+          break;
+        case "AccessDenied":
+          setError("Access denied. You may have cancelled the sign-in process.");
+          break;
+        default:
+          setError(`Sign-in failed: ${oauthError}`);
+      }
+    }
+  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -107,9 +131,12 @@ export default function SignInPage() {
     setError("");
 
     try {
-      await signIn(provider, { callbackUrl: "/dashboard" });
+      console.log(`Attempting OAuth sign-in with provider: ${provider}`);
+      const result = await signIn(provider, { callbackUrl: "/dashboard" });
+      console.log("OAuth sign-in result:", result);
     } catch (err) {
-      setError("An error occurred with OAuth sign-in. Please try again.");
+      console.error("OAuth sign-in error:", err);
+      setError(`An error occurred with ${provider} sign-in. Please try again.`);
       setIsLoading(false);
     }
   };

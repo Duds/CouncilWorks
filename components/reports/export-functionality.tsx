@@ -83,22 +83,13 @@ export function ExportFunctionality() {
 
   const exportOptions: ExportOption[] = [
     {
-      id: 'executive-dashboard',
-      name: 'Executive Dashboard',
-      description: 'High-level KPIs and performance metrics',
+      id: 'unified-dashboard',
+      name: 'Unified Dashboard',
+      description: 'Role-based dashboard with KPIs and metrics',
       format: 'PDF',
       icon: <BarChart3 className="h-5 w-5" />,
       category: 'dashboard',
       size: '2-3 pages',
-    },
-    {
-      id: 'manager-dashboard',
-      name: 'Manager Dashboard',
-      description: 'Team performance and operational metrics',
-      format: 'PDF',
-      icon: <Table className="h-5 w-5" />,
-      category: 'dashboard',
-      size: '3-4 pages',
     },
     {
       id: 'asset-condition-report',
@@ -500,7 +491,7 @@ export function ExportFunctionality() {
               className="h-16 flex-col gap-2"
               onClick={() => {
                 setSelectedFormat('PDF');
-                setSelectedReport('executive-dashboard');
+                setSelectedReport('unified-dashboard');
                 setShowExportDialog(true);
               }}
             >

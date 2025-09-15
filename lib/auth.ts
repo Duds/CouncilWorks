@@ -100,18 +100,31 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      authorization: {
+        params: {
+          scope: "openid email profile",
+        },
+      },
+    })
+  );
+  console.log("Google OAuth provider configured");
+} else {
+  console.log("Google OAuth provider not configured - missing credentials");
+}
+
+if (process.env.MICROSOFT_CLIENT_ID && process.env.MICROSOFT_CLIENT_SECRET) {
+  providers.push(
+    AzureADProvider({
+      clientId: process.env.MICROSOFT_CLIENT_ID,
+      clientSecret: process.env.MICROSOFT_CLIENT_SECRET,
+      tenantId: process.env.AZURE_AD_TENANT_ID || "common",
     })
   );
 }
 
-if (process.env.AZURE_AD_CLIENT_ID && process.env.AZURE_AD_CLIENT_SECRET) {
-  providers.push(
-    AzureADProvider({
-      clientId: process.env.AZURE_AD_CLIENT_ID,
-      clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
-      tenantId: process.env.AZURE_AD_TENANT_ID || "common",
-    })
-  );
+// Debug: Log available providers
+if (process.env.NODE_ENV === "development") {
+  console.log("Available OAuth providers:", providers.map(p => p.name));
 }
 
 export const authOptions: NextAuthOptions = {
@@ -141,6 +154,19 @@ export const authOptions: NextAuthOptions = {
         session.user.mfaRequired = token.mfaRequired as boolean;
       }
       return session;
+    },
+    async jwt({ token, user, account }) {
+      if (account) {
+        console.log("OAuth account:", account.provider, account.type);
+      }
+      if (user) {
+        token.id = user.id;
+        token.role = user.role;
+        token.organisationId = user.organisationId;
+        token.organisation = user.organisation;
+        token.mfaRequired = (user as any).mfaRequired || false;
+      }
+      return token;
     },
     async signIn({ user, account, profile: _profile }) {
       if (user?.id) {
