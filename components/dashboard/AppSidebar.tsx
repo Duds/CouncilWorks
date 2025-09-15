@@ -68,7 +68,7 @@ export default function AppSidebar() {
   ];
 
   return (
-    <Sidebar variant="sidebar" collapsible="offcanvas" className="overflow-hidden">
+    <Sidebar variant="sidebar" collapsible="offcanvas" className="overflow-x-hidden">
       <SidebarHeader>
         <Link href="/dashboard" className="flex items-center gap-2 font-semibold px-2">
           <Image 
@@ -96,7 +96,7 @@ export default function AppSidebar() {
                         <span className="truncate">{item.label}</span>
                       </div>
                       {item.badge && (
-                        <Badge variant="secondary" className="ml-1 text-[10px] px-1.5 py-0.5 shrink-0">
+                        <Badge variant="secondary" className="ml-2 text-xs shrink-0">
                           {item.badge}
                         </Badge>
                       )}
