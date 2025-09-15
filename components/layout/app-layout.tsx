@@ -1,7 +1,7 @@
 "use client";
 
 import { ProtectedRoute } from '@/components/auth/protected-route';
-import AppSidebar from '@/components/dashboard/AppSidebar';
+import JourneySidebar from '@/components/dashboard/JourneySidebar';
 import Header from '@/components/dashboard/Header';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 
@@ -39,7 +39,7 @@ export default function AppLayout({ children, requiredRoles, title, description 
           } as React.CSSProperties
         }
       >
-        <AppSidebar variant="sidebar" collapsible="icon" />
+        <JourneySidebar variant="sidebar" collapsible="icon" />
         <SidebarInset>
           <Header title={title} description={description} />
           <main className="flex-1 p-6">

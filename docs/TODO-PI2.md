@@ -1,10 +1,10 @@
 # Aegrid Product Backlog - PI2
 
 **Product Increment 2 (PI2) - Journey-Centric UX & Advanced Features**
-**Period**: January 2025 - June 2025
+**Period**: August 2025
 **Status**: 🚧 **IN PROGRESS**
 
-Last updated: 15/01/2025
+Last updated: 15/09/2025
 
 ## PI2 Vision & Objectives
 
@@ -13,7 +13,7 @@ Transform Aegrid from a feature-centric platform to a journey-centric asset inte
 
 ### Strategic Objectives
 1. **Journey-Centric UX**: Implement workflow-based navigation aligned with user personas
-2. **Industry Compliance**: Achieve ISO 14224, ISO 55000, ISO 27001, ISO 31000 compliance
+2. **Industry Compliance**: Achieve comprehensive ISO standards compliance (14224, 55000, 27001, 27002, 31000, 42010, 20547-3, 8000, 15926, 20000, 21500, 9001, 22301)
 3. **Graph-Based Asset Model**: Support multiple overlapping hierarchies and tagging
 4. **Sector Neutrality**: Refactor language for broader industry applicability
 5. **Core Principles**: Implement "The Aegrid Rules" throughout the platform
@@ -53,10 +53,25 @@ Transform Aegrid from a feature-centric platform to a journey-centric asset inte
 ## Non-Functional Requirements
 
 ### ISO Compliance Standards
+
+#### **Phase 1 (Immediate) - Core Standards**
 - **ISO 14224**: Reliability data collection and exchange for equipment
-- **ISO 55000**: Asset management systems and requirements
+- **ISO 55000**: Asset management systems and requirements  
 - **ISO 27001**: Information security management systems
+- **ISO 27002**: Information security controls implementation
 - **ISO 31000**: Risk management principles and guidelines
+
+#### **Phase 2 (Short-term) - Architecture & Data**
+- **ISO/IEC 42010**: Systems and software engineering — Architecture description
+- **ISO/IEC 20547-3**: Big data reference architecture for hybrid database systems
+- **ISO 8000**: Data quality and enterprise master data standards
+- **ISO 15926**: Data integration, sharing, exchange for lifecycle information
+- **ISO 20000**: IT service management for platform operations
+
+#### **Phase 3 (Medium-term) - Management & Quality**
+- **ISO 21500**: Project management guidelines for implementation
+- **ISO 9001**: Quality management systems for continuous improvement
+- **ISO 22301**: Business continuity management for platform resilience
 
 ### Technical Requirements
 - **Graph-Based Asset Model**: Support multiple overlapping hierarchies

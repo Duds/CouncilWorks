@@ -125,18 +125,20 @@ RETURN a.name, o.name, v.perspective, a.financialValue
 - **All User Stories**: Must reference relevant Aegrid Rules
 - **All Database Models**: Must support function-based anchoring and multiple hierarchies
 - **All UI/UX**: Must reflect journey-centric design and critical asset visibility
+- **ISO Standards**: Must comply with 13 ISO standards across architecture, security, data, and management
 
 ### Quality Gates
 - **Feature Review**: Every feature must demonstrate Aegrid Rules alignment
 - **Code Review**: Verify technical implementation supports the rules
 - **Testing**: Ensure rules are validated in test scenarios
 - **Documentation**: All documentation must reference relevant rules
+- **Compliance Review**: Verify ISO standards compliance and mapping
 
 ### Success Metrics
-- **Rule 1**: 100% of assets have defined service purpose
-- **Rule 2**: Risk-based maintenance schedules implemented
-- **Rule 3**: Critical assets visible in all relevant views
-- **Rule 4**: Flexible modeling supports multiple organizational views
+- **Rule 1**: 100% of assets have defined service purpose (ISO 8000, 15926)
+- **Rule 2**: Risk-based maintenance schedules implemented (ISO 14224, 31000)
+- **Rule 3**: Critical assets visible in all relevant views (ISO 27001, 27002, 22301)
+- **Rule 4**: Flexible modeling supports multiple organizational views (ISO/IEC 42010, 20547-3)
 
 ---
 
@@ -146,3 +148,4 @@ RETURN a.name, o.name, v.perspective, a.financialValue
 - `../../docs/architecture/hybrid-database-strategy.md` — Database architecture supporting the rules
 - `../../docs/architecture/database-technology-choice.md` — Technology choices aligned with rules
 - `../../docs/TODO-PI2.md` — PI2 implementation plan with rules integration
+- `../../docs/compliance/iso-standards-mapping.md` — Comprehensive ISO standards compliance mapping

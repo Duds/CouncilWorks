@@ -40,6 +40,7 @@
 
 ### 🔒 Security & Compliance
 - **[RBAC Implementation](security/rbac-implementation.md)** — Role-based access control
+- **[ISO Standards Mapping](compliance/iso-standards-mapping.md)** — Comprehensive ISO compliance mapping
 - **[Troubleshooting Guide](support/troubleshooting.md)** — Common issues and solutions
 
 ### 📊 Data & Integration
@@ -73,6 +74,7 @@ Essential reading for all contributors
 - The Aegrid Rules
 - PI2 Implementation Plan
 - Service Blueprint
+- ISO Standards Mapping
 
 ### 🏗️ **Architecture**
 Technical architecture and design decisions
@@ -95,7 +97,7 @@ Developer resources and guidelines
 ### 🔒 **Security & Compliance**
 Security and compliance requirements
 - RBAC implementation
-- ISO compliance
+- ISO compliance (13 standards)
 - Security standards
 
 ### 📊 **Data Management**

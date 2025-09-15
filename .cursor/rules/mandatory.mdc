@@ -54,7 +54,7 @@ alwaysApply: true
 - **Aegrid** — Asset Lifecycle Intelligence Platform (formerly CouncilWorks)
 - **Technology Stack**: Next.js 15, React 18, TypeScript, Prisma ORM, PostgreSQL + PostGIS, Azure Cosmos DB Gremlin API
 - **Features**: Hybrid database architecture, graph-based asset intelligence, journey-centric UX, ISO compliance, sector-neutral platform
-- **Security**: NextAuth.js, bcrypt password hashing, role-based access control, ISO 27001 compliance
+- **Security**: NextAuth.js, bcrypt password hashing, role-based access control, ISO 27001/27002 compliance
 - **Testing**: Comprehensive test strategy with Jest and React Testing Library, real data testing (no mocks)
 - **Deployment**: Azure Container Apps with monitoring and health checks
 - **Core Principles**: The Aegrid Rules (Every Asset Has a Purpose, Match Maintenance to Risk, Protect the Critical Few, Plan for Tomorrow Today)
@@ -95,7 +95,7 @@ alwaysApply: true
 {
 "id": "iso_compliance",
 "severity": "error",
-"description": "Ensure compliance with ISO 14224, ISO 55000, ISO 27001, and ISO 31000 standards."
+"description": "Ensure compliance with ISO 14224, ISO 55000, ISO 27001, ISO 27002, ISO 31000, ISO/IEC 42010, ISO/IEC 20547-3, ISO 8000, ISO 15926, ISO 20000, ISO 21500, ISO 9001, and ISO 22301 standards."
 },
 {
 "id": "authentication_required",
@@ -186,7 +186,7 @@ alwaysApply: true
 { "id": "aegrid_rules_compliance", "severity": "error", "description": "For all features. Ensure alignment with The Aegrid Rules and function-based asset modeling." },
 { "id": "journey_centric_design", "severity": "error", "description": "For UX/UI changes. Design around user journeys and workflows, not isolated features." },
 { "id": "sector_neutral_implementation", "severity": "error", "description": "For language and terminology. Use industry sector-neutral language throughout." },
-{ "id": "iso_compliance_verification", "severity": "error", "description": "For compliance features. Ensure ISO 14224, 55000, 27001, 31000 standards adherence." },
+{ "id": "iso_compliance_verification", "severity": "error", "description": "For compliance features. Ensure ISO 14224, 55000, 27001, 27002, 31000, 42010, 20547-3, 8000, 15926, 20000, 21500, 9001, 22301 standards adherence." },
 { "id": "real_data_testing", "severity": "error", "description": "For testing. Use real data, avoid mocks unless absolutely necessary." },
 { "id": "github_workflow", "severity": "error", "description": "For all git operations. Use feature branches, semantic commits, PRs, and code reviews." },
 { "id": "update_docs", "severity": "warning", "description": "Directly update all relevant documentation files as part of your change." },
