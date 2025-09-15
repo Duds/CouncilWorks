@@ -82,13 +82,13 @@ export default function AppSidebar() {
               {navigationItems.map((item) => (
                 <SidebarMenuItem key={item.href}>
                   <SidebarMenuButton asChild>
-                    <Link href={item.href} className="flex items-center justify-between w-full">
-                      <div className="flex items-center gap-2">
-                        <item.icon className="h-4 w-4" />
-                        <span>{item.label}</span>
+                    <Link href={item.href} className="flex items-center justify-between w-full min-w-0">
+                      <div className="flex items-center gap-2 min-w-0 flex-1">
+                        <item.icon className="h-4 w-4 shrink-0" />
+                        <span className="truncate">{item.label}</span>
                       </div>
                       {item.badge && (
-                        <Badge variant="secondary" className="ml-auto text-xs">
+                        <Badge variant="secondary" className="ml-2 text-xs shrink-0">
                           {item.badge}
                         </Badge>
                       )}
@@ -129,8 +129,8 @@ export default function AppSidebar() {
       </SidebarContent>
       
       <SidebarFooter>
-        <div className="flex items-center gap-3 p-2">
-          <Avatar className="h-8 w-8">
+        <div className="flex items-center gap-3 p-2 min-w-0">
+          <Avatar className="h-8 w-8 shrink-0">
             <AvatarImage 
               src={session?.user?.image || undefined} 
               alt={session?.user?.name || "User avatar"}
