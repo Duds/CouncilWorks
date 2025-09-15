@@ -15,7 +15,15 @@ import {
   Loader2,
   ZoomIn,
   ZoomOut,
-  Navigation
+  Navigation,
+  Building2,
+  Road,
+  TreePine,
+  BookOpen,
+  Activity,
+  TrafficCone,
+  Droplets,
+  Zap
 } from "lucide-react";
 
 // Dynamically import Leaflet components to avoid SSR issues
@@ -115,17 +123,17 @@ export function AssetMap({
     else if (condition === "good" || condition === "excellent") color = "#10b981"; // green
 
     // Icon based on type
-    let icon = "📍"; // default pin
-    if (type.includes("building")) icon = "🏢";
-    else if (type.includes("road") || type.includes("bridge")) icon = "🛣️";
-    else if (type.includes("park") || type.includes("playground")) icon = "🌳";
-    else if (type.includes("library")) icon = "📚";
-    else if (type.includes("sports")) icon = "⚽";
-    else if (type.includes("traffic") || type.includes("light")) icon = "🚦";
-    else if (type.includes("water") || type.includes("drainage")) icon = "💧";
-    else if (type.includes("electrical")) icon = "⚡";
+    let IconComponent = MapPin; // default pin
+    if (type.includes("building")) IconComponent = Building2;
+    else if (type.includes("road") || type.includes("bridge")) IconComponent = Road;
+    else if (type.includes("park") || type.includes("playground")) IconComponent = TreePine;
+    else if (type.includes("library")) IconComponent = BookOpen;
+    else if (type.includes("sports")) IconComponent = Activity;
+    else if (type.includes("traffic") || type.includes("light")) IconComponent = TrafficCone;
+    else if (type.includes("water") || type.includes("drainage")) IconComponent = Droplets;
+    else if (type.includes("electrical")) IconComponent = Zap;
 
-    return { icon, color };
+    return { IconComponent, color };
   };
 
   // Get status badge variant
@@ -295,7 +303,7 @@ export function AssetMap({
                 
                 <MarkerClusterGroup>
                   {filteredAssets.map((asset) => {
-                    const { icon, color } = getAssetIcon(asset);
+                    const { IconComponent, color } = getAssetIcon(asset);
                     return (
                       <Marker
                         key={asset.id}
@@ -307,7 +315,7 @@ export function AssetMap({
                         <Popup>
                           <div className="p-2 min-w-[200px]">
                             <div className="flex items-center gap-2 mb-2">
-                              <span className="text-lg">{icon}</span>
+                              <IconComponent className="h-5 w-5" style={{ color }} />
                               <div>
                                 <h4 className="font-semibold text-sm">{asset.name}</h4>
                                 <p className="text-xs text-gray-600">{asset.assetNumber}</p>

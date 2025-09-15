@@ -26,7 +26,6 @@ import {
   Edit
 } from 'lucide-react';
 import { DashboardCard } from '@/types/dashboard';
-import * as LucideIcons from 'lucide-react';
 
 interface CardComponentProps {
   card: DashboardCard;
