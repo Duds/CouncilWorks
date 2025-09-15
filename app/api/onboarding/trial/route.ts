@@ -48,8 +48,8 @@ export async function POST(request: NextRequest) {
       
       case 'import':
         console.log("Setting up import trial...");
-        // For now, just mark as ready for import
-        // In a real implementation, you'd set up import queues or similar
+        // Redirect to import page after trial setup
+        // The import page will handle the actual data import process
         break;
       
       case 'blank':

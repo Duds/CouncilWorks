@@ -95,9 +95,14 @@ export default function OnboardingWelcomePage() {
       const result = await response.json();
       console.log("Trial setup success:", result);
 
-      // Redirect to dashboard
-      console.log("Redirecting to dashboard...");
-      router.push('/dashboard');
+      // Redirect based on trial type
+      if (trialType === 'import') {
+        console.log("Redirecting to import page...");
+        router.push('/imports');
+      } else {
+        console.log("Redirecting to dashboard...");
+        router.push('/dashboard');
+      }
     } catch (err) {
       console.error("Trial selection error:", err);
       setError(err instanceof Error ? err.message : 'Failed to setup trial');
@@ -291,6 +296,34 @@ export default function OnboardingWelcomePage() {
                 </CardContent>
               </Card>
             </div>
+
+            {/* Import-specific information */}
+            {data.trialType === 'import' && (
+              <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <h4 className="font-medium text-blue-900 mb-2">Import Your Data</h4>
+                <p className="text-sm text-blue-800 mb-3">
+                  After completing setup, you'll be redirected to the import page where you can:
+                </p>
+                <ul className="text-sm text-blue-800 space-y-1">
+                  <li>• Download our Excel template with proper formatting</li>
+                  <li>• Upload your existing asset spreadsheets</li>
+                  <li>• Map your columns to Aegrid fields</li>
+                  <li>• Validate and preview your data before import</li>
+                  <li>• Import thousands of assets in minutes</li>
+                </ul>
+                <div className="mt-3">
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => window.open('/imports', '_blank')}
+                    className="text-blue-700 border-blue-300 hover:bg-blue-100"
+                  >
+                    <Upload className="h-4 w-4 mr-2" />
+                    Go to Import Page
+                  </Button>
+                </div>
+              </div>
+            )}
 
             <Button 
               onClick={() => {
