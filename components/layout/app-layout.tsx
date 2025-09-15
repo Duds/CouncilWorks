@@ -39,7 +39,7 @@ export default function AppLayout({ children, requiredRoles, title, description 
           } as React.CSSProperties
         }
       >
-        <AppSidebar variant="sidebar" collapsible="offcanvas" />
+        <AppSidebar variant="sidebar" collapsible="icon" />
         <SidebarInset>
           <Header title={title} description={description} />
           <main className="flex-1 p-6">
