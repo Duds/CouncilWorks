@@ -1,5 +1,5 @@
 import { AssetImport } from "@/components/assets/asset-import";
-import { ProtectedRoute } from "@/components/auth/protected-route";
+import AppLayout from "@/components/layout/app-layout";
 
 /**
  * Asset Import Page
@@ -7,10 +7,12 @@ import { ProtectedRoute } from "@/components/auth/protected-route";
  */
 export default function AssetImportPage() {
   return (
-    <ProtectedRoute>
-      <div className="container mx-auto py-8 px-4 max-w-4xl">
-        <AssetImport />
-      </div>
-    </ProtectedRoute>
+    <AppLayout
+      requiredRoles={['ADMIN', 'EXEC', 'MANAGER', 'SUPERVISOR']}
+      title="Import Assets"
+      description="Import assets from CSV or Excel files"
+    >
+      <AssetImport />
+    </AppLayout>
   );
 }

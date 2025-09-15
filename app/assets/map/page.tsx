@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ProtectedRoute } from "@/components/auth/protected-route";
+import AppLayout from "@/components/layout/app-layout";
 import { AssetMap } from "@/components/maps/asset-map";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -98,56 +98,54 @@ export default function AssetMapPage() {
 
   if (loading) {
     return (
-      <ProtectedRoute>
-        <div className="container mx-auto py-8 px-4">
-          <div className="flex items-center justify-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin" />
-            <span className="ml-2">Loading assets...</span>
-          </div>
+      <AppLayout
+        requiredRoles={['ADMIN', 'EXEC', 'MANAGER', 'SUPERVISOR', 'CREW']}
+        title="Asset Map"
+        description="Visualize and manage assets across your council area"
+      >
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="h-8 w-8 animate-spin" />
+          <span className="ml-2">Loading assets...</span>
         </div>
-      </ProtectedRoute>
+      </AppLayout>
     );
   }
 
   return (
-    <ProtectedRoute>
-      <div className="container mx-auto py-8 px-4">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">Asset Map</h1>
-            <p className="text-muted-foreground">
-              Visualize and manage assets across your council area
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <Button asChild variant="outline">
-              <Link href="/assets">
-                <List className="h-4 w-4 mr-2" />
-                List View
-              </Link>
-            </Button>
-            <Button variant="outline" onClick={exportAssets}>
-              <Download className="h-4 w-4 mr-2" />
-              Export
-            </Button>
-            <Button variant="outline" onClick={loadAssets}>
-              <RefreshCw className="h-4 w-4 mr-2" />
-              Refresh
-            </Button>
-          </div>
+    <AppLayout
+      requiredRoles={['ADMIN', 'EXEC', 'MANAGER', 'SUPERVISOR', 'CREW']}
+      title="Asset Map"
+      description="Visualize and manage assets across your council area"
+    >
+      <div className="space-y-6">
+        {/* Action Buttons */}
+        <div className="flex justify-end gap-2">
+          <Button asChild variant="outline">
+            <Link href="/assets">
+              <List className="h-4 w-4 mr-2" />
+              List View
+            </Link>
+          </Button>
+          <Button variant="outline" onClick={exportAssets}>
+            <Download className="h-4 w-4 mr-2" />
+            Export
+          </Button>
+          <Button variant="outline" onClick={loadAssets}>
+            <RefreshCw className="h-4 w-4 mr-2" />
+            Refresh
+          </Button>
         </div>
 
         {/* Error Alert */}
         {error && (
-          <Alert variant="destructive" className="mb-6">
+          <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         )}
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Card>
             <CardContent className="pt-6">
               <div className="flex items-center">
@@ -215,7 +213,7 @@ export default function AssetMapPage() {
 
         {/* Selected Asset Details */}
         {selectedAsset && (
-          <Card className="mt-6">
+          <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Map className="h-5 w-5" />
@@ -278,6 +276,6 @@ export default function AssetMapPage() {
           </Card>
         )}
       </div>
-    </ProtectedRoute>
+    </AppLayout>
   );
 }

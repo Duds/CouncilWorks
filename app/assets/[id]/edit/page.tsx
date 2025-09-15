@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { AssetForm } from "@/components/assets/asset-form";
-import { ProtectedRoute } from "@/components/auth/protected-route";
+import AppLayout from "@/components/layout/app-layout";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle, Loader2 } from "lucide-react";
 
@@ -78,35 +78,41 @@ export default function EditAssetPage() {
 
   if (loading) {
     return (
-      <ProtectedRoute>
-        <div className="container mx-auto py-8 px-4">
-          <div className="flex items-center justify-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin" />
-            <span className="ml-2">Loading asset...</span>
-          </div>
+      <AppLayout
+        requiredRoles={['ADMIN', 'EXEC', 'MANAGER', 'SUPERVISOR', 'CREW']}
+        title="Loading Asset..."
+        description="Loading asset for editing"
+      >
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="h-8 w-8 animate-spin" />
+          <span className="ml-2">Loading asset...</span>
         </div>
-      </ProtectedRoute>
+      </AppLayout>
     );
   }
 
   if (error || !asset) {
     return (
-      <ProtectedRoute>
-        <div className="container mx-auto py-8 px-4">
-          <Alert variant="destructive">
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription>{error || "Asset not found"}</AlertDescription>
-          </Alert>
-        </div>
-      </ProtectedRoute>
+      <AppLayout
+        requiredRoles={['ADMIN', 'EXEC', 'MANAGER', 'SUPERVISOR', 'CREW']}
+        title="Asset Not Found"
+        description="The requested asset could not be found"
+      >
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>{error || "Asset not found"}</AlertDescription>
+        </Alert>
+      </AppLayout>
     );
   }
 
   return (
-    <ProtectedRoute>
-      <div className="container mx-auto py-8 px-4">
-        <AssetForm asset={asset} mode="edit" />
-      </div>
-    </ProtectedRoute>
+    <AppLayout
+      requiredRoles={['ADMIN', 'EXEC', 'MANAGER', 'SUPERVISOR', 'CREW']}
+      title={`Edit ${asset.name}`}
+      description={`Edit asset ${asset.assetNumber}`}
+    >
+      <AssetForm asset={asset} mode="edit" />
+    </AppLayout>
   );
 }

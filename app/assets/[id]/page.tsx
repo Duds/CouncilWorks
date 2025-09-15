@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { ProtectedRoute } from "@/components/auth/protected-route";
+import AppLayout from "@/components/layout/app-layout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -172,47 +172,49 @@ export default function AssetDetailPage() {
 
   if (loading) {
     return (
-      <ProtectedRoute>
-        <div className="container mx-auto py-8 px-4">
-          <div className="flex items-center justify-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin" />
-            <span className="ml-2">Loading asset...</span>
-          </div>
+      <AppLayout
+        requiredRoles={['ADMIN', 'EXEC', 'MANAGER', 'SUPERVISOR', 'CREW']}
+        title="Loading Asset..."
+        description="Loading asset details"
+      >
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="h-8 w-8 animate-spin" />
+          <span className="ml-2">Loading asset...</span>
         </div>
-      </ProtectedRoute>
+      </AppLayout>
     );
   }
 
   if (error || !asset) {
     return (
-      <ProtectedRoute>
-        <div className="container mx-auto py-8 px-4">
-          <Alert variant="destructive">
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription>{error || "Asset not found"}</AlertDescription>
-          </Alert>
-        </div>
-      </ProtectedRoute>
+      <AppLayout
+        requiredRoles={['ADMIN', 'EXEC', 'MANAGER', 'SUPERVISOR', 'CREW']}
+        title="Asset Not Found"
+        description="The requested asset could not be found"
+      >
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>{error || "Asset not found"}</AlertDescription>
+        </Alert>
+      </AppLayout>
     );
   }
 
   return (
-    <ProtectedRoute>
-      <div className="container mx-auto py-8 px-4 max-w-6xl">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-4">
-            <Button asChild variant="outline" size="sm">
-              <Link href="/assets">
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to Assets
-              </Link>
-            </Button>
-            <div>
-              <h1 className="text-3xl font-bold text-foreground">{asset.name}</h1>
-              <p className="text-muted-foreground">{asset.assetNumber}</p>
-            </div>
-          </div>
+    <AppLayout
+      requiredRoles={['ADMIN', 'EXEC', 'MANAGER', 'SUPERVISOR', 'CREW']}
+      title={asset.name}
+      description={asset.assetNumber}
+    >
+      <div className="space-y-6">
+        {/* Action Buttons */}
+        <div className="flex items-center justify-between">
+          <Button asChild variant="outline" size="sm">
+            <Link href="/assets">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Assets
+            </Link>
+          </Button>
           <Button asChild>
             <Link href={`/assets/${asset.id}/edit`}>
               <Edit className="h-4 w-4 mr-2" />
@@ -488,16 +490,14 @@ export default function AssetDetailPage() {
         </div>
 
         {/* Documents Section */}
-        <div className="mt-8">
-          <DocumentManager assetId={asset.id} assetName={asset.name} />
-        </div>
+        <DocumentManager assetId={asset.id} assetName={asset.name} />
 
         {/* FMEA Analysis */}
-        <div className="mt-8">
+        <div>
           <h3 className="text-lg font-semibold mb-4">FMEA Analysis</h3>
           <FMEAAnalysis assetId={asset.id} assetName={asset.name} />
         </div>
       </div>
-    </ProtectedRoute>
+    </AppLayout>
   );
 }

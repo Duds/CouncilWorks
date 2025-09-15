@@ -1,5 +1,5 @@
 import { AssetList } from "@/components/assets/asset-list";
-import { ProtectedRoute } from "@/components/auth/protected-route";
+import AppLayout from "@/components/layout/app-layout";
 
 /**
  * Assets Page
@@ -7,10 +7,12 @@ import { ProtectedRoute } from "@/components/auth/protected-route";
  */
 export default function AssetsPage() {
   return (
-    <ProtectedRoute>
-      <div className="container mx-auto py-8 px-4 max-w-7xl">
-        <AssetList />
-      </div>
-    </ProtectedRoute>
+    <AppLayout
+      requiredRoles={['ADMIN', 'EXEC', 'MANAGER', 'SUPERVISOR', 'CREW']}
+      title="Assets"
+      description="Manage and view all council assets"
+    >
+      <AssetList />
+    </AppLayout>
   );
 }

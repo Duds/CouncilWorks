@@ -1,5 +1,5 @@
 import { AssetForm } from "@/components/assets/asset-form";
-import { ProtectedRoute } from "@/components/auth/protected-route";
+import AppLayout from "@/components/layout/app-layout";
 
 /**
  * Create New Asset Page
@@ -7,10 +7,12 @@ import { ProtectedRoute } from "@/components/auth/protected-route";
  */
 export default function CreateAssetPage() {
   return (
-    <ProtectedRoute>
-      <div className="container mx-auto py-8 px-4">
-        <AssetForm mode="create" />
-      </div>
-    </ProtectedRoute>
+    <AppLayout
+      requiredRoles={['ADMIN', 'EXEC', 'MANAGER', 'SUPERVISOR', 'CREW']}
+      title="Create New Asset"
+      description="Add a new asset to the council registry"
+    >
+      <AssetForm mode="create" />
+    </AppLayout>
   );
 }
