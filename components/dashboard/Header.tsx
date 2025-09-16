@@ -1,21 +1,20 @@
-"use client";
+'use client';
 
-import { Search, Bell, Mail, Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Kbd } from "@/components/ui/kbd";
-import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Separator } from "@/components/ui/separator";
-import { getKeyboardShortcut } from "@/lib/device-detection";
+import { Search, Bell, Mail, Plus } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Kbd } from '@/components/ui/kbd';
+import { SidebarTrigger } from '@/components/ui/sidebar';
+import { Separator } from '@/components/ui/separator';
+import { getKeyboardShortcut as _getKeyboardShortcut } from '@/lib/device-detection';
 
 interface HeaderProps {
   title?: string;
-  description?: string;
 }
 
-export default function Header({ title, description }: HeaderProps) {
+export default function Header({ title }: HeaderProps) {
   return (
-    <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 border-b bg-background">
+    <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 border-b border-sidebar-border bg-background">
       <div className="flex items-center gap-2 px-4">
         <SidebarTrigger className="-ml-1" />
         <Separator
@@ -27,14 +26,11 @@ export default function Header({ title, description }: HeaderProps) {
           <div className="flex items-center gap-4">
             <div>
               <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
-              {description && (
-                <p className="text-sm text-muted-foreground">{description}</p>
-              )}
             </div>
           </div>
         )}
       </div>
-      
+
       {/* Search and Actions */}
       <div className="flex items-center gap-4 ml-auto px-4">
         <div className="relative flex-1 max-w-2xl">

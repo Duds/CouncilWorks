@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { ProtectedRoute } from '@/components/auth/protected-route';
 import JourneySidebar from '@/components/dashboard/JourneySidebar';
@@ -9,7 +9,6 @@ interface AppLayoutProps {
   children: React.ReactNode;
   requiredRoles?: string[];
   title?: string;
-  description?: string;
 }
 
 /**
@@ -18,7 +17,7 @@ interface AppLayoutProps {
  * @component AppLayout
  * @example
  * ```tsx
- * <AppLayout requiredRoles={['ADMIN', 'MANAGER']} title="Settings" description="Manage your account settings">
+ * <AppLayout requiredRoles={['ADMIN', 'MANAGER']} title="Settings">
  *   <SettingsPage />
  * </AppLayout>
  * ```
@@ -27,25 +26,27 @@ interface AppLayoutProps {
  * - Keyboard navigation: Tab through sidebar and main content
  * - Screen reader: Announces current page and navigation state
  */
-export default function AppLayout({ children, requiredRoles, title, description }: AppLayoutProps) {
+export default function AppLayout({
+  children,
+  requiredRoles,
+  title,
+}: AppLayoutProps) {
   return (
     <ProtectedRoute requiredRoles={requiredRoles}>
       <SidebarProvider
         defaultOpen={true}
         style={
           {
-            "--sidebar-width": "18rem",
-            "--sidebar-width-icon": "3rem",
+            '--sidebar-width': '18rem',
+            '--sidebar-width-icon': '3rem',
           } as React.CSSProperties
         }
       >
         <JourneySidebar variant="sidebar" collapsible="icon" />
         <SidebarInset>
-          <Header title={title} description={description} />
+          <Header title={title} />
           <main className="flex-1 p-6">
-            <div className="w-full">
-              {children}
-            </div>
+            <div className="w-full">{children}</div>
           </main>
         </SidebarInset>
       </SidebarProvider>
