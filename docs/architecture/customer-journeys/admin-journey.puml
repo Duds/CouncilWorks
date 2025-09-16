@@ -1,0 +1,77 @@
+@startuml Admin Customer Journey
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam activity {
+  BackgroundColor #FFEBEE
+  BorderColor #C62828
+  FontColor #000000
+}
+skinparam activityDiamond {
+  BackgroundColor #FFF3E0
+  BorderColor #F57C00
+  FontColor #000000
+}
+
+title Admin Customer Journey - System Administration
+
+start
+
+:Admin logs into Aegrid system;
+note right: Role-based access control\napplies ADMIN permissions\nFull system access
+
+:Views admin dashboard;
+note right: System administration metrics:\n- User activity\n- System performance\n- Security monitoring\n- Audit logs
+
+:Manages user accounts;
+note right: User creation\nRole assignment\nPermission management\nAccount maintenance
+
+:Reviews audit logs;
+note right: System activity tracking\nSecurity monitoring\nCompliance auditing\nUser behaviour analysis
+
+:Configures system settings;
+note right: System configuration\nSecurity policies\nIntegration settings\nCustomisation options
+
+:Manages RCM templates;
+note right: Template configuration\nMaintenance program setup\nAsset class management\nTemplate customisation
+
+:Oversees data imports;
+note right: ERP integration\nData migration\nAsset data import\nQuality validation
+
+:Monitors system performance;
+note right: Performance metrics\nResource utilisation\nError tracking\nSystem health
+
+if (System issues detected?) then (yes)
+  :Investigates system problems;
+  :Implements fixes;
+  :Updates system documentation;
+else (no)
+  :Continues routine monitoring;
+endif
+
+:Manages notifications;
+note right: Notification configuration\nAlert settings\nCommunication templates\nEscalation procedures
+
+:Reviews security reports;
+note right: Security monitoring\nAccess control\nThreat detection\nCompliance reporting
+
+:Configures critical controls;
+note right: Critical asset setup\nControl rule definition\nEscalation configuration\nCompliance monitoring
+
+:Manages vendor contracts;
+note right: Contract administration\nSLA configuration\nVendor onboarding\nPerformance monitoring
+
+:Oversees data backups;
+note right: Backup management\nData recovery\nDisaster planning\nData integrity
+
+:Reviews system updates;
+note right: Update management\nFeature releases\nSecurity patches\nSystem maintenance
+
+:Generates admin reports;
+note right: Administrative reporting\nSystem metrics\nUser activity\nPerformance analysis
+
+:Manages system integrations;
+note right: API management\nThird-party integrations\nData synchronisation\nSystem connectivity
+
+stop
+
+@enduml

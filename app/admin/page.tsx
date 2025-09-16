@@ -1,0 +1,257 @@
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { Role } from "@prisma/client";
+import { 
+  Users, 
+  Shield, 
+  Activity, 
+  TrendingUp,
+  AlertTriangle,
+  CheckCircle
+} from "lucide-react";
+import { getRoleDisplayName } from "@/lib/audit";
+
+/**
+ * Admin dashboard overview page
+ * @component AdminDashboard
+ * @example
+ * ```tsx
+ * <AdminDashboard />
+ * ```
+ * @accessibility
+ * - ARIA roles: main, region
+ * - Keyboard navigation: Tab through dashboard cards
+ * - Screen reader: Announces dashboard statistics
+ */
+export default async function AdminDashboard() {
+  const session = await getServerSession(authOptions);
+  
+  if (!session?.user) {
+    return null;
+  }
+
+  // Get dashboard statistics
+  const [
+    totalUsers,
+    activeUsers,
+    inactiveUsers,
+    recentLogins,
+    auditLogsToday,
+    roleDistribution,
+  ] = await Promise.all([
+    prisma.user.count({
+      where: { organisationId: session.user.organisationId },
+    }),
+    prisma.user.count({
+      where: { 
+        organisationId: session.user.organisationId,
+        isActive: true,
+      },
+    }),
+    prisma.user.count({
+      where: { 
+        organisationId: session.user.organisationId,
+        isActive: false,
+      },
+    }),
+    prisma.user.count({
+      where: {
+        organisationId: session.user.organisationId,
+        lastLoginAt: {
+          gte: new Date(Date.now() - 24 * 60 * 60 * 1000), // Last 24 hours
+        },
+      },
+    }),
+    prisma.auditLog.count({
+      where: {
+        organisationId: session.user.organisationId,
+        createdAt: {
+          gte: new Date(new Date().setHours(0, 0, 0, 0)), // Today
+        },
+      },
+    }),
+    prisma.user.groupBy({
+      by: ["role"],
+      where: { organisationId: session.user.organisationId },
+      _count: { role: true },
+    }),
+  ]);
+
+  const stats = [
+    {
+      name: "Total Users",
+      value: totalUsers,
+      icon: Users,
+      change: "+12%",
+      changeType: "positive" as const,
+    },
+    {
+      name: "Active Users",
+      value: activeUsers,
+      icon: CheckCircle,
+      change: "+8%",
+      changeType: "positive" as const,
+    },
+    {
+      name: "Recent Logins",
+      value: recentLogins,
+      icon: Activity,
+      change: "+5%",
+      changeType: "positive" as const,
+    },
+    {
+      name: "Audit Events Today",
+      value: auditLogsToday,
+      icon: Shield,
+      change: "+2%",
+      changeType: "positive" as const,
+    },
+  ];
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-3xl font-bold text-foreground">Admin Dashboard</h1>
+        <p className="text-muted-foreground mt-2">
+          Welcome back, {session.user.name || session.user.email}
+        </p>
+      </div>
+
+      {/* Statistics Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {stats.map((stat) => (
+          <div
+            key={stat.name}
+            className="bg-card border border-border rounded-lg p-6"
+            role="region"
+            aria-label={`${stat.name} statistics`}
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">
+                  {stat.name}
+                </p>
+                <p className="text-2xl font-bold text-foreground">
+                  {stat.value}
+                </p>
+              </div>
+              <stat.icon className="h-8 w-8 text-muted-foreground" />
+            </div>
+            <div className="mt-4 flex items-center">
+              <span
+                className={`text-sm font-medium ${
+                  stat.changeType === "positive"
+                    ? "text-green-600"
+                    : "text-red-600"
+                }`}
+              >
+                {stat.change}
+              </span>
+              <span className="text-sm text-muted-foreground ml-2">
+                from last week
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Role Distribution */}
+      <div className="bg-card border border-border rounded-lg p-6">
+        <h2 className="text-lg font-semibold text-foreground mb-4">
+          User Role Distribution
+        </h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          {roleDistribution.map((role) => (
+            <div
+              key={role.role}
+              className="text-center p-4 bg-muted rounded-lg"
+            >
+              <div className="text-2xl font-bold text-foreground">
+                {role._count.role}
+              </div>
+              <div className="text-sm text-muted-foreground">
+                {getRoleDisplayName(role.role)}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Quick Actions */}
+      <div className="bg-card border border-border rounded-lg p-6">
+        <h2 className="text-lg font-semibold text-foreground mb-4">
+          Quick Actions
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <a
+            href="/admin/users"
+            className="flex items-center p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors"
+          >
+            <Users className="h-5 w-5 text-primary mr-3" />
+            <div>
+              <div className="font-medium">Manage Users</div>
+              <div className="text-sm text-muted-foreground">
+                Add, edit, or deactivate users
+              </div>
+            </div>
+          </a>
+          <a
+            href="/admin/audit-logs"
+            className="flex items-center p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors"
+          >
+            <Activity className="h-5 w-5 text-primary mr-3" />
+            <div>
+              <div className="font-medium">View Audit Logs</div>
+              <div className="text-sm text-muted-foreground">
+                Monitor system activity
+              </div>
+            </div>
+          </a>
+          <a
+            href="/admin/security"
+            className="flex items-center p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors"
+          >
+            <Shield className="h-5 w-5 text-primary mr-3" />
+            <div>
+              <div className="font-medium">Security Settings</div>
+              <div className="text-sm text-muted-foreground">
+                Configure security policies
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      {/* System Status */}
+      <div className="bg-card border border-border rounded-lg p-6">
+        <h2 className="text-lg font-semibold text-foreground mb-4">
+          System Status
+        </h2>
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-muted-foreground">Database</span>
+            <div className="flex items-center">
+              <CheckCircle className="h-4 w-4 text-green-600 mr-2" />
+              <span className="text-sm font-medium text-green-600">Healthy</span>
+            </div>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-muted-foreground">Authentication</span>
+            <div className="flex items-center">
+              <CheckCircle className="h-4 w-4 text-green-600 mr-2" />
+              <span className="text-sm font-medium text-green-600">Operational</span>
+            </div>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-muted-foreground">Audit Logging</span>
+            <div className="flex items-center">
+              <CheckCircle className="h-4 w-4 text-green-600 mr-2" />
+              <span className="text-sm font-medium text-green-600">Active</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

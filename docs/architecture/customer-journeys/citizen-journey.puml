@@ -1,0 +1,82 @@
+@startuml Citizen Customer Journey
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam activity {
+  BackgroundColor #E1F5FE
+  BorderColor #0277BD
+  FontColor #000000
+}
+skinparam activityDiamond {
+  BackgroundColor #FFF3E0
+  BorderColor #F57C00
+  FontColor #000000
+}
+
+title Citizen Customer Journey - Issue Reporting and Tracking
+
+start
+
+:Citizen visits Council website;
+note right: Public portal access\nNo authentication required\nCommunity engagement
+
+:Navigates to Citizen Portal;
+note right: Issue reporting interface\nPublic transparency\nCommunity service
+
+:Discovers asset issue in community;
+note right: Playground equipment\nRoad damage\nStreet lighting\nDrainage problems
+
+:Accesses report form;
+note right: User-friendly interface\nCategory selection\nLocation mapping\nPhoto upload
+
+:Selects issue category;
+note right: Asset type selection\nPriority indication\nService area\nIssue classification
+
+:Provides issue description;
+note right: Detailed description\nLocation details\nSeverity assessment\nSafety concerns
+
+:Uploads photos of issue;
+note right: Visual documentation\nGPS coordinates\nTimestamp recording\nEvidence collection
+
+:Submits report;
+note right: Report submission\nReference number\nConfirmation receipt\nTracking information
+
+:Receives confirmation email;
+note right: Report acknowledgment\nReference number\nExpected timeline\nContact information
+
+:Monitors report status;
+note right: Status tracking\nProgress updates\nTimeline information\nResolution updates
+
+if (Report requires additional information?) then (yes)
+  :Provides additional details;
+  :Updates report information;
+  :Communicates with council staff;
+else (no)
+  :Continues status monitoring;
+endif
+
+:Receives work order assignment notification;
+note right: Work order creation\nAssignment confirmation\nExpected completion\nContact details
+
+:Monitors work progress;
+note right: Progress updates\nStatus changes\nTimeline adjustments\nQuality verification
+
+if (Work completed?) then (yes)
+  :Receives completion notification;
+  :Views before/after photos;
+  :Provides feedback on resolution;
+else (no)
+  :Continues progress monitoring;
+endif
+
+:Accesses "You Said, We Did" dashboard;
+note right: Public transparency\nCommunity impact\nSuccess stories\nPerformance metrics
+
+:Views community impact metrics;
+note right: Resolution statistics\nResponse times\nCommunity satisfaction\nService quality
+
+:Provides service feedback;
+note right: Satisfaction rating\nService quality\nImprovement suggestions\nCommunity input
+
+stop
+
+@enduml

@@ -1,0 +1,521 @@
+/**
+ * Sector-Neutral Dashboard UI
+ * 
+ * Implements comprehensive sector-neutral dashboard for language and template management
+ * 
+ * @fileoverview Sector-neutral dashboard UI component
+ */
+
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Badge } from '@/components/ui/badge';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { 
+  Globe, 
+  FileText, 
+  Settings, 
+  Languages, 
+  Template, 
+  Building2,
+  AlertTriangle,
+  CheckCircle,
+  Plus,
+  Edit,
+  Trash2,
+  Download,
+  Upload
+} from 'lucide-react';
+
+interface LanguageMapping {
+  councilTerm: string;
+  neutralTerm: string;
+  description: string;
+  category: string;
+  sectors: string[];
+}
+
+interface SectorConfiguration {
+  id: string;
+  name: string;
+  displayName: string;
+  description: string;
+  enabled: boolean;
+}
+
+interface SectorTemplate {
+  id: string;
+  name: string;
+  displayName: string;
+  description: string;
+  sector: string;
+  category: string;
+  enabled: boolean;
+}
+
+interface AssetClassification {
+  id: string;
+  name: string;
+  displayName: string;
+  description: string;
+  sector: string;
+  category: string;
+  enabled: boolean;
+}
+
+export default function SectorNeutralDashboard() {
+  const [languageMappings, setLanguageMappings] = useState<LanguageMapping[]>([]);
+  const [sectorConfigurations, setSectorConfigurations] = useState<SectorConfiguration[]>([]);
+  const [templates, setTemplates] = useState<SectorTemplate[]>([]);
+  const [classifications, setClassifications] = useState<AssetClassification[]>([]);
+  const [currentSector, setCurrentSector] = useState<string>('general');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedSector, setSelectedSector] = useState<string>('');
+
+  useEffect(() => {
+    fetchSectorNeutralData();
+  }, []);
+
+  const fetchSectorNeutralData = async () => {
+    try {
+      setLoading(true);
+      
+      // Fetch language mappings
+      const languageResponse = await fetch('/api/sector-neutral/language');
+      if (!languageResponse.ok) {
+        throw new Error('Failed to fetch language mappings');
+      }
+      const languageData = await languageResponse.json();
+      setLanguageMappings(languageData.languageMappings || []);
+      setSectorConfigurations(languageData.sectorConfigurations || []);
+      setCurrentSector(languageData.currentSector || 'general');
+
+      // Fetch templates
+      const templatesResponse = await fetch('/api/sector-neutral/templates');
+      if (!templatesResponse.ok) {
+        throw new Error('Failed to fetch templates');
+      }
+      const templatesData = await templatesResponse.json();
+      setTemplates(templatesData.templates || []);
+
+      // Fetch classifications
+      const classificationsResponse = await fetch('/api/sector-neutral/classifications');
+      if (!classificationsResponse.ok) {
+        throw new Error('Failed to fetch classifications');
+      }
+      const classificationsData = await classificationsResponse.json();
+      setClassifications(classificationsData.classifications || []);
+
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unknown error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSectorChange = async (sectorId: string) => {
+    try {
+      const response = await fetch('/api/sector-neutral/language/sector', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ sectorId }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update sector');
+      }
+
+      setCurrentSector(sectorId);
+      setSelectedSector(sectorId);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to update sector');
+    }
+  };
+
+  const translateText = async (text: string) => {
+    try {
+      const response = await fetch('/api/sector-neutral/language/translate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          text,
+          context: {
+            sector: currentSector,
+            userRole: 'admin',
+            context: 'ui',
+            language: 'en-AU',
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to translate text');
+      }
+
+      const data = await response.json();
+      return data.translatedText;
+    } catch (err) {
+      console.error('Translation error:', err);
+      return text;
+    }
+  };
+
+  const getSectorColor = (sector: string) => {
+    const colors = {
+      government: '#3B82F6',
+      utilities: '#0EA5E9',
+      transport: '#8B5CF6',
+      healthcare: '#EC4899',
+      manufacturing: '#F97316',
+      general: '#6B7280',
+    };
+    return colors[sector as keyof typeof colors] || '#6B7280';
+  };
+
+  const getSectorIcon = (sector: string) => {
+    const icons = {
+      government: '🏛️',
+      utilities: '⚡',
+      transport: '🚌',
+      healthcare: '🏥',
+      manufacturing: '🏭',
+      general: '🌐',
+    };
+    return icons[sector as keyof typeof icons] || '🌐';
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <Alert variant="destructive">
+        <AlertTriangle className="h-4 w-4" />
+        <AlertTitle>Error</AlertTitle>
+        <AlertDescription>{error}</AlertDescription>
+      </Alert>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold">Sector-Neutral Platform</h1>
+          <p className="text-muted-foreground">
+            Manage language, templates, and configurations for multiple industry sectors
+          </p>
+        </div>
+        <div className="flex items-center space-x-4">
+          <Select value={currentSector} onValueChange={handleSectorChange}>
+            <SelectTrigger className="w-48">
+              <SelectValue placeholder="Select sector" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="general">General</SelectItem>
+              {sectorConfigurations.map((config) => (
+                <SelectItem key={config.id} value={config.id}>
+                  {config.displayName}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Button onClick={fetchSectorNeutralData} variant="outline">
+            Refresh
+          </Button>
+        </div>
+      </div>
+
+      {/* Current Sector Status */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center">
+            <Globe className="h-5 w-5 mr-2" />
+            Current Sector Configuration
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center space-x-4">
+            <div className="text-2xl">{getSectorIcon(currentSector)}</div>
+            <div>
+              <h3 className="text-lg font-semibold">
+                {sectorConfigurations.find(c => c.id === currentSector)?.displayName || 'General'}
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                {sectorConfigurations.find(c => c.id === currentSector)?.description || 'Default configuration'}
+              </p>
+            </div>
+            <Badge 
+              variant="outline" 
+              style={{ backgroundColor: getSectorColor(currentSector), color: 'white' }}
+            >
+              {currentSector}
+            </Badge>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Main Content */}
+      <Tabs defaultValue="language" className="space-y-4">
+        <TabsList>
+          <TabsTrigger value="language">Language Management</TabsTrigger>
+          <TabsTrigger value="templates">Templates</TabsTrigger>
+          <TabsTrigger value="classifications">Asset Classifications</TabsTrigger>
+          <TabsTrigger value="configurations">Configurations</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="language" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <Languages className="h-5 w-5 mr-2" />
+                  Language Mappings
+                </div>
+                <Button size="sm">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Mapping
+                </Button>
+              </CardTitle>
+              <CardDescription>
+                Manage terminology mappings between council-specific and sector-neutral terms
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {languageMappings.map((mapping) => (
+                  <div key={mapping.councilTerm} className="flex items-center justify-between p-4 border rounded-lg">
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-4">
+                        <div>
+                          <h4 className="font-medium">{mapping.councilTerm}</h4>
+                          <p className="text-sm text-muted-foreground">{mapping.description}</p>
+                        </div>
+                        <div className="text-2xl">→</div>
+                        <div>
+                          <h4 className="font-medium">{mapping.neutralTerm}</h4>
+                          <p className="text-sm text-muted-foreground">Sector-neutral term</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-2 mt-2">
+                        <Badge variant="outline">{mapping.category}</Badge>
+                        {mapping.sectors.map((sector) => (
+                          <Badge 
+                            key={sector} 
+                            variant="secondary"
+                            style={{ backgroundColor: getSectorColor(sector) }}
+                          >
+                            {sector}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Button size="sm" variant="outline">
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button size="sm" variant="outline">
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="templates" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <Template className="h-5 w-5 mr-2" />
+                  Sector Templates
+                </div>
+                <Button size="sm">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Create Template
+                </Button>
+              </CardTitle>
+              <CardDescription>
+                Manage sector-specific templates and configurations
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {templates.map((template) => (
+                  <Card key={template.id}>
+                    <CardHeader>
+                      <CardTitle className="flex items-center justify-between">
+                        <span className="text-lg">{template.displayName}</span>
+                        <Badge 
+                          variant="outline"
+                          style={{ backgroundColor: getSectorColor(template.sector) }}
+                        >
+                          {template.sector}
+                        </Badge>
+                      </CardTitle>
+                      <CardDescription>{template.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex items-center justify-between">
+                        <Badge variant="secondary">{template.category}</Badge>
+                        <div className="flex items-center space-x-2">
+                          <Button size="sm" variant="outline">
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                          <Button size="sm" variant="outline">
+                            <Download className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="classifications" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <Building2 className="h-5 w-5 mr-2" />
+                  Asset Classifications
+                </div>
+                <Button size="sm">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Classification
+                </Button>
+              </CardTitle>
+              <CardDescription>
+                Manage asset classifications for different industry sectors
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {classifications.map((classification) => (
+                  <div key={classification.id} className="flex items-center justify-between p-4 border rounded-lg">
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-4">
+                        <div>
+                          <h4 className="font-medium">{classification.displayName}</h4>
+                          <p className="text-sm text-muted-foreground">{classification.description}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-2 mt-2">
+                        <Badge 
+                          variant="outline"
+                          style={{ backgroundColor: getSectorColor(classification.sector) }}
+                        >
+                          {classification.sector}
+                        </Badge>
+                        <Badge variant="secondary">{classification.category}</Badge>
+                        {classification.enabled ? (
+                          <Badge variant="default" className="bg-green-500">
+                            <CheckCircle className="h-3 w-3 mr-1" />
+                            Enabled
+                          </Badge>
+                        ) : (
+                          <Badge variant="outline">Disabled</Badge>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Button size="sm" variant="outline">
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button size="sm" variant="outline">
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="configurations" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <Settings className="h-5 w-5 mr-2" />
+                  Sector Configurations
+                </div>
+                <Button size="sm">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Configuration
+                </Button>
+              </CardTitle>
+              <CardDescription>
+                Manage sector-specific configurations and settings
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {sectorConfigurations.map((config) => (
+                  <Card key={config.id}>
+                    <CardHeader>
+                      <CardTitle className="flex items-center justify-between">
+                        <span className="text-lg">{config.displayName}</span>
+                        <Badge 
+                          variant="outline"
+                          style={{ backgroundColor: getSectorColor(config.id) }}
+                        >
+                          {config.id}
+                        </Badge>
+                      </CardTitle>
+                      <CardDescription>{config.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex items-center justify-between">
+                        {config.enabled ? (
+                          <Badge variant="default" className="bg-green-500">
+                            <CheckCircle className="h-3 w-3 mr-1" />
+                            Enabled
+                          </Badge>
+                        ) : (
+                          <Badge variant="outline">Disabled</Badge>
+                        )}
+                        <div className="flex items-center space-x-2">
+                          <Button size="sm" variant="outline">
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                          <Button size="sm" variant="outline">
+                            <Download className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+}

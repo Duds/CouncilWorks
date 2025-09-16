@@ -1,0 +1,60 @@
+@startuml Executive Customer Journey
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam activity {
+  BackgroundColor #E3F2FD
+  BorderColor #1976D2
+  FontColor #000000
+}
+skinparam activityDiamond {
+  BackgroundColor #FFF3E0
+  BorderColor #F57C00
+  FontColor #000000
+}
+
+title Executive Customer Journey - Strategic Asset Management
+
+start
+
+:Executive logs into Aegrid dashboard;
+note right: Role-based access control\napplies EXEC permissions
+
+:Views executive KPI dashboard;
+note right: High-level metrics:\n- Asset condition trends\n- Maintenance costs\n- Risk compliance\n- Citizen satisfaction
+
+if (Dashboard shows concerning metrics?) then (yes)
+  :Drills down into specific reports;
+  :Reviews Risk & Compliance dashboard;
+  :Examines Asset Trending reports;
+else (no)
+  :Reviews monthly performance summary;
+endif
+
+:Accesses Custom Reports builder;
+note right: Creates executive-level\nreports for board meetings
+
+:Exports audit-ready reports;
+note right: PDF/Excel format for\nexternal stakeholders
+
+:Reviews critical control compliance;
+note right: Ensures 100% compliance\nfor critical assets
+
+if (Critical controls at risk?) then (yes)
+  :Triggers escalation to Manager;
+  :Receives notification updates;
+else (no)
+  :Continues routine monitoring;
+endif
+
+:Monitors sustainability metrics;
+note right: EV fleet performance\nSolar farm efficiency\nCarbon footprint tracking
+
+:Reviews budget forecasting;
+note right: Asset renewal planning\nMaintenance cost projections
+
+:Signs off on strategic decisions;
+note right: Asset replacement\nMajor maintenance programs
+
+stop
+
+@enduml

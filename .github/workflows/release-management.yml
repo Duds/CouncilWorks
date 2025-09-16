@@ -1,0 +1,195 @@
+name: Release Management
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: 'Type of release'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+      target_branch:
+        description: 'Target branch for release'
+        required: true
+        default: 'develop'
+        type: choice
+        options:
+          - develop
+          - main
+      create_pr:
+        description: 'Create PR to main after version bump'
+        required: false
+        default: true
+        type: boolean
+
+env:
+  NODE_VERSION: '20'
+  PNPM_VERSION: '8'
+
+jobs:
+  prepare-release:
+    name: Prepare Release
+    runs-on: ubuntu-latest
+    outputs:
+      new_version: ${{ steps.version.outputs.new_version }}
+      release_notes: ${{ steps.notes.outputs.release_notes }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Configure Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+      - name: Bump version
+        id: version
+        run: |
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "Current version: $CURRENT_VERSION"
+          
+          # Bump version based on release type
+          case "${{ github.event.inputs.release_type }}" in
+            "major")
+              NEW_VERSION=$(npm version major --no-git-tag-version)
+              ;;
+            "minor")
+              NEW_VERSION=$(npm version minor --no-git-tag-version)
+              ;;
+            "patch")
+              NEW_VERSION=$(npm version patch --no-git-tag-version)
+              ;;
+          esac
+          
+          echo "New version: $NEW_VERSION"
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Generate release notes
+        id: notes
+        run: |
+          # Generate release notes from commits since last tag
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          if [ -z "$LAST_TAG" ]; then
+            COMMITS=$(git log --oneline --pretty=format:"- %s" HEAD)
+          else
+            COMMITS=$(git log --oneline --pretty=format:"- %s" $LAST_TAG..HEAD)
+          fi
+          
+          RELEASE_NOTES="## What's Changed
+
+$COMMITS
+
+## Release Details
+- **Version**: ${{ steps.version.outputs.new_version }}
+- **Release Type**: ${{ github.event.inputs.release_type }}
+- **Target Branch**: ${{ github.event.inputs.target_branch }}
+- **Generated**: $(date -u)
+
+## Verification Checklist
+- [ ] Version bumped in package.json
+- [ ] Changelog updated
+- [ ] All tests passing
+- [ ] Security scan completed
+- [ ] Documentation updated"
+          
+          echo "release_notes<<EOF" >> $GITHUB_OUTPUT
+          echo "$RELEASE_NOTES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Update changelog
+        run: |
+          CHANGELOG_FILE="docs/releases/changelog.md"
+          NEW_VERSION="${{ steps.version.outputs.new_version }}"
+          DATE=$(date -u +"%Y-%m-%d")
+          
+          # Create changelog entry
+          CHANGELOG_ENTRY="## [$NEW_VERSION] - $DATE
+
+### Added
+- New features and enhancements
+
+### Changed
+- Changes to existing functionality
+
+### Fixed
+- Bug fixes and improvements
+
+### Security
+- Security updates and patches
+
+---
+
+"
+          
+          # Prepend to changelog
+          echo -e "$CHANGELOG_ENTRY$(cat $CHANGELOG_FILE)" > $CHANGELOG_FILE
+
+      - name: Commit version bump
+        run: |
+          git add package.json package-lock.json docs/releases/changelog.md
+          git commit -m "chore: bump version to ${{ steps.version.outputs.new_version }}"
+          git push origin ${{ github.event.inputs.target_branch }}
+
+      - name: Create release PR
+        if: ${{ github.event.inputs.create_pr && github.event.inputs.target_branch == 'develop' }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: pr } = await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Release ${{ steps.version.outputs.new_version }}`,
+              head: '${{ github.event.inputs.target_branch }}',
+              base: 'main',
+              body: `${{ steps.notes.outputs.release_notes }}`,
+              draft: false
+            });
+            
+            // Add labels
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              labels: ['release', 'automated']
+            });
+            
+            console.log(`Created PR #${pr.number}: ${pr.html_url}`);
+
+  notify-release:
+    name: Notify Release Preparation
+    runs-on: ubuntu-latest
+    needs: prepare-release
+    steps:
+      - name: Notify release preparation
+        uses: 8398a7/action-slack@v3
+        with:
+          status: success
+          channel: '#releases'
+          text: |
+            🚀 Release ${{ needs.prepare-release.outputs.new_version }} prepared!
+            
+            **Release Type**: ${{ github.event.inputs.release_type }}
+            **Target Branch**: ${{ github.event.inputs.target_branch }}
+            
+            Ready for deployment to production.
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

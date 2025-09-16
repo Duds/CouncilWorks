@@ -1,0 +1,131 @@
+:root {
+  /* Raw Palette */
+  --saffron: #FF4C46;
+  --white:   #FFFFFF;
+  --tea:     #DFFFDE;
+  --nocturn: #012B3A;
+
+  --mint:    #B2FFC6;
+  --spring:  #87F8AE;
+  --jade:    #42D49C;
+  --cedar:   #00A68A;
+  --spruce:  #007978;
+  --lake:    #004963;
+
+  /* Neutral Greys (light) for optional muted backgrounds */
+  --grey-1:  #F7F9F8; /* lightest grey */
+  --grey-2:  #F1F4F3; /* light grey */
+  --grey-3:  #ECEFEF; /* slightly deeper */
+
+  /* Functional Tokens - Light */
+  --background: var(--white);
+  --foreground: var(--nocturn);
+
+  /* New complementary light grey surface for shells/wrappers */
+  --surface: #F5F7F6; /* light neutral grey tuned to Aegrid greens */
+  --surface-foreground: var(--nocturn);
+
+  --primary: var(--jade);
+  --primary-foreground: var(--white);
+
+  --secondary: var(--spruce);
+  --secondary-foreground: var(--white);
+
+  --accent: var(--saffron);
+  --accent-foreground: var(--white);
+
+  --success: var(--spring);
+  --success-foreground: var(--nocturn);
+  --success-light: var(--mint);
+
+  --info: var(--cedar);
+  --info-foreground: var(--white);
+
+  --danger: var(--lake);
+  --danger-foreground: var(--white);
+
+  --warning: var(--saffron);
+  --warning-foreground: var(--white);
+
+  --muted: var(--grey-3);
+  --muted-foreground: var(--nocturn);
+
+  --neutral: var(--tea);
+  --neutral-foreground: var(--nocturn);
+
+  --border: var(--spruce);
+
+  /* Shadow tokens */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+}
+
+.dark {
+  /* Functional Tokens - Dark */
+  --background: var(--nocturn);
+  --foreground: var(--tea);
+
+  /* Dark counterpart for surface */
+  --surface: #0F2F2E;
+  --surface-foreground: var(--tea);
+
+  --primary: var(--spring);
+  --primary-foreground: var(--nocturn);
+
+  --secondary: var(--cedar);
+  --secondary-foreground: var(--nocturn);
+
+  --accent: var(--saffron);
+  --accent-foreground: var(--white);
+
+  --success: var(--mint);
+  --success-foreground: var(--nocturn);
+  --success-light: var(--spring);
+
+  --info: var(--jade);
+  --info-foreground: var(--nocturn);
+
+  --danger: var(--saffron);
+  --danger-foreground: var(--white);
+
+  --warning: var(--tea);
+  --warning-foreground: var(--nocturn);
+
+  --muted: var(--lake);
+  --muted-foreground: var(--tea);
+
+  --neutral: var(--nocturn);
+  --neutral-foreground: var(--tea);
+
+  --border: var(--lake);
+
+  /* Shadow tokens */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+}
+
+/* Scoped Muted Variants: apply to a container to preview alternative greys */
+.muted-grey-1 {
+  --muted: var(--grey-1);
+  --muted-foreground: var(--nocturn);
+}
+
+.muted-grey-2 {
+  --muted: var(--grey-2);
+  --muted-foreground: var(--nocturn);
+}
+
+.muted-grey-3 {
+  --muted: var(--grey-3);
+  --muted-foreground: var(--nocturn);
+}

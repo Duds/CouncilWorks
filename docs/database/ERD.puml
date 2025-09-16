@@ -34,6 +34,8 @@ entity WorkOrder {
   --
   organisation_id : UUID
   asset_id : UUID
+  contract_id : UUID
+  sla_id : UUID
   status : string
   due_date : date
   assigned_to : UUID
@@ -50,13 +52,76 @@ entity Inspection {
   notes : text
 }
 
+entity Vendor {
+  * id : UUID
+  --
+  organisation_id : UUID
+  name : string
+  abn : string
+  contact_email : string
+}
+
+entity Contract {
+  * id : UUID
+  --
+  organisation_id : UUID
+  vendor_id : UUID
+  name : string
+  start_date : date
+  end_date : date
+  scope : text
+}
+
+entity SLA {
+  * id : UUID
+  --
+  organisation_id : UUID
+  contract_id : UUID
+  name : string
+  response_time_hours : int
+  resolution_time_hours : int
+  frequency_days : int
+  cost_model : string
+}
+
+entity CriticalControl {
+  * id : UUID
+  --
+  organisation_id : UUID
+  name : string
+  description : text
+  window_hours : int
+  frequency_days : int
+  escalation_policy : string
+}
+
+entity AssetCriticalControl {
+  * id : UUID
+  --
+  organisation_id : UUID
+  asset_id : UUID
+  critical_control_id : UUID
+  vendor_id : UUID
+}
+
 Organisation ||--o{ User : employs
 Organisation ||--o{ Asset : owns
 Organisation ||--o{ WorkOrder : operates
 Organisation ||--o{ Inspection : records
+Organisation ||--o{ Vendor : engages
+Organisation ||--o{ Contract : manages
+Organisation ||--o{ SLA : governs
+Organisation ||--o{ CriticalControl : defines
+Organisation ||--o{ AssetCriticalControl : enforces
 
 Asset ||--o{ WorkOrder : manages
 Asset ||--o{ Inspection : inspected
 User ||--o{ WorkOrder : assigned
 User ||--o{ Inspection : performs
+Vendor ||--o{ Contract : party
+Contract ||--o{ SLA : defines
+Contract ||--o{ WorkOrder : covers
+SLA ||--o{ WorkOrder : applies
+Asset ||--o{ AssetCriticalControl : mapped
+CriticalControl ||--o{ AssetCriticalControl : applies
 @enduml
