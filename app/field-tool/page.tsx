@@ -1,22 +1,28 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { 
-  Smartphone, 
-  Wrench, 
-  Camera, 
-  MapPin, 
-  Clock, 
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import {
+  Smartphone,
+  Wrench,
+  Camera,
+  MapPin,
+  Clock,
   CheckCircle,
   ArrowRight,
   Download,
-  WifiOff
-} from "lucide-react";
-import { toast } from "sonner";
+  WifiOff,
+} from 'lucide-react';
+import { toast } from 'sonner';
 
 /**
  * Field Tool Landing Page
@@ -29,11 +35,12 @@ export default function FieldToolPage() {
   useEffect(() => {
     // Register service worker for PWA capabilities
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js')
-        .then((registration) => {
+      navigator.serviceWorker
+        .register('/sw.js')
+        .then(registration => {
           console.log('Service Worker registered successfully:', registration);
         })
-        .catch((error) => {
+        .catch(error => {
           console.error('Service Worker registration failed:', error);
         });
     }
@@ -48,24 +55,24 @@ export default function FieldToolPage() {
     try {
       // Check if PWA is installable
       if ('serviceWorker' in navigator && 'PushManager' in window) {
-        toast.success("PWA installation available in your browser menu");
+        toast.success('PWA installation available in your browser menu');
       } else {
-        toast.info("PWA installation not supported on this device");
+        toast.info('PWA installation not supported on this device');
       }
     } catch (error) {
-      console.error("PWA installation error:", error);
-      toast.error("Failed to install PWA");
+      console.error('PWA installation error:', error);
+      toast.error('Failed to install PWA');
     }
   };
 
   const handleOfflineMode = () => {
-    toast.info("Offline mode enabled - all data will sync when online");
+    toast.info('Offline mode enabled - all data will sync when online');
   };
 
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="border-b border-sidebar-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
             <Smartphone className="h-6 w-6 text-primary" />
@@ -90,15 +97,18 @@ export default function FieldToolPage() {
         <div className="text-center space-y-4">
           <h2 className="text-3xl font-bold">Field Worker Portal</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Access work orders, perform inspections, and manage assets in the field. 
-            Works offline and syncs when connected.
+            Access work orders, perform inspections, and manage assets in the
+            field. Works offline and syncs when connected.
           </p>
         </div>
 
         {/* Quick Access Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Work Orders */}
-          <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => router.push('/mobile/work-orders')}>
+          <Card
+            className="hover:shadow-md transition-shadow cursor-pointer"
+            onClick={() => router.push('/mobile/work-orders')}
+          >
             <CardHeader>
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-blue-100 rounded-lg">
@@ -106,7 +116,9 @@ export default function FieldToolPage() {
                 </div>
                 <div>
                   <CardTitle className="text-lg">Work Orders</CardTitle>
-                  <CardDescription>View and update assigned work orders</CardDescription>
+                  <CardDescription>
+                    View and update assigned work orders
+                  </CardDescription>
                 </div>
               </div>
             </CardHeader>
@@ -133,7 +145,10 @@ export default function FieldToolPage() {
           </Card>
 
           {/* Inspections */}
-          <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => router.push('/mobile/inspections/new')}>
+          <Card
+            className="hover:shadow-md transition-shadow cursor-pointer"
+            onClick={() => router.push('/mobile/inspections/new')}
+          >
             <CardHeader>
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-green-100 rounded-lg">
@@ -141,7 +156,9 @@ export default function FieldToolPage() {
                 </div>
                 <div>
                   <CardTitle className="text-lg">Inspections</CardTitle>
-                  <CardDescription>Perform asset inspections with photos</CardDescription>
+                  <CardDescription>
+                    Perform asset inspections with photos
+                  </CardDescription>
                 </div>
               </div>
             </CardHeader>
@@ -168,7 +185,10 @@ export default function FieldToolPage() {
           </Card>
 
           {/* Asset Map */}
-          <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => router.push('/assets/map')}>
+          <Card
+            className="hover:shadow-md transition-shadow cursor-pointer"
+            onClick={() => router.push('/assets/map')}
+          >
             <CardHeader>
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-purple-100 rounded-lg">
@@ -217,11 +237,15 @@ export default function FieldToolPage() {
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
                   <CheckCircle className="h-4 w-4 text-green-600" />
-                  <span className="text-sm">Work without internet connection</span>
+                  <span className="text-sm">
+                    Work without internet connection
+                  </span>
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle className="h-4 w-4 text-green-600" />
-                  <span className="text-sm">Photos and data stored locally</span>
+                  <span className="text-sm">
+                    Photos and data stored locally
+                  </span>
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle className="h-4 w-4 text-green-600" />
@@ -229,10 +253,16 @@ export default function FieldToolPage() {
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle className="h-4 w-4 text-green-600" />
-                  <span className="text-sm">Background data synchronization</span>
+                  <span className="text-sm">
+                    Background data synchronization
+                  </span>
                 </div>
               </div>
-              <Button variant="outline" onClick={handleOfflineMode} className="w-full">
+              <Button
+                variant="outline"
+                onClick={handleOfflineMode}
+                className="w-full"
+              >
                 Enable Offline Mode
               </Button>
             </CardContent>
@@ -243,7 +273,7 @@ export default function FieldToolPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Clock className="h-5 w-5" />
-                Today's Summary
+                Today&apos;s Summary
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -254,7 +284,9 @@ export default function FieldToolPage() {
                 </div>
                 <div className="text-center p-3 bg-orange-50 rounded-lg">
                   <div className="text-2xl font-bold text-orange-600">3</div>
-                  <div className="text-sm text-muted-foreground">In Progress</div>
+                  <div className="text-sm text-muted-foreground">
+                    In Progress
+                  </div>
                 </div>
                 <div className="text-center p-3 bg-red-50 rounded-lg">
                   <div className="text-2xl font-bold text-red-600">2</div>
@@ -262,7 +294,9 @@ export default function FieldToolPage() {
                 </div>
                 <div className="text-center p-3 bg-green-50 rounded-lg">
                   <div className="text-2xl font-bold text-green-600">15</div>
-                  <div className="text-sm text-muted-foreground">Photos Taken</div>
+                  <div className="text-sm text-muted-foreground">
+                    Photos Taken
+                  </div>
                 </div>
               </div>
             </CardContent>
@@ -280,19 +314,31 @@ export default function FieldToolPage() {
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="text-center space-y-2">
-                <div className="w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center mx-auto text-sm font-bold">1</div>
+                <div className="w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center mx-auto text-sm font-bold">
+                  1
+                </div>
                 <h4 className="font-semibold">Install PWA</h4>
-                <p className="text-sm text-muted-foreground">Add to home screen for app-like experience</p>
+                <p className="text-sm text-muted-foreground">
+                  Add to home screen for app-like experience
+                </p>
               </div>
               <div className="text-center space-y-2">
-                <div className="w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center mx-auto text-sm font-bold">2</div>
+                <div className="w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center mx-auto text-sm font-bold">
+                  2
+                </div>
                 <h4 className="font-semibold">Sync Data</h4>
-                <p className="text-sm text-muted-foreground">Download work orders and asset data</p>
+                <p className="text-sm text-muted-foreground">
+                  Download work orders and asset data
+                </p>
               </div>
               <div className="text-center space-y-2">
-                <div className="w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center mx-auto text-sm font-bold">3</div>
+                <div className="w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center mx-auto text-sm font-bold">
+                  3
+                </div>
                 <h4 className="font-semibold">Start Working</h4>
-                <p className="text-sm text-muted-foreground">Access work orders and perform inspections</p>
+                <p className="text-sm text-muted-foreground">
+                  Access work orders and perform inspections
+                </p>
               </div>
             </div>
           </CardContent>
