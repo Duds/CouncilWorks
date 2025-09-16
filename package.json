@@ -24,7 +24,8 @@
     "security:scan": "npx audit-ci --moderate",
     "security:report": "npx tsx scripts/generate-security-report.ts",
     "security:container": "./scripts/container-security-scan.sh",
-    "release:update": "./scripts/update-release-info.sh"
+    "release:update": "./scripts/update-release-info.sh",
+    "cache:clear": "./scripts/clear-all-caches.sh"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.10.0",

@@ -35,10 +35,17 @@ export default function FieldToolPage() {
   useEffect(() => {
     // Register service worker for PWA capabilities
     if ('serviceWorker' in navigator) {
+      // Use development service worker in development mode
+      const swPath =
+        process.env.NODE_ENV === 'development' ? '/sw-dev.js' : '/sw.js';
+
       navigator.serviceWorker
-        .register('/sw.js')
+        .register(swPath)
         .then(registration => {
-          console.log('Service Worker registered successfully:', registration);
+          console.log(
+            `🔧 Service Worker registered successfully (${swPath}):`,
+            registration
+          );
         })
         .catch(error => {
           console.error('Service Worker registration failed:', error);
