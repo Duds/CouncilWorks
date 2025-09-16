@@ -1,0 +1,60 @@
+name: Sync TODO from Issues
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 2 * * *'
+  issues:
+    types: [opened, edited, labeled, unlabeled, closed, reopened]
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate docs/TODO.md from Issues
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs')
+            const owner = context.repo.owner
+            const repo = context.repo.repo
+            async function list(label){
+              const issues = await github.paginate(github.rest.issues.listForRepo, {owner, repo, state: 'open', labels: label, per_page: 100})
+              return issues
+            }
+            const sections = []
+            const epics = await list('epic')
+            const features = await list('feature')
+            const stories = await list('story')
+            const bugs = await list('bug')
+            const tasks = await list('task')
+            const fmt = (i) => `- #${i.number} ${i.title}`
+            let md = '# Product Backlog\n\n'
+            md += 'Last updated: ' + new Date().toLocaleDateString('en-AU') + "\n\n"
+            md += '## Epics\n\n' + (epics.length? epics.map(fmt).join('\n'): '- None') + "\n\n"
+            md += '## Features\n\n' + (features.length? features.map(fmt).join('\n'): '- None') + "\n\n"
+            md += '## User Stories\n\n' + (stories.length? stories.map(fmt).join('\n'): '- None') + "\n\n"
+            md += '## Bugs\n\n' + (bugs.length? bugs.map(fmt).join('\n'): '- None') + "\n\n"
+            md += '## Tasks\n\n' + (tasks.length? tasks.map(fmt).join('\n'): '- None') + "\n"
+            fs.writeFileSync('docs/TODO.md', md)
+            core.setOutput('changed', 'true')
+      - name: Commit changes
+        run: |
+          git config user.email "councilworks-bot@local"
+          git config user.name "CouncilWorks Bot"
+          git checkout -b chore/sync-todo-$(date +%Y%m%d%H%M%S)
+          git add docs/TODO.md
+          git commit -m "docs(todo): sync TODO from issues"
+      - name: Push branch
+        run: |
+          git push -u origin HEAD
+      - name: Open PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr create --title "docs(todo): sync TODO from issues" --body "Automated sync of TODO.md from Issues" --base develop --head $(git rev-parse --abbrev-ref HEAD)

@@ -1,0 +1,140 @@
+# Docker Compose for Single-Tenant Cloud Deployment
+# This configuration provides isolated infrastructure for a single customer
+
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DEPLOYMENT_TIER=single-tenant
+      - CUSTOMER_ID=${CUSTOMER_ID}
+      - DATABASE_URL=${CUSTOMER_DATABASE_URL}
+      - AZURE_STORAGE_CONNECTION_STRING=${AZURE_STORAGE_CONNECTION_STRING}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - NEXTAUTH_URL=${NEXTAUTH_URL}
+      - SAML_ENTRY_POINT=${SAML_ENTRY_POINT}
+      - SAML_ISSUER=${SAML_ISSUER}
+      - SAML_CERT=${SAML_CERT}
+      - SENDGRID_API_KEY=${SENDGRID_API_KEY}
+      - TWILIO_ACCOUNT_SID=${TWILIO_ACCOUNT_SID}
+      - TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN}
+      - ANALYTICS_ENDPOINT=${ANALYTICS_ENDPOINT}
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./uploads:/app/uploads
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  db:
+    image: postgres:15-postgis
+    environment:
+      - POSTGRES_DB=council_${CUSTOMER_ID}
+      - POSTGRES_USER=${POSTGRES_USER:-councilworks}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - customer_postgres_data:/var/lib/postgresql/data
+      - ./scripts/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-councilworks}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - customer_redis_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Isolated analytics service for this customer
+  analytics:
+    image: councilworks-analytics:latest
+    environment:
+      - ANALYTICS_TYPE=isolated
+      - CUSTOMER_ID=${CUSTOMER_ID}
+      - DATABASE_URL=${CUSTOMER_DATABASE_URL}
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - db
+      - redis
+    restart: unless-stopped
+
+  # Customer-specific monitoring
+  monitoring:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus-customer.yml:/etc/prometheus/prometheus.yml
+      - customer_prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
+      - GF_SERVER_ROOT_URL=https://${CUSTOMER_ID}.councilworks.com
+    volumes:
+      - customer_grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/customer-dashboards:/etc/grafana/provisioning/dashboards
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources
+    depends_on:
+      - monitoring
+    restart: unless-stopped
+
+  # Backup service for customer data
+  backup:
+    image: postgres:15-alpine
+    environment:
+      - PGPASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - ./backups:/backups
+    command: >
+      sh -c "
+        while true; do
+          pg_dump -h db -U ${POSTGRES_USER:-councilworks} -d council_${CUSTOMER_ID} > /backups/backup_$$(date +%Y%m%d_%H%M%S).sql
+          sleep 86400
+        done
+      "
+    depends_on:
+      - db
+    restart: unless-stopped
+
+volumes:
+  customer_postgres_data:
+  customer_redis_data:
+  customer_prometheus_data:
+  customer_grafana_data:
+
+networks:
+  default:
+    name: councilworks-${CUSTOMER_ID}

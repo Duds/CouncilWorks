@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0B1220;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1E293B;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  
+  <!-- Subtle grid pattern -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#334155" stroke-width="0.5" opacity="0.3"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  
+  <!-- Main content -->
+  <text x="80" y="180" fill="#F8FAFC" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="bold">Aegrid</text>
+  <text x="80" y="240" fill="#94A3B8" font-family="Arial, Helvetica, sans-serif" font-size="32">Asset lifecycle intelligence for Australian councils</text>
+  
+  <!-- Feature highlights -->
+  <circle cx="1000" cy="150" r="8" fill="#0EA5E9" opacity="0.8"/>
+  <text x="1020" y="160" fill="#F8FAFC" font-family="Arial, Helvetica, sans-serif" font-size="18">GIS Maps</text>
+  
+  <circle cx="1000" cy="200" r="8" fill="#10B981" opacity="0.8"/>
+  <text x="1020" y="210" fill="#F8FAFC" font-family="Arial, Helvetica, sans-serif" font-size="18">Mobile Inspections</text>
+  
+  <circle cx="1000" cy="250" r="8" fill="#8B5CF6" opacity="0.8"/>
+  <text x="1020" y="260" fill="#F8FAFC" font-family="Arial, Helvetica, sans-serif" font-size="18">Analytics</text>
+  
+  <!-- Bottom accent -->
+  <rect x="0" y="580" width="1200" height="50" fill="#0EA5E9" opacity="0.1"/>
+  <text x="80" y="610" fill="#0EA5E9" font-family="Arial, Helvetica, sans-serif" font-size="16">Built for Australian councils • Asset lifecycle intelligence</text>
+</svg>

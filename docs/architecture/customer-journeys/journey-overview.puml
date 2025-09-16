@@ -1,0 +1,64 @@
+@startuml Customer Journey Overview
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam participant {
+  BackgroundColor #E3F2FD
+  BorderColor #1976D2
+  FontColor #000000
+}
+skinparam actor {
+  BackgroundColor #FFF3E0
+  BorderColor #F57C00
+  FontColor #000000
+}
+
+title CouncilWorks Customer Journey Overview
+
+actor "Executive" as EXEC
+actor "Manager" as MGR
+actor "Supervisor" as SUP
+actor "Crew" as CREW
+actor "Citizen" as CIT
+actor "Admin" as ADM
+
+participant "Aegrid Platform" as PLATFORM
+participant "Mobile PWA" as MOBILE
+participant "Citizen Portal" as PORTAL
+
+== Strategic Level ==
+EXEC -> PLATFORM: Strategic oversight
+EXEC -> PLATFORM: KPI monitoring
+EXEC -> PLATFORM: Budget forecasting
+EXEC -> PLATFORM: Risk compliance
+
+== Operational Level ==
+MGR -> PLATFORM: Asset management
+MGR -> PLATFORM: Maintenance planning
+MGR -> PLATFORM: Team coordination
+MGR -> PLATFORM: Performance reporting
+
+== Coordination Level ==
+SUP -> PLATFORM: Work coordination
+SUP -> PLATFORM: Crew management
+SUP -> PLATFORM: Quality control
+SUP -> PLATFORM: Field supervision
+
+== Execution Level ==
+CREW -> MOBILE: Field work execution
+CREW -> MOBILE: Asset inspections
+CREW -> MOBILE: Data collection
+CREW -> MOBILE: Offline operations
+
+== Community Level ==
+CIT -> PORTAL: Issue reporting
+CIT -> PORTAL: Status tracking
+CIT -> PORTAL: Community engagement
+CIT -> PORTAL: Service feedback
+
+== Administration Level ==
+ADM -> PLATFORM: System administration
+ADM -> PLATFORM: User management
+ADM -> PLATFORM: Security monitoring
+ADM -> PLATFORM: System configuration
+
+@enduml

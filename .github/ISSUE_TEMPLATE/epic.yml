@@ -1,0 +1,31 @@
+name: Epic
+description: Track a large body of work with multiple features
+labels: ["epic"]
+title: "Epic: "
+body:
+  - type: textarea
+    id: who
+    attributes:
+      label: Who gains
+      description: Stakeholders who benefit
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What changes
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why it matters
+    validations:
+      required: true
+  - type: textarea
+    id: howknow
+    attributes:
+      label: How we’ll know
+      description: Success signals / measurable outcomes
+    validations:
+      required: true
