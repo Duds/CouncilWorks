@@ -22,7 +22,6 @@ on:
 
 env:
   NODE_VERSION: '20'
-  PNPM_VERSION: '8'
 
 jobs:
   monitor-workflows:
@@ -39,11 +38,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: ${{ env.PNPM_VERSION }}
 
       - name: Get failed workflow runs
         id: failed-workflows
@@ -128,12 +122,23 @@ jobs:
         run: |
           echo "🔧 Auto-fixing TypeScript errors..."
           
-          # Run TypeScript check to see current errors
-          npm run typecheck || true
+          # Install dependencies first
+          npm ci
           
-          # Try to fix common TypeScript issues
-          # This would need to be customized based on your specific errors
-          echo "✅ TypeScript errors analysis completed"
+          # Fix Storybook syntax errors specifically
+          if [ -d "stories" ]; then
+            echo "Fixing Storybook stories syntax errors..."
+            npx eslint --fix stories/**/*.ts stories/**/*.tsx || true
+          fi
+          
+          # Fix general TypeScript/JSX syntax errors
+          echo "Fixing TypeScript and JSX syntax errors..."
+          npx eslint --fix --ext .ts,.tsx . || true
+          
+          # Run TypeScript check to see remaining errors
+          npm run typecheck || echo "Some TypeScript errors may require manual review"
+          
+          echo "✅ TypeScript syntax error fixes completed"
 
       - name: Auto-fix linting errors
         if: contains(steps.analyze-failures.outputs.patterns, 'linting-errors') && github.event.inputs.auto_fix != 'false'

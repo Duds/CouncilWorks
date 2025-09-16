@@ -66,6 +66,29 @@
       }
     },
     {
+      "name": "Fix Storybook Syntax Errors",
+      "description": "Fix TypeScript syntax errors in Storybook stories",
+      "enabled": true,
+      "command": "npx eslint --fix stories/**/*.ts stories/**/*.tsx",
+      "triggers": ["file-save", "workflow-failure"],
+      "conditions": {
+        "fileExtensions": [".ts", ".tsx"],
+        "filePatterns": ["stories/**/*"],
+        "maxErrors": 50
+      }
+    },
+    {
+      "name": "Fix JSX Syntax Errors",
+      "description": "Fix JSX and React syntax errors",
+      "enabled": true,
+      "command": "npx eslint --fix --ext .tsx .",
+      "triggers": ["file-save", "workflow-failure"],
+      "conditions": {
+        "fileExtensions": [".tsx"],
+        "maxErrors": 30
+      }
+    },
+    {
       "name": "Update Imports",
       "description": "Fix and optimize import statements",
       "enabled": true,
@@ -174,6 +197,8 @@
       "tasks": [
         "Fix Linting Errors",
         "Fix TypeScript Errors",
+        "Fix Storybook Syntax Errors",
+        "Fix JSX Syntax Errors",
         "Fix Test Failures",
         "Database Migration Fix",
         "Build Error Fix"
