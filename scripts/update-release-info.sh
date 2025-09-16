@@ -22,14 +22,21 @@ if [ -f ".env" ]; then
     # Add new values
     echo "" >> .env
     echo "# Release Information" >> .env
-    echo "NEXT_PUBLIC_GIT_SHA=\"$GIT_SHA\"" >> .env
-    echo "NEXT_PUBLIC_RELEASE_CHANNEL=\"dev\"" >> .env
+    echo "NEXT_PUBLIC_GIT_SHA=$GIT_SHA" >> .env
+    echo "NEXT_PUBLIC_RELEASE_CHANNEL=dev" >> .env
     
     echo "✅ Updated .env file with release information"
 else
     echo "❌ .env file not found"
     exit 1
 fi
+
+# Also update .env.local for Next.js
+echo "" >> .env.local
+echo "# Release Information" >> .env.local
+echo "NEXT_PUBLIC_GIT_SHA=$GIT_SHA" >> .env.local
+echo "NEXT_PUBLIC_RELEASE_CHANNEL=dev" >> .env.local
+echo "✅ Updated .env.local file with release information"
 
 echo "🎯 Release badge should now show:"
 echo "   Version: v$VERSION"
