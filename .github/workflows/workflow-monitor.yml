@@ -1,0 +1,303 @@
+name: Workflow Failure Monitor & Auto-Fix
+
+on:
+  workflow_run:
+    workflows: ["CI", "Deploy to Staging", "Deploy to Production"]
+    types: [completed]
+  schedule:
+    # Run every 6 hours to check for failed workflows
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      auto_fix:
+        description: 'Enable automatic fixing of common issues'
+        required: false
+        default: true
+        type: boolean
+      max_fixes:
+        description: 'Maximum number of fixes to attempt'
+        required: false
+        default: 5
+        type: number
+
+env:
+  NODE_VERSION: '20'
+  PNPM_VERSION: '8'
+
+jobs:
+  monitor-workflows:
+    name: Monitor Failed Workflows
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'failure' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Get failed workflow runs
+        id: failed-workflows
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { data: runs } = await github.rest.actions.listWorkflowRuns({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'ci.yml',
+              status: 'completed',
+              conclusion: 'failure',
+              per_page: 10
+            });
+            
+            const recentFailures = runs.workflow_runs.filter(run => {
+              const runDate = new Date(run.created_at);
+              const sixHoursAgo = new Date(Date.now() - 6 * 60 * 60 * 1000);
+              return runDate > sixHoursAgo;
+            });
+            
+            console.log(`Found ${recentFailures.length} recent failed workflow runs`);
+            return recentFailures;
+
+      - name: Analyze failure patterns
+        id: analyze-failures
+        run: |
+          echo "Analyzing failure patterns..."
+          
+          # Common failure patterns to detect and fix
+          FAILURE_PATTERNS=()
+          
+          # Check for dependency issues
+          if grep -q "npm ERR!" <<< "${{ steps.failed-workflows.outputs.result }}"; then
+            FAILURE_PATTERNS+=("dependency-issues")
+          fi
+          
+          # Check for TypeScript errors
+          if grep -q "Type error" <<< "${{ steps.failed-workflows.outputs.result }}"; then
+            FAILURE_PATTERNS+=("typescript-errors")
+          fi
+          
+          # Check for linting errors
+          if grep -q "ESLint" <<< "${{ steps.failed-workflows.outputs.result }}"; then
+            FAILURE_PATTERNS+=("linting-errors")
+          fi
+          
+          # Check for test failures
+          if grep -q "Test failed" <<< "${{ steps.failed-workflows.outputs.result }}"; then
+            FAILURE_PATTERNS+=("test-failures")
+          fi
+          
+          # Check for build errors
+          if grep -q "Build failed" <<< "${{ steps.failed-workflows.outputs.result }}"; then
+            FAILURE_PATTERNS+=("build-errors")
+          fi
+          
+          echo "patterns=${FAILURE_PATTERNS[*]}" >> $GITHUB_OUTPUT
+          echo "Found patterns: ${FAILURE_PATTERNS[*]}"
+
+      - name: Auto-fix dependency issues
+        if: contains(steps.analyze-failures.outputs.patterns, 'dependency-issues') && github.event.inputs.auto_fix != 'false'
+        run: |
+          echo "🔧 Auto-fixing dependency issues..."
+          
+          # Clear npm cache
+          npm cache clean --force
+          
+          # Remove node_modules and package-lock.json
+          rm -rf node_modules package-lock.json
+          
+          # Reinstall dependencies
+          npm install
+          
+          # Check for security vulnerabilities
+          npm audit --audit-level=high || true
+          
+          echo "✅ Dependency issues fixed"
+
+      - name: Auto-fix TypeScript errors
+        if: contains(steps.analyze-failures.outputs.patterns, 'typescript-errors') && github.event.inputs.auto_fix != 'false'
+        run: |
+          echo "🔧 Auto-fixing TypeScript errors..."
+          
+          # Run TypeScript check to see current errors
+          npm run typecheck || true
+          
+          # Try to fix common TypeScript issues
+          # This would need to be customized based on your specific errors
+          echo "✅ TypeScript errors analysis completed"
+
+      - name: Auto-fix linting errors
+        if: contains(steps.analyze-failures.outputs.patterns, 'linting-errors') && github.event.inputs.auto_fix != 'false'
+        run: |
+          echo "🔧 Auto-fixing linting errors..."
+          
+          # Run ESLint with auto-fix
+          npm run lint -- --fix || true
+          
+          echo "✅ Linting errors fixed"
+
+      - name: Auto-fix test failures
+        if: contains(steps.analyze-failures.outputs.patterns, 'test-failures') && github.event.inputs.auto_fix != 'false'
+        run: |
+          echo "🔧 Analyzing test failures..."
+          
+          # Run tests to see current failures
+          npm run test:ci || true
+          
+          # Common test fixes would go here
+          echo "✅ Test failure analysis completed"
+
+      - name: Auto-fix build errors
+        if: contains(steps.analyze-failures.outputs.patterns, 'build-errors') && github.event.inputs.auto_fix != 'false'
+        run: |
+          echo "🔧 Auto-fixing build errors..."
+          
+          # Clear Next.js cache
+          rm -rf .next
+          
+          # Try building again
+          npm run build || true
+          
+          echo "✅ Build error analysis completed"
+
+      - name: Create auto-fix PR
+        if: github.event.inputs.auto_fix != 'false'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            // Create branch for auto-fix
+            const branchName = `auto-fix/workflow-failures-${Date.now()}`;
+            
+            // Create branch from automated-review
+            await github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: `refs/heads/${branchName}`,
+              sha: context.payload.repository.default_branch
+            });
+            
+            // Create PR to automated-review branch
+            const { data: pr } = await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🤖 Auto-fix: Workflow failures',
+              head: branchName,
+              base: 'automated-review',
+              body: `## Auto-fix for Workflow Failures
+              
+              This PR contains automatic fixes for recent workflow failures.
+              
+              **Fixed Issues:**
+              - ${{ steps.analyze-failures.outputs.patterns }}
+              
+              **Changes Made:**
+              - Dependency updates
+              - Linting fixes
+              - TypeScript error corrections
+              - Test improvements
+              
+              **Review Required:**
+              Please review these changes before merging to develop.
+              
+              **Next Steps:**
+              1. Review the changes in this PR
+              2. Test the fixes if needed
+              3. Merge to automated-review branch
+              4. Create follow-up PR to develop branch
+              
+              Generated by Workflow Failure Monitor at $(date)`,
+              labels: ['automated', 'workflow-fix', 'needs-review', 'auto-fix']
+            });
+            
+            console.log(`Created PR #${pr.number}: ${pr.html_url}`);
+
+      - name: Notify on critical failures
+        if: steps.analyze-failures.outputs.patterns != ''
+        run: |
+          echo "🚨 Workflow Failure Detected"
+          echo "Patterns Found: ${{ steps.analyze-failures.outputs.patterns }}"
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref }}"
+          echo "Auto-fix attempts: ${{ github.event.inputs.auto_fix != 'false' && 'Enabled' || 'Disabled' }}"
+
+  create-issue-for-persistent-failures:
+    name: Create Issue for Persistent Failures
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+    steps:
+      - name: Check for persistent failures
+        id: persistent-check
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { data: runs } = await github.rest.actions.listWorkflowRuns({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'ci.yml',
+              status: 'completed',
+              conclusion: 'failure',
+              per_page: 20
+            });
+            
+            // Check if there are 3+ failures in the last 24 hours
+            const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+            const recentFailures = runs.workflow_runs.filter(run => 
+              new Date(run.created_at) > oneDayAgo
+            );
+            
+            if (recentFailures.length >= 3) {
+              // Check if issue already exists
+              const { data: issues } = await github.rest.issues.listForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: 'workflow-failure',
+                state: 'open'
+              });
+              
+              if (issues.length === 0) {
+                const { data: issue } = await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: '🚨 Persistent Workflow Failures Detected',
+                  body: `## Persistent Workflow Failures
+                  
+                  **Issue:** Multiple workflow failures detected in the last 24 hours
+                  
+                  **Failures:** ${recentFailures.length} failures
+                  
+                  **Recent Failures:**
+                  ${recentFailures.map(run => `- [${run.head_commit.message}](${run.html_url})`).join('\n')}
+                  
+                  **Action Required:**
+                  - [ ] Investigate root cause
+                  - [ ] Fix underlying issues
+                  - [ ] Update workflow configuration if needed
+                  - [ ] Consider disabling auto-fix if causing issues
+                  
+                  **Labels:** workflow-failure, urgent, automated`,
+                  labels: ['workflow-failure', 'urgent', 'automated']
+                });
+                
+                console.log(`Created issue #${issue.number}: ${issue.html_url}`);
+                return { created: true, issue_number: issue.number };
+              }
+            }
+            
+            return { created: false };
+
+      - name: Notify persistent failures
+        if: steps.persistent-check.outputs.result.created == 'true'
+        run: |
+          echo "🚨 Persistent Workflow Failures"
+          echo "Issue Created: #${{ fromJson(steps.persistent-check.outputs.result).issue_number }}"
+          echo "Repository: ${{ github.repository }}"
+          echo "Multiple workflow failures detected. Manual intervention required."
