@@ -30,3 +30,4 @@ uploads/documents/*
 !uploads/documents/.gitkeep
 public/documents/*
 !public/documents/.gitkeep
+node_modules
