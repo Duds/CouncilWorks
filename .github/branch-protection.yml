@@ -1,20 +1,6 @@
 # Branch Protection Rules for CouncilWorks
 # This file documents the branch protection rules that should be applied
-
-main:
-  required_status_checks:
-    strict: true
-    contexts:
-      - "test"
-      - "security"
-  enforce_admins: true
-  required_pull_request_reviews:
-    required_approving_review_count: 2
-    dismiss_stale_reviews: true
-    require_code_owner_reviews: true
-  restrictions: null
-  allow_force_pushes: false
-  allow_deletions: false
+# Default branch is now 'develop'
 
 develop:
   required_status_checks:
@@ -27,6 +13,21 @@ develop:
     required_approving_review_count: 1
     dismiss_stale_reviews: true
     require_code_owner_reviews: false
+  restrictions: null
+  allow_force_pushes: false
+  allow_deletions: false
+
+main:
+  required_status_checks:
+    strict: true
+    contexts:
+      - "test"
+      - "security"
+  enforce_admins: true
+  required_pull_request_reviews:
+    required_approving_review_count: 2
+    dismiss_stale_reviews: true
+    require_code_owner_reviews: true
   restrictions: null
   allow_force_pushes: false
   allow_deletions: false
@@ -49,6 +50,6 @@ automated-review:
   allow_deletions: false
 
 # To apply these rules, use the GitHub CLI:
-# gh api repos/:owner/:repo/branches/main/protection --method PUT --input .github/branch-protection.yml
 # gh api repos/:owner/:repo/branches/develop/protection --method PUT --input .github/branch-protection.yml
+# gh api repos/:owner/:repo/branches/main/protection --method PUT --input .github/branch-protection.yml
 # gh api repos/:owner/:repo/branches/automated-review/protection --method PUT --input .github/branch-protection.yml
