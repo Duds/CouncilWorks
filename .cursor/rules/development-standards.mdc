@@ -87,6 +87,13 @@ actions:
      - Use optional props for new features
      - Provide migration guides
 
+  8. Icon Usage:
+     - **Use Lucide React icons exclusively** (`lucide-react` package)
+     - **Do not use Radix UI icons** (`@radix-ui/react-icons` package)
+     - Import icons individually: `import { IconName } from "lucide-react"`
+     - Use semantic icon names that match their purpose
+     - Maintain consistent icon sizing with `className="h-4 w-4"` or similar
+
   ## Common Linter Error Patterns
   (Examples unchanged for brevity)
 
