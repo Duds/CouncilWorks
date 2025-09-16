@@ -1,0 +1,119 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aegrid-app
+  labels:
+    app: aegrid
+    version: v1.0.0
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: aegrid
+  template:
+    metadata:
+      labels:
+        app: aegrid
+        version: v1.0.0
+    spec:
+      containers:
+      - name: aegrid
+        image: aegridacr.azurecr.io/aegrid:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: aegrid-secrets
+              key: database-url
+        - name: NEXTAUTH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: aegrid-secrets
+              key: nextauth-secret
+        - name: NEXTAUTH_URL
+          value: "https://aegrid.azurecontainerapps.io"
+        - name: AZURE_STORAGE_CONNECTION_STRING
+          valueFrom:
+            secretKeyRef:
+              name: aegrid-secrets
+              key: azure-storage-connection
+        - name: AZURE_COSMOS_DB_CONNECTION_STRING
+          valueFrom:
+            secretKeyRef:
+              name: aegrid-secrets
+              key: cosmos-db-connection
+        - name: APPLICATION_INSIGHTS_CONNECTION_STRING
+          valueFrom:
+            secretKeyRef:
+              name: aegrid-secrets
+              key: app-insights-connection
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        startupProbe:
+          httpGet:
+            path: /api/health
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          failureThreshold: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aegrid-service
+spec:
+  selector:
+    app: aegrid
+  ports:
+  - port: 80
+    targetPort: 3000
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: aegrid-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+    nginx.ingress.kubernetes.io/rate-limit-window: "1m"
+spec:
+  tls:
+  - hosts:
+    - aegrid.azurecontainerapps.io
+    secretName: aegrid-tls
+  rules:
+  - host: aegrid.azurecontainerapps.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: aegrid-service
+            port:
+              number: 80
