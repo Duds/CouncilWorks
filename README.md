@@ -30,6 +30,31 @@ npm test
 
 All docs use Australian English, DD/MM/YYYY dates, 24-hour time, metric units, and $AUD.
 
+## Automated Monitoring & Fixing
+
+The project includes comprehensive automated monitoring and fixing systems:
+
+### Dependabot
+- **Weekly dependency updates** every Monday at 9:00 AM AEST
+- **Security vulnerability monitoring** with automatic PRs
+- **GitHub Actions updates** for CI/CD workflows
+- **Docker image updates** for container dependencies
+
+### Workflow Failure Monitor
+- **Proactive monitoring** of failed CI/CD workflows
+- **Auto-fix capabilities** for common issues (dependencies, linting, TypeScript, tests)
+- **Pattern recognition** to identify recurring problems
+- **Slack notifications** for critical failures
+- **Persistent failure detection** with automatic issue creation
+
+### Cursor Background Agent
+- **Real-time code fixes** as you develop
+- **Scheduled maintenance** tasks (daily/weekly)
+- **Workflow integration** to respond to failures
+- **Multi-task support** for linting, TypeScript, imports, security
+
+See [Automated Monitoring Setup](../../docs/development/automated-monitoring-setup.md) for detailed configuration and usage.
+
 ## Marketing site (landing page)
 
 - Hero uses outcome‑led copy with a single primary CTA (Book a demo) and secondary CTA (Get a sandbox)

@@ -1,0 +1,232 @@
+# Cursor Background Agent Configuration
+# Automated code fixes and improvements for CouncilWorks
+
+{
+  "name": "CouncilWorks Background Agent",
+  "version": "1.0.0",
+  "description": "Automated code fixes and improvements for CouncilWorks project",
+  "settings": {
+    "enabled": true,
+    "targetBranch": "automated-review",
+    "autoFix": {
+      "enabled": true,
+      "maxFixesPerSession": 10,
+      "delayBetweenFixes": 5000,
+      "fixTypes": [
+        "linting",
+        "typescript",
+        "imports",
+        "formatting",
+        "security",
+        "performance"
+      ],
+      "createPR": true,
+      "requireReview": true
+    },
+    "monitoring": {
+      "enabled": true,
+      "checkInterval": 300000,
+      "workflowMonitoring": true,
+      "dependencyMonitoring": true,
+      "securityMonitoring": true
+    },
+    "notifications": {
+      "enabled": true,
+      "channels": ["console", "file"],
+      "logLevel": "info"
+    },
+    "rules": {
+      "enforceAegridRules": true,
+      "enforceAustralianStandards": true,
+      "enforceSecurityStandards": true,
+      "enforceTestingStandards": true
+    }
+  },
+  "tasks": [
+    {
+      "name": "Fix Linting Errors",
+      "description": "Automatically fix ESLint errors",
+      "enabled": true,
+      "command": "npm run lint -- --fix",
+      "triggers": ["file-save", "workflow-failure"],
+      "conditions": {
+        "fileExtensions": [".ts", ".tsx", ".js", ".jsx"],
+        "maxErrors": 50
+      }
+    },
+    {
+      "name": "Fix TypeScript Errors",
+      "description": "Automatically fix TypeScript compilation errors",
+      "enabled": true,
+      "command": "npm run typecheck",
+      "triggers": ["file-save", "workflow-failure"],
+      "conditions": {
+        "fileExtensions": [".ts", ".tsx"],
+        "maxErrors": 20
+      }
+    },
+    {
+      "name": "Fix Storybook Syntax Errors",
+      "description": "Fix TypeScript syntax errors in Storybook stories",
+      "enabled": true,
+      "command": "npx eslint --fix stories/**/*.ts stories/**/*.tsx",
+      "triggers": ["file-save", "workflow-failure"],
+      "conditions": {
+        "fileExtensions": [".ts", ".tsx"],
+        "filePatterns": ["stories/**/*"],
+        "maxErrors": 50
+      }
+    },
+    {
+      "name": "Fix JSX Syntax Errors",
+      "description": "Fix JSX and React syntax errors",
+      "enabled": true,
+      "command": "npx eslint --fix --ext .tsx .",
+      "triggers": ["file-save", "workflow-failure"],
+      "conditions": {
+        "fileExtensions": [".tsx"],
+        "maxErrors": 30
+      }
+    },
+    {
+      "name": "Update Imports",
+      "description": "Fix and optimize import statements",
+      "enabled": true,
+      "command": "npx eslint --fix --ext .ts,.tsx,.js,.jsx .",
+      "triggers": ["file-save"],
+      "conditions": {
+        "fileExtensions": [".ts", ".tsx", ".js", ".jsx"]
+      }
+    },
+    {
+      "name": "Security Audit Fix",
+      "description": "Fix security vulnerabilities automatically",
+      "enabled": true,
+      "command": "npm audit --audit-level=high --fix",
+      "triggers": ["schedule", "workflow-failure"],
+      "conditions": {
+        "maxVulnerabilities": 10
+      }
+    },
+    {
+      "name": "Format Code",
+      "description": "Format code according to project standards",
+      "enabled": true,
+      "command": "npx prettier --write .",
+      "triggers": ["file-save"],
+      "conditions": {
+        "fileExtensions": [".ts", ".tsx", ".js", ".jsx", ".json", ".md"]
+      }
+    },
+    {
+      "name": "Update Dependencies",
+      "description": "Update dependencies to latest compatible versions",
+      "enabled": true,
+      "command": "npm update",
+      "triggers": ["schedule"],
+      "conditions": {
+        "schedule": "weekly"
+      }
+    },
+    {
+      "name": "Fix Test Failures",
+      "description": "Analyze and fix test failures",
+      "enabled": true,
+      "command": "npm run test:ci",
+      "triggers": ["workflow-failure"],
+      "conditions": {
+        "maxFailures": 5
+      }
+    },
+    {
+      "name": "Database Migration Fix",
+      "description": "Fix database migration issues",
+      "enabled": true,
+      "command": "npx prisma migrate resolve",
+      "triggers": ["workflow-failure"],
+      "conditions": {
+        "errorPattern": "migration"
+      }
+    },
+    {
+      "name": "Build Error Fix",
+      "description": "Fix Next.js build errors",
+      "enabled": true,
+      "command": "npm run build",
+      "triggers": ["workflow-failure"],
+      "conditions": {
+        "errorPattern": "build"
+      }
+    },
+    {
+      "name": "Performance Optimization",
+      "description": "Optimize code for better performance",
+      "enabled": true,
+      "command": "npx eslint --fix --ext .ts,.tsx .",
+      "triggers": ["schedule"],
+      "conditions": {
+        "schedule": "daily"
+      }
+    }
+  ],
+  "workflows": [
+    {
+      "name": "Daily Maintenance",
+      "description": "Daily automated maintenance tasks",
+      "schedule": "0 9 * * *",
+      "tasks": [
+        "Fix Linting Errors",
+        "Format Code",
+        "Security Audit Fix",
+        "Performance Optimization"
+      ]
+    },
+    {
+      "name": "Weekly Updates",
+      "description": "Weekly dependency and security updates",
+      "schedule": "0 9 * * 1",
+      "tasks": [
+        "Update Dependencies",
+        "Security Audit Fix"
+      ]
+    },
+    {
+      "name": "Workflow Failure Response",
+      "description": "Respond to workflow failures",
+      "triggers": ["workflow-failure"],
+      "tasks": [
+        "Fix Linting Errors",
+        "Fix TypeScript Errors",
+        "Fix Storybook Syntax Errors",
+        "Fix JSX Syntax Errors",
+        "Fix Test Failures",
+        "Database Migration Fix",
+        "Build Error Fix"
+      ]
+    }
+  ],
+  "exclusions": [
+    "node_modules/**",
+    ".next/**",
+    "dist/**",
+    "build/**",
+    "coverage/**",
+    "*.log",
+    ".env*",
+    "*.lock"
+  ],
+  "notifications": {
+    "success": {
+      "message": "✅ Background Agent: {task} completed successfully",
+      "level": "info"
+    },
+    "error": {
+      "message": "❌ Background Agent: {task} failed - {error}",
+      "level": "error"
+    },
+    "warning": {
+      "message": "⚠️ Background Agent: {task} completed with warnings",
+      "level": "warning"
+    }
+  }
+}

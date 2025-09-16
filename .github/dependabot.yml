@@ -1,0 +1,132 @@
+# Dependabot Configuration for CouncilWorks
+# Automated dependency updates and security vulnerability monitoring
+# All changes go through automated-review branch for safety
+
+version: 2
+updates:
+  # Enable version updates for npm dependencies
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Australia/Sydney"
+    open-pull-requests-limit: 10
+    target-branch: "automated-review"
+    assignees:
+      - "dale-rogers"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "deps-dev"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "automated"
+      - "needs-review"
+    # Group minor and patch updates together
+    groups:
+      minor-and-patch:
+        patterns:
+          - "*"
+    # Ignore major version updates for critical packages
+    ignore:
+      - dependency-name: "next"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-dom"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@prisma/client"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "prisma"
+        update-types: ["version-update:semver-major"]
+           # Allow specific packages to have major updates
+           allow:
+             - dependency-name: "eslint*"
+               update-types: ["version-update:semver-major"]
+             - dependency-name: "@typescript-eslint/*"
+               update-types: ["version-update:semver-major"]
+             - dependency-name: "typescript"
+               update-types: ["version-update:semver-major"]
+             - dependency-name: "@types/node"
+               update-types: ["version-update:semver-major"]
+
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Australia/Sydney"
+    open-pull-requests-limit: 5
+    target-branch: "automated-review"
+    assignees:
+      - "dale-rogers"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    labels:
+      - "github-actions"
+      - "automated"
+      - "needs-review"
+    groups:
+      actions:
+        patterns:
+          - "*"
+
+  # Enable version updates for Docker
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Australia/Sydney"
+    open-pull-requests-limit: 3
+    target-branch: "automated-review"
+    assignees:
+      - "dale-rogers"
+    commit-message:
+      prefix: "docker"
+      include: "scope"
+           labels:
+             - "docker"
+             - "automated"
+             - "needs-review"
+
+  # Enable automated code quality fixes
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "06:00"
+      timezone: "Australia/Sydney"
+    open-pull-requests-limit: 5
+    target-branch: "automated-review"
+    assignees:
+      - "dale-rogers"
+    commit-message:
+      prefix: "fix"
+      include: "scope"
+    labels:
+      - "code-quality"
+      - "automated"
+      - "needs-review"
+      - "typescript-fixes"
+    # Focus on development dependencies that can fix syntax issues
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+    allow:
+      - dependency-name: "eslint*"
+        update-types: ["version-update:semver-patch"]
+      - dependency-name: "@typescript-eslint/*"
+        update-types: ["version-update:semver-patch"]
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-patch"]
+      - dependency-name: "prettier*"
+        update-types: ["version-update:semver-patch"]
+      - dependency-name: "@types/*"
+        update-types: ["version-update:semver-patch"]
