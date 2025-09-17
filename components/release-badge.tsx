@@ -12,6 +12,16 @@ export default function ReleaseBadge({ className }: ReleaseBadgeProps) {
   const channelLabel = releaseChannel.toUpperCase();
   const sha = gitShaShort ? ` • ${gitShaShort}` : "";
 
+  // Debug logging for development
+  if (process.env.NODE_ENV === 'development') {
+    console.log('🔍 ReleaseBadge Component Debug:');
+    console.log('  appVersion:', appVersion);
+    console.log('  releaseChannel:', releaseChannel);
+    console.log('  gitShaShort:', gitShaShort);
+    console.log('  channelLabel:', channelLabel);
+    console.log('  sha:', sha);
+  }
+
   return (
     <div
       className={cn(

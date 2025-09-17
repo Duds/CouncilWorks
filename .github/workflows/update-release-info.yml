@@ -1,0 +1,97 @@
+name: Update Release Information
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  update-release-info:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch full history for proper SHA
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Get release information
+        id: release-info
+        run: |
+          # Get Git SHA
+          GIT_SHA=$(git rev-parse HEAD)
+          echo "git_sha=$GIT_SHA" >> $GITHUB_OUTPUT
+          echo "git_sha_short=${GIT_SHA:0:7}" >> $GITHUB_OUTPUT
+
+          # Get version from package.json
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+          # Determine release channel based on tag
+          if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+            echo "release_channel=prod" >> $GITHUB_OUTPUT
+          else
+            echo "release_channel=dev" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Update environment variables
+        run: |
+          echo "🔄 Updating release information..."
+          echo "📝 Git SHA: ${{ steps.release-info.outputs.git_sha }}"
+          echo "📦 Version: ${{ steps.release-info.outputs.version }}"
+          echo "🎯 Channel: ${{ steps.release-info.outputs.release_channel }}"
+
+          # Create or update .env file
+          if [ -f ".env" ]; then
+            # Remove existing release info lines
+            sed -i '/^NEXT_PUBLIC_GIT_SHA=/d' .env
+            sed -i '/^NEXT_PUBLIC_RELEASE_CHANNEL=/d' .env
+          fi
+
+          # Add new release information
+          echo "" >> .env
+          echo "# Release Information (Auto-generated)" >> .env
+          echo "NEXT_PUBLIC_GIT_SHA=\"${{ steps.release-info.outputs.git_sha }}\"" >> .env
+          echo "NEXT_PUBLIC_RELEASE_CHANNEL=\"${{ steps.release-info.outputs.release_channel }}\"" >> .env
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .env
+          git commit -m "chore: update release information for v${{ steps.release-info.outputs.version }}"
+          git push
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ steps.release-info.outputs.version }}
+          body: |
+            ## 🚀 Release ${{ steps.release-info.outputs.version }}
+
+            **Git SHA**: `${{ steps.release-info.outputs.git_sha_short }}`
+            **Release Channel**: ${{ steps.release-info.outputs.release_channel }}
+
+            ### What's New
+            - Comprehensive security hardening implementation
+            - Automated security scanning and monitoring
+            - Enhanced documentation and architecture
+            - UI/UX improvements and theming
+            - Code quality and testing enhancements
+
+            ### Release Information
+            - **Version**: ${{ steps.release-info.outputs.version }}
+            - **Commit**: ${{ steps.release-info.outputs.git_sha }}
+            - **Channel**: ${{ steps.release-info.outputs.release_channel }}
+          draft: false
+          prerelease: false

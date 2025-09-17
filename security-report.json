@@ -1,0 +1,123 @@
+{
+  "generatedAt": "2025-09-16T04:54:21.941Z",
+  "projectName": "CouncilWorks - Asset Lifecycle Intelligence Platform",
+  "version": "0.2.0",
+  "overallScore": 0,
+  "findings": [
+    {
+      "category": "SQL Injection",
+      "severity": "high",
+      "title": "Raw SQL query detected",
+      "description": "Raw SQL queries detected - ensure proper parameterization",
+      "file": "app/api/assets/spatial/route.ts",
+      "recommendation": "Use Prisma ORM methods or ensure proper parameterization of raw queries",
+      "status": "open"
+    },
+    {
+      "category": "XSS",
+      "severity": "medium",
+      "title": "Dangerous HTML rendering",
+      "description": "dangerouslySetInnerHTML detected - ensure content is sanitized",
+      "file": "app/layout.tsx",
+      "recommendation": "Sanitize HTML content or use safer alternatives",
+      "status": "open"
+    },
+    {
+      "category": "XSS",
+      "severity": "medium",
+      "title": "Dangerous HTML rendering",
+      "description": "dangerouslySetInnerHTML detected - ensure content is sanitized",
+      "file": "app/page.tsx",
+      "recommendation": "Sanitize HTML content or use safer alternatives",
+      "status": "open"
+    },
+    {
+      "category": "SQL Injection",
+      "severity": "high",
+      "title": "Raw SQL query detected",
+      "description": "Raw SQL queries detected - ensure proper parameterization",
+      "file": "lib/migration/migration-service.ts",
+      "recommendation": "Use Prisma ORM methods or ensure proper parameterization of raw queries",
+      "status": "open"
+    },
+    {
+      "category": "SQL Injection",
+      "severity": "high",
+      "title": "Raw SQL query detected",
+      "description": "Raw SQL queries detected - ensure proper parameterization",
+      "file": "lib/rls.ts",
+      "recommendation": "Use Prisma ORM methods or ensure proper parameterization of raw queries",
+      "status": "open"
+    },
+    {
+      "category": "SQL Injection",
+      "severity": "high",
+      "title": "Raw SQL query detected",
+      "description": "Raw SQL queries detected - ensure proper parameterization",
+      "file": "scripts/generate-security-report.ts",
+      "recommendation": "Use Prisma ORM methods or ensure proper parameterization of raw queries",
+      "status": "open"
+    },
+    {
+      "category": "XSS",
+      "severity": "medium",
+      "title": "Dangerous HTML rendering",
+      "description": "dangerouslySetInnerHTML detected - ensure content is sanitized",
+      "file": "scripts/generate-security-report.ts",
+      "recommendation": "Sanitize HTML content or use safer alternatives",
+      "status": "open"
+    },
+    {
+      "category": "Authentication",
+      "severity": "high",
+      "title": "Potential authentication bypass",
+      "description": "Code contains authentication bypass logic",
+      "file": "scripts/generate-security-report.ts",
+      "recommendation": "Review authentication logic for security implications",
+      "status": "open"
+    },
+    {
+      "category": "SQL Injection",
+      "severity": "high",
+      "title": "Raw SQL query detected",
+      "description": "Raw SQL queries detected - ensure proper parameterization",
+      "file": "scripts/test-postgis.ts",
+      "recommendation": "Use Prisma ORM methods or ensure proper parameterization of raw queries",
+      "status": "open"
+    },
+    {
+      "category": "Configuration",
+      "severity": "medium",
+      "title": "Security headers not configured",
+      "description": "Next.js security headers not explicitly configured",
+      "file": "next.config.ts",
+      "recommendation": "Configure security headers in Next.js configuration",
+      "status": "open"
+    },
+    {
+      "category": "Configuration",
+      "severity": "medium",
+      "title": "CORS not explicitly configured",
+      "description": "CORS policy not explicitly configured in middleware",
+      "file": "middleware.ts",
+      "recommendation": "Configure CORS policy for API endpoints",
+      "status": "open"
+    }
+  ],
+  "summary": {
+    "total": 11,
+    "critical": 0,
+    "high": 6,
+    "medium": 5,
+    "low": 0
+  },
+  "recommendations": [
+    "Implement automated security scanning in CI/CD pipeline",
+    "Regular dependency updates and vulnerability scanning",
+    "Code review process for security-sensitive changes",
+    "Security training for development team",
+    "Regular penetration testing",
+    "Implement security monitoring and alerting",
+    "Maintain security documentation and incident response procedures"
+  ]
+}

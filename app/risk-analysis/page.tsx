@@ -1,6 +1,6 @@
 "use client";
 
-import { ProtectedRoute } from "@/components/auth/protected-route";
+import AppLayout from "@/components/layout/app-layout";
 import { RiskDashboard } from "@/components/rcm/risk-dashboard";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
@@ -18,18 +18,14 @@ import {
  */
 export default function RiskAnalysisPage() {
   return (
-    <ProtectedRoute>
-      <div className="container mx-auto py-8 px-4">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground">Risk Analysis</h1>
-          <p className="text-muted-foreground">
-            Comprehensive risk assessment and prioritization for proactive asset management
-          </p>
-        </div>
-
+    <AppLayout
+      requiredRoles={['ADMIN', 'MANAGER', 'EXEC']}
+      title="Risk Analysis"
+      description="Comprehensive risk assessment and prioritization for proactive asset management"
+    >
+      <div className="space-y-6">
         {/* Key Metrics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Card>
             <CardContent className="pt-6">
               <div className="flex items-center">
@@ -83,7 +79,7 @@ export default function RiskAnalysisPage() {
         <RiskDashboard />
 
         {/* Information Card */}
-        <Card className="mt-8">
+        <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Activity className="h-5 w-5" />
@@ -162,6 +158,6 @@ export default function RiskAnalysisPage() {
           </CardContent>
         </Card>
       </div>
-    </ProtectedRoute>
+    </AppLayout>
   );
 }
