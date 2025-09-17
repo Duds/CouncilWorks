@@ -1,4 +1,4 @@
-const CACHE_NAME = 'aegrid-v1.0.0';
+const CACHE_NAME = 'aegrid-v0.3.0';
 const OFFLINE_URL = '/offline';
 
 // Assets to cache for offline use
@@ -10,23 +10,24 @@ const STATIC_ASSETS = [
   '/mobile/inspections',
   '/manifest.json',
   '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png'
+  '/icons/icon-512x512.png',
 ];
 
 // API endpoints to cache
 const API_CACHE_PATTERNS = [
   '/api/assets',
   '/api/rcm-templates',
-  '/api/maintenance/schedule'
+  '/api/maintenance/schedule',
 ];
 
 // Install event - cache static assets
-self.addEventListener('install', (event) => {
+self.addEventListener('install', event => {
   console.log('Service Worker installing...');
-  
+
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => {
+    caches
+      .open(CACHE_NAME)
+      .then(cache => {
         console.log('Caching static assets');
         return cache.addAll(STATIC_ASSETS);
       })
@@ -34,21 +35,22 @@ self.addEventListener('install', (event) => {
         console.log('Service Worker installed successfully');
         return self.skipWaiting();
       })
-      .catch((error) => {
+      .catch(error => {
         console.error('Service Worker installation failed:', error);
       })
   );
 });
 
 // Activate event - clean up old caches
-self.addEventListener('activate', (event) => {
+self.addEventListener('activate', event => {
   console.log('Service Worker activating...');
-  
+
   event.waitUntil(
-    caches.keys()
-      .then((cacheNames) => {
+    caches
+      .keys()
+      .then(cacheNames => {
         return Promise.all(
-          cacheNames.map((cacheName) => {
+          cacheNames.map(cacheName => {
             if (cacheName !== CACHE_NAME) {
               console.log('Deleting old cache:', cacheName);
               return caches.delete(cacheName);
@@ -64,7 +66,7 @@ self.addEventListener('activate', (event) => {
 });
 
 // Fetch event - serve from cache when offline
-self.addEventListener('fetch', (event) => {
+self.addEventListener('fetch', event => {
   const { request } = event;
   const url = new URL(request.url);
 
@@ -72,37 +74,35 @@ self.addEventListener('fetch', (event) => {
   if (url.pathname.startsWith('/api/')) {
     event.respondWith(
       fetch(request)
-        .then((response) => {
+        .then(response => {
           // Cache successful API responses
           if (response.ok && shouldCacheAPI(url.pathname)) {
             const responseClone = response.clone();
-            caches.open(CACHE_NAME)
-              .then((cache) => {
-                cache.put(request, responseClone);
-              });
+            caches.open(CACHE_NAME).then(cache => {
+              cache.put(request, responseClone);
+            });
           }
           return response;
         })
         .catch(() => {
           // Serve from cache when offline
-          return caches.match(request)
-            .then((response) => {
-              if (response) {
-                return response;
+          return caches.match(request).then(response => {
+            if (response) {
+              return response;
+            }
+            // Return offline response for API calls
+            return new Response(
+              JSON.stringify({
+                error: 'Offline',
+                message: 'This request is not available offline',
+              }),
+              {
+                status: 503,
+                statusText: 'Service Unavailable',
+                headers: { 'Content-Type': 'application/json' },
               }
-              // Return offline response for API calls
-              return new Response(
-                JSON.stringify({ 
-                  error: 'Offline', 
-                  message: 'This request is not available offline' 
-                }),
-                {
-                  status: 503,
-                  statusText: 'Service Unavailable',
-                  headers: { 'Content-Type': 'application/json' }
-                }
-              );
-            });
+            );
+          });
         })
     );
     return;
@@ -111,49 +111,46 @@ self.addEventListener('fetch', (event) => {
   // Handle navigation requests
   if (request.mode === 'navigate') {
     event.respondWith(
-      fetch(request)
-        .catch(() => {
-          return caches.match(OFFLINE_URL);
-        })
+      fetch(request).catch(() => {
+        return caches.match(OFFLINE_URL);
+      })
     );
     return;
   }
 
   // Handle other requests
   event.respondWith(
-    caches.match(request)
-      .then((response) => {
-        if (response) {
+    caches.match(request).then(response => {
+      if (response) {
+        return response;
+      }
+
+      return fetch(request)
+        .then(response => {
+          // Cache static assets
+          if (shouldCacheAsset(url.pathname)) {
+            const responseClone = response.clone();
+            caches.open(CACHE_NAME).then(cache => {
+              cache.put(request, responseClone);
+            });
+          }
           return response;
-        }
-        
-        return fetch(request)
-          .then((response) => {
-            // Cache static assets
-            if (shouldCacheAsset(url.pathname)) {
-              const responseClone = response.clone();
-              caches.open(CACHE_NAME)
-                .then((cache) => {
-                  cache.put(request, responseClone);
-                });
-            }
-            return response;
-          })
-          .catch(() => {
-            // Return offline page for navigation requests
-            if (request.mode === 'navigate') {
-              return caches.match(OFFLINE_URL);
-            }
-            throw new Error('Network error');
-          });
-      })
+        })
+        .catch(() => {
+          // Return offline page for navigation requests
+          if (request.mode === 'navigate') {
+            return caches.match(OFFLINE_URL);
+          }
+          throw new Error('Network error');
+        });
+    })
   );
 });
 
 // Background sync for offline data
-self.addEventListener('sync', (event) => {
+self.addEventListener('sync', event => {
   console.log('Background sync triggered:', event.tag);
-  
+
   if (event.tag === 'inspection-sync') {
     event.waitUntil(syncInspections());
   } else if (event.tag === 'asset-sync') {
@@ -162,9 +159,9 @@ self.addEventListener('sync', (event) => {
 });
 
 // Push notifications for maintenance reminders
-self.addEventListener('push', (event) => {
+self.addEventListener('push', event => {
   console.log('Push notification received');
-  
+
   const options = {
     body: event.data ? event.data.text() : 'New maintenance task available',
     icon: '/icons/icon-192x192.png',
@@ -172,20 +169,20 @@ self.addEventListener('push', (event) => {
     vibrate: [100, 50, 100],
     data: {
       dateOfArrival: Date.now(),
-      primaryKey: 1
+      primaryKey: 1,
     },
     actions: [
       {
         action: 'explore',
         title: 'View Details',
-        icon: '/icons/checkmark.png'
+        icon: '/icons/checkmark.png',
       },
       {
         action: 'close',
         title: 'Close',
-        icon: '/icons/xmark.png'
-      }
-    ]
+        icon: '/icons/xmark.png',
+      },
+    ],
   };
 
   event.waitUntil(
@@ -194,15 +191,13 @@ self.addEventListener('push', (event) => {
 });
 
 // Handle notification clicks
-self.addEventListener('notificationclick', (event) => {
+self.addEventListener('notificationclick', event => {
   console.log('Notification clicked:', event.action);
-  
+
   event.notification.close();
 
   if (event.action === 'explore') {
-    event.waitUntil(
-      clients.openWindow('/mobile/maintenance')
-    );
+    event.waitUntil(clients.openWindow('/mobile/maintenance'));
   }
 });
 
@@ -229,10 +224,10 @@ function shouldCacheAsset(pathname) {
 async function syncInspections() {
   try {
     console.log('Syncing offline inspections...');
-    
+
     // Get offline inspections from IndexedDB
     const offlineInspections = await getOfflineData('inspections');
-    
+
     for (const inspection of offlineInspections) {
       if (inspection.syncStatus === 'pending') {
         try {
@@ -241,14 +236,14 @@ async function syncInspections() {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify(inspection.data)
+            body: JSON.stringify(inspection.data),
           });
 
           if (response.ok) {
             // Mark as synced
             await updateOfflineData('inspections', inspection.id, {
               syncStatus: 'synced',
-              syncedAt: new Date().toISOString()
+              syncedAt: new Date().toISOString(),
             });
           }
         } catch (error) {
@@ -264,10 +259,10 @@ async function syncInspections() {
 async function syncAssets() {
   try {
     console.log('Syncing offline assets...');
-    
+
     // Get offline asset updates from IndexedDB
     const offlineAssets = await getOfflineData('assets');
-    
+
     for (const asset of offlineAssets) {
       if (asset.syncStatus === 'pending') {
         try {
@@ -276,14 +271,14 @@ async function syncAssets() {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify(asset.data)
+            body: JSON.stringify(asset.data),
           });
 
           if (response.ok) {
             // Mark as synced
             await updateOfflineData('assets', asset.id, {
               syncStatus: 'synced',
-              syncedAt: new Date().toISOString()
+              syncedAt: new Date().toISOString(),
             });
           }
         } catch (error) {
@@ -297,7 +292,7 @@ async function syncAssets() {
 }
 
 // IndexedDB helper functions (simplified)
-async function getOfflineData(storeName) {
+async function getOfflineData(_storeName) {
   // This would interact with IndexedDB
   // For now, return empty array
   return [];

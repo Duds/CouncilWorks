@@ -25,6 +25,10 @@
   --surface: #F5F7F6; /* light neutral grey tuned to Aegrid greens */
   --surface-foreground: var(--nocturn);
 
+  /* Card tokens */
+  --card: var(--background);
+  --card-foreground: var(--foreground);
+
   --primary: var(--jade);
   --primary-foreground: var(--white);
 
@@ -53,7 +57,7 @@
   --neutral: var(--tea);
   --neutral-foreground: var(--nocturn);
 
-  --border: var(--spruce);
+  --border: var(--grey-3); /* Light grey border matching sidebar separators */
 
   /* Shadow tokens */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
@@ -73,6 +77,10 @@
   /* Dark counterpart for surface */
   --surface: #0F2F2E;
   --surface-foreground: var(--tea);
+
+  /* Card tokens */
+  --card: var(--background);
+  --card-foreground: var(--foreground);
 
   --primary: var(--spring);
   --primary-foreground: var(--nocturn);
@@ -102,7 +110,7 @@
   --neutral: var(--nocturn);
   --neutral-foreground: var(--tea);
 
-  --border: var(--lake);
+  --border: #1A3A3A; /* Subtle dark teal complementary to sidebar separators */
 
   /* Shadow tokens */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);

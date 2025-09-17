@@ -7,7 +7,6 @@ import React from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
 import { 
   TrendingUp, 
   TrendingDown, 
@@ -249,7 +248,7 @@ export function DataCard({ card, data, loading }: CardComponentProps) {
       <CardContent>
         <div className="space-y-3">
           {rows.map((row: any, index: number) => (
-            <Card key={index} className="border border-border">
+            <Card key={index}>
               <CardContent className="p-3">
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
@@ -279,8 +278,8 @@ export function DataCard({ card, data, loading }: CardComponentProps) {
  * Action Card Component
  * Displays quick action buttons
  */
-export function ActionCard({ card, data, loading, onAction }: CardComponentProps) {
-  const config = card.config;
+export function ActionCard({ card, data: _data, loading, onAction }: CardComponentProps) {
+  const _config = card.config;
 
   if (loading) {
     return (

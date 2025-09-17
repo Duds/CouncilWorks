@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useMemo, useCallback } from "react";
 import dynamic from "next/dynamic";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -32,6 +32,131 @@ const TileLayer = dynamic(() => import("react-leaflet").then((mod) => mod.TileLa
 const Marker = dynamic(() => import("react-leaflet").then((mod) => mod.Marker), { ssr: false });
 const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), { ssr: false });
 const MarkerClusterGroup = dynamic(() => import("react-leaflet").then((mod) => mod.MarkerClusterGroup), { ssr: false });
+
+// Separate map component to prevent re-initialization
+const LeafletMap = dynamic(() => Promise.resolve(function LeafletMapComponent({ 
+  center, 
+  zoom, 
+  assets, 
+  onAssetSelect 
+}: {
+  center: [number, number];
+  zoom: number;
+  assets: Asset[];
+  onAssetSelect?: (asset: Asset) => void;
+}) {
+  return (
+    <MapContainer
+      key="stable-asset-map"
+      center={center}
+      zoom={zoom}
+      className="h-full w-full rounded-lg"
+    >
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      />
+      
+      <MarkerClusterGroup>
+        {assets.map((asset) => {
+          const { IconComponent, color } = getAssetIcon(asset);
+          return (
+            <Marker
+              key={asset.id}
+              position={[asset.latitude!, asset.longitude!]}
+              eventHandlers={{
+                click: () => onAssetSelect?.(asset),
+              }}
+            >
+              <Popup>
+                <div className="p-2 min-w-[200px]">
+                  <div className="flex items-center gap-2 mb-2">
+                    <IconComponent className="h-5 w-5" style={{ color }} />
+                    <div>
+                      <h4 className="font-semibold text-sm">{asset.name}</h4>
+                      <p className="text-xs text-gray-600">{asset.assetNumber}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-1 mb-3">
+                    <Badge variant={getStatusBadgeVariant(asset.status)} className="text-xs">
+                      {asset.status.replace("_", " ")}
+                    </Badge>
+                    <Badge variant={getConditionBadgeVariant(asset.condition)} className="text-xs ml-1">
+                      {asset.condition}
+                    </Badge>
+                    <Badge variant="outline" className="text-xs ml-1">
+                      {asset.priority}
+                    </Badge>
+                  </div>
+                  
+                  {asset.address && (
+                    <p className="text-xs text-gray-600 mb-2">
+                      📍 {asset.address}
+                      {asset.suburb && `, ${asset.suburb}`}
+                      {asset.postcode && ` ${asset.postcode}`}
+                    </p>
+                  )}
+                  
+                  <div className="flex gap-2">
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="text-xs h-6 px-2"
+                      onClick={() => onAssetSelect?.(asset)}
+                    >
+                      View Details
+                    </Button>
+                  </div>
+                </div>
+              </Popup>
+            </Marker>
+          );
+        })}
+      </MarkerClusterGroup>
+    </MapContainer>
+  );
+}), { ssr: false });
+
+// Helper functions moved outside component
+const getAssetIcon = (asset: Asset) => {
+  const iconMap: Record<string, { component: any; color: string }> = {
+    'building': { component: Building2, color: '#3B82F6' },
+    'road': { component: Road, color: '#6B7280' },
+    'tree': { component: TreePine, color: '#10B981' },
+    'book': { component: BookOpen, color: '#8B5CF6' },
+    'activity': { component: Activity, color: '#F59E0B' },
+    'traffic': { component: TrafficCone, color: '#EF4444' },
+    'water': { component: Droplets, color: '#06B6D4' },
+    'electrical': { component: Zap, color: '#F59E0B' },
+  };
+
+  const icon = iconMap[asset.assetType.toLowerCase()] || { component: MapPin, color: '#6B7280' };
+  return {
+    IconComponent: icon.component,
+    color: icon.color,
+  };
+};
+
+const getStatusBadgeVariant = (status: string) => {
+  switch (status.toLowerCase()) {
+    case 'active': return 'default';
+    case 'inactive': return 'secondary';
+    case 'maintenance': return 'destructive';
+    default: return 'outline';
+  }
+};
+
+const getConditionBadgeVariant = (condition: string) => {
+  switch (condition.toLowerCase()) {
+    case 'excellent': return 'default';
+    case 'good': return 'default';
+    case 'fair': return 'secondary';
+    case 'poor': return 'destructive';
+    case 'critical': return 'destructive';
+    default: return 'outline';
+  }
+};
 
 interface Asset {
   id: string;
@@ -78,7 +203,7 @@ export function AssetMap({
     priority: "",
     hasLocation: true,
   });
-
+  const [mapKey] = useState(() => `map-${Math.random().toString(36).substr(2, 9)}`);
   // Filter assets that have location data
   const assetsWithLocation = assets.filter(asset => 
     asset.latitude && asset.longitude &&
@@ -102,124 +227,81 @@ export function AssetMap({
   const priorities = [...new Set(assetsWithLocation.map(a => a.priority))];
 
   // Default map center (Sydney, Australia)
-  const defaultCenter: [number, number] = [-33.8688, 151.2093];
+  const mapCenter: [number, number] = [-33.8688, 151.2093];
   const defaultZoom = 10;
 
-  // Get map center from selected asset or use default
-  const mapCenter = selectedAsset && selectedAsset.latitude && selectedAsset.longitude
-    ? [selectedAsset.latitude, selectedAsset.longitude] as [number, number]
-    : defaultCenter;
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2" />
+          <p className="text-muted-foreground">Loading map...</p>
+        </div>
+      </div>
+    );
+  }
 
-  // Get asset icon based on type and condition
-  const getAssetIcon = (asset: Asset) => {
-    const condition = asset.condition.toLowerCase();
-    const type = asset.assetType.toLowerCase();
-    
-    // Color based on condition
-    let color = "#3b82f6"; // default blue
-    if (condition === "critical") color = "#ef4444"; // red
-    else if (condition === "poor") color = "#f59e0b"; // orange
-    else if (condition === "fair") color = "#eab308"; // yellow
-    else if (condition === "good" || condition === "excellent") color = "#10b981"; // green
-
-    // Icon based on type
-    let IconComponent = MapPin; // default pin
-    if (type.includes("building")) IconComponent = Building2;
-    else if (type.includes("road") || type.includes("bridge")) IconComponent = Road;
-    else if (type.includes("park") || type.includes("playground")) IconComponent = TreePine;
-    else if (type.includes("library")) IconComponent = BookOpen;
-    else if (type.includes("sports")) IconComponent = Activity;
-    else if (type.includes("traffic") || type.includes("light")) IconComponent = TrafficCone;
-    else if (type.includes("water") || type.includes("drainage")) IconComponent = Droplets;
-    else if (type.includes("electrical")) IconComponent = Zap;
-
-    return { IconComponent, color };
-  };
-
-  // Get status badge variant
-  const getStatusBadgeVariant = (status: string) => {
-    switch (status) {
-      case "ACTIVE": return "default";
-      case "INACTIVE": return "secondary";
-      case "UNDER_CONSTRUCTION": return "outline";
-      case "UNDER_MAINTENANCE": return "destructive";
-      case "DECOMMISSIONED": return "secondary";
-      case "PLANNED": return "outline";
-      default: return "default";
-    }
-  };
-
-  // Get condition badge variant
-  const getConditionBadgeVariant = (condition: string) => {
-    switch (condition) {
-      case "EXCELLENT": return "default";
-      case "GOOD": return "default";
-      case "FAIR": return "outline";
-      case "POOR": return "destructive";
-      case "CRITICAL": return "destructive";
-      case "UNKNOWN": return "secondary";
-      default: return "default";
-    }
-  };
+  if (error) {
+    return (
+      <Alert variant="destructive">
+        <AlertCircle className="h-4 w-4" />
+        <AlertDescription>{error}</AlertDescription>
+      </Alert>
+    );
+  }
 
   return (
-    <div className="space-y-4">
-      {/* Map Controls */}
+    <div className="space-y-6">
+      {/* Filters */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Layers className="h-5 w-5" />
-            Asset Map
+            <Filter className="h-5 w-5" />
+            Map Filters
           </CardTitle>
           <CardDescription>
-            {filteredAssets.length} assets displayed on map
-            {assetsWithLocation.length !== assets.length && (
-              <span className="text-orange-600 ml-2">
-                ({assets.length - assetsWithLocation.length} assets without location data)
-              </span>
-            )}
+            Filter assets displayed on the map
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {/* Filters */}
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
             <div>
-              <label className="text-sm font-medium mb-1 block">Asset Type</label>
+              <label className="text-sm font-medium mb-2 block">Asset Type</label>
               <select
                 value={filters.assetType}
                 onChange={(e) => setFilters(prev => ({ ...prev, assetType: e.target.value }))}
-                className="w-full p-2 border rounded-md text-sm"
-                title="Filter by asset type"
+                className="w-full p-2 border rounded-md"
+                aria-label="Filter by asset type"
               >
                 <option value="">All Types</option>
                 {assetTypes.map(type => (
-                  <option key={type} value={type}>{type.replace("_", " ")}</option>
+                  <option key={type} value={type}>{type}</option>
                 ))}
               </select>
             </div>
             
             <div>
-              <label className="text-sm font-medium mb-1 block">Status</label>
+              <label className="text-sm font-medium mb-2 block">Status</label>
               <select
                 value={filters.status}
                 onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
-                className="w-full p-2 border rounded-md text-sm"
-                title="Filter by asset status"
+                className="w-full p-2 border rounded-md"
+                aria-label="Filter by status"
               >
                 <option value="">All Statuses</option>
                 {statuses.map(status => (
-                  <option key={status} value={status}>{status.replace("_", " ")}</option>
+                  <option key={status} value={status}>{status}</option>
                 ))}
               </select>
             </div>
             
             <div>
-              <label className="text-sm font-medium mb-1 block">Condition</label>
+              <label className="text-sm font-medium mb-2 block">Condition</label>
               <select
                 value={filters.condition}
                 onChange={(e) => setFilters(prev => ({ ...prev, condition: e.target.value }))}
-                className="w-full p-2 border rounded-md text-sm"
-                title="Filter by asset condition"
+                className="w-full p-2 border rounded-md"
+                aria-label="Filter by condition"
               >
                 <option value="">All Conditions</option>
                 {conditions.map(condition => (
@@ -229,12 +311,12 @@ export function AssetMap({
             </div>
             
             <div>
-              <label className="text-sm font-medium mb-1 block">Priority</label>
+              <label className="text-sm font-medium mb-2 block">Priority</label>
               <select
                 value={filters.priority}
                 onChange={(e) => setFilters(prev => ({ ...prev, priority: e.target.value }))}
-                className="w-full p-2 border rounded-md text-sm"
-                title="Filter by asset priority"
+                className="w-full p-2 border rounded-md"
+                aria-label="Filter by priority"
               >
                 <option value="">All Priorities</option>
                 {priorities.map(priority => (
@@ -242,131 +324,61 @@ export function AssetMap({
                 ))}
               </select>
             </div>
-            
-            <div className="flex items-end">
-              <Button
-                variant="outline"
-                onClick={() => setFilters({
-                  assetType: "",
-                  status: "",
-                  condition: "",
-                  priority: "",
-                  hasLocation: true,
-                })}
-                className="w-full"
-              >
-                Clear Filters
-              </Button>
-            </div>
           </div>
-
-          {/* Map Legend */}
-          <div className="flex flex-wrap gap-4 mb-4 p-3 bg-gray-50 rounded-lg">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-              <span className="text-sm">Good/Excellent</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-              <span className="text-sm">Fair</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
-              <span className="text-sm">Poor</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-              <span className="text-sm">Critical</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-              <span className="text-sm">Unknown</span>
-            </div>
+          
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setFilters({
+                assetType: "",
+                status: "",
+                condition: "",
+                priority: "",
+                hasLocation: true,
+              })}
+              className="w-full"
+            >
+              Clear Filters
+            </Button>
           </div>
         </CardContent>
       </Card>
+
+      {/* Map Legend */}
+      <div className="flex flex-wrap gap-4 mb-4 p-3 bg-gray-50 rounded-lg">
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+          <span className="text-sm">Good/Excellent</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+          <span className="text-sm">Fair</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
+          <span className="text-sm">Poor</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+          <span className="text-sm">Critical</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+          <span className="text-sm">Unknown</span>
+        </div>
+      </div>
 
       {/* Map Container */}
       <Card>
         <CardContent className="p-0">
           <div className="relative" style={{ height }}>
-            {typeof window !== "undefined" && (
-              <MapContainer
-                center={mapCenter}
-                zoom={defaultZoom}
-                className="h-full w-full rounded-lg"
-              >
-                <TileLayer
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                />
-                
-                <MarkerClusterGroup>
-                  {filteredAssets.map((asset) => {
-                    const { IconComponent, color } = getAssetIcon(asset);
-                    return (
-                      <Marker
-                        key={asset.id}
-                        position={[asset.latitude!, asset.longitude!]}
-                        eventHandlers={{
-                          click: () => onAssetSelect?.(asset),
-                        }}
-                      >
-                        <Popup>
-                          <div className="p-2 min-w-[200px]">
-                            <div className="flex items-center gap-2 mb-2">
-                              <IconComponent className="h-5 w-5" style={{ color }} />
-                              <div>
-                                <h4 className="font-semibold text-sm">{asset.name}</h4>
-                                <p className="text-xs text-gray-600">{asset.assetNumber}</p>
-                              </div>
-                            </div>
-                            
-                            <div className="space-y-1 mb-3">
-                              <Badge variant={getStatusBadgeVariant(asset.status)} className="text-xs">
-                                {asset.status.replace("_", " ")}
-                              </Badge>
-                              <Badge variant={getConditionBadgeVariant(asset.condition)} className="text-xs ml-1">
-                                {asset.condition}
-                              </Badge>
-                              <Badge variant="outline" className="text-xs ml-1">
-                                {asset.priority}
-                              </Badge>
-                            </div>
-                            
-                            {asset.address && (
-                              <p className="text-xs text-gray-600 mb-2">
-                                📍 {asset.address}
-                                {asset.suburb && `, ${asset.suburb}`}
-                                {asset.postcode && ` ${asset.postcode}`}
-                              </p>
-                            )}
-                            
-                            <div className="flex gap-2">
-                              <Button
-                                size="sm"
-                                variant="outline"
-                                onClick={() => window.open(`/assets/${asset.id}`, '_blank')}
-                                className="text-xs"
-                              >
-                                View Details
-                              </Button>
-                              <Button
-                                size="sm"
-                                onClick={() => onAssetSelect?.(asset)}
-                                className="text-xs"
-                              >
-                                Select
-                              </Button>
-                            </div>
-                          </div>
-                        </Popup>
-                      </Marker>
-                    );
-                  })}
-                </MarkerClusterGroup>
-              </MapContainer>
-            )}
+            <LeafletMap
+              key={mapKey}
+              center={mapCenter}
+              zoom={defaultZoom}
+              assets={filteredAssets}
+              onAssetSelect={onAssetSelect}
+            />
           </div>
         </CardContent>
       </Card>
@@ -382,21 +394,21 @@ export function AssetMap({
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-green-600">
-                  {filteredAssets.filter(a => a.condition === "GOOD" || a.condition === "EXCELLENT").length}
+                  {filteredAssets.filter(a => a.condition === 'excellent' || a.condition === 'good').length}
                 </div>
                 <div className="text-sm text-muted-foreground">Good Condition</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-orange-600">
-                  {filteredAssets.filter(a => a.condition === "FAIR" || a.condition === "POOR").length}
+                <div className="text-2xl font-bold text-yellow-600">
+                  {filteredAssets.filter(a => a.condition === 'fair').length}
                 </div>
-                <div className="text-sm text-muted-foreground">Needs Attention</div>
+                <div className="text-sm text-muted-foreground">Fair Condition</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-red-600">
-                  {filteredAssets.filter(a => a.condition === "CRITICAL").length}
+                  {filteredAssets.filter(a => a.condition === 'poor' || a.condition === 'critical').length}
                 </div>
-                <div className="text-sm text-muted-foreground">Critical</div>
+                <div className="text-sm text-muted-foreground">Poor Condition</div>
               </div>
             </div>
           </CardContent>

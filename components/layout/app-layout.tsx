@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
 import { ProtectedRoute } from '@/components/auth/protected-route';
-import JourneySidebar from '@/components/dashboard/JourneySidebar';
-import Header from '@/components/dashboard/Header';
+import { AppSidebar } from '@/components/app-sidebar';
+import { SiteHeader } from '@/components/site-header';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 
 interface AppLayoutProps {
@@ -13,12 +13,13 @@ interface AppLayoutProps {
 }
 
 /**
- * Shared app layout for authenticated pages following shadcn/ui standards
+ * Shared app layout for authenticated pages following shadcn/ui dashboard pattern
  * Provides sidebar navigation and header for all app pages using SidebarProvider
+ * Header and content form one cohesive card with light grey background around edges
  * @component AppLayout
  * @example
  * ```tsx
- * <AppLayout requiredRoles={['ADMIN', 'MANAGER']} title="Settings" description="Manage your account settings">
+ * <AppLayout requiredRoles={['ADMIN', 'MANAGER']} title="Settings">
  *   <SettingsPage />
  * </AppLayout>
  * ```
@@ -27,26 +28,36 @@ interface AppLayoutProps {
  * - Keyboard navigation: Tab through sidebar and main content
  * - Screen reader: Announces current page and navigation state
  */
-export default function AppLayout({ children, requiredRoles, title, description }: AppLayoutProps) {
+export default function AppLayout({
+  children,
+  requiredRoles,
+  title,
+  description: _description,
+}: AppLayoutProps) {
   return (
     <ProtectedRoute requiredRoles={requiredRoles}>
       <SidebarProvider
-        defaultOpen={true}
+        className="flex min-h-screen w-full"
         style={
           {
-            "--sidebar-width": "18rem",
-            "--sidebar-width-icon": "3rem",
+            '--sidebar-width': '16rem',
+            '--sidebar-width-icon': '3rem',
+            '--header-height': '4rem',
           } as React.CSSProperties
         }
       >
-        <JourneySidebar variant="sidebar" collapsible="icon" />
-        <SidebarInset>
-          <Header title={title} description={description} />
-          <main className="flex-1 p-6">
-            <div className="w-full">
-              {children}
+        <AppSidebar variant="sidebar" />
+        <SidebarInset className="flex-1 min-w-0 bg-sidebar">
+            <div className="bg-white rounded-lg shadow-md m-2 border-0" style={{ backgroundColor: 'var(--white)' }}>
+            <SiteHeader title={title} />
+            <div className="flex flex-1 flex-col">
+              <div className="@container/main flex flex-1 flex-col gap-2">
+                <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6 px-4 lg:px-6">
+                  {children}
+                </div>
+              </div>
             </div>
-          </main>
+          </div>
         </SidebarInset>
       </SidebarProvider>
     </ProtectedRoute>
