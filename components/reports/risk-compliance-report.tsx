@@ -287,12 +287,6 @@ export function RiskComplianceReport() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">Risk & Compliance Report</h1>
-          <p className="text-muted-foreground">
-            Comprehensive risk assessment and regulatory compliance tracking
-          </p>
-        </div>
         <div className="flex items-center gap-3">
           <Select value={timeRange} onValueChange={setTimeRange}>
             <SelectTrigger className="w-32">

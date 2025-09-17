@@ -1,6 +1,6 @@
 "use client";
 
-import { ProtectedRoute } from "@/components/auth/protected-route";
+import AppLayout from "@/components/layout/app-layout";
 import { MaintenanceCalendar } from "@/components/maintenance/maintenance-calendar";
 import { AutoWorkOrderGenerator } from "@/components/maintenance/auto-work-order-generator";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -21,18 +21,14 @@ import {
  */
 export default function MaintenancePage() {
   return (
-    <ProtectedRoute>
-      <div className="container mx-auto py-8 px-4">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground">Maintenance Scheduling</h1>
-          <p className="text-muted-foreground">
-            Plan, schedule, and manage maintenance activities across all assets
-          </p>
-        </div>
-
+    <AppLayout
+      requiredRoles={['ADMIN', 'MANAGER', 'SUPERVISOR']}
+      title="Maintenance Scheduling"
+      description="Plan, schedule, and manage maintenance activities across all assets"
+    >
+      <div className="space-y-6">
         {/* Key Metrics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Card>
             <CardContent className="pt-6">
               <div className="flex items-center">
@@ -89,7 +85,7 @@ export default function MaintenancePage() {
         <MaintenanceCalendar />
 
         {/* Information Card */}
-        <Card className="mt-8">
+        <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Wrench className="h-5 w-5" />
@@ -167,6 +163,6 @@ export default function MaintenancePage() {
           </CardContent>
         </Card>
       </div>
-    </ProtectedRoute>
+    </AppLayout>
   );
 }

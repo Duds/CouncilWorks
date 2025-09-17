@@ -29,7 +29,7 @@ import {
 import {
   TrendingUp,
   TrendingDown,
-  TrendingFlat,
+  Minus,
   Building2,
   AlertTriangle,
   CheckCircle,
@@ -219,7 +219,7 @@ export function AssetConditionTrending() {
     switch (trend) {
       case 'improving': return <TrendingUp className="h-4 w-4 text-green-600" />;
       case 'declining': return <TrendingDown className="h-4 w-4 text-red-600" />;
-      case 'stable': return <TrendingFlat className="h-4 w-4 text-gray-600" />;
+      case 'stable': return <Minus className="h-4 w-4 text-gray-600" />;
       default: return null;
     }
   };

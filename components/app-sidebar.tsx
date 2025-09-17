@@ -49,20 +49,25 @@ import {
   SidebarSeparator,
 } from '@/components/ui/sidebar';
 
+interface AppSidebarProps {
+  variant?: 'sidebar' | 'floating' | 'inset';
+  collapsible?: 'offcanvas' | 'icon' | 'none';
+}
+
 /**
- * Journey-centric sidebar navigation implementing The Aegrid Rules
+ * App sidebar navigation implementing The Aegrid Rules
  * Organises navigation around user workflows and asset purposes rather than features
- * @component JourneySidebar
+ * @component AppSidebar
  * @example
  * ```tsx
- * <JourneySidebar />
+ * <AppSidebar variant="inset" />
  * ```
  * @accessibility
  * - ARIA roles: navigation, menu
  * - Keyboard navigation: Tab through workflow groups and menu items
  * - Screen reader: Announces workflow groups and current selection
  */
-export default function JourneySidebar() {
+export function AppSidebar({ variant = 'sidebar', collapsible = 'icon' }: AppSidebarProps) {
   const { data: session } = useSession();
 
   const handleLogout = async () => {
@@ -313,7 +318,7 @@ export default function JourneySidebar() {
   const userRole = session?.user?.role;
 
   return (
-    <Sidebar variant="sidebar" collapsible="icon">
+    <Sidebar variant={variant} collapsible={collapsible} className="!border-0">
       <SidebarHeader>
         <Link
           href="/dashboard"
@@ -326,7 +331,7 @@ export default function JourneySidebar() {
             height={20}
             className="h-5 w-auto"
           />
-          <span className="text-xl">Aegrid</span>
+          <span className="text-xl group-data-[collapsible=icon]:hidden">Aegrid</span>
         </Link>
       </SidebarHeader>
 
@@ -363,7 +368,7 @@ export default function JourneySidebar() {
                             {item.badge && (
                               <Badge
                                 variant="secondary"
-                                className="ml-2 text-xs shrink-0"
+                                className="ml-2 text-xs shrink-0 group-data-[collapsible=icon]:hidden"
                               >
                                 {item.badge}
                               </Badge>
@@ -549,7 +554,7 @@ export default function JourneySidebar() {
                             {item.badge && (
                               <Badge
                                 variant="secondary"
-                                className="ml-2 text-xs shrink-0"
+                                className="ml-2 text-xs shrink-0 group-data-[collapsible=icon]:hidden"
                               >
                                 {item.badge}
                               </Badge>
@@ -592,7 +597,7 @@ export default function JourneySidebar() {
       </SidebarContent>
 
       <SidebarFooter>
-        <div className="p-2">
+        <div className="p-2 group-data-[collapsible=icon]:hidden">
           <ReleaseBadge />
         </div>
         <div className="flex items-center gap-3 p-2 min-w-0">
