@@ -1,4 +1,5 @@
 import type React from "react";
+import { Card, CardContent } from "@/components/ui/card";
 import { TrendingUp, TrendingDown } from "lucide-react";
 
 interface Props {
@@ -18,7 +19,8 @@ export default function StatsCard({ title, value, change, icon, variant = "prima
   };
 
   return (
-    <div className={`rounded-xl p-6 relative overflow-hidden ${variantClasses[variant]}`}>
+    <Card className={`${variantClasses[variant]} border-0`}>
+      <CardContent className="p-6 relative overflow-hidden">
       <div className="flex items-start justify-between">
         <div>
           <h3 className="text-sm font-medium opacity-90 mb-2">{title}</h3>
@@ -35,6 +37,7 @@ export default function StatsCard({ title, value, change, icon, variant = "prima
         </div>
         {icon && <div className="opacity-20 text-4xl">{icon}</div>}
       </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

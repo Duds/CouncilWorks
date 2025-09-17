@@ -1,13 +1,11 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { Role } from "@prisma/client";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { 
   Users, 
   Shield, 
   Activity, 
-  TrendingUp,
-  AlertTriangle,
   CheckCircle
 } from "lucide-react";
 import { getRoleDisplayName } from "@/lib/audit";
@@ -35,7 +33,7 @@ export default async function AdminDashboard() {
   const [
     totalUsers,
     activeUsers,
-    inactiveUsers,
+    _inactiveUsers,
     recentLogins,
     auditLogsToday,
     roleDistribution,
@@ -121,12 +119,12 @@ export default async function AdminDashboard() {
       {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat) => (
-          <div
+          <Card
             key={stat.name}
-            className="bg-card border border-border rounded-lg p-6"
             role="region"
             aria-label={`${stat.name} statistics`}
           >
+            <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">
@@ -152,15 +150,17 @@ export default async function AdminDashboard() {
                 from last week
               </span>
             </div>
-          </div>
+            </CardContent>
+          </Card>
         ))}
       </div>
 
       {/* Role Distribution */}
-      <div className="bg-card border border-border rounded-lg p-6">
-        <h2 className="text-lg font-semibold text-foreground mb-4">
-          User Role Distribution
-        </h2>
+      <Card>
+        <CardHeader>
+          <CardTitle>User Role Distribution</CardTitle>
+        </CardHeader>
+        <CardContent>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {roleDistribution.map((role) => (
             <div
@@ -176,13 +176,15 @@ export default async function AdminDashboard() {
             </div>
           ))}
         </div>
-      </div>
+        </CardContent>
+      </Card>
 
       {/* Quick Actions */}
-      <div className="bg-card border border-border rounded-lg p-6">
-        <h2 className="text-lg font-semibold text-foreground mb-4">
-          Quick Actions
-        </h2>
+      <Card>
+        <CardHeader>
+          <CardTitle>Quick Actions</CardTitle>
+        </CardHeader>
+        <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <a
             href="/admin/users"
@@ -221,13 +223,15 @@ export default async function AdminDashboard() {
             </div>
           </a>
         </div>
-      </div>
+        </CardContent>
+      </Card>
 
       {/* System Status */}
-      <div className="bg-card border border-border rounded-lg p-6">
-        <h2 className="text-lg font-semibold text-foreground mb-4">
-          System Status
-        </h2>
+      <Card>
+        <CardHeader>
+          <CardTitle>System Status</CardTitle>
+        </CardHeader>
+        <CardContent>
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-sm text-muted-foreground">Database</span>
@@ -251,7 +255,8 @@ export default async function AdminDashboard() {
             </div>
           </div>
         </div>
-      </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

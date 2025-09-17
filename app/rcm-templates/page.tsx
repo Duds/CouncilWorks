@@ -1,6 +1,6 @@
 "use client";
 
-import { ProtectedRoute } from "@/components/auth/protected-route";
+import AppLayout from "@/components/layout/app-layout";
 import { RCMTemplateManager } from "@/components/rcm/rcm-template-manager";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -19,18 +19,14 @@ import {
  */
 export default function RCMTemplatesPage() {
   return (
-    <ProtectedRoute>
-      <div className="container mx-auto py-8 px-4">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground">RCM Templates</h1>
-          <p className="text-muted-foreground">
-            Manage Reliability Centered Maintenance templates for proactive asset management
-          </p>
-        </div>
-
+    <AppLayout
+      requiredRoles={['ADMIN', 'MANAGER', 'SUPERVISOR']}
+      title="RCM Templates"
+      description="Manage Reliability Centered Maintenance templates for proactive asset management"
+    >
+      <div className="space-y-6">
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Card>
             <CardContent className="pt-6">
               <div className="flex items-center">
@@ -84,7 +80,7 @@ export default function RCMTemplatesPage() {
         <RCMTemplateManager />
 
         {/* Information Card */}
-        <Card className="mt-8">
+        <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="h-5 w-5" />
@@ -151,6 +147,6 @@ export default function RCMTemplatesPage() {
           </CardContent>
         </Card>
       </div>
-    </ProtectedRoute>
+    </AppLayout>
   );
 }
