@@ -1,0 +1,65 @@
+/* Additional styles for Aegrid Rules page */
+.prose ul {
+  @apply list-disc list-inside space-y-2;
+}
+
+.prose ol {
+  @apply list-decimal list-inside space-y-2;
+}
+
+.prose li {
+  @apply text-muted-foreground;
+}
+
+.prose li p {
+  @apply mb-2;
+}
+
+.prose li:last-child p {
+  @apply mb-0;
+}
+
+/* Ensure proper list structure */
+.prose li:not(:first-child) {
+  @apply mt-2;
+}
+
+/* Table of contents styling */
+.prose h2 {
+  @apply scroll-mt-20;
+}
+
+.prose h3 {
+  @apply scroll-mt-20;
+}
+
+.prose h4 {
+  @apply scroll-mt-20;
+}
+
+/* Code block styling */
+.prose pre {
+  @apply bg-muted border border-border;
+}
+
+.prose code:not(pre code) {
+  @apply bg-muted px-1.5 py-0.5 rounded text-sm font-mono;
+}
+
+/* Blockquote styling */
+.prose blockquote {
+  @apply border-l-4 border-primary bg-muted rounded-r-md;
+}
+
+/* Table styling */
+.prose table {
+  @apply border border-border rounded-lg overflow-hidden;
+}
+
+.prose th {
+  @apply bg-muted font-semibold;
+}
+
+.prose td, .prose th {
+  @apply border border-border px-4 py-2;
+}

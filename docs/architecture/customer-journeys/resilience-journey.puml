@@ -1,0 +1,55 @@
+@startuml Resilience Journey - Emergency Response & Signal Detection
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam activity {
+  BackgroundColor #FFCDD2
+  BorderColor #D32F2F
+  FontColor #000000
+}
+skinparam activityDiamond {
+  BackgroundColor #FFF3E0
+  BorderColor #F57C00
+  FontColor #000000
+}
+
+title Resilience Journey - Emergency Response & Signal Detection
+
+start
+
+:Emergency signal detected;
+note right: **Signal Types:**\n- Infrastructure failure\n- Weather event\n- Community emergency\n- Critical control breach\n- Service disruption
+
+:Signal validation & assessment;
+note right: **Signal Assessment:**\n- Severity evaluation\n- Impact analysis\n- Resource requirements\n- Response time estimation\n- Stakeholder notification
+
+:Emergency response activation;
+note right: **Response Activation:**\n- Emergency protocols triggered\n- Response teams mobilized\n- Resource allocation initiated\n- Communication systems activated\n- Stakeholder notifications sent
+
+:Resource mobilization;
+note right: **Resource Mobilization:**\n- Emergency crews deployed\n- Equipment & materials allocated\n- Vendor contractors activated\n- Surge capacity utilized\n- Margin resources deployed
+
+:Service restoration efforts;
+note right: **Service Restoration:**\n- Critical services prioritized\n- Infrastructure repairs initiated\n- Community safety ensured\n- Service continuity maintained\n- Quality standards maintained
+
+:Progress monitoring & communication;
+note right: **Progress Monitoring:**\n- Real-time status updates\n- Stakeholder communication\n- Progress tracking\n- Timeline adjustments\n- Quality verification
+
+if (Service fully restored?) then (yes)
+  :Service restoration completion;
+  :Post-incident assessment;
+  :Lessons learned documentation;
+  :Resilience improvement planning;
+  :Community feedback collection;
+else (no)
+  :Continues restoration efforts;
+  :Updates progress status;
+  :Adjusts resource allocation;
+  :Communicates timeline changes;
+endif
+
+:Resilience improvement implementation;
+note right: **Resilience Improvement:**\n- Process improvements\n- System enhancements\n- Training updates\n- Resource optimization\n- Prevention measures
+
+stop
+
+@enduml

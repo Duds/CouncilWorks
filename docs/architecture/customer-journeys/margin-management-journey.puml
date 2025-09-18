@@ -1,0 +1,52 @@
+@startuml Margin Management Journey - Antifragile Operations
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam activity {
+  BackgroundColor #E8F5E8
+  BorderColor #388E3C
+  FontColor #000000
+}
+skinparam activityDiamond {
+  BackgroundColor #FFF3E0
+  BorderColor #F57C00
+  FontColor #000000
+}
+
+title Margin Management Journey - Antifragile Operations
+
+start
+
+:Margin monitoring & assessment;
+note right: **Margin Types:**\n- Time margin (buffer time)\n- Capacity margin (redundancy)\n- Material margin (spares)\n- Financial margin (contingency)\n- Surge capacity agreements
+
+:Margin utilization tracking;
+note right: **Utilization Tracking:**\n- Margin usage rates\n- Effectiveness measurement\n- Cost-benefit analysis\n- Performance under stress\n- Learning from deployments
+
+:Stress event detection;
+note right: **Stress Events:**\n- High demand periods\n- Resource constraints\n- Emergency situations\n- System failures\n- External disruptions
+
+if (Margin deployment required?) then (yes)
+  :Margin activation;
+  :Resource allocation;
+  :Capacity expansion;
+  :Emergency protocols;
+  :Stakeholder communication;
+else (no)
+  :Continues margin monitoring;
+endif
+
+:Performance under stress;
+note right: **Stress Performance:**\n- System resilience testing\n- Margin effectiveness\n- Adaptation capability\n- Learning rate measurement\n- Improvement identification
+
+:Post-stress analysis;
+note right: **Post-Stress Analysis:**\n- Performance evaluation\n- Margin effectiveness\n- Lessons learned\n- Improvement opportunities\n- System enhancement
+
+:Margin optimization;
+note right: **Margin Optimization:**\n- Efficiency improvements\n- Cost optimization\n- Performance enhancement\n- Resource allocation refinement\n- System resilience building
+
+:Antifragile capability building;
+note right: **Antifragile Building:**\n- System strengthening\n- Learning integration\n- Adaptation improvement\n- Resilience enhancement\n- Future preparedness
+
+stop
+
+@enduml

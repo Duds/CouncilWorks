@@ -1,0 +1,18 @@
+{
+  "plantuml.render": "Local",
+  "plantuml.server": "http://localhost:8080",
+  "plantuml.jar": "/home/dale-rogers/Projects/active/personal/CouncilWorks/plantuml.jar",
+  "plantuml.java": "java",
+  "plantuml.commandArgs": "-DPLANTUML_LIMIT_SIZE=8192",
+  "plantuml.jarArgs": "",
+  "plantuml.diagramsRoot": "docs",
+  "plantuml.exportOutDir": "docs/diagrams/out",
+  "plantuml.fileExtensions": [".wsd", ".pu", ".puml", ".plantuml", ".iuml"],
+  "plantuml.exportFormat": "png",
+  "plantuml.exportSubFolder": true,
+  "plantuml.exportIncludeFolderHeirarchy": true,
+  "plantuml.exportConcurrency": 4,
+  "plantuml.exportMapFile": false,
+  "plantuml.previewAutoUpdate": true,
+  "plantuml.previewAutoUpdateDelay": 1000
+}
