@@ -16,6 +16,7 @@ enum Role {
   CONTRACTOR
   PARTNER
   CITIZEN
+  MAINTENANCE_PLANNER
 }
 
 model Organisation {
