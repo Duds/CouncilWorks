@@ -71,7 +71,7 @@ const LeafletMap = dynamic(() => Promise.resolve(function LeafletMapComponent({
               <Popup>
                 <div className="p-2 min-w-[200px]">
                   <div className="flex items-center gap-2 mb-2">
-                    <IconComponent className="h-5 w-5" style={{ color }} />
+                    <IconComponent className="h-5 w-5" style={{ '--icon-color': color } as React.CSSProperties} />
                     <div>
                       <h4 className="font-semibold text-sm">{asset.name}</h4>
                       <p className="text-xs text-gray-600">{asset.assetNumber}</p>
@@ -371,7 +371,7 @@ export function AssetMap({
       {/* Map Container */}
       <Card>
         <CardContent className="p-0">
-          <div className="relative" style={{ height }}>
+          <div className="relative map-container" style={{ '--map-height': height } as React.CSSProperties}>
             <LeafletMap
               key={mapKey}
               center={mapCenter}

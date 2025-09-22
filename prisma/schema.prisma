@@ -50,6 +50,14 @@ model Organisation {
   workOrderEvidence WorkOrderEvidence[]
   inspectionPhotos  InspectionPhoto[]
   
+  // Manager Dashboard data
+  managerMetrics        ManagerMetrics[]
+  marginStatuses        MarginStatus[]
+  riskTrends           RiskTrend[]
+  demoScenarios        DemoScenario[]
+  citizenDashboardStats CitizenDashboardStats[]
+  assetIntelligenceData AssetIntelligenceData[]
+  
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
@@ -318,6 +326,7 @@ model Asset {
   emergencyResponses   EmergencyResponse[]
   complianceRecords    ComplianceRecord[]
   escalationEvents     EscalationEvent[]
+  riskTrends           RiskTrend[]
   
   // Audit fields
   createdBy      String?
@@ -1095,4 +1104,136 @@ enum InvitationStatus {
   ACCEPTED
   EXPIRED
   CANCELLED
+}
+
+// Manager Dashboard Models
+model ManagerMetrics {
+  id             String   @id @default(cuid())
+  organisationId String
+  organisation   Organisation @relation(fields: [organisationId], references: [id])
+  
+  // Resilience metrics
+  overallScore       Float
+  criticalControls   Int
+  marginUtilization  Float
+  riskTrend         Float
+  signalResponse    Float
+  antifragileScore  Float
+  
+  // Time range for these metrics
+  timeRange         String
+  calculatedAt      DateTime @default(now())
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([organisationId])
+  @@index([calculatedAt])
+}
+
+model MarginStatus {
+  id             String   @id @default(cuid())
+  organisationId String
+  organisation   Organisation @relation(fields: [organisationId], references: [id])
+  
+  // Margin data
+  marginType         String
+  utilizationRate    Float
+  availableCapacity  Float
+  totalCapacity      Float
+  status             String
+  lastUpdated        DateTime @default(now())
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  
+  @@index([organisationId])
+  @@index([marginType])
+  @@index([status])
+}
+
+model RiskTrend {
+  id             String   @id @default(cuid())
+  organisationId String
+  organisation   Organisation @relation(fields: [organisationId], references: [id])
+  
+  // Risk trend data
+  assetId           String?
+  asset             Asset? @relation(fields: [assetId], references: [id])
+  riskScore         Float
+  trend             String // 'up', 'down', 'stable'
+  period            String
+  calculatedAt      DateTime @default(now())
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([organisationId])
+  @@index([assetId])
+  @@index([calculatedAt])
+}
+
+model DemoScenario {
+  id             String   @id @default(cuid())
+  organisationId String
+  organisation   Organisation @relation(fields: [organisationId], references: [id])
+  
+  // Demo scenario data
+  scenarioType   String
+  title          String
+  description    String
+  narrative      String
+  metrics        Json
+  keyStories     Json
+  isActive       Boolean @default(false)
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  
+  @@index([organisationId])
+  @@index([scenarioType])
+  @@index([isActive])
+}
+
+model CitizenDashboardStats {
+  id             String   @id @default(cuid())
+  organisationId String
+  organisation   Organisation @relation(fields: [organisationId], references: [id])
+  
+  // Citizen dashboard statistics
+  totalReportsCompleted    Int
+  reportsThisMonth         Int
+  averageResolutionTime    Float
+  satisfactionRate         Float
+  totalPeopleHelped        Int
+  costSavings              Float
+  period                   String
+  calculatedAt             DateTime @default(now())
+  
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+  
+  @@index([organisationId])
+  @@index([calculatedAt])
+}
+
+model AssetIntelligenceData {
+  id             String   @id @default(cuid())
+  organisationId String
+  organisation   Organisation @relation(fields: [organisationId], references: [id])
+  
+  // Asset intelligence metrics
+  totalFunctions     Int
+  totalAssets        Int
+  totalValue         Float
+  criticalAssets     Int
+  categoryBreakdown  Json
+  period             String
+  calculatedAt       DateTime @default(now())
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  
+  @@index([organisationId])
+  @@index([calculatedAt])
 }

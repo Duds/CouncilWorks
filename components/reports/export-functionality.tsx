@@ -43,6 +43,7 @@ import {
   Map,
 } from "lucide-react";
 import { toast } from "sonner";
+import { getDynamicWidthStyle } from "@/lib/dynamic-styles";
 
 interface ExportOption {
   id: string;
@@ -443,8 +444,8 @@ export function ExportFunctionality() {
                       <div className="flex items-center gap-2">
                         <div className="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
                           <div 
-                            className="h-full bg-blue-600 transition-all duration-300"
-                            style={{ width: `${job.progress}%` }}
+                            className="h-full bg-blue-600 transition-all duration-300 progress-bar"
+                            style={getDynamicWidthStyle(job.progress)}
                           />
                         </div>
                         <span className="text-sm text-muted-foreground">

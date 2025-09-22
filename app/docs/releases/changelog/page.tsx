@@ -1,9 +1,7 @@
-"use client";
-
-import AppLayout from '@/components/layout/app-layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, Tag, CheckCircle, Plus, AlertTriangle, Wrench } from 'lucide-react';
+import DocsLayout from '@/components/layout/docs-layout';
 
 /**
  * Changelog Page
@@ -20,8 +18,8 @@ import { Calendar, Tag, CheckCircle, Plus, AlertTriangle, Wrench } from 'lucide-
  */
 export default function ChangelogPage() {
   return (
-    <AppLayout requiredRoles={['ADMIN', 'EXEC', 'MANAGER', 'SUPERVISOR', 'CREW']}>
-      <div className="max-w-4xl mx-auto space-y-6">
+    <DocsLayout>
+      <div className="max-w-4xl mx-auto space-y-6 px-6 py-16 sm:py-20">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-2">Changelog</h1>
           <p className="text-muted-foreground">
@@ -187,6 +185,6 @@ export default function ChangelogPage() {
           </CardContent>
         </Card>
       </div>
-    </AppLayout>
+    </DocsLayout>
   );
 }

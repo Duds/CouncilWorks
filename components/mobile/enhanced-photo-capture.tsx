@@ -25,6 +25,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { toast } from "sonner";
+import { getDynamicTransformStyle } from "@/lib/dynamic-styles";
 
 interface PhotoMetadata {
   id: string;
@@ -306,10 +307,8 @@ export function EnhancedPhotoCapture({
                 <img
                   src={photo.dataUrl}
                   alt={`Inspection photo ${photo.id}`}
-                  className="w-full h-32 object-cover"
-                  style={{
-                    transform: `rotate(${photo.rotation}deg)`,
-                  }}
+                  className="w-full h-32 object-cover dynamic-transform"
+                  style={getDynamicTransformStyle(`rotate(${photo.rotation}deg)`)}
                 />
                 
                 {/* Photo Overlay */}
@@ -452,10 +451,8 @@ function PhotoEditor({
             <img
               src={editedPhoto.dataUrl}
               alt="Photo preview"
-              className="w-full h-48 object-cover rounded-lg"
-              style={{
-                transform: `rotate(${editedPhoto.rotation}deg)`,
-              }}
+              className="w-full h-48 object-cover rounded-lg dynamic-transform"
+              style={getDynamicTransformStyle(`rotate(${editedPhoto.rotation}deg)`)}
             />
             
             {/* Rotation Controls */}
@@ -472,7 +469,7 @@ function PhotoEditor({
                 variant="secondary"
                 onClick={() => onRotate(photo.id, 'right')}
               >
-                <RotateCw className="h-4 w-4" style={{ transform: 'scaleX(-1)' }} />
+                <RotateCw className="h-4 w-4 dynamic-transform" style={getDynamicTransformStyle('scaleX(-1)')} />
               </Button>
             </div>
           </div>

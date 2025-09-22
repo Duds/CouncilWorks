@@ -35,6 +35,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { toast } from "sonner";
+import { getDynamicBorderStyle } from "@/lib/dynamic-styles";
 
 interface RiskStats {
   total: number;
@@ -417,7 +418,7 @@ export function RiskDashboard() {
         <CardContent>
           <div className="space-y-4">
             {riskData.assets.slice(0, 20).map((asset) => (
-              <Card key={asset.id} className="border-l-4" style={{ borderLeftColor: getRiskBarColor(asset.overallRiskScore) }}>
+              <Card key={asset.id} className="border-l-4 dynamic-border" style={getDynamicBorderStyle(getRiskBarColor(asset.overallRiskScore))}>
                 <CardContent className="pt-4">
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex-1">

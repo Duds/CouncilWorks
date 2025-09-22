@@ -135,14 +135,47 @@ export const authOptions: NextAuthOptions = {
   },
   debug: false, // Set to true only when debugging auth issues
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, account, trigger }) {
+      // Handle OAuth account logging
+      if (account) {
+        console.log("OAuth account:", account.provider, account.type);
+      }
+
+      // Initial sign in - user data is available
       if (user) {
         token.id = user.id;
         token.role = user.role;
         token.organisationId = user.organisationId;
         token.organisation = user.organisation;
         token.mfaRequired = (user as any).mfaRequired || false;
+        token.image = user.image;
+        token.name = user.name;
+        token.email = user.email;
+        return token;
       }
+
+      // Token refresh - fetch fresh user data from database
+      if (token.id && trigger === "update") {
+        try {
+          const dbUser = await prisma.user.findUnique({
+            where: { id: token.id as string },
+            include: { organisation: true },
+          });
+
+          if (dbUser) {
+            token.role = dbUser.role;
+            token.organisationId = dbUser.organisationId;
+            token.organisation = dbUser.organisation;
+            token.mfaRequired = dbUser.mfaEnabled;
+            token.image = dbUser.image;
+            token.name = dbUser.name;
+            token.email = dbUser.email;
+          }
+        } catch (error) {
+          console.error("Error refreshing user data:", error);
+        }
+      }
+
       return token;
     },
     async session({ session, token }) {
@@ -157,22 +190,6 @@ export const authOptions: NextAuthOptions = {
         session.user.email = token.email as string;
       }
       return session;
-    },
-    async jwt({ token, user, account }) {
-      if (account) {
-        console.log("OAuth account:", account.provider, account.type);
-      }
-      if (user) {
-        token.id = user.id;
-        token.role = user.role;
-        token.organisationId = user.organisationId;
-        token.organisation = user.organisation;
-        token.mfaRequired = (user as any).mfaRequired || false;
-        token.image = user.image;
-        token.name = user.name;
-        token.email = user.email;
-      }
-      return token;
     },
     async signIn({ user, account, profile }) {
       if (user?.id) {

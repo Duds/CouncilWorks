@@ -27,6 +27,7 @@ import {
   AlertCircle,
   Layers,
   Zap,
+  Lock,
 } from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
 import ReleaseBadge from '@/components/release-badge';
@@ -119,6 +120,27 @@ export function AppSidebar({ variant = 'sidebar', collapsible = 'icon' }: AppSid
       roles: ['ADMIN', 'MANAGER', 'EXEC'],
     },
     {
+      href: '/manager',
+      icon: Activity,
+      label: 'Manager Dashboard',
+      description: 'Resilience metrics & critical controls',
+      roles: ['ADMIN', 'MANAGER', 'EXEC'],
+    },
+    {
+      href: '/margin-management',
+      icon: Clock,
+      label: 'Margin Management',
+      description: 'Operational slack & antifragile systems',
+      roles: ['ADMIN', 'MANAGER', 'EXEC'],
+    },
+    {
+      href: '/demo',
+      icon: Play,
+      label: 'Demo Showcase',
+      description: 'Comprehensive Aegrid Rules demonstration',
+      roles: ['ADMIN', 'MANAGER', 'EXEC'],
+    },
+    {
       href: '/reports/asset-condition',
       icon: TrendingUp,
       label: 'Asset Performance',
@@ -152,6 +174,20 @@ export function AppSidebar({ variant = 'sidebar', collapsible = 'icon' }: AppSid
       label: 'Asset Register',
       description: 'Function-based organisation',
       badge: '1,247',
+      roles: ['ADMIN', 'MANAGER', 'SUPERVISOR'],
+    },
+    {
+      href: '/critical-controls',
+      icon: Target,
+      label: 'Critical Controls',
+      description: 'High-consequence asset monitoring',
+      roles: ['ADMIN', 'MANAGER', 'EXEC'],
+    },
+    {
+      href: '/risk-planner',
+      icon: Activity,
+      label: 'Risk Planner',
+      description: 'Dynamic risk-driven scheduling',
       roles: ['ADMIN', 'MANAGER', 'SUPERVISOR'],
     },
     {
@@ -288,6 +324,13 @@ export function AppSidebar({ variant = 'sidebar', collapsible = 'icon' }: AppSid
       label: 'Audit Logs',
       description: 'System monitoring',
       roles: ['ADMIN'],
+    },
+    {
+      href: '/security',
+      icon: Lock,
+      label: 'Security Dashboard',
+      description: 'Essential Eight compliance',
+      roles: ['ADMIN', 'MANAGER'],
     },
     {
       href: '/admin/notifications',

@@ -48,7 +48,7 @@ export default function AppLayout({
       >
         <AppSidebar variant="sidebar" />
         <SidebarInset className="flex-1 min-w-0 bg-sidebar">
-            <div className="bg-white rounded-lg shadow-md m-2 border-0" style={{ backgroundColor: 'var(--white)' }}>
+            <div className="bg-white rounded-lg shadow-md m-2 border-0">
             <SiteHeader title={title} />
             <div className="flex flex-1 flex-col">
               <div className="@container/main flex flex-1 flex-col gap-2">

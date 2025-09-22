@@ -17,6 +17,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { getDynamicBackgroundStyle, getDynamicTextStyle } from '@/lib/dynamic-styles';
 import { 
   Globe, 
   FileText, 
@@ -264,7 +265,8 @@ export default function SectorNeutralDashboard() {
             </div>
             <Badge 
               variant="outline" 
-              style={{ backgroundColor: getSectorColor(currentSector), color: 'white' }}
+              className="dynamic-bg dynamic-text"
+              style={{ ...getDynamicBackgroundStyle(getSectorColor(currentSector)), ...getDynamicTextStyle('white') }}
             >
               {currentSector}
             </Badge>
@@ -320,7 +322,8 @@ export default function SectorNeutralDashboard() {
                           <Badge 
                             key={sector} 
                             variant="secondary"
-                            style={{ backgroundColor: getSectorColor(sector) }}
+                            className="dynamic-bg"
+                            style={getDynamicBackgroundStyle(getSectorColor(sector))}
                           >
                             {sector}
                           </Badge>
@@ -368,7 +371,8 @@ export default function SectorNeutralDashboard() {
                         <span className="text-lg">{template.displayName}</span>
                         <Badge 
                           variant="outline"
-                          style={{ backgroundColor: getSectorColor(template.sector) }}
+                          className="dynamic-bg"
+                          style={getDynamicBackgroundStyle(getSectorColor(template.sector))}
                         >
                           {template.sector}
                         </Badge>
@@ -426,7 +430,8 @@ export default function SectorNeutralDashboard() {
                       <div className="flex items-center space-x-2 mt-2">
                         <Badge 
                           variant="outline"
-                          style={{ backgroundColor: getSectorColor(classification.sector) }}
+                          className="dynamic-bg"
+                          style={getDynamicBackgroundStyle(getSectorColor(classification.sector))}
                         >
                           {classification.sector}
                         </Badge>
@@ -482,7 +487,8 @@ export default function SectorNeutralDashboard() {
                         <span className="text-lg">{config.displayName}</span>
                         <Badge 
                           variant="outline"
-                          style={{ backgroundColor: getSectorColor(config.id) }}
+                          className="dynamic-bg"
+                          style={getDynamicBackgroundStyle(getSectorColor(config.id))}
                         >
                           {config.id}
                         </Badge>

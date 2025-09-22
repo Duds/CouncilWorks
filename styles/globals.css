@@ -37,3 +37,54 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  /* Progress bar with dynamic width using CSS custom properties */
+  .progress-bar[style*="--width"] {
+    width: calc(var(--width) * 1%);
+  }
+  
+  /* Radix Progress component with CSS custom properties */
+  [data-radix-progress-indicator][style*="--progress-value"] {
+    transform: translateX(calc(-100% + var(--progress-value) * 1%));
+  }
+  
+  /* Map container with dynamic height */
+  .map-container[style*="--map-height"] {
+    height: var(--map-height);
+  }
+  
+  /* Dynamic icon colors */
+  [style*="--icon-color"] {
+    color: var(--icon-color);
+  }
+  
+  /* Dynamic color utilities */
+  [style*="--dynamic-color"] {
+    color: var(--dynamic-color);
+  }
+  
+  [style*="--dynamic-bg"] {
+    background-color: var(--dynamic-bg);
+  }
+  
+  [style*="--dynamic-text"] {
+    color: var(--dynamic-text);
+  }
+  
+  [style*="--dynamic-border"] {
+    border-color: var(--dynamic-border);
+  }
+  
+  [style*="--dynamic-width"] {
+    width: var(--dynamic-width);
+  }
+  
+  [style*="--dynamic-height"] {
+    height: var(--dynamic-height);
+  }
+  
+  [style*="--dynamic-transform"] {
+    transform: var(--dynamic-transform);
+  }
+}

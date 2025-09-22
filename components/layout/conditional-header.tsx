@@ -30,14 +30,16 @@ export default function ConditionalHeader({
 }: ConditionalHeaderProps) {
   const pathname = usePathname();
 
-  // Show header on landing pages and citizen pages
+  // Show header on landing pages, citizen pages, documentation pages, and changelog
   const isPublicPage =
     pathname === '/' ||
     pathname.startsWith('/pricing') ||
     pathname.startsWith('/about') ||
     pathname.startsWith('/contact') ||
     pathname.startsWith('/features') ||
-    pathname.startsWith('/citizen');
+    pathname.startsWith('/citizen') ||
+    pathname.startsWith('/docs') ||
+    pathname === '/changelog';
 
   if (!isPublicPage) {
     return <>{children}</>;
