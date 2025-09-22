@@ -11,13 +11,17 @@ Aegrid transforms traditional asset management from reactive maintenance into pr
 - Node.js 20+
 - Docker
 - PostgreSQL (via Docker)
+- VS Code (recommended)
 
 ### Local Development Setup
 
 ```bash
 # Clone and setup
 git clone <repository-url>
-cd CouncilWorks
+cd Aegrid
+
+# Open in VS Code workspace
+code aegrid.code-workspace
 
 # Environment setup
 cp .env.example .env
@@ -32,9 +36,21 @@ npx prisma generate
 npx prisma migrate dev --name init
 npm run db:seed
 
-# Start development server
+# Start development server (or use VS Code task: Ctrl+Shift+P → "Tasks: Run Task" → "dev")
 npm run dev
 ```
+
+### VS Code Workspace
+
+This project includes a comprehensive VS Code workspace configuration:
+
+- **Workspace File**: `aegrid.code-workspace`
+- **Recommended Extensions**: Auto-installed for optimal development
+- **Debug Configurations**: Ready-to-use Next.js and Jest debugging
+- **Tasks**: Common development operations via Command Palette
+- **Settings**: Optimized for TypeScript, Tailwind CSS, and testing
+
+[Read the complete VS Code workspace guide →](docs/development/vscode-workspace.md)
 
 ### Health Check
 
@@ -85,7 +101,10 @@ Aegrid is built on four foundational rules that ensure resilient asset managemen
 ├── prisma/                 # Database schema and migrations
 ├── docs/                   # Documentation
 ├── scripts/                # Utility scripts
-└── public/                 # Static assets
+├── public/                 # Static assets
+├── .vscode/                # VS Code workspace configuration
+├── aegrid.code-workspace   # VS Code workspace file
+└── README.md               # This file
 ```
 
 ### Path Aliases
@@ -107,9 +126,17 @@ Aegrid is built on four foundational rules that ensure resilient asset managemen
 ### Asset Management
 
 - **Asset Register**: Comprehensive asset database with spatial capabilities
+- **Dynamic Asset Counts**: Real-time asset counts displayed in navigation
 - **Critical Control Mapping**: Connect assets to the critical controls they enable
 - **Risk-Based Maintenance**: Maintenance schedules driven by risk assessment
 - **Spatial Analysis**: PostGIS integration for geographic asset management
+
+### User Interface
+
+- **Collapsible Sidebar**: Responsive navigation with clean icon-only collapsed state
+- **Role-Based Navigation**: Dynamic sidebar content based on user permissions
+- **Real-Time Badges**: Live asset counts and status indicators
+- **Responsive Design**: Optimized for desktop and mobile workflows
 
 ### User Roles & Permissions
 

@@ -2,11 +2,59 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.1] - 2025-01-15
+
+### 🎨 **Sidebar Enhancement & Asset Management**
+
+#### **Sidebar Collapse Functionality**
+
+- **Fixed Collapse Mechanism**: Resolved sidebar collapse issues with proper CSS targeting
+- **Dynamic Width Management**: Sidebar now properly collapses from 320px to 48px
+- **Padding Optimization**: Removed excessive padding in collapsed state for clean icon view
+- **Icon Centering**: Icons are properly centered in collapsed sidebar
+- **Badge Hiding**: All badges are hidden in collapsed state for clean appearance
+
+#### **Dynamic Asset Badge**
+
+- **Database Integration**: Asset Register badge now shows real-time count from database
+- **Organization-Aware**: Badge displays count specific to user's organization
+- **API Endpoint**: New `/api/assets/count` endpoint for fetching asset counts
+- **Proper Formatting**: Asset count uses `toLocaleString()` for proper number formatting
+- **Authentication**: Secure API endpoint requiring valid user session
+
+#### **CSS Architecture Improvements**
+
+- **Parent-Child Targeting**: Fixed CSS selectors to properly target collapsed state
+- **Specificity Resolution**: Resolved CSS conflicts with proper selector hierarchy
+- **Responsive Design**: Sidebar adapts correctly to different screen sizes
+- **Performance**: Optimized CSS for better rendering performance
+
+#### **Technical Implementation**
+
+- **React State Management**: Added `useState` and `useEffect` for dynamic data fetching
+- **Error Handling**: Graceful handling of API failures and loading states
+- **Type Safety**: Proper TypeScript interfaces for sidebar components
+- **Code Quality**: No linting errors, clean implementation
+
+### 🔧 **Bug Fixes**
+
+- **Sidebar Collapse**: Fixed sidebar not collapsing properly due to CSS targeting issues
+- **Asset Badge**: Replaced hardcoded "1,247" with dynamic database-driven count
+- **CSS Conflicts**: Resolved conflicts between built-in sidebar classes and custom overrides
+- **Layout Issues**: Fixed content area not expanding properly when sidebar collapses
+
+### 📚 **Documentation Updates**
+
+- **Changelog**: Comprehensive documentation of sidebar improvements
+- **API Documentation**: New asset count endpoint documentation
+- **CSS Architecture**: Documented sidebar collapse implementation approach
+
 ## [0.2.0] - 2025-01-15
 
 ### 🎨 **Design System Standardization**
 
 #### **Icon Library Standardization**
+
 - **Lucide React**: Standardized on Lucide React as the exclusive icon library
 - **Radix Icons Migration**: Replaced all Radix UI icons with Lucide equivalents
 - **Emoji Icons Replacement**: Converted emoji icons to semantic Lucide icons in asset map
@@ -14,6 +62,7 @@ All notable changes to this project will be documented in this file.
 - **Performance Optimization**: Removed unused Radix icons dependency from package.json
 
 #### **Icon Standards**
+
 - **Consistent Sizing**: Standardized icon sizes (`h-4 w-4`, `h-5 w-5`, `h-6 w-6`, `h-8 w-8`)
 - **Semantic Colors**: Integration with design system color tokens
 - **Accessibility**: Proper ARIA labels and screen reader support
@@ -21,6 +70,7 @@ All notable changes to this project will be documented in this file.
 - **Documentation**: Comprehensive icon usage guidelines in theming framework
 
 #### **Design Documentation Updates**
+
 - **Theming Framework**: Added comprehensive icon system documentation
 - **Developer Brief**: Updated development standards with icon guidelines
 - **Migration Guide**: Documented icon mapping from previous libraries
@@ -29,8 +79,9 @@ All notable changes to this project will be documented in this file.
 ### 🎉 **Epic 6: Citizen Integration - FULLY COMPLETED**
 
 #### **Added**
+
 - **Citizen Reporting Portal**: Multi-step form with file uploads and anonymous reporting
-- **Snap Send Solve Integration**: Webhook processing and external report aggregation  
+- **Snap Send Solve Integration**: Webhook processing and external report aggregation
 - **Report Triage System**: Administrative dashboard for assignment and status management
 - **Citizen Notification System**: Multi-channel notifications with template management
 - **"You Said, We Did" Dashboard**: Public transparency with impact metrics and success stories
@@ -39,6 +90,7 @@ All notable changes to this project will be documented in this file.
 - **Administrative Workflows**: Staff assignment, priority management, and note tracking
 
 #### **Features**
+
 - **F6.1**: Citizen reporting portal with public access ✅
 - **F6.2**: Snap Send Solve API integration with webhook processing ✅
 - **F6.3**: Report triage and assignment workflows ✅
@@ -46,6 +98,7 @@ All notable changes to this project will be documented in this file.
 - **F6.5**: "You said, we did" public dashboard with impact metrics ✅
 
 #### **Technical Implementation**
+
 - **API Integration**: Snap Send Solve webhook endpoint with signature validation
 - **Report Management**: Comprehensive triage dashboard with filtering and assignment
 - **Notification System**: Template management with dynamic content variables
@@ -54,6 +107,7 @@ All notable changes to this project will be documented in this file.
 - **Multi-Source**: Aggregation from portal, Snap Send Solve, email, and phone sources
 
 #### **User Stories Completed**
+
 - **US6.1**: As a Citizen, I want to report issues easily so that I can help improve my community ✅
 - **US6.2**: As a Citizen, I want to track my report status so that I know it's being addressed ✅
 - **US6.3**: As a Supervisor, I want to receive citizen reports so that I can prioritise community issues ✅
@@ -61,11 +115,13 @@ All notable changes to this project will be documented in this file.
 - **US6.5**: As a Manager, I want to analyse citizen reports so that I can identify recurring issues ✅
 
 ### 🔧 **Release Automation Updates**
+
 - Updated release automation documentation with Aegrid branding
 - Updated release script with Aegrid project name and branding
 - Enhanced release management capabilities for future deployments
 
 ### 📊 **Project Status**
+
 - **Completed Epics**: 6/6 (100%) ✅
 - **Completed Features**: 37/39 (95%) ✅
 - **Completed User Stories**: 48/48 (100%) ✅
@@ -74,6 +130,7 @@ All notable changes to this project will be documented in this file.
 ---
 
 ## [Unreleased]
+
 - Initial documentation set and rules configured for Aegrid
 - Wired functional tokens into Tailwind + shadcn/ui theme mapping
 - Added shadcn/ui base components, theme provider and branding integration
@@ -85,6 +142,7 @@ All notable changes to this project will be documented in this file.
 - **12/09/2025**: ✅ Epic 2 Phase 1 (Database Schema & Core Infrastructure) COMPLETED
 
 ### Added
+
 - Settings: Comprehensive settings page (`/settings`) with Personal, Security, Notification, and Administrative sections
 - Settings: Tabbed profile management interface with Profile, Notifications, Security (MFA), and Password tabs
 - Settings: Role-based access control for administrative functions
@@ -107,16 +165,19 @@ All notable changes to this project will be documented in this file.
 - Navigation: Updated sidebar to link to dedicated settings page
 
 ### Changed
+
 - Dashboard: Removed administrative functions card from main dashboard
 - Profile: Enhanced profile management component with tabbed interface
 - Auth: Improved NextAuth.js configuration with conditional OAuth providers
 - Navigation: Settings link now points to dedicated settings page instead of placeholder
 
 ### Fixed
+
 - Auth: Resolved NextAuth.js CLIENT_FETCH_ERROR by making OAuth provider configuration conditional
 - Accessibility: Added proper ARIA attributes to select elements in profile management
 
 ### Technical Implementation (Epic 2 Phase 1)
+
 - Database: Created comprehensive asset management schema with 5 main models and relationships
 - Database: Implemented PostGIS spatial extension with Point geometry support for asset locations
 - Database: Added spatial indexing for performance optimization
@@ -136,7 +197,7 @@ All notable changes to this project will be documented in this file.
 - Dashboard: Added Crew Utilisation, Spare Parts Risk, Failure Modes Watchlist, GIS HotSpots
 - Dashboard: Moved Team Status beside Recent Activity (right column)
 - Docs: Added `docs/dashboard-ideas.md` to capture further RCM/CCT dashboard ideas
- - Sidebar: Added Help link under General group
+- Sidebar: Added Help link under General group
 - Dashboard: Implemented device detection for search shortcut display (⌘F on Apple devices, ^F on others) in `components/dashboard/Header.tsx`
 - Utils: Added `lib/device-detection.ts` with platform detection utilities for UI consistency
 - Testing: Added comprehensive tests for device detection functionality
@@ -145,6 +206,7 @@ All notable changes to this project will be documented in this file.
 - Documentation: Added comprehensive theming framework at `docs/design/theming-framework.md`
 
 ### Added
+
 - Outcome‑led landing page with revised hero, single primary CTA, and credibility strip
 - "How it works" section, condensed persona value, FAQs
 - Auto‑rotating demo carousel with placeholder product UI assets
@@ -160,14 +222,17 @@ All notable changes to this project will be documented in this file.
 - Authentication flow with proper redirect handling
 
 ## [0.2.0] - 10/09/2025
+
 - Added PostgreSQL MCP server integration guide `docs/integrations/postgres-mcp.md`
 - Added helper script `scripts/run-postgres-mcp.sh` to run the server with env connection string
 
 ## [0.1.1] - 10/09/2025
+
 - Design: Added shadcn/ui usage examples and semantic token mapping guidance in `docs/design/brand-guidelines.md`
 - Theming: Confirmed `styles/brand-tokens.css` functional tokens for light/dark and Tailwind `colors` mapping
 
 ## [0.1.0] - 10/09/2025
+
 - Scaffolded and populated architecture, development, security, database docs
 - Added backlog in `docs/TODO.md`
 - Added Cursor rules aligned to Aegrid

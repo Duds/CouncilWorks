@@ -75,6 +75,23 @@ Build the MVP of Aegrid - the Asset Lifecycle Intelligence Platform - focusing o
   3. `pnpm prisma migrate dev`
   4. `pnpm dev`
 
+## Recent Improvements (v0.3.1)
+
+### Sidebar Enhancement
+
+- **Collapse Functionality**: Fixed sidebar collapse mechanism with proper CSS targeting
+- **Dynamic Asset Badge**: Asset Register badge now shows real-time count from database
+- **API Integration**: New `/api/assets/count` endpoint for fetching organization-specific asset counts
+- **CSS Architecture**: Resolved CSS conflicts and improved responsive design
+- **Performance**: Optimized sidebar rendering and state management
+
+### Technical Implementation
+
+- **React Hooks**: Added `useState` and `useEffect` for dynamic data fetching
+- **Error Handling**: Graceful handling of API failures and loading states
+- **Type Safety**: Proper TypeScript interfaces for sidebar components
+- **Authentication**: Secure API endpoints requiring valid user sessions
+
 ## Coding Guidelines
 
 - Prefer shadcn/ui; Tailwind utilities; `rounded-full` for pill buttons; rainbow shadow for primary buttons [[memory:2528301]] [[memory:2528096]].
