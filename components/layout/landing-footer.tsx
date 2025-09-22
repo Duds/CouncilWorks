@@ -37,11 +37,11 @@ export default function LandingFooter() {
               <Link href={'/docs/aegrid-rules' as Route}>The Aegrid Rules</Link>
               <Link href={'/changelog' as Route}>Changelog</Link>
               <a
-                href="https://linkedin.com/in/dalerogers"
+                href="https://www.linkedin.com/company/aegrid/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Dale&apos;s LinkedIn
+                LinkedIn
               </a>
               <a href="mailto:support@aegrid.au">Support</a>
             </nav>
