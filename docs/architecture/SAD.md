@@ -8,26 +8,28 @@ Last updated: 10/09/2025
 
 ## 1. Introduction
 
-- **Purpose**: This document describes the architecture of **Aegrid**, the flagship product of GridWorks. It provides asset lifecycle intelligence, SLA/contractor tracking, and critical asset assurance.
-- **Scope**: Covers system goals, architecture overview, technology stack, integrations, deployment, and quality attributes, including **RCM-lite** and **Critical Control Theory (CCT)** integration.
+- **Purpose**: This document describes the architecture of **Aegrid**, the Asset Lifecycle Intelligence Platform. It provides resilient asset management following The Aegrid Rules, with signal-driven operations, margin management, and antifragile systems.
+- **Scope**: Covers system goals, architecture overview, technology stack, integrations, deployment, and quality attributes, including **The Aegrid Rules** implementation, **Critical Control Theory (CCT)**, and **Resilience-First Architecture**.
 - **Stakeholders**: Asset Managers, Works Supervisors, Fleet Coordinators, Council Executives, Councillors, Citizens, Contractors, IT Administrators.
 
 ## 2. Architectural Goals and Principles
 
-- Provide **proactive asset lifecycle management** tailored to councils.
-- Support **RCM-lite (Reliability-Centred Maintenance)** without engineering complexity.
+- Implement **The Aegrid Rules** for resilient asset management: Every Asset Has a Purpose, Risk Sets the Rhythm, Respond to the Real World, Operate with Margin.
+- Provide **resilience-first asset lifecycle management** with antifragile systems that improve under stress.
+- Support **signal-driven operations** with real-time risk assessment and adaptive response.
 - Embed **Critical Control Theory (CCT)** to guarantee execution of non-negotiable controls on critical assets, with escalation.
-- Ensure **integration** with ERP, GIS, and citizen reporting systems.
-- Enable **scalable, multi-tenant SaaS** hosting.
-- Maintain **security and compliance** with government standards.
-- Deliver **usability for field crews** (mobile-first, offline capable).
-- Facilitate **continuous improvement** (modular upgrades, pilot-to-product pipeline).
-- Focused, lightweight RCM‑lite engine for practicality and explainability.
-- Mobile-first PWA with offline capability and seamless sync.
-- Secure by default: RBAC, audit logging, least privilege, input validation (Zod).
-- Interoperable: Standards-based APIs, GIS via PostGIS/GeoJSON, ERP adapters.
-- Observability: structured logging, traces, metrics, health checks.
-- Regional alignment: Australian English, DD/MM/YYYY, 24-hour time, AUD, metric units, Australian time zones and public holidays.
+- Enable **margin management** with practical slack for absorbing shocks and enhancing resilience.
+- Ensure **integration** with ERP, GIS, and citizen reporting systems for comprehensive signal detection.
+- Enable **scalable, multi-tenant SaaS** hosting with resilience-focused architecture.
+- Maintain **security and compliance** with government standards and ISO requirements.
+- Deliver **usability for field crews** (mobile-first, offline capable) with resilience-aware interfaces.
+- Facilitate **continuous improvement** (modular upgrades, pilot-to-product pipeline) with antifragile design.
+- **Resilience-First Architecture**: Antifragile systems, signal detection, margin management, adaptive response.
+- **Mobile-first PWA** with offline capability, resilience-aware sync, and signal-driven updates.
+- **Secure by default**: RBAC, audit logging, least privilege, input validation (Zod), resilience monitoring.
+- **Interoperable**: Standards-based APIs, GIS via PostGIS/GeoJSON, ERP adapters, signal integration.
+- **Observability**: structured logging, traces, metrics, health checks, resilience monitoring.
+- **Regional alignment**: Australian English, DD/MM/YYYY, 24-hour time, AUD, metric units, Australian time zones and public holidays.
 
 ## 3. Context and Constraints
 
@@ -139,12 +141,14 @@ package "Aegrid Platform" {
 ## 6.1 Critical Assets & Controls View
 
 ### Data Model Additions
+
 - `Asset.criticality_level` (High, Medium, Low).
 - `CriticalControl.type` (Preventive, Reactive, Critical).
 - `WorkOrder.sla_id` → link to SLA contract.
 - `CriticalControl.status` (Compliant, Breach, Escalated).
 
 ### Enforcement Flow
+
 ```puml
 @startuml
 
@@ -160,10 +164,11 @@ package "Aegrid Platform" {
 ```
 
 ### Integration
-- RCM defines the maintenance strategy.  
-- CCT defines the non-negotiable tasks.  
-- SLA module ensures contractors deliver on time.  
-- Aegrid enforces compliance with escalation, alerts, and reports.  
+
+- RCM defines the maintenance strategy.
+- CCT defines the non-negotiable tasks.
+- SLA module ensures contractors deliver on time.
+- Aegrid enforces compliance with escalation, alerts, and reports.
 
 ## 7. Security Architecture
 
@@ -171,7 +176,7 @@ package "Aegrid Platform" {
 - **Authorisation**: RBAC (Admin, Manager, Supervisor, Crew, Exec, Citizen, Vendor). Critical control configuration restricted to Manager/Admin; execution visibility to Supervisor; vendor only sees linked controls where contracted.
 - **Data Protection**: AES-256 encryption at rest, TLS 1.3 in transit.
 - **Monitoring**: Intrusion detection (Wazuh/OSSEC), audit logs immutable.
- - MFA: Enforced for administrators and contractors/vendors.
+- MFA: Enforced for administrators and contractors/vendors.
 - Authentication: NextAuth.js with JWT sessions; configurable providers; session expiry and refresh.
 - Authorisation: Role-based (Admin, Manager, Supervisor, Crew, Exec, Citizen); hierarchical permissions; policy checks at API and UI; database RLS.
 - Secrets: Managed via environment variables/secret manager; never committed.
@@ -198,7 +203,7 @@ package "Aegrid Platform" {
 - Usability: WCAG 2.1 AA; keyboard navigation; offline-friendly flows; clear error messaging.
 - Observability: Trace > log > metric correlation; SLOs and alerting.
 - Maintainability: Modular, typed, documented, ADRs for decisions, tests.
- - Assurance: Critical controls tracked with near-real-time alerts and robust auditability for regulators.
+- Assurance: Critical controls tracked with near-real-time alerts and robust auditability for regulators.
 
 ## 9. Application Modules
 
@@ -209,7 +214,7 @@ package "Aegrid Platform" {
 - Reporting & Exports: risk/compliance dashboards; audit-ready packs.
 - Integrations: Citizen intake API, ERP sync, IoT signals.
 - SLA & SLM: Contract management, vendor portal, SLA definitions, timers, alerts, compliance dashboards, exports.
- - Critical Controls: Control configuration, asset mapping, enforcement engine, escalations, compliance dashboards.
+- Critical Controls: Control configuration, asset mapping, enforcement engine, escalations, compliance dashboards.
 
 ## 10. Deployment & Environments
 
@@ -226,7 +231,7 @@ package "Aegrid Platform" {
 ### 10.1 Development View
 
 - **Repositories**: Monorepo (pnpm workspaces or TurboRepo) for consistent dev practices.
-- **Branching Strategy**: GitFlow (feature/*, develop, main).
+- **Branching Strategy**: GitFlow (feature/\*, develop, main).
 - **Testing**: Unit (Jest/PyTest), Integration (Postman/Newman), E2E (Playwright).
 - **Infrastructure as Code**: Terraform or Pulumi for environment provisioning.
 - **Container Registry**: Images stored in GHCR/ECR.

@@ -1,4 +1,4 @@
-@startuml Manager Customer Journey
+@startuml Manager Customer Journey - Resilient Asset Management
 !theme plain
 skinparam backgroundColor #FFFFFF
 skinparam activity {
@@ -11,65 +11,72 @@ skinparam activityDiamond {
   BorderColor #F57C00
   FontColor #000000
 }
+skinparam note {
+  BackgroundColor #F0F8FF
+  BorderColor #4169E1
+  FontColor #000000
+}
 
-title Manager Customer Journey - Operational Asset Management
+title Manager Customer Journey - Resilient Asset Management
 
 start
 
 :Manager logs into Aegrid dashboard;
-note right: Role-based access control\napplies MANAGER permissions
+note right: **Rule 3: Respond to Real World**\nRole-based access control\napplies MANAGER permissions
 
-:Views operational dashboard;
-note right: Day-to-day metrics:\n- Work order status\n- Crew utilisation\n- Asset condition\n- Maintenance schedules
+:Views Resilience Dashboard;
+note right: **Rule 3: Real-World Monitoring**\nCritical control status\nRisk signals and alerts\nMargin utilization\nSystem resilience metrics
 
-:Reviews Asset Register;
-note right: Checks asset inventory\nUpdates asset information\nManages asset lifecycle
+:Reviews Critical Controls Status;
+note right: **Rule 3: Protect Critical Few**\nHigh-consequence asset monitoring\nCritical control effectiveness\nFailure consequence assessment\nResource allocation verification
 
-:Accesses RCM Templates;
-note right: Configures maintenance\nprograms for asset classes\nCustomises templates
+:Assesses Risk Signals;
+note right: **Rule 2: Risk Sets Rhythm**\nWeather and condition signals\nPerformance degradation alerts\nCommunity feedback signals\nAsset failure predictions
 
-:Reviews Maintenance Schedule;
-note right: Preventive maintenance\nplanning and scheduling\nRisk-based prioritisation
-
-if (Maintenance overdue?) then (yes)
-  :Assigns work orders to crews;
-  :Sets priority levels;
-  :Monitors completion status;
+if (Risk signals detected?) then (yes)
+  :Adapts Maintenance Schedule;
+  note right: **Rule 2: Risk-Driven Rhythm**\nDynamic schedule adjustment\nPriority rebalancing\nResource reallocation\nEmergency response activation
+  :Reallocates Resources;
+  note right: **Rule 4: Operate with Margin**\nDeploy margin capacity\nCross-train crew assignments\nEmergency contractor activation\nMaterial buffer utilization
 else (no)
-  :Continues routine planning;
+  :Continues routine operations;
 endif
 
-:Uses Asset Map for spatial analysis;
-note right: GIS visualisation\nLocation-based planning\nGeographic asset distribution
+:Reviews Asset Purpose Mapping;
+note right: **Rule 1: Every Asset Purpose**\nCritical control connections\nService delivery alignment\nPurpose validation\nValue contribution assessment
 
-:Conducts Risk Analysis;
-note right: Asset risk assessment\nFailure mode analysis\nRisk scoring updates
+:Conducts Risk-Based Planning;
+note right: **Rule 2: Risk Sets Rhythm**\nConsequence × likelihood analysis\nMaintenance strategy adjustment\nResource allocation optimization\nRCM-lite implementation
 
-:Reviews citizen reports via Triage;
-note right: Citizen issue management\nReport assignment\nStatus tracking
+:Manages Margin Operations;
+note right: **Rule 4: Operate with Margin**\nProtected crew time allocation\nCritical spare inventory\nEmergency response capacity\nSurge capability management
 
-:Generates operational reports;
-note right: Custom report builder\nPerformance metrics\nTeam productivity
+:Monitors Signal Activity;
+note right: **Rule 3: Real-World Response**\nCommunity signal processing\nEnvironmental condition monitoring\nPerformance metric tracking\nEarly warning system alerts
 
-:Manages team assignments;
-note right: Crew allocation\nWorkload distribution\nSkill matching
+:Reviews Asset Register by Purpose;
+note right: **Rule 1: Purpose-Driven Management**\nFunction-based asset organization\nService purpose validation\nCritical control mapping\nValue delivery tracking
 
-:Monitors SLA compliance;
-note right: Service level agreements\nContractor performance\nVendor management
+:Generates Resilience Reports;
+note right: **Rule 4: Future Planning**\nResilience metrics dashboard\nCritical control effectiveness\nMargin utilization analysis\nStrategic planning insights
 
-if (SLA breach detected?) then (yes)
-  :Escalates to vendor;
-  :Updates contract records;
-  :Reviews performance metrics;
+:Updates Critical Control Status;
+note right: **Rule 3: Protect Critical Few**\nCritical asset condition updates\nControl effectiveness monitoring\nFailure consequence tracking\nResource concentration verification
+
+:Plans Future Resilience;
+note right: **Rule 4: Plan for Tomorrow**\nLong-term scenario modeling\nSustainability integration\nFuture service alignment\nStrategic asset planning
+
+if (Critical control at risk?) then (yes)
+  :Activates Emergency Response;
+  note right: **Rule 3: Real-World Response**\nImmediate resource deployment\nCritical control protection\nEmergency protocols activation\nStakeholder communication
+  :Deploys Margin Resources;
+  note right: **Rule 4: Margin Deployment**\nEmergency crew activation\nCritical spare deployment\nContractor surge capacity\nFinancial emergency funds
 else (no)
-  :Continues monitoring;
+  :Maintains normal operations;
 endif
 
-:Reviews critical controls;
-note right: Critical asset monitoring\nCompliance tracking\nEscalation management
-
-:Updates asset condition data;
-note right: Inspection results\nCondition assessments\nLifecycle updates
+:Conducts Resilience Review;
+note right: **Rule 4: Continuous Improvement**\nSystem performance analysis\nMargin effectiveness assessment\nLearning integration\nAdaptation strategy refinement
 
 stop
 

@@ -18,11 +18,13 @@ actor "Executive" as EXEC
 actor "Manager" as MGR
 actor "Supervisor" as SUP
 actor "Crew" as CREW
+actor "Partner/Contractor" as PARTNER
 actor "Citizen" as CIT
 actor "Admin" as ADM
 
 participant "Aegrid Platform" as PLATFORM
 participant "Mobile PWA" as MOBILE
+participant "Vendor Portal" as VENDOR_PORTAL
 participant "Citizen Portal" as PORTAL
 
 == Strategic Level ==
@@ -48,6 +50,13 @@ CREW -> MOBILE: Field work execution
 CREW -> MOBILE: Asset inspections
 CREW -> MOBILE: Data collection
 CREW -> MOBILE: Offline operations
+
+== Partner/Contractor Level ==
+PARTNER -> VENDOR_PORTAL: Contract management
+PARTNER -> VENDOR_PORTAL: Work order acceptance
+PARTNER -> VENDOR_PORTAL: SLA compliance tracking
+PARTNER -> MOBILE: Field service delivery
+PARTNER -> VENDOR_PORTAL: Performance reporting
 
 == Community Level ==
 CIT -> PORTAL: Issue reporting

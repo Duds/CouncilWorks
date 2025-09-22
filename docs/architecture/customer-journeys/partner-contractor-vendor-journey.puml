@@ -1,0 +1,102 @@
+@startuml Partner/Contractor/Vendor Customer Journey - Resilient Service Delivery
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam activity {
+  BackgroundColor #F1F8E9
+  BorderColor #689F38
+  FontColor #000000
+}
+skinparam activityDiamond {
+  BackgroundColor #FFF3E0
+  BorderColor #F57C00
+  FontColor #000000
+}
+skinparam note {
+  BackgroundColor #F0F8FF
+  BorderColor #2E7D32
+  FontColor #000000
+}
+
+title Partner/Contractor/Vendor Customer Journey - Resilient Service Delivery
+
+start
+
+:Partner/Contractor logs into vendor portal;
+note right: **Rule 3: Respond to Real World**\nRole-based access control\napplies CONTRACTOR/PARTNER permissions\nContract-scoped access only
+
+:Views Contract Dashboard;
+note right: **Rule 4: Operate with Margin**\nContract performance metrics:\n- Active work orders\n- SLA compliance status\n- Performance ratings\n- Contract renewal dates\n- Available capacity margin
+
+:Reviews Purpose-Driven Work Orders;
+note right: **Rule 1: Every Asset Purpose**\nPurpose-focused assignments\nCritical control connections\nService impact awareness\nContract scope validation
+
+:Assesses Risk-Based Priorities;
+note right: **Rule 2: Risk Sets Rhythm**\nRisk-prioritised work orders\nConsequence-based scheduling\nCritical control urgency\nSLA window requirements
+
+:Accepts/Declines Work Orders;
+note right: **Rule 4: Operate with Margin**\nCapacity margin management\nSkill-based acceptance\nResource availability check\nSLA commitment confirmation
+
+if (Work order accepted?) then (yes)
+  :Acknowledges SLA Requirements;
+  note right: **Rule 2: Risk Sets Rhythm**\nSLA response timer starts\nResolution window confirmed\nCritical control timeline\nPerformance commitment
+  :Downloads Mobile Work Package;
+  note right: **Rule 3: Real-World Response**\nMobile-optimised package\nOffline capability\nGPS-enabled navigation\nAsset context data
+else (no)
+  :Provides Decline Reason;
+  note right: **Rule 4: Operate with Margin**\nCapacity constraint documentation\nAlternative resource suggestions\nPerformance impact assessment
+endif
+
+:Travels to Purpose-Driven Asset Location;
+note right: **Rule 1: Every Asset Purpose**\nPurpose-aware navigation\nCritical control awareness\nService impact understanding\nAsset context preparation
+
+:Performs Purpose-Driven Work;
+note right: **Rule 1: Every Asset Purpose**\nPurpose-focused execution\nCritical control maintenance\nService continuity assurance\nQuality standards compliance
+
+:Captures Signal-Driven Evidence;
+note right: **Rule 3: Real-World Response**\nGPS-stamped photos\nBefore/after documentation\nEnvironmental context\nWork completion evidence
+
+:Updates Risk-Based Status;
+note right: **Rule 2: Risk Sets Rhythm**\nReal-time status updates\nRisk signal reporting\nConsequence tracking\nSLA progress monitoring
+
+if (Critical control work?) then (yes)
+  :Prioritises Critical Control Completion;
+  note right: **Rule 1: Every Asset Purpose**\nCritical control priority\nService continuity focus\nImmediate completion\nQuality verification
+  :Reports Critical Control Status;
+  note right: **Rule 3: Real-World Response**\nCritical control completion\nService impact confirmation\nEmergency escalation if needed
+else (no)
+  :Continues routine work;
+endif
+
+:Uploads Completion Evidence;
+note right: **Rule 3: Real-World Response**\nWork completion photos\nGPS location stamps\nInvoice documentation\nQuality assurance evidence
+
+:Submits Work Completion;
+note right: **Rule 4: Operate with Margin**\nSLA resolution timer stops\nPerformance documentation\nCapacity release\nContract fulfillment
+
+:Receives Performance Feedback;
+note right: **Rule 4: Plan for Tomorrow**\nSLA compliance rating\nQuality assessment\nPerformance improvement\nContract renewal insights
+
+:Reviews Contract Performance;
+note right: **Rule 4: Plan for Tomorrow**\nContract performance metrics\nSLA compliance history\nRenewal probability\nCapacity planning
+
+:Manages Available Capacity;
+note right: **Rule 4: Operate with Margin**\nCapacity margin management\nResource availability\nSurge capability planning\nEmergency response readiness
+
+if (Contract renewal due?) then (yes)
+  :Reviews Renewal Terms;
+  note right: **Rule 4: Plan for Tomorrow**\nPerformance-based renewal\nSLA adjustment opportunities\nCapacity expansion\nFuture service alignment
+  :Negotiates Renewal Terms;
+  note right: **Rule 4: Operate with Margin**\nMargin capacity negotiation\nPerformance improvement\nService level enhancements\nStrategic partnership
+else (no)
+  :Continues contract operations;
+endif
+
+:Monitors Market Signals;
+note right: **Rule 3: Real-World Response**\nMarket condition monitoring\nDemand signal processing\nCapacity adjustment\nService level adaptation
+
+:Plans Future Service Capacity;
+note right: **Rule 4: Plan for Tomorrow**\nLong-term capacity planning\nService expansion\nTechnology investment\nStrategic partnership development
+
+stop
+
+@enduml

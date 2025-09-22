@@ -1,4 +1,4 @@
-@startuml Crew Customer Journey
+@startuml Crew Customer Journey - Resilient Field Operations
 !theme plain
 skinparam backgroundColor #FFFFFF
 skinparam activity {
@@ -11,69 +11,78 @@ skinparam activityDiamond {
   BorderColor #F57C00
   FontColor #000000
 }
+skinparam note {
+  BackgroundColor #F8F0FF
+  BorderColor #8E24AA
+  FontColor #000000
+}
 
-title Crew Customer Journey - Field Work Execution
+title Crew Customer Journey - Resilient Field Operations
 
 start
 
 :Crew member opens mobile PWA;
-note right: Progressive Web App\nOffline capabilities\nField-optimised interface
+note right: **Rule 3: Respond to Real World**\nProgressive Web App\nOffline capabilities\nField-optimised interface
 
-:Views mobile dashboard;
-note right: Field work metrics:\n- Assigned work orders\n- Inspection tasks\n- Asset locations\n- Offline data status
+:Views Resilience Mobile Dashboard;
+note right: **Rule 3: Real-World Response**\nField resilience metrics:\n- Purpose-driven work orders\n- Risk-based priorities\n- Signal alerts\n- Margin status
 
-:Checks assigned work orders;
-note right: Work order queue\nTask details\nAsset information\nLocation data
+:Checks Purpose-Driven Work Orders;
+note right: **Rule 1: Every Asset Purpose**\nPurpose-focused tasks\nCritical control connections\nService impact awareness
 
-:Reviews Asset Map for navigation;
-note right: GPS navigation\nAsset location\nRoute planning\nOffline maps
+:Reviews Risk-Based Asset Map;
+note right: **Rule 2: Risk Sets Rhythm**\nRisk-prioritised navigation\nCritical asset locations\nConsequence-based routing
 
-:Travels to asset location;
-note right: Field work execution\nMobile connectivity\nGPS tracking
+:Travels to Purpose-Driven Asset Location;
+note right: **Rule 1: Every Asset Purpose**\nPurpose-aware navigation\nCritical control awareness\nService impact understanding
 
 if (Internet connection available?) then (yes)
-  :Syncs offline data;
-  :Downloads latest work orders;
-  :Updates status in real-time;
+  :Syncs Signal-Driven Data;
+  note right: **Rule 3: Real-World Response**\nReal-time signal sync\nLatest risk data\nMargin status updates
+  :Downloads Risk-Based Work Orders;
+  note right: **Rule 2: Risk Sets Rhythm**\nRisk-prioritised tasks\nConsequence-aware scheduling
 else (no)
-  :Works in offline mode;
-  :Stores data locally;
+  :Works in Offline Mode with Margin;
+  note right: **Rule 4: Operate with Margin**\nOffline margin capabilities\nLocal data storage\nResilience-focused operations
 endif
 
-:Performs asset inspection;
-note right: Condition assessment\nPhoto documentation\nGPS tagging\nDefect identification
+:Performs Purpose-Driven Inspection;
+note right: **Rule 1: Every Asset Purpose**\nPurpose-focused assessment\nCritical control verification\nService impact evaluation
 
-:Captures inspection photos;
-note right: High-quality images\nGPS coordinates\nTimestamp recording\nAsset identification
+:Captures Signal-Driven Evidence;
+note right: **Rule 3: Real-World Response**\nReal-world condition photos\nSignal documentation\nEnvironmental context
 
-:Updates asset condition;
-note right: Condition rating\nDefect documentation\nMaintenance recommendations\nSafety notes
+:Updates Risk-Based Condition;
+note right: **Rule 2: Risk Sets Rhythm**\nRisk signal documentation\nConsequence assessment\nLikelihood evaluation
 
-:Completes work order tasks;
-note right: Task execution\nProgress updates\nResource usage\nTime tracking
+:Completes Purpose-Driven Tasks;
+note right: **Rule 1: Every Asset Purpose**\nPurpose-focused execution\nCritical control maintenance\nService continuity assurance
 
-if (Critical issues found?) then (yes)
-  :Reports critical findings;
-  :Escalates to supervisor;
-  :Implements safety measures;
+if (Critical control at risk?) then (yes)
+  :Reports Critical Control Issues;
+  note right: **Rule 1: Every Asset Purpose**\nCritical control failure reporting\nService impact assessment\nEmergency response activation
+  :Activates Emergency Response;
+  note right: **Rule 3: Real-World Response**\nEmergency procedure execution\nReal-time response coordination\nSignal-driven escalation
+  :Deploys Margin Resources;
+  note right: **Rule 4: Operate with Margin**\nEmergency margin deployment\nResource mobilization\nCapacity scaling
 else (no)
-  :Continues routine work;
+  :Continues routine operations;
 endif
 
-:Updates work order status;
-note right: Completion confirmation\nQuality verification\nResource reporting\nTime logging
+:Updates Risk-Based Status;
+note right: **Rule 2: Risk Sets Rhythm**\nRisk signal reporting\nConsequence tracking\nAdaptive status updates
 
-:Syncs data when online;
-note right: Background sync\nConflict resolution\nData validation\nUpload confirmation
+:Syncs Resilience Data;
+note right: **Rule 4: Plan for Tomorrow**\nResilience data sync\nMargin utilization reporting\nFuture capacity planning
 
-:Reviews next assigned tasks;
-note right: Work queue management\nPriority assessment\nSchedule planning
+:Reviews Next Risk-Based Tasks;
+note right: **Rule 2: Risk Sets Rhythm**\nRisk-prioritised queue\nConsequence-based planning\nDynamic task adaptation
 
-:Documents maintenance performed;
-note right: Work completion details\nResource consumption\nQuality notes\nFollow-up requirements
+:Documents Purpose-Driven Maintenance;
+note right: **Rule 1: Every Asset Purpose**\nPurpose-focused documentation\nCritical control maintenance\nService impact reporting
 
-:Reports equipment issues;
-note right: Tool/equipment problems\nSafety concerns\nResource needs\nMaintenance requests
+:Reports Margin and Equipment Status;
+note right: **Rule 4: Operate with Margin**\nMargin utilization reporting\nEquipment resilience status\nCapacity assessment
 
 stop
 

@@ -1,4 +1,4 @@
-@startuml Executive Customer Journey
+@startuml Executive Customer Journey - Strategic Resilience Management
 !theme plain
 skinparam backgroundColor #FFFFFF
 skinparam activity {
@@ -11,49 +11,48 @@ skinparam activityDiamond {
   BorderColor #F57C00
   FontColor #000000
 }
+skinparam note {
+  BackgroundColor #F0F8FF
+  BorderColor #4169E1
+  FontColor #000000
+}
 
-title Executive Customer Journey - Strategic Asset Management
+title Executive Customer Journey - Strategic Resilience Management
 
 start
 
 :Executive logs into Aegrid dashboard;
-note right: Role-based access control\napplies EXEC permissions
+note right: **Rule 3: Respond to Real World**\nRole-based access control\napplies EXEC permissions
 
-:Views executive KPI dashboard;
-note right: High-level metrics:\n- Asset condition trends\n- Maintenance costs\n- Risk compliance\n- Citizen satisfaction
+:Views Resilience Executive Dashboard;
+note right: **Rule 4: Plan for Tomorrow**\nStrategic resilience metrics:\n- Critical control effectiveness\n- System resilience status\n- Risk exposure trends\n- Margin utilization\n- Future service alignment
 
-if (Dashboard shows concerning metrics?) then (yes)
-  :Drills down into specific reports;
-  :Reviews Risk & Compliance dashboard;
-  :Examines Asset Trending reports;
+if (Critical control effectiveness below threshold?) then (yes)
+  :Reviews Critical Control Status;
+  note right: **Rule 3: Protect Critical Few**\nCritical control effectiveness\nFailure consequence assessment\nResource concentration verification
+  :Examines Risk Exposure Analysis;
+  note right: **Rule 2: Risk Sets Rhythm**\nStrategic risk assessment\nConsequence analysis\nLikelihood evaluation
 else (no)
-  :Reviews monthly performance summary;
+  :Reviews resilience performance summary;
 endif
 
-:Accesses Custom Reports builder;
-note right: Creates executive-level\nreports for board meetings
+:Reviews Strategic Risk Assessment;
+note right: **Rule 2: Risk Sets Rhythm**\nStrategic risk exposure\nCritical control vulnerabilities\nFuture risk scenarios
 
-:Exports audit-ready reports;
-note right: PDF/Excel format for\nexternal stakeholders
+:Analyzes Resilience Metrics;
+note right: **Rule 4: Plan for Tomorrow**\nSystem resilience trends\nMargin effectiveness\nAntifragile performance
 
-:Reviews critical control compliance;
-note right: Ensures 100% compliance\nfor critical assets
+:Reviews Future Service Planning;
+note right: **Rule 4: Plan for Tomorrow**\nLong-term service needs\nSustainability integration\nStrategic asset planning
 
-if (Critical controls at risk?) then (yes)
-  :Triggers escalation to Manager;
-  :Receives notification updates;
-else (no)
-  :Continues routine monitoring;
-endif
+:Generates Strategic Reports;
+note right: **Rule 1: Every Asset Purpose**\nPurpose-driven investment\nValue delivery analysis\nStrategic alignment reports
 
-:Monitors sustainability metrics;
-note right: EV fleet performance\nSolar farm efficiency\nCarbon footprint tracking
+:Reviews Margin Management;
+note right: **Rule 4: Operate with Margin**\nStrategic margin allocation\nResilience investment\nEmergency preparedness
 
-:Reviews budget forecasting;
-note right: Asset renewal planning\nMaintenance cost projections
-
-:Signs off on strategic decisions;
-note right: Asset replacement\nMajor maintenance programs
+:Monitors Stakeholder Confidence;
+note right: **Rule 3: Real-World Response**\nCommunity resilience perception\nService continuity assurance\nStakeholder trust metrics
 
 stop
 

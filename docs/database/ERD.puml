@@ -1,57 +1,49 @@
-@startuml
+@startuml Enhanced ERD - Aegrid Asset Lifecycle Intelligence Platform
 !theme plain
 hide circle
 skinparam linetype ortho
 
+' Core Organisation & User Management
 entity Organisation {
   * id : UUID
   --
   name : string
+  created_at : timestamp
+  updated_at : timestamp
 }
 
 entity User {
   * id : UUID
   --
   organisation_id : UUID
+  vendor_id : UUID
   role : string
   name : string
   email : string
+  created_at : timestamp
+  updated_at : timestamp
 }
 
+' Asset Management with Purpose & Criticality
 entity Asset {
   * id : UUID
   --
   organisation_id : UUID
   name : string
   type : string
+  purpose : string
+  purpose_description : text
+  criticality_level : string
+  service_impact : text
   location_geom : geometry
   condition : int
   risk_score : int
+  margin_capacity : int
+  created_at : timestamp
+  updated_at : timestamp
 }
 
-entity WorkOrder {
-  * id : UUID
-  --
-  organisation_id : UUID
-  asset_id : UUID
-  contract_id : UUID
-  sla_id : UUID
-  status : string
-  due_date : date
-  assigned_to : UUID
-}
-
-entity Inspection {
-  * id : UUID
-  --
-  organisation_id : UUID
-  asset_id : UUID
-  inspector_id : UUID
-  date : date
-  condition : int
-  notes : text
-}
-
+' Vendor & Contract Management
 entity Vendor {
   * id : UUID
   --
@@ -59,6 +51,11 @@ entity Vendor {
   name : string
   abn : string
   contact_email : string
+  contact_phone : string
+  performance_rating : decimal
+  capacity_margin : int
+  created_at : timestamp
+  updated_at : timestamp
 }
 
 entity Contract {
@@ -70,6 +67,10 @@ entity Contract {
   start_date : date
   end_date : date
   scope : text
+  status : string
+  renewal_due_date : date
+  created_at : timestamp
+  updated_at : timestamp
 }
 
 entity SLA {
@@ -82,17 +83,95 @@ entity SLA {
   resolution_time_hours : int
   frequency_days : int
   cost_model : string
+  breach_escalation : text
+  created_at : timestamp
+  updated_at : timestamp
 }
 
+' Work Order Management with SLA Tracking
+entity WorkOrder {
+  * id : UUID
+  --
+  organisation_id : UUID
+  asset_id : UUID
+  contract_id : UUID
+  sla_id : UUID
+  assigned_to : UUID
+  vendor_id : UUID
+  status : string
+  priority : string
+  due_date : date
+  accepted_at : timestamp
+  acknowledged_at : timestamp
+  started_at : timestamp
+  completed_at : timestamp
+  sla_response_time : int
+  sla_resolution_time : int
+  sla_status : string
+  decline_reason : text
+  evidence_count : int
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+' RCM Templates & Maintenance Planning
+entity RCMTemplate {
+  * id : UUID
+  --
+  organisation_id : UUID
+  name : string
+  asset_type : string
+  description : text
+  frequency_days : int
+  risk_threshold : int
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+entity MaintenancePlan {
+  * id : UUID
+  --
+  organisation_id : UUID
+  asset_id : UUID
+  rcm_template_id : UUID
+  name : string
+  start_date : date
+  end_date : date
+  frequency_days : int
+  status : string
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+entity MaintenanceTask {
+  * id : UUID
+  --
+  organisation_id : UUID
+  maintenance_plan_id : UUID
+  rcm_template_id : UUID
+  name : string
+  description : text
+  frequency_days : int
+  estimated_duration_hours : int
+  risk_priority : string
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+' Critical Controls with Enhanced Tracking
 entity CriticalControl {
   * id : UUID
   --
   organisation_id : UUID
   name : string
   description : text
+  type : string
   window_hours : int
   frequency_days : int
   escalation_policy : string
+  status : string
+  created_at : timestamp
+  updated_at : timestamp
 }
 
 entity AssetCriticalControl {
@@ -102,26 +181,283 @@ entity AssetCriticalControl {
   asset_id : UUID
   critical_control_id : UUID
   vendor_id : UUID
+  last_executed_at : timestamp
+  next_due_at : timestamp
+  status : string
+  created_at : timestamp
+  updated_at : timestamp
 }
 
+' Inspections with Enhanced Tracking
+entity Inspection {
+  * id : UUID
+  --
+  organisation_id : UUID
+  asset_id : UUID
+  inspector_id : UUID
+  work_order_id : UUID
+  date : date
+  condition : int
+  risk_score : int
+  notes : text
+  status : string
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+' Evidence & Documentation
+entity WorkOrderEvidence {
+  * id : UUID
+  --
+  organisation_id : UUID
+  work_order_id : UUID
+  evidence_type : string
+  file_path : string
+  file_name : string
+  file_size : int
+  gps_coordinates : geometry
+  uploaded_at : timestamp
+  created_at : timestamp
+}
+
+entity InspectionPhoto {
+  * id : UUID
+  --
+  organisation_id : UUID
+  inspection_id : UUID
+  file_path : string
+  file_name : string
+  gps_coordinates : geometry
+  description : text
+  uploaded_at : timestamp
+  created_at : timestamp
+}
+
+entity AssetDocument {
+  * id : UUID
+  --
+  organisation_id : UUID
+  asset_id : UUID
+  document_type : string
+  file_path : string
+  file_name : string
+  file_size : int
+  description : text
+  uploaded_at : timestamp
+  created_at : timestamp
+}
+
+' Citizen Engagement
+entity CitizenReport {
+  * id : UUID
+  --
+  organisation_id : UUID
+  asset_id : UUID
+  work_order_id : UUID
+  reporter_name : string
+  reporter_email : string
+  reporter_phone : string
+  issue_category : string
+  risk_level : string
+  description : text
+  location_geom : geometry
+  status : string
+  reported_at : timestamp
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+entity CitizenFeedback {
+  * id : UUID
+  --
+  organisation_id : UUID
+  citizen_report_id : UUID
+  work_order_id : UUID
+  satisfaction_rating : int
+  feedback_text : text
+  service_improvement : text
+  submitted_at : timestamp
+  created_at : timestamp
+}
+
+' Signals & Risk Management
+entity RiskSignal {
+  * id : UUID
+  --
+  organisation_id : UUID
+  asset_id : UUID
+  signal_type : string
+  severity : string
+  description : text
+  source : string
+  detected_at : timestamp
+  resolved_at : timestamp
+  status : string
+  created_at : timestamp
+}
+
+entity EnvironmentalSignal {
+  * id : UUID
+  --
+  organisation_id : UUID
+  signal_type : string
+  severity : string
+  description : text
+  location_geom : geometry
+  detected_at : timestamp
+  expires_at : timestamp
+  status : string
+  created_at : timestamp
+}
+
+' Margin Management
+entity MarginCapacity {
+  * id : UUID
+  --
+  organisation_id : UUID
+  capacity_type : string
+  available_capacity : int
+  utilised_capacity : int
+  margin_percentage : decimal
+  last_updated_at : timestamp
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+entity EmergencyResponse {
+  * id : UUID
+  --
+  organisation_id : UUID
+  asset_id : UUID
+  work_order_id : UUID
+  emergency_type : string
+  severity : string
+  response_time_minutes : int
+  resolution_time_minutes : int
+  margin_deployed : boolean
+  activated_at : timestamp
+  resolved_at : timestamp
+  created_at : timestamp
+}
+
+' Audit & Compliance
+entity AuditLog {
+  * id : UUID
+  --
+  organisation_id : UUID
+  user_id : UUID
+  action : string
+  entity_type : string
+  entity_id : UUID
+  old_values : json
+  new_values : json
+  ip_address : string
+  user_agent : string
+  created_at : timestamp
+}
+
+entity ComplianceRecord {
+  * id : UUID
+  --
+  organisation_id : UUID
+  asset_id : UUID
+  critical_control_id : UUID
+  compliance_type : string
+  status : string
+  due_date : date
+  completed_date : date
+  evidence_count : int
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+entity EscalationEvent {
+  * id : UUID
+  --
+  organisation_id : UUID
+  asset_id : UUID
+  critical_control_id : UUID
+  work_order_id : UUID
+  escalation_type : string
+  severity : string
+  reason : text
+  escalated_to : string
+  escalated_at : timestamp
+  acknowledged_at : timestamp
+  resolved_at : timestamp
+  created_at : timestamp
+}
+
+' Relationships - Core Organisation
 Organisation ||--o{ User : employs
 Organisation ||--o{ Asset : owns
-Organisation ||--o{ WorkOrder : operates
-Organisation ||--o{ Inspection : records
 Organisation ||--o{ Vendor : engages
 Organisation ||--o{ Contract : manages
-Organisation ||--o{ SLA : governs
+Organisation ||--o{ WorkOrder : operates
+Organisation ||--o{ Inspection : records
+Organisation ||--o{ RCMTemplate : defines
+Organisation ||--o{ MaintenancePlan : plans
 Organisation ||--o{ CriticalControl : defines
 Organisation ||--o{ AssetCriticalControl : enforces
+Organisation ||--o{ CitizenReport : receives
+Organisation ||--o{ CitizenFeedback : collects
+Organisation ||--o{ RiskSignal : monitors
+Organisation ||--o{ EnvironmentalSignal : tracks
+Organisation ||--o{ MarginCapacity : manages
+Organisation ||--o{ EmergencyResponse : coordinates
+Organisation ||--o{ AuditLog : logs
+Organisation ||--o{ ComplianceRecord : tracks
+Organisation ||--o{ EscalationEvent : handles
 
-Asset ||--o{ WorkOrder : manages
-Asset ||--o{ Inspection : inspected
+' Relationships - User & Vendor Management
+User }o--|| Vendor : belongs_to
 User ||--o{ WorkOrder : assigned
 User ||--o{ Inspection : performs
+User ||--o{ AuditLog : creates
+
+' Relationships - Asset & Work Management
+Asset ||--o{ WorkOrder : manages
+Asset ||--o{ Inspection : inspected
+Asset ||--o{ MaintenancePlan : planned
+Asset ||--o{ AssetCriticalControl : controlled
+Asset ||--o{ AssetDocument : documented
+Asset ||--o{ CitizenReport : reported
+Asset ||--o{ RiskSignal : signalled
+Asset ||--o{ EmergencyResponse : emergency
+Asset ||--o{ ComplianceRecord : compliant
+
+' Relationships - Vendor & Contract Management
 Vendor ||--o{ Contract : party
+Vendor ||--o{ WorkOrder : executes
+Vendor ||--o{ AssetCriticalControl : responsible
 Contract ||--o{ SLA : defines
 Contract ||--o{ WorkOrder : covers
 SLA ||--o{ WorkOrder : applies
-Asset ||--o{ AssetCriticalControl : mapped
+
+' Relationships - Work Order & Evidence
+WorkOrder ||--o{ WorkOrderEvidence : documented
+WorkOrder ||--o{ Inspection : includes
+WorkOrder ||--o{ CitizenReport : sourced_from
+WorkOrder ||--o{ EmergencyResponse : emergency
+WorkOrder ||--o{ EscalationEvent : escalated
+
+' Relationships - RCM & Maintenance
+RCMTemplate ||--o{ MaintenancePlan : template_for
+RCMTemplate ||--o{ MaintenanceTask : contains
+MaintenancePlan ||--o{ MaintenanceTask : includes
+
+' Relationships - Critical Controls
 CriticalControl ||--o{ AssetCriticalControl : applies
+CriticalControl ||--o{ ComplianceRecord : tracked
+CriticalControl ||--o{ EscalationEvent : escalated
+
+' Relationships - Inspections & Evidence
+Inspection ||--o{ InspectionPhoto : documented
+
+' Relationships - Citizen Engagement
+CitizenReport ||--o{ CitizenFeedback : feedback_for
+
+' Relationships - Margin & Emergency
+MarginCapacity ||--o{ EmergencyResponse : supports
+
 @enduml

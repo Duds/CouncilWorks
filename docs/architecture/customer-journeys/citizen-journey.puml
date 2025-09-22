@@ -1,4 +1,4 @@
-@startuml Citizen Customer Journey
+@startuml Citizen Customer Journey - Community Resilience Engagement
 !theme plain
 skinparam backgroundColor #FFFFFF
 skinparam activity {
@@ -11,71 +11,80 @@ skinparam activityDiamond {
   BorderColor #F57C00
   FontColor #000000
 }
+skinparam note {
+  BackgroundColor #F0F8FF
+  BorderColor #0277BD
+  FontColor #000000
+}
 
-title Citizen Customer Journey - Issue Reporting and Tracking
+title Citizen Customer Journey - Community Resilience Engagement
 
 start
 
 :Citizen visits Council website;
-note right: Public portal access\nNo authentication required\nCommunity engagement
+note right: **Rule 3: Respond to Real World**\nPublic portal access\nNo authentication required\nCommunity engagement
 
-:Navigates to Citizen Portal;
-note right: Issue reporting interface\nPublic transparency\nCommunity service
+:Navigates to Resilience Portal;
+note right: **Rule 3: Real-World Response**\nCommunity signal reporting\nPublic transparency\nService continuity awareness
 
-:Discovers asset issue in community;
-note right: Playground equipment\nRoad damage\nStreet lighting\nDrainage problems
+:Discovers asset issue affecting service;
+note right: **Rule 1: Every Asset Purpose**\nService-impacting issues:\nPlayground safety controls\nRoad safety systems\nStreet lighting controls\nDrainage flood prevention
 
-:Accesses report form;
-note right: User-friendly interface\nCategory selection\nLocation mapping\nPhoto upload
+:Accesses Purpose-Aware Report Form;
+note right: **Rule 1: Every Asset Purpose**\nPurpose-driven categories\nService impact selection\nLocation mapping\nPhoto documentation
 
-:Selects issue category;
-note right: Asset type selection\nPriority indication\nService area\nIssue classification
+:Selects Risk-Based Issue Category;
+note right: **Rule 2: Risk Sets Rhythm**\nRisk-based classification\nConsequence assessment\nPriority indication
 
-:Provides issue description;
-note right: Detailed description\nLocation details\nSeverity assessment\nSafety concerns
+:Provides Risk-Aware Description;
+note right: **Rule 2: Risk Sets Rhythm**\nRisk signal documentation\nConsequence description\nSafety impact assessment
 
-:Uploads photos of issue;
-note right: Visual documentation\nGPS coordinates\nTimestamp recording\nEvidence collection
+:Uploads Signal Documentation;
+note right: **Rule 3: Real-World Response**\nReal-world evidence\nSignal documentation\nEnvironmental context
 
-:Submits report;
-note right: Report submission\nReference number\nConfirmation receipt\nTracking information
+:Submits Risk-Prioritised Report;
+note right: **Rule 2: Risk Sets Rhythm**\nRisk-based submission\nConsequence prioritisation\nReference tracking
 
-:Receives confirmation email;
-note right: Report acknowledgment\nReference number\nExpected timeline\nContact information
+:Receives Purpose-Driven Confirmation;
+note right: **Rule 1: Every Asset Purpose**\nPurpose-aware acknowledgment\nService impact timeline\nCritical control status
 
-:Monitors report status;
-note right: Status tracking\nProgress updates\nTimeline information\nResolution updates
+:Monitors Risk-Based Status;
+note right: **Rule 2: Risk Sets Rhythm**\nRisk-driven progress tracking\nConsequence monitoring\nPriority updates
 
-if (Report requires additional information?) then (yes)
-  :Provides additional details;
-  :Updates report information;
-  :Communicates with council staff;
+if (Report requires additional risk information?) then (yes)
+  :Provides Risk Context Details;
+  note right: **Rule 2: Risk Sets Rhythm**\nAdditional risk information\nConsequence clarification\nSafety assessment
+  :Updates Risk Documentation;
+  note right: **Rule 3: Real-World Response**\nReal-world signal updates\nRisk context refinement
 else (no)
-  :Continues status monitoring;
+  :Continues risk-based monitoring;
 endif
 
-:Receives work order assignment notification;
-note right: Work order creation\nAssignment confirmation\nExpected completion\nContact details
+:Receives Purpose-Driven Work Assignment;
+note right: **Rule 1: Every Asset Purpose**\nPurpose-focused work order\nCritical control maintenance\nService continuity plan
 
-:Monitors work progress;
-note right: Progress updates\nStatus changes\nTimeline adjustments\nQuality verification
+:Monitors Purpose-Driven Progress;
+note right: **Rule 1: Every Asset Purpose**\nPurpose-focused progress\nCritical control status\nService impact updates
 
-if (Work completed?) then (yes)
-  :Receives completion notification;
-  :Views before/after photos;
-  :Provides feedback on resolution;
+if (Critical control restored?) then (yes)
+  :Receives Purpose Completion Notification;
+  note right: **Rule 1: Every Asset Purpose**\nCritical control restoration\nService continuity confirmation\nPurpose achievement
+  :Views Service Impact Documentation;
+  note right: **Rule 1: Every Asset Purpose**\nService impact before/after\nCritical control effectiveness\nPurpose fulfillment
+  :Provides Resilience Feedback;
+  note right: **Rule 4: Plan for Tomorrow**\nResilience assessment\nFuture prevention input\nService continuity feedback
 else (no)
-  :Continues progress monitoring;
+  :Continues purpose-focused monitoring;
 endif
 
-:Accesses "You Said, We Did" dashboard;
-note right: Public transparency\nCommunity impact\nSuccess stories\nPerformance metrics
+:Accesses Community Resilience Dashboard;
+note right: **Rule 4: Plan for Tomorrow**\nCommunity resilience metrics\nService continuity statistics\nFuture prevention planning
 
-:Views community impact metrics;
-note right: Resolution statistics\nResponse times\nCommunity satisfaction\nService quality
+:Views Resilience Impact Metrics;
+note right: **Rule 4: Plan for Tomorrow**\nResilience performance\nService continuity rates\nCommunity preparedness
 
-:Provides service feedback;
-note right: Satisfaction rating\nService quality\nImprovement suggestions\nCommunity input
+:Provides Resilience Feedback;
+note right: **Rule 4: Plan for Tomorrow**\nResilience satisfaction\nService continuity feedback\nFuture improvement input
 
 stop
 

@@ -1,40 +1,40 @@
 # Aegrid Product Backlog - PI4
 
-**Product Increment 4 (PI4) - Maintenance Planner Journey & Demo Readiness**
+**Product Increment 4 (PI4) - Resilience-First Demo Excellence**
 **Period**: January 2025 - March 2025
-**Status**: 🚀 **PLANNING** - Focus on Maintenance Planner Journey for Demo Excellence
+**Status**: 🚀 **PLANNING** - Focus on Resilience-First Maintenance Planner Journey
 
-Last updated: December 2024
+Last updated: January 2025
 
 ## 🎯 PI4 Vision & Objectives
 
 ### Core Vision
 
-Create a compelling, demo-ready Maintenance Planner experience that showcases Aegrid's resilience capabilities. Focus on one complete user journey to demonstrate the power of resilient asset management in a real-world scenario.
+Create a compelling, demo-ready Maintenance Planner experience that showcases The Aegrid Rules in action. Focus on demonstrating the transformation from reactive maintenance to proactive risk management through a complete user journey that embodies the resilience-first philosophy.
 
 ### Strategic Objectives
 
-1. **Demo Excellence**: Create a polished, professional demonstration experience
-2. **User Journey Focus**: Perfect the Maintenance Planner journey from start to finish
-3. **Resilience Showcase**: Demonstrate PI3's resilience capabilities in action
-4. **Production Readiness**: Ensure the system is ready for real-world deployment
-5. **User Experience**: Deliver exceptional UX that delights users
+1. **Resilience Demonstration**: Showcase The Aegrid Rules in real-world scenarios
+2. **Critical Control Focus**: Demonstrate purpose-driven asset management
+3. **Risk-Based Operations**: Show adaptive scheduling and signal-driven response
+4. **Margin Management**: Illustrate practical slack and antifragile systems
+5. **Demo Excellence**: Create a polished, professional demonstration experience
 
 ## 🔧 PI4 Team Structure
 
-### Single Team: "The Maintenance Mavericks" 🔧
+### Single Team: "The Resilience Pioneers" 🛡️
 
-**Focus**: Maintenance Planner Journey Excellence & Demo Readiness
+**Focus**: Resilience-First Maintenance Planner Journey & Demo Excellence
 **Epics**: E18, E19, E20, E21, E22
-**Team Motto**: "Crafting the perfect maintenance experience!"
+**Team Motto**: "Building antifragile asset management systems!"
 
 **Team Members** (Suggested):
 
-- **Lead**: Senior Full-Stack Developer (Journey Architecture)
-- **Frontend**: React/UI Developer (Demo Interface Excellence)
-- **Backend**: Node.js Developer (Risk & Scheduling APIs)
-- **UX/UI**: UX Designer (User Experience Optimization)
-- **QA**: Test Engineer (Demo Scenario Testing)
+- **Lead**: Senior Full-Stack Developer (Resilience Architecture)
+- **Frontend**: React/UI Developer (Resilience Interface Excellence)
+- **Backend**: Node.js Developer (Signal Detection & Risk APIs)
+- **UX/UI**: UX Designer (Resilience-First Experience Design)
+- **QA**: Test Engineer (Resilience Scenario Testing)
 
 ### Team Collaboration Framework
 
@@ -57,28 +57,28 @@ Create a compelling, demo-ready Maintenance Planner experience that showcases Ae
 
 **🔄 Planned PI4 Issues:**
 
-- E18: Risk-Driven Adaptive Scheduling - The Maintenance Mavericks 🔧
-- E19: Resilience Dashboards & Critical Control Monitoring - The Maintenance Mavericks 🔧
-- E20: Community Signal Detection & Citizen Engagement - The Maintenance Mavericks 🔧
-- E21: Maintenance Planner Journey Optimization - The Maintenance Mavericks 🔧
-- E22: Demo Environment & User Experience - The Maintenance Mavericks 🔧
+- E18: Risk-Driven Adaptive Scheduling - The Resilience Pioneers 🛡️
+- E19: Resilience Dashboards & Critical Control Monitoring - The Resilience Pioneers 🛡️
+- E20: Community Signal Detection & Citizen Engagement - The Resilience Pioneers 🛡️
+- E21: Resilience-First Journey Optimization - The Resilience Pioneers 🛡️
+- E22: Demo Environment & Resilience Showcase - The Resilience Pioneers 🛡️
 
 ## PI4 Epics Overview
 
-### E18: Risk-Driven Adaptive Scheduling 🚀 **PLANNING** - The Maintenance Mavericks 🔧
+### E18: Risk-Driven Adaptive Scheduling 🚀 **PLANNING** - The Resilience Pioneers 🛡️
 
-**Goal**: Complete implementation of dynamic, signal-driven maintenance scheduling
-**Value**: Adaptive scheduling that responds to real-world conditions and risk signals
+**Goal**: Complete implementation of dynamic, signal-driven maintenance scheduling that embodies The Aegrid Rules
+**Value**: Adaptive scheduling that responds to real-world conditions and risk signals, demonstrating Rule 2 (Risk Sets Rhythm)
 **Priority**: HIGH
 **Story Points**: 35
 **Stack Rank**: 1
 
 **Aegrid Rules Alignment**:
 
-- **Rule 2**: Risk-based scheduling rhythm ✅
-- **Rule 3**: Adaptive response to changing conditions ✅
-- **Rule 1**: Purpose-driven scheduling priorities ✅
-- **Rule 4**: Margin-aware scheduling decisions ✅
+- **Rule 2**: Risk-based scheduling rhythm - consequence × likelihood drives cadence ✅
+- **Rule 3**: Adaptive response to changing conditions - plans as hypotheses ✅
+- **Rule 1**: Purpose-driven scheduling priorities - critical control focus ✅
+- **Rule 4**: Margin-aware scheduling decisions - practical slack integration ✅
 
 **Architecture Overview**:
 
@@ -280,22 +280,22 @@ Create a compelling, demo-ready Maintenance Planner experience that showcases Ae
 - **US22.5**: As a User, I want demo documentation so I can understand the system
 - **US22.6**: As a Demo Coordinator, I want stakeholder portal so I can manage demo access
 
-## 🎯 Demo Configuration
+## 🎯 Demo Configuration - The Aegrid Rules in Action
 
 ### User Role Setup
 
 - **Primary Demo User**: hello@dalerogers.com.au
-- **Role**: Maintenance Planner
-- **Permissions**: Full access to maintenance planning, scheduling, and resilience features
-- **Demo Data**: Pre-configured with realistic maintenance scenarios
+- **Role**: Maintenance Planner (Resilience-First)
+- **Permissions**: Full access to resilience planning, signal detection, and critical control management
+- **Demo Data**: Pre-configured with realistic critical control scenarios and risk signals
 
-### Demo Scenarios
+### Demo Scenarios - Showcasing The Aegrid Rules
 
-1. **Routine Maintenance Planning**: Standard maintenance schedule optimization
-2. **Risk-Driven Adaptation**: Schedule adjustment based on risk signals
-3. **Emergency Response**: Rapid response to unexpected asset issues
-4. **Margin Management**: Demonstration of margin utilization and deployment
-5. **Community Engagement**: Citizen-reported issue resolution workflow
+1. **Rule 1 Demo - Every Asset Has a Purpose**: Critical control mapping and purpose-driven asset management
+2. **Rule 2 Demo - Risk Sets the Rhythm**: Dynamic risk assessment and adaptive scheduling based on consequence × likelihood
+3. **Rule 3 Demo - Respond to the Real World**: Signal detection and real-time adaptation to changing conditions
+4. **Rule 4 Demo - Operate with Margin**: Margin management and practical slack demonstration
+5. **Integrated Demo - Resilience in Action**: Complete workflow showing all four rules working together
 
 ### Demo Environment
 
@@ -419,14 +419,16 @@ Create a compelling, demo-ready Maintenance Planner experience that showcases Ae
 
 ## Conclusion
 
-PI4 represents the culmination of Aegrid's development, focusing on creating a compelling, demo-ready experience that showcases the resilience capabilities built in PI3. By concentrating on the Maintenance Planner journey and creating a polished, professional demonstration environment, PI4 will position Aegrid as a world-class resilient asset management platform ready for real-world deployment.
+PI4 represents the culmination of Aegrid's development, focusing on creating a compelling, demo-ready experience that showcases The Aegrid Rules in action. By concentrating on the Resilience-First Maintenance Planner journey and creating a polished, professional demonstration environment, PI4 will position Aegrid as a world-class resilient asset management platform ready for real-world deployment.
 
-The comprehensive implementation of risk-driven scheduling, resilience dashboards, community engagement, journey optimization, and demo environment will create a complete, production-ready platform that delivers exceptional value and demonstrates the power of resilient asset management.
+The comprehensive implementation of risk-driven scheduling, resilience dashboards, community signal detection, journey optimization, and demo environment will create a complete, production-ready platform that delivers exceptional value and demonstrates the power of resilient asset management.
 
-This plan ensures Aegrid's successful transition from development to demonstration and production deployment, with a focus on user experience excellence and demo readiness that will impress stakeholders and drive adoption.
+This plan ensures Aegrid's successful transition from development to demonstration and production deployment, with a focus on resilience-first user experience excellence and demo readiness that will impress stakeholders and drive adoption. Every feature and interaction will embody The Aegrid Rules, demonstrating the transformation from reactive maintenance to proactive risk management.
+
+The future belongs to organisations that embrace resilience over efficiency, adaptation over rigidity, and outcomes over outputs. PI4 provides the foundation for building that future through The Aegrid Rules.
 
 ---
 
-_Plan Generated: December 2024_
-_PI4 Team: The Maintenance Mavericks 🔧_
-_Focus: Maintenance Planner Journey & Demo Excellence_
+_Plan Generated: January 2025_
+_PI4 Team: The Resilience Pioneers 🛡️_
+_Focus: Resilience-First Maintenance Planner Journey & Demo Excellence_

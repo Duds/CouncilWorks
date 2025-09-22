@@ -1,4 +1,4 @@
-@startuml Supervisor Customer Journey
+@startuml Supervisor Customer Journey - Resilient Operations Coordination
 !theme plain
 skinparam backgroundColor #FFFFFF
 skinparam activity {
@@ -11,71 +11,78 @@ skinparam activityDiamond {
   BorderColor #F57C00
   FontColor #000000
 }
+skinparam note {
+  BackgroundColor #FFFBF0
+  BorderColor #FF8F00
+  FontColor #000000
+}
 
-title Supervisor Customer Journey - Work Coordination
+title Supervisor Customer Journey - Resilient Operations Coordination
 
 start
 
 :Supervisor logs into Aegrid dashboard;
-note right: Role-based access control\napplies SUPERVISOR permissions
+note right: **Rule 3: Respond to Real World**\nRole-based access control\napplies SUPERVISOR permissions
 
-:Views supervisor dashboard;
-note right: Work coordination metrics:\n- Assigned work orders\n- Crew availability\n- Inspection schedules\n- Completion rates
+:Views Resilience Operations Dashboard;
+note right: **Rule 3: Real-World Response**\nOperational resilience metrics:\n- Critical control work orders\n- Risk-based priority queue\n- Crew capacity and margin\n- Signal-driven alerts
 
-:Reviews assigned work orders;
-note right: Work order queue\nPriority assessment\nResource allocation
+:Reviews Critical Control Work Orders;
+note right: **Rule 1: Every Asset Purpose**\nPurpose-driven work orders\nCritical control connections\nService impact assessment
 
-:Accesses Maintenance schedule;
-note right: Preventive maintenance\nplanning and coordination\nSchedule optimisation
+:Accesses Risk-Based Schedule;
+note right: **Rule 2: Risk Sets Rhythm**\nRisk-driven scheduling\nConsequence-based priorities\nDynamic schedule adaptation
 
-:Assigns work orders to crew members;
-note right: Skill-based assignment\nGeographic optimisation\nWorkload balancing
+:Assigns Work Orders with Margin Consideration;
+note right: **Rule 4: Operate with Margin**\nCrew capacity management\nSkill-based assignment\nMargin buffer allocation
 
-:Monitors work order progress;
-note right: Real-time status updates\nCompletion tracking\nQuality control
+:Monitors Signal-Driven Progress;
+note right: **Rule 3: Real-World Response**\nSignal-based status updates\nReal-time condition monitoring\nAdaptive progress tracking
 
-if (Work order requires inspection?) then (yes)
-  :Assigns inspection tasks;
-  :Reviews inspection results;
-  :Updates asset condition;
+if (Risk signals detected?) then (yes)
+  :Adapts Schedule Based on Signals;
+  note right: **Rule 2: Risk Sets Rhythm**\nDynamic schedule adjustment\nPriority rebalancing\nResource reallocation
+  :Reallocates Resources;
+  note right: **Rule 4: Operate with Margin**\nMargin deployment\nCross-training activation\nEmergency response
 else (no)
-  :Continues work monitoring;
+  :Continues routine operations;
 endif
 
-:Uses Asset Map for field planning;
-note right: Geographic work planning\nRoute optimisation\nAsset location verification
+:Uses Asset Map for Purpose-Based Planning;
+note right: **Rule 1: Every Asset Purpose**\nPurpose-driven routing\nCritical control connections\nService impact mapping
 
-:Reviews Risk Analysis for prioritisation;
-note right: Risk-based work prioritisation\nCritical asset focus\nSafety considerations
+:Reviews Risk-Based Prioritisation;
+note right: **Rule 2: Risk Sets Rhythm**\nConsequence-based prioritisation\nCritical asset focus\nRisk signal integration
 
-:Manages citizen reports via Triage;
-note right: Citizen issue triage\nReport assignment\nPublic communication
+:Manages Signal-Driven Triage;
+note right: **Rule 3: Real-World Response**\nSignal-based triage\nCommunity feedback integration\nReal-world issue prioritisation
 
-:Conducts field inspections;
-note right: On-site asset assessment\nCondition evaluation\nPhoto documentation
+:Conducts Purpose-Driven Inspections;
+note right: **Rule 1: Every Asset Purpose**\nPurpose-focused assessment\nCritical control verification\nService impact evaluation
 
-:Updates work order status;
-note right: Progress reporting\nCompletion confirmation\nQuality verification
+:Updates Risk-Based Status;
+note right: **Rule 2: Risk Sets Rhythm**\nRisk signal reporting\nConsequence tracking\nAdaptive status updates
 
-:Reviews crew performance;
-note right: Productivity metrics\nQuality assessments\nTraining needs
+:Reviews Crew Resilience Performance;
+note right: **Rule 4: Operate with Margin**\nMargin utilization metrics\nCross-training effectiveness\nResilience capacity assessment
 
-:Manages critical controls;
-note right: Critical asset monitoring\nCompliance verification\nEscalation procedures
+:Manages Critical Control Operations;
+note right: **Rule 1: Every Asset Purpose**\nCritical control monitoring\nPurpose verification\nService continuity assurance
 
 if (Critical control at risk?) then (yes)
-  :Escalates to Manager;
-  :Implements emergency procedures;
-  :Documents actions taken;
+  :Activates Emergency Response;
+  note right: **Rule 3: Real-World Response**\nEmergency procedure activation\nReal-time response coordination\nSignal-driven escalation
+  :Deploys Margin Resources;
+  note right: **Rule 4: Operate with Margin**\nEmergency margin deployment\nResource mobilization\nCapacity scaling
 else (no)
   :Continues routine monitoring;
 endif
 
-:Generates completion reports;
-note right: Work completion summaries\nPerformance metrics\nResource utilisation
+:Generates Resilience Reports;
+note right: **Rule 4: Plan for Tomorrow**\nResilience performance metrics\nMargin effectiveness analysis\nFuture capacity planning
 
-:Coordinates with vendors;
-note right: Contractor management\nSLA monitoring\nQuality assurance
+:Coordinates with Resilience-Focused Vendors;
+note right: **Rule 3: Real-World Response**\nResilience-aligned contracting\nSignal-driven SLA management\nAdaptive quality assurance
 
 stop
 

@@ -1,4 +1,4 @@
-@startuml Admin Customer Journey
+@startuml Admin Customer Journey - Resilience System Administration
 !theme plain
 skinparam backgroundColor #FFFFFF
 skinparam activity {
@@ -11,66 +11,74 @@ skinparam activityDiamond {
   BorderColor #F57C00
   FontColor #000000
 }
+skinparam note {
+  BackgroundColor #FFF0F0
+  BorderColor #C62828
+  FontColor #000000
+}
 
-title Admin Customer Journey - System Administration
+title Admin Customer Journey - Resilience System Administration
 
 start
 
 :Admin logs into Aegrid system;
-note right: Role-based access control\napplies ADMIN permissions\nFull system access
+note right: **Rule 3: Respond to Real World**\nRole-based access control\napplies ADMIN permissions\nFull system access
 
-:Views admin dashboard;
-note right: System administration metrics:\n- User activity\n- System performance\n- Security monitoring\n- Audit logs
+:Views Resilience Admin Dashboard;
+note right: **Rule 4: Plan for Tomorrow**\nResilience system metrics:\n- System resilience status\n- User resilience capacity\n- Security monitoring\n- Margin utilization\n- Audit compliance
 
-:Manages user accounts;
-note right: User creation\nRole assignment\nPermission management\nAccount maintenance
+:Manages Resilience-Focused User Accounts;
+note right: **Rule 1: Every Asset Purpose**\nPurpose-aligned user creation\nRole-based access management\nResilience permission assignment\nAccount maintenance
 
-:Reviews audit logs;
-note right: System activity tracking\nSecurity monitoring\nCompliance auditing\nUser behaviour analysis
+:Reviews Resilience Audit Logs;
+note right: **Rule 3: Real-World Response**\nResilience activity tracking\nSecurity monitoring\nCompliance auditing\nResilience behavior analysis
 
-:Configures system settings;
-note right: System configuration\nSecurity policies\nIntegration settings\nCustomisation options
+:Configures Resilience System Settings;
+note right: **Rule 4: Plan for Tomorrow**\nResilience system configuration\nSecurity policies\nIntegration settings\nResilience customisation
 
-:Manages RCM templates;
-note right: Template configuration\nMaintenance program setup\nAsset class management\nTemplate customisation
+:Manages Risk-Based Templates;
+note right: **Rule 2: Risk Sets Rhythm**\nRisk-driven template configuration\nConsequence-based maintenance\nAsset class management\nTemplate customisation
 
-:Oversees data imports;
-note right: ERP integration\nData migration\nAsset data import\nQuality validation
+:Oversees Purpose-Driven Data Imports;
+note right: **Rule 1: Every Asset Purpose**\nPurpose-aligned data import\nCritical control mapping\nAsset purpose validation\nService connection import
 
-:Monitors system performance;
-note right: Performance metrics\nResource utilisation\nError tracking\nSystem health
+:Monitors System Resilience Performance;
+note right: **Rule 4: Operate with Margin**\nResilience performance metrics\nMargin utilization tracking\nError resilience monitoring\nSystem antifragility health
 
-if (System issues detected?) then (yes)
-  :Investigates system problems;
-  :Implements fixes;
-  :Updates system documentation;
+if (System resilience issues detected?) then (yes)
+  :Investigates Resilience System Problems;
+  note right: **Rule 3: Real-World Response**\nResilience issue investigation\nSystem antifragility analysis\nMargin impact assessment
+  :Implements Resilience Fixes;
+  note right: **Rule 4: Operate with Margin**\nResilience-focused fixes\nMargin restoration\nAntifragile system improvements
+  :Updates Resilience Documentation;
+  note right: **Rule 4: Plan for Tomorrow**\nResilience system documentation\nMargin management updates\nFuture prevention planning
 else (no)
-  :Continues routine monitoring;
+  :Continues resilience monitoring;
 endif
 
-:Manages notifications;
-note right: Notification configuration\nAlert settings\nCommunication templates\nEscalation procedures
+:Manages Signal-Driven Notifications;
+note right: **Rule 3: Real-World Response**\nSignal-based notification configuration\nRisk-driven alert settings\nResilience communication templates\nEscalation procedures
 
-:Reviews security reports;
-note right: Security monitoring\nAccess control\nThreat detection\nCompliance reporting
+:Reviews Resilience Security Reports;
+note right: **Rule 3: Real-World Response**\nResilience security monitoring\nAccess control verification\nThreat resilience assessment\nCompliance reporting
 
-:Configures critical controls;
-note right: Critical asset setup\nControl rule definition\nEscalation configuration\nCompliance monitoring
+:Configures Critical Control Systems;
+note right: **Rule 1: Every Asset Purpose**\nCritical control system setup\nPurpose-driven control rules\nEscalation configuration\nCompliance monitoring
 
-:Manages vendor contracts;
-note right: Contract administration\nSLA configuration\nVendor onboarding\nPerformance monitoring
+:Manages Resilience-Focused Vendor Contracts;
+note right: **Rule 4: Operate with Margin**\nResilience-aligned contract administration\nMargin-based SLA configuration\nVendor resilience onboarding\nPerformance monitoring
 
-:Oversees data backups;
-note right: Backup management\nData recovery\nDisaster planning\nData integrity
+:Oversees Resilience Data Backups;
+note right: **Rule 4: Plan for Tomorrow**\nResilience backup management\nData recovery planning\nDisaster resilience planning\nData integrity assurance
 
-:Reviews system updates;
-note right: Update management\nFeature releases\nSecurity patches\nSystem maintenance
+:Reviews Resilience System Updates;
+note right: **Rule 4: Plan for Tomorrow**\nResilience update management\nFeature resilience releases\nSecurity resilience patches\nSystem maintenance
 
-:Generates admin reports;
-note right: Administrative reporting\nSystem metrics\nUser activity\nPerformance analysis
+:Generates Resilience Admin Reports;
+note right: **Rule 4: Plan for Tomorrow**\nResilience administrative reporting\nSystem resilience metrics\nUser resilience activity\nPerformance analysis
 
-:Manages system integrations;
-note right: API management\nThird-party integrations\nData synchronisation\nSystem connectivity
+:Manages Resilience System Integrations;
+note right: **Rule 3: Real-World Response**\nResilience API management\nThird-party resilience integrations\nData resilience synchronisation\nSystem connectivity
 
 stop
 
