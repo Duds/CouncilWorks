@@ -1,139 +1,120 @@
+/**
+ * Greenfield Shire Council - Enhanced Organisation Setup
+ *
+ * Creates a fictional progressive council with comprehensive resilience configuration
+ * that demonstrates all four Aegrid Rules in action.
+ */
+
 import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcryptjs';
 
-const prisma = new PrismaClient();
+export async function generateGreenfieldCouncil(prisma: PrismaClient) {
+  console.log('  📍 Creating Greenfield Shire Council...');
 
-export async function seedGreenfieldCouncil() {
-  console.log('🏛️ Seeding Greenfield Shire Council...');
+  const organisation = await prisma.organisation.upsert({
+    where: { name: 'Greenfield Shire Council' },
+    update: {},
+    create: {
+      name: 'Greenfield Shire Council',
+      // Enhanced resilience configuration for Aegrid Rules demonstration
+      resilienceConfig: {
+        // Rule 4: Margin Management Configuration
+        margin_settings: {
+          time_margin_percentage: 15,
+          capacity_margin_percentage: 20,
+          material_margin_percentage: 10,
+          financial_margin_percentage: 12,
+        },
 
-  try {
-    // Create Greenfield Shire Council organization
-    const greenfieldCouncil = await prisma.organisation.upsert({
-      where: { name: 'Greenfield Shire Council' },
-      update: {},
-      create: {
-        name: 'Greenfield Shire Council'
-      }
-    });
+        // Rule 2: Risk Thresholds
+        signal_thresholds: {
+          critical: 90,
+          high: 75,
+          medium: 50,
+          low: 25,
+        },
 
-    console.log(`✅ Created organization: ${greenfieldCouncil.name}`);
+        // Rule 3: Emergency Response Protocols
+        emergency_protocols: {
+          weather_events: 'immediate_response',
+          equipment_failure: '24_hour_response',
+          service_disruption: '4_hour_response',
+          safety_incidents: 'immediate_response',
+          environmental_events: '2_hour_response',
+        },
 
-    // Create users for Greenfield Shire Council
-    const users = [
-      {
-        email: 'sarah.chen@greenfieldshire.nsw.gov.au',
-        name: 'Sarah Chen',
-        role: 'EXEC',
-        phoneNumber: '+61 2 9876 5433',
-        bio: 'Chief Executive Officer - Strategic oversight and resilience management'
+        // Rule 1: Purpose-Driven Asset Management
+        asset_management: {
+          purpose_validation_required: true,
+          critical_control_mapping_required: true,
+          function_based_categorization: true,
+          service_impact_assessment: true,
+        },
+
+        // Operational Excellence
+        operational_excellence: {
+          sla_compliance_target: 95,
+          evidence_capture_required: true,
+          real_time_monitoring: true,
+          predictive_maintenance: true,
+        },
       },
-      {
-        email: 'michael.rodriguez@greenfieldshire.nsw.gov.au',
-        name: 'Michael Rodriguez',
-        role: 'MANAGER',
-        phoneNumber: '+61 2 9876 5434',
-        bio: 'Infrastructure Manager - Resource allocation and risk assessment'
+
+      // Enhanced margin settings for Rule 4
+      marginSettings: {
+        time_margin: {
+          buffer_hours: 2,
+          emergency_buffer_hours: 8,
+          peak_season_buffer_hours: 4,
+        },
+        capacity_margin: {
+          surge_capacity_percentage: 25,
+          emergency_capacity_percentage: 50,
+          seasonal_capacity_adjustment: 15,
+        },
+        material_margin: {
+          critical_spares_percentage: 15,
+          emergency_spares_percentage: 30,
+          seasonal_material_buffer: 20,
+        },
+        financial_margin: {
+          contingency_percentage: 10,
+          emergency_fund_percentage: 5,
+          maintenance_reserve_percentage: 8,
+        },
       },
-      {
-        email: 'jennifer.kim@greenfieldshire.nsw.gov.au',
-        name: 'Jennifer Kim',
-        role: 'MANAGER',
-        phoneNumber: '+61 2 9876 5435',
-        bio: 'Renewable Energy Manager - Grid management and battery operations'
+
+      // Innovation Focus Areas
+      innovation_focus: [
+        'renewable_energy',
+        'smart_infrastructure',
+        'battery_storage',
+        'iot_sensors',
+        'electric_vehicle_charging',
+        'climate_adaptation',
+        'digital_transformation',
+      ],
+
+      // Geographic Coverage
+      geographic_coverage: {
+        area_km2: 2500,
+        population: 45000,
+        major_towns: [
+          'Greenfield',
+          'Windy Ridge',
+          'Solar Valley',
+          'Bright Plains',
+        ],
+        climate_zone: 'temperate',
+        risk_factors: [
+          'storm_damage',
+          'heat_waves',
+          'bushfire_risk',
+          'flood_risk',
+        ],
       },
-      {
-        email: 'david.thompson@greenfieldshire.nsw.gov.au',
-        name: 'David Thompson',
-        role: 'SUPERVISOR',
-        phoneNumber: '+61 2 9876 5436',
-        bio: 'Field Operations Supervisor - Emergency response and crew management'
-      },
-      {
-        email: 'lisa.wang@greenfieldshire.nsw.gov.au',
-        name: 'Lisa Wang',
-        role: 'SUPERVISOR',
-        phoneNumber: '+61 2 9876 5437',
-        bio: 'Smart Infrastructure Supervisor - IoT monitoring and system optimization'
-      },
-      {
-        email: 'james.murphy@greenfieldshire.nsw.gov.au',
-        name: 'James Murphy',
-        role: 'CREW',
-        phoneNumber: '+61 2 9876 5438',
-        bio: 'Senior Maintenance Technician - Equipment operation and safety protocols'
-      },
-      {
-        email: 'emma.davis@greenfieldshire.nsw.gov.au',
-        name: 'Emma Davis',
-        role: 'CREW',
-        phoneNumber: '+61 2 9876 5439',
-        bio: 'Renewable Energy Technician - Solar maintenance and battery monitoring'
-      },
-      {
-        email: 'admin@greenfieldshire.nsw.gov.au',
-        name: 'System Administrator',
-        role: 'ADMIN',
-        phoneNumber: '+61 2 9876 5440',
-        bio: 'IT Systems Administrator - System configuration and security management'
-      }
-    ];
+    },
+  });
 
-    // Create users with hashed passwords
-    for (const userData of users) {
-      const hashedPassword = await bcrypt.hash('Greenfield2024!', 12);
-      
-      const user = await prisma.user.upsert({
-        where: { email: userData.email },
-        update: {},
-        create: {
-          email: userData.email,
-          name: userData.name,
-          passwordHash: hashedPassword,
-          role: userData.role,
-          organisationId: greenfieldCouncil.id,
-          phoneNumber: userData.phoneNumber,
-          bio: userData.bio,
-          isActive: true,
-          emailVerified: new Date('2020-01-01')
-        }
-      });
-
-      console.log(`✅ Created user: ${user.name} (${user.role})`);
-    }
-
-
-    console.log('🎉 Greenfield Shire Council seeding completed successfully!');
-    return greenfieldCouncil;
-
-  } catch (error) {
-    console.error('❌ Error seeding Greenfield Shire Council:', error);
-    throw error;
-  }
-}
-
-export async function cleanupGreenfieldCouncil() {
-  console.log('🧹 Cleaning up Greenfield Shire Council data...');
-  
-  try {
-    // Delete users first (due to foreign key constraints)
-    await prisma.user.deleteMany({
-      where: {
-        organisation: {
-          name: 'Greenfield Shire Council'
-        }
-      }
-    });
-
-    // Delete organization
-    await prisma.organisation.deleteMany({
-      where: {
-        name: 'Greenfield Shire Council'
-      }
-    });
-
-    console.log('✅ Greenfield Shire Council cleanup completed');
-  } catch (error) {
-    console.error('❌ Error cleaning up Greenfield Shire Council:', error);
-    throw error;
-  }
+  console.log(`  ✅ Created: ${organisation.name} (ID: ${organisation.id})`);
+  return organisation;
 }
