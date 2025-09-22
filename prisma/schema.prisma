@@ -19,6 +19,7 @@ enum Role {
   MAINTENANCE_PLANNER
 }
 
+// Enhanced Organisation with resilience configuration
 model Organisation {
   id        String     @id @default(cuid())
   name      String     @unique
@@ -27,10 +28,33 @@ model Organisation {
   auditLogs AuditLog[]
   rcmTemplates RCMTemplate[]
   invitations Invitation[]
+  
+  // Enhanced resilience configuration for Aegrid Rules
+  resilienceConfig Json?
+  marginSettings   Json?
+  
+  // New entities from ERD
+  vendors           Vendor[]
+  contracts         Contract[]
+  slas              SLA[]
+  criticalControls  CriticalControl[]
+  assetCriticalControls AssetCriticalControl[]
+  citizenReports    CitizenReport[]
+  citizenFeedback   CitizenFeedback[]
+  riskSignals       RiskSignal[]
+  environmentalSignals EnvironmentalSignal[]
+  marginCapacities  MarginCapacity[]
+  emergencyResponses EmergencyResponse[]
+  complianceRecords ComplianceRecord[]
+  escalationEvents  EscalationEvent[]
+  workOrderEvidence WorkOrderEvidence[]
+  inspectionPhotos  InspectionPhoto[]
+  
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 }
 
+// Enhanced User model with vendor relationships
 model User {
   id              String       @id @default(cuid())
   email           String       @unique
@@ -39,6 +63,11 @@ model User {
   role            Role         @default(CITIZEN)
   organisationId  String?
   organisation    Organisation? @relation(fields: [organisationId], references: [id])
+  
+  // Vendor relationship for contractors and partners
+  vendorId        String?
+  vendor          Vendor?      @relation(fields: [vendorId], references: [id])
+  
   emailVerified   DateTime?
   image           String?
   accounts        Account[]
@@ -65,21 +94,26 @@ model User {
   // Notification preferences
   notificationPreferences Json @default("{}")
   
-  // Asset-related relationships
-  assetsCreated   Asset[]      @relation("AssetCreatedBy")
-  assetsUpdated   Asset[]      @relation("AssetUpdatedBy")
-  assetDocuments  AssetDocument[]
-  assetInspections AssetInspection[]
-  assetMaintenance AssetMaintenance[]
+  // Enhanced relationships for ERD entities
   workOrdersAssigned WorkOrder[]
   workOrdersCreated WorkOrder[] @relation("WorkOrderAssignedBy")
-  
-  // RCM Templates & Scheduling
+  assetDocuments    AssetDocument[]
+  assetInspections  AssetInspection[]
+  assetMaintenance  AssetMaintenance[]
   rcmTemplatesCreated RCMTemplate[] @relation("RCMTemplateCreatedBy")
-  // maintenanceSchedulesAssigned MaintenanceSchedule[] @relation("MaintenanceScheduleAssignedTo")
+  invitationsSent   Invitation[] @relation("InvitedBy")
+  assetsCreated     Asset[] @relation("AssetCreatedBy")
+  assetsUpdated     Asset[] @relation("AssetUpdatedBy")
   
-  // Invitations
-  invitationsSent Invitation[] @relation("InvitedBy")
+  // New ERD relationships
+  workOrderEvidence WorkOrderEvidence[]
+  inspectionPhotos InspectionPhoto[]
+  citizenReports  CitizenReport[]
+  citizenFeedback CitizenFeedback[]
+  riskSignals     RiskSignal[]
+  emergencyResponses EmergencyResponse[]
+  complianceRecords ComplianceRecord[]
+  escalationEvents EscalationEvent[]
 }
 
 model Account {
@@ -234,7 +268,7 @@ model Asset {
   priority        AssetPriority @default(MEDIUM)
   
   // Location Information (PostGIS spatial data)
-  location        Unsupported("geometry(Point,4326)")? // PostGIS Point geometry
+  location        String? // PostGIS Point geometry
   address         String?
   suburb          String?
   postcode        String?
@@ -276,6 +310,14 @@ model Asset {
   // RCM Templates & Scheduling
   rcmTemplates   AssetRCMTemplate[]
   maintenanceSchedules MaintenanceSchedule[]
+  
+  // New ERD relationships
+  assetCriticalControls AssetCriticalControl[]
+  citizenReports        CitizenReport[]
+  riskSignals          RiskSignal[]
+  emergencyResponses   EmergencyResponse[]
+  complianceRecords    ComplianceRecord[]
+  escalationEvents     EscalationEvent[]
   
   // Audit fields
   createdBy      String?
@@ -347,6 +389,9 @@ model AssetInspection {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
+  // New ERD relationships
+  photos       InspectionPhoto[]
+
   @@index([assetId])
   @@index([inspectionDate])
   @@index([condition])
@@ -401,6 +446,14 @@ model WorkOrder {
   assignedBy   String?
   assignedByUser User? @relation("WorkOrderAssignedBy", fields: [assignedBy], references: [id])
   
+  // New ERD relationships
+  vendorId     String?
+  vendor       Vendor? @relation(fields: [vendorId], references: [id])
+  contractId   String?
+  contract     Contract? @relation(fields: [contractId], references: [id])
+  slaId        String?
+  sla          SLA? @relation(fields: [slaId], references: [id])
+  
   // Scheduling
   scheduledDate DateTime?
   dueDate      DateTime?
@@ -420,12 +473,22 @@ model WorkOrder {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  // New relationships from ERD
+  citizenReports     CitizenReport[]
+  citizenFeedback    CitizenFeedback[]
+  emergencyResponses EmergencyResponse[]
+  escalationEvents   EscalationEvent[]
+  evidence           WorkOrderEvidence[]
+
   @@index([assetId])
   @@index([workOrderNumber])
   @@index([status])
   @@index([priority])
   @@index([assignedTo])
   @@index([dueDate])
+  @@index([vendorId])
+  @@index([contractId])
+  @@index([slaId])
 }
 
 // =============================================================================
@@ -642,6 +705,372 @@ model MaintenanceSchedule {
   @@index([dueDate])
   @@index([status])
   @@index([assignedTo])
+}
+
+// New Vendor model from ERD
+model Vendor {
+  id                String   @id @default(cuid())
+  organisationId    String
+  organisation      Organisation @relation(fields: [organisationId], references: [id])
+  name              String
+  abn               String?
+  contactEmail      String
+  contactPhone      String?
+  performanceRating Decimal? @db.Decimal(3,2)
+  capacityMargin    Int?     @default(20)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  // Relationships
+  users             User[]
+  contracts         Contract[]
+  workOrders        WorkOrder[]
+  assetCriticalControls AssetCriticalControl[]
+  
+  @@index([organisationId])
+  @@index([performanceRating])
+}
+
+// New Contract model from ERD
+model Contract {
+  id              String   @id @default(cuid())
+  organisationId  String
+  organisation    Organisation @relation(fields: [organisationId], references: [id])
+  vendorId        String
+  vendor          Vendor   @relation(fields: [vendorId], references: [id])
+  name            String
+  startDate       DateTime
+  endDate         DateTime
+  scope           String
+  status          String   @default("ACTIVE")
+  renewalDueDate  DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  // Relationships
+  slas            SLA[]
+  workOrders      WorkOrder[]
+  
+  @@index([organisationId])
+  @@index([vendorId])
+  @@index([status])
+}
+
+// New SLA model from ERD
+model SLA {
+  id                  String   @id @default(cuid())
+  organisationId      String
+  organisation        Organisation @relation(fields: [organisationId], references: [id])
+  contractId          String
+  contract            Contract @relation(fields: [contractId], references: [id])
+  name                String
+  responseTimeHours   Int
+  resolutionTimeHours Int
+  frequencyDays       Int?
+  costModel           String
+  breachEscalation    String?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  
+  // Relationships
+  workOrders          WorkOrder[]
+  
+  @@index([organisationId])
+  @@index([contractId])
+}
+
+// New CriticalControl model from ERD
+model CriticalControl {
+  id                String   @id @default(cuid())
+  organisationId    String
+  organisation      Organisation @relation(fields: [organisationId], references: [id])
+  name              String
+  description       String?
+  type              String
+  windowHours       Int
+  frequencyDays     Int
+  escalationPolicy  String?
+  status            String   @default("ACTIVE")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  // Relationships
+  assetMappings     AssetCriticalControl[]
+  complianceRecords ComplianceRecord[]
+  escalationEvents  EscalationEvent[]
+  
+  @@index([organisationId])
+  @@index([type])
+  @@index([status])
+}
+
+// New AssetCriticalControl model from ERD
+model AssetCriticalControl {
+  id                String   @id @default(cuid())
+  organisationId    String
+  organisation      Organisation @relation(fields: [organisationId], references: [id])
+  assetId           String
+  asset             Asset    @relation(fields: [assetId], references: [id])
+  criticalControlId String
+  criticalControl   CriticalControl @relation(fields: [criticalControlId], references: [id])
+  vendorId          String?
+  vendor            Vendor?  @relation(fields: [vendorId], references: [id])
+  lastExecutedAt    DateTime?
+  nextDueAt         DateTime?
+  status            String   @default("ACTIVE")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@unique([assetId, criticalControlId])
+  @@index([organisationId])
+  @@index([assetId])
+  @@index([criticalControlId])
+}
+
+// New CitizenReport model from ERD
+model CitizenReport {
+  id              String   @id @default(cuid())
+  organisationId  String
+  organisation    Organisation @relation(fields: [organisationId], references: [id])
+  assetId         String?
+  asset           Asset?   @relation(fields: [assetId], references: [id])
+  workOrderId     String?
+  workOrder       WorkOrder? @relation(fields: [workOrderId], references: [id])
+  reporterName    String
+  reporterEmail   String
+  reporterPhone   String?
+  reportedBy      String?
+  reportedByUser  User? @relation(fields: [reportedBy], references: [id])
+  issueCategory   String
+  riskLevel       String
+  description     String
+  location        String?
+  status          String   @default("OPEN")
+  reportedAt      DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  // Relationships
+  feedback        CitizenFeedback[]
+  
+  @@index([organisationId])
+  @@index([assetId])
+  @@index([issueCategory])
+  @@index([riskLevel])
+  @@index([status])
+}
+
+// New CitizenFeedback model from ERD
+model CitizenFeedback {
+  id                 String   @id @default(cuid())
+  organisationId     String
+  organisation       Organisation @relation(fields: [organisationId], references: [id])
+  citizenReportId    String?
+  citizenReport      CitizenReport? @relation(fields: [citizenReportId], references: [id])
+  workOrderId        String?
+  workOrder          WorkOrder? @relation(fields: [workOrderId], references: [id])
+  submittedBy        String?
+  submittedByUser    User? @relation(fields: [submittedBy], references: [id])
+  satisfactionRating Int      // 1-5 scale
+  feedbackText       String?
+  serviceImprovement String?
+  submittedAt        DateTime @default(now())
+  createdAt          DateTime @default(now())
+  
+  @@index([organisationId])
+  @@index([citizenReportId])
+  @@index([workOrderId])
+  @@index([satisfactionRating])
+}
+
+// New RiskSignal model from ERD
+model RiskSignal {
+  id            String   @id @default(cuid())
+  organisationId String
+  organisation  Organisation @relation(fields: [organisationId], references: [id])
+  assetId       String?
+  asset         Asset?   @relation(fields: [assetId], references: [id])
+  detectedBy    String?
+  detectedByUser User? @relation(fields: [detectedBy], references: [id])
+  signalType    String
+  severity      String
+  description   String
+  source        String
+  detectedAt    DateTime
+  resolvedAt    DateTime?
+  status        String   @default("OPEN")
+  createdAt     DateTime @default(now())
+  
+  @@index([organisationId])
+  @@index([assetId])
+  @@index([signalType])
+  @@index([severity])
+  @@index([detectedAt])
+}
+
+// New EnvironmentalSignal model from ERD
+model EnvironmentalSignal {
+  id            String   @id @default(cuid())
+  organisationId String
+  organisation  Organisation @relation(fields: [organisationId], references: [id])
+  signalType    String
+  severity      String
+  description   String
+  location      String?
+  detectedAt    DateTime
+  expiresAt     DateTime?
+  status        String   @default("ACTIVE")
+  createdAt     DateTime @default(now())
+  
+  @@index([organisationId])
+  @@index([signalType])
+  @@index([severity])
+  @@index([detectedAt])
+}
+
+// New MarginCapacity model from ERD
+model MarginCapacity {
+  id                String   @id @default(cuid())
+  organisationId    String
+  organisation      Organisation @relation(fields: [organisationId], references: [id])
+  capacityType      String
+  availableCapacity Int
+  utilisedCapacity  Int
+  marginPercentage  Decimal  @db.Decimal(5,2)
+  lastUpdatedAt     DateTime
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([organisationId])
+  @@index([capacityType])
+}
+
+// New EmergencyResponse model from ERD
+model EmergencyResponse {
+  id                    String   @id @default(cuid())
+  organisationId        String
+  organisation          Organisation @relation(fields: [organisationId], references: [id])
+  assetId               String?
+  asset                 Asset?   @relation(fields: [assetId], references: [id])
+  workOrderId           String?
+  workOrder             WorkOrder? @relation(fields: [workOrderId], references: [id])
+  activatedBy           String?
+  activatedByUser       User? @relation(fields: [activatedBy], references: [id])
+  emergencyType         String
+  severity              String
+  responseTimeMinutes   Int
+  resolutionTimeMinutes Int
+  marginDeployed        Boolean  @default(false)
+  activatedAt           DateTime
+  resolvedAt            DateTime?
+  createdAt             DateTime @default(now())
+  
+  @@index([organisationId])
+  @@index([assetId])
+  @@index([emergencyType])
+  @@index([severity])
+  @@index([activatedAt])
+}
+
+// New ComplianceRecord model from ERD
+model ComplianceRecord {
+  id                String   @id @default(cuid())
+  organisationId    String
+  organisation      Organisation @relation(fields: [organisationId], references: [id])
+  assetId           String?
+  asset             Asset?   @relation(fields: [assetId], references: [id])
+  criticalControlId String?
+  criticalControl   CriticalControl? @relation(fields: [criticalControlId], references: [id])
+  assignedTo        String?
+  assignedToUser    User? @relation(fields: [assignedTo], references: [id])
+  complianceType    String
+  status            String
+  dueDate           DateTime?
+  completedDate     DateTime?
+  evidenceCount     Int      @default(0)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([organisationId])
+  @@index([assetId])
+  @@index([criticalControlId])
+  @@index([complianceType])
+  @@index([status])
+}
+
+// New EscalationEvent model from ERD
+model EscalationEvent {
+  id                String   @id @default(cuid())
+  organisationId    String
+  organisation      Organisation @relation(fields: [organisationId], references: [id])
+  assetId           String?
+  asset             Asset?   @relation(fields: [assetId], references: [id])
+  criticalControlId String?
+  criticalControl   CriticalControl? @relation(fields: [criticalControlId], references: [id])
+  workOrderId       String?
+  workOrder         WorkOrder? @relation(fields: [workOrderId], references: [id])
+  escalatedBy       String?
+  escalatedByUser   User? @relation(fields: [escalatedBy], references: [id])
+  escalationType    String
+  severity          String
+  reason            String
+  escalatedTo       String
+  escalatedAt       DateTime
+  acknowledgedAt    DateTime?
+  resolvedAt        DateTime?
+  createdAt         DateTime @default(now())
+  
+  @@index([organisationId])
+  @@index([assetId])
+  @@index([criticalControlId])
+  @@index([workOrderId])
+  @@index([escalationType])
+  @@index([severity])
+  @@index([escalatedAt])
+}
+
+// New WorkOrderEvidence model from ERD
+model WorkOrderEvidence {
+  id              String   @id @default(cuid())
+  organisationId  String
+  organisation    Organisation @relation(fields: [organisationId], references: [id])
+  workOrderId     String
+  workOrder       WorkOrder @relation(fields: [workOrderId], references: [id])
+  uploadedBy      String?
+  uploadedByUser  User? @relation(fields: [uploadedBy], references: [id])
+  evidenceType    String
+  filePath        String
+  fileName        String
+  fileSize        Int
+  gpsCoordinates  String?
+  uploadedAt      DateTime
+  createdAt       DateTime @default(now())
+  
+  @@index([organisationId])
+  @@index([workOrderId])
+  @@index([evidenceType])
+  @@index([uploadedAt])
+}
+
+// New InspectionPhoto model from ERD
+model InspectionPhoto {
+  id              String   @id @default(cuid())
+  organisationId  String
+  organisation    Organisation @relation(fields: [organisationId], references: [id])
+  inspectionId    String
+  inspection      AssetInspection @relation(fields: [inspectionId], references: [id])
+  uploadedBy      String?
+  uploadedByUser  User? @relation(fields: [uploadedBy], references: [id])
+  filePath        String
+  fileName        String
+  gpsCoordinates  String?
+  description     String?
+  uploadedAt      DateTime
+  createdAt       DateTime @default(now())
+  
+  @@index([organisationId])
+  @@index([inspectionId])
+  @@index([uploadedAt])
 }
 
 model Invitation {
