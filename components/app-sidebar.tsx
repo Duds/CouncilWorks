@@ -4,44 +4,52 @@ import ReleaseBadge from '@/components/release-badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import {
-    Sidebar,
-    SidebarContent,
-    SidebarFooter,
-    SidebarGroup,
-    SidebarGroupContent,
-    SidebarGroupLabel,
-    SidebarHeader,
-    SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem,
-    SidebarSeparator,
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarSeparator,
 } from '@/components/ui/sidebar';
-import { getAvatarImage, getUserInitials, handleAvatarError } from '@/lib/avatar-utils';
 import {
-    Activity,
-    AlertCircle,
-    AlertTriangle,
-    BarChart3,
-    Bell,
-    Building2,
-    CheckCircle,
-    ChevronDown,
-    ChevronRight,
-    ClipboardList,
-    Clock,
-    Cog,
-    Eye,
-    Globe,
-    LogOut,
-    MapPin,
-    Play,
-    Settings,
-    Shield,
-    Target,
-    TrendingUp,
-    Users,
-    Wrench,
-    Zap
+  getAvatarImage,
+  getUserInitials,
+  handleAvatarError,
+} from '@/lib/avatar-utils';
+import {
+  createTransformationContext,
+  transformNavigationLabel,
+} from '@/lib/language-dictionary/language-transformer';
+import {
+  Activity,
+  AlertCircle,
+  AlertTriangle,
+  BarChart3,
+  Bell,
+  Building2,
+  CheckCircle,
+  ChevronDown,
+  ChevronRight,
+  ClipboardList,
+  Clock,
+  Cog,
+  Eye,
+  Globe,
+  LogOut,
+  MapPin,
+  Play,
+  Settings,
+  Shield,
+  Target,
+  TrendingUp,
+  Users,
+  Wrench,
+  Zap,
 } from 'lucide-react';
 import type { Route } from 'next';
 import { signOut, useSession } from 'next-auth/react';
@@ -86,7 +94,7 @@ export function AppSidebar({
     Record<string, boolean>
   >({
     strategic: false,
-    resilienceCommand: false,
+    assetPlanning: false,
     operations: false,
     contractor: false,
     community: false,
@@ -157,65 +165,107 @@ export function AppSidebar({
     {
       href: '/dashboard',
       icon: BarChart3,
-      label: 'Strategic Dashboard',
+      label: transformNavigationLabel(
+        'Strategic Dashboard',
+        createTransformationContext('AppSidebar', 'navigation', 'strategic')
+      ).transformed,
       roles: ['ADMIN', 'EXEC'],
     },
     {
       href: '/manager',
       icon: Activity,
-      label: 'Manager Dashboard',
+      label: transformNavigationLabel(
+        'Manager Dashboard',
+        createTransformationContext('AppSidebar', 'navigation', 'strategic')
+      ).transformed,
       roles: ['ADMIN', 'MANAGER', 'EXEC'],
     },
     {
       href: '/margin-management',
       icon: Clock,
-      label: 'Margin Management',
+      label: transformNavigationLabel(
+        'Margin Management',
+        createTransformationContext('AppSidebar', 'navigation', 'strategic')
+      ).transformed,
       roles: ['ADMIN', 'EXEC'],
     },
     {
       href: '/demo',
       icon: Play,
-      label: 'Demo Showcase',
+      label: transformNavigationLabel(
+        'Demo Showcase',
+        createTransformationContext('AppSidebar', 'navigation', 'strategic')
+      ).transformed,
       roles: ['ADMIN', 'EXEC'],
     },
     {
       href: '/reports/asset-condition',
       icon: TrendingUp,
-      label: 'Asset Performance',
+      label: transformNavigationLabel(
+        'Asset Performance',
+        createTransformationContext('AppSidebar', 'navigation', 'strategic')
+      ).transformed,
       roles: ['ADMIN', 'EXEC'],
     },
     {
       href: '/risk-analysis',
       icon: AlertTriangle,
-      label: 'Risk Overview',
+      label: transformNavigationLabel(
+        'Risk Overview',
+        createTransformationContext('AppSidebar', 'navigation', 'strategic')
+      ).transformed,
       roles: ['ADMIN', 'EXEC'],
     },
     {
       href: '/reports/risk-compliance',
       icon: Shield,
-      label: 'Compliance Status',
+      label: transformNavigationLabel(
+        'Compliance Status',
+        createTransformationContext('AppSidebar', 'navigation', 'strategic')
+      ).transformed,
       roles: ['ADMIN', 'EXEC'],
     },
   ];
 
-  // Resilience Command Group - Manager, Asset Planner personas
-  const resilienceCommandItems: SidebarItem[] = [
+  // Asset Planning Group - Manager, Asset Planner personas (formerly Resilience Command)
+  const assetPlanningItems: SidebarItem[] = [
     {
       href: '/resilience/risk-rhythm',
       icon: Activity,
-      label: 'Risk Rhythm',
+      label: transformNavigationLabel(
+        'Risk Rhythm',
+        createTransformationContext(
+          'AppSidebar',
+          'navigation',
+          'asset_planning'
+        )
+      ).transformed,
       roles: ['ADMIN', 'MANAGER', 'SUPERVISOR'],
     },
     {
       href: '/resilience/margin-operations',
       icon: Clock,
-      label: 'Margin Operations',
+      label: transformNavigationLabel(
+        'Margin Operations',
+        createTransformationContext(
+          'AppSidebar',
+          'navigation',
+          'asset_planning'
+        )
+      ).transformed,
       roles: ['ADMIN', 'MANAGER', 'EXEC'],
     },
     {
       href: '/resilience/asset-lookup',
       icon: Building2,
-      label: 'Asset Lookup',
+      label: transformNavigationLabel(
+        'Asset Lookup',
+        createTransformationContext(
+          'AppSidebar',
+          'navigation',
+          'asset_planning'
+        )
+      ).transformed,
       badge: assetCount !== null ? assetCount.toLocaleString() : undefined,
       roles: ['ADMIN', 'MANAGER', 'SUPERVISOR'],
     },
@@ -226,7 +276,10 @@ export function AppSidebar({
     {
       href: '/assets/map',
       icon: MapPin,
-      label: 'Asset Map',
+      label: transformNavigationLabel(
+        'Asset Map',
+        createTransformationContext('AppSidebar', 'navigation', 'operations')
+      ).transformed,
       roles: [
         'ADMIN',
         'MANAGER',
@@ -239,7 +292,10 @@ export function AppSidebar({
     {
       href: '/field-tool',
       icon: Wrench,
-      label: 'Field Operations',
+      label: transformNavigationLabel(
+        'Field Operations',
+        createTransformationContext('AppSidebar', 'navigation', 'operations')
+      ).transformed,
       roles: [
         'ADMIN',
         'MANAGER',
@@ -252,7 +308,10 @@ export function AppSidebar({
     {
       href: '/mobile/dashboard',
       icon: Activity,
-      label: 'Mobile Dashboard',
+      label: transformNavigationLabel(
+        'Mobile Dashboard',
+        createTransformationContext('AppSidebar', 'navigation', 'operations')
+      ).transformed,
       roles: [
         'ADMIN',
         'MANAGER',
@@ -265,7 +324,10 @@ export function AppSidebar({
     {
       href: '/mobile/inspections',
       icon: CheckCircle,
-      label: 'Inspections',
+      label: transformNavigationLabel(
+        'Inspections',
+        createTransformationContext('AppSidebar', 'navigation', 'operations')
+      ).transformed,
       roles: [
         'ADMIN',
         'MANAGER',
@@ -278,7 +340,10 @@ export function AppSidebar({
     {
       href: '/mobile/work-orders',
       icon: ClipboardList,
-      label: 'Work Orders',
+      label: transformNavigationLabel(
+        'Work Orders',
+        createTransformationContext('AppSidebar', 'navigation', 'operations')
+      ).transformed,
       roles: [
         'ADMIN',
         'MANAGER',
@@ -291,7 +356,10 @@ export function AppSidebar({
     {
       href: '/sessions',
       icon: Clock,
-      label: 'Work Sessions',
+      label: transformNavigationLabel(
+        'Work Sessions',
+        createTransformationContext('AppSidebar', 'navigation', 'operations')
+      ).transformed,
       roles: [
         'ADMIN',
         'MANAGER',
@@ -303,18 +371,24 @@ export function AppSidebar({
     },
   ];
 
-  // Contractor/Partner Portal Group - Contractor, Partner personas
-  const contractorPartnerItems: SidebarItem[] = [
+  // Contractor Portal Group - Contractor, Partner personas (simplified from "Contractor/Partner Portal")
+  const contractorPortalItems: SidebarItem[] = [
     {
       href: '/contractor/dashboard',
       icon: BarChart3,
-      label: 'Contract Dashboard',
+      label: transformNavigationLabel(
+        'Contract Dashboard',
+        createTransformationContext('AppSidebar', 'navigation', 'contractor')
+      ).transformed,
       roles: ['CONTRACTOR', 'PARTNER', 'ADMIN', 'MANAGER'],
     },
     {
       href: '/contractor/work-orders',
       icon: ClipboardList,
-      label: 'My Work Orders',
+      label: transformNavigationLabel(
+        'My Work Orders',
+        createTransformationContext('AppSidebar', 'navigation', 'contractor')
+      ).transformed,
       roles: [
         'CONTRACTOR',
         'MAINTENANCE_PLANNER',
@@ -326,19 +400,28 @@ export function AppSidebar({
     {
       href: '/contractor/performance',
       icon: TrendingUp,
-      label: 'Performance Metrics',
+      label: transformNavigationLabel(
+        'Performance Metrics',
+        createTransformationContext('AppSidebar', 'navigation', 'contractor')
+      ).transformed,
       roles: ['CONTRACTOR', 'PARTNER', 'ADMIN', 'MANAGER'],
     },
     {
       href: '/contractor/capacity',
       icon: Clock,
-      label: 'Capacity Management',
+      label: transformNavigationLabel(
+        'Capacity Management',
+        createTransformationContext('AppSidebar', 'navigation', 'contractor')
+      ).transformed,
       roles: ['CONTRACTOR', 'PARTNER', 'ADMIN', 'MANAGER'],
     },
     {
       href: '/partner/data-sharing',
       icon: Globe,
-      label: 'Data Sharing',
+      label: transformNavigationLabel(
+        'Data Sharing',
+        createTransformationContext('AppSidebar', 'navigation', 'contractor')
+      ).transformed,
       roles: ['PARTNER', 'ADMIN', 'MANAGER'],
     },
   ];
@@ -348,25 +431,37 @@ export function AppSidebar({
     {
       href: '/citizen',
       icon: Globe,
-      label: 'Community Portal',
+      label: transformNavigationLabel(
+        'Community Portal',
+        createTransformationContext('AppSidebar', 'navigation', 'community')
+      ).transformed,
       roles: ['CITIZEN', 'ADMIN'],
     },
     {
       href: '/citizen/track',
       icon: Eye,
-      label: 'Track Requests',
+      label: transformNavigationLabel(
+        'Track Requests',
+        createTransformationContext('AppSidebar', 'navigation', 'community')
+      ).transformed,
       roles: ['CITIZEN', 'ADMIN'],
     },
     {
       href: '/activity',
       icon: Activity,
-      label: 'Activity Logs',
+      label: transformNavigationLabel(
+        'Activity Logs',
+        createTransformationContext('AppSidebar', 'navigation', 'community')
+      ).transformed,
       roles: ['ADMIN', 'MANAGER', 'SUPERVISOR'],
     },
     {
       href: '/admin/triage',
       icon: AlertCircle,
-      label: 'Report Triage',
+      label: transformNavigationLabel(
+        'Report Triage',
+        createTransformationContext('AppSidebar', 'navigation', 'community')
+      ).transformed,
       roles: ['ADMIN', 'MANAGER', 'SUPERVISOR'],
     },
   ];
@@ -376,37 +471,55 @@ export function AppSidebar({
     {
       href: '/admin',
       icon: BarChart3,
-      label: 'Admin Dashboard',
+      label: transformNavigationLabel(
+        'Admin Dashboard',
+        createTransformationContext('AppSidebar', 'navigation', 'system')
+      ).transformed,
       roles: ['ADMIN'],
     },
     {
       href: '/admin/users',
       icon: Users,
-      label: 'User Management',
+      label: transformNavigationLabel(
+        'User Management',
+        createTransformationContext('AppSidebar', 'navigation', 'system')
+      ).transformed,
       roles: ['ADMIN'],
     },
     {
       href: '/admin/audit-logs',
       icon: Activity,
-      label: 'Audit Logs',
+      label: transformNavigationLabel(
+        'Audit Logs',
+        createTransformationContext('AppSidebar', 'navigation', 'system')
+      ).transformed,
       roles: ['ADMIN'],
     },
     {
       href: '/security',
       icon: Shield,
-      label: 'Security Dashboard',
+      label: transformNavigationLabel(
+        'Security Dashboard',
+        createTransformationContext('AppSidebar', 'navigation', 'system')
+      ).transformed,
       roles: ['ADMIN', 'MANAGER'],
     },
     {
       href: '/admin/notifications',
       icon: Bell,
-      label: 'Notifications',
+      label: transformNavigationLabel(
+        'Notifications',
+        createTransformationContext('AppSidebar', 'navigation', 'system')
+      ).transformed,
       roles: ['ADMIN'],
     },
     {
       href: '/settings',
       icon: Settings,
-      label: 'System Settings',
+      label: transformNavigationLabel(
+        'System Settings',
+        createTransformationContext('AppSidebar', 'navigation', 'system')
+      ).transformed,
       roles: ['ADMIN'],
     },
   ];
@@ -463,7 +576,16 @@ export function AppSidebar({
                 onClick={() => toggleGroup('strategic')}
               >
                 <Target className="h-4 w-4" />
-                Strategic Overview
+                {
+                  transformNavigationLabel(
+                    'Strategic Overview',
+                    createTransformationContext(
+                      'AppSidebar',
+                      'navigation',
+                      'group'
+                    )
+                  ).transformed
+                }
                 {collapsedGroups.strategic ? (
                   <ChevronRight className="h-4 w-4 ml-auto" />
                 ) : (
@@ -516,20 +638,29 @@ export function AppSidebar({
             <SidebarGroup>
               <SidebarGroupLabel
                 className="flex items-center gap-2 cursor-pointer hover:bg-sidebar-accent rounded-md px-2 py-1"
-                onClick={() => toggleGroup('resilienceCommand')}
+                onClick={() => toggleGroup('assetPlanning')}
               >
                 <Shield className="h-4 w-4" />
-                Resilience Command
-                {collapsedGroups.resilienceCommand ? (
+                {
+                  transformNavigationLabel(
+                    'Resilience Command',
+                    createTransformationContext(
+                      'AppSidebar',
+                      'navigation',
+                      'group'
+                    )
+                  ).transformed
+                }
+                {collapsedGroups.assetPlanning ? (
                   <ChevronRight className="h-4 w-4 ml-auto" />
                 ) : (
                   <ChevronDown className="h-4 w-4 ml-auto" />
                 )}
               </SidebarGroupLabel>
-              {!collapsedGroups.resilienceCommand && (
+              {!collapsedGroups.assetPlanning && (
                 <SidebarGroupContent>
                   <SidebarMenu>
-                    {filterItemsByRole(resilienceCommandItems, userRole).map(
+                    {filterItemsByRole(assetPlanningItems, userRole).map(
                       item => (
                         <SidebarMenuItem key={item.href}>
                           <SidebarMenuButton asChild>
@@ -573,7 +704,12 @@ export function AppSidebar({
             onClick={() => toggleGroup('operations')}
           >
             <Zap className="h-4 w-4" />
-            Operations Management
+            {
+              transformNavigationLabel(
+                'Operations Management',
+                createTransformationContext('AppSidebar', 'navigation', 'group')
+              ).transformed
+            }
             {collapsedGroups.operations ? (
               <ChevronRight className="h-4 w-4 ml-auto" />
             ) : (
@@ -630,7 +766,16 @@ export function AppSidebar({
                 onClick={() => toggleGroup('contractor')}
               >
                 <Building2 className="h-4 w-4" />
-                Contractor/Partner Portal
+                {
+                  transformNavigationLabel(
+                    'Contractor/Partner Portal',
+                    createTransformationContext(
+                      'AppSidebar',
+                      'navigation',
+                      'group'
+                    )
+                  ).transformed
+                }
                 {collapsedGroups.contractor ? (
                   <ChevronRight className="h-4 w-4 ml-auto" />
                 ) : (
@@ -640,7 +785,7 @@ export function AppSidebar({
               {!collapsedGroups.contractor && (
                 <SidebarGroupContent>
                   <SidebarMenu>
-                    {filterItemsByRole(contractorPartnerItems, userRole).map(
+                    {filterItemsByRole(contractorPortalItems, userRole).map(
                       item => (
                         <SidebarMenuItem key={item.href}>
                           <SidebarMenuButton asChild>
@@ -684,7 +829,12 @@ export function AppSidebar({
             onClick={() => toggleGroup('community')}
           >
             <Globe className="h-4 w-4" />
-            Community Engagement
+            {
+              transformNavigationLabel(
+                'Community Engagement',
+                createTransformationContext('AppSidebar', 'navigation', 'group')
+              ).transformed
+            }
             {collapsedGroups.community ? (
               <ChevronRight className="h-4 w-4 ml-auto" />
             ) : (
@@ -738,7 +888,16 @@ export function AppSidebar({
                 onClick={() => toggleGroup('system')}
               >
                 <Cog className="h-4 w-4" />
-                System Administration
+                {
+                  transformNavigationLabel(
+                    'System Administration',
+                    createTransformationContext(
+                      'AppSidebar',
+                      'navigation',
+                      'group'
+                    )
+                  ).transformed
+                }
                 {collapsedGroups.system ? (
                   <ChevronRight className="h-4 w-4 ml-auto" />
                 ) : (

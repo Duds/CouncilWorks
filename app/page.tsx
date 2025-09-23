@@ -1,33 +1,32 @@
-import Link from 'next/link';
-import type { Route } from 'next';
-import Image from 'next/image';
-import type { Metadata } from 'next';
 import CTAs from '@/components/marketing/CTAs';
 import DemoCarousel from '@/components/marketing/DemoCarousel';
 import SectionObserver from '@/components/marketing/SectionObserver';
+import type { Metadata, Route } from 'next';
 import { cookies } from 'next/headers';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title:
-    'Aegrid: Intelligent Asset Management for Visionary Councils | Pilot Partnership',
+    'Aegrid: ISO 55000 Compliant Asset Intelligence Platform | Energy Management & AI Optimisation',
   description:
-    "Partner with Aegrid to transform your council's asset management. Service designer-led platform built on revolutionary Aegrid Rules. Explore pilot partnerships for innovative councils.",
+    "Transform your asset management with Aegrid's ISO 55000 compliant platform. Advanced energy analysis, AI-powered optimisation, and intelligent anomaly detection for universities, property portfolios, and enterprise organisations.",
   keywords: [
-    'asset management',
-    'council asset management',
-    'pilot partnership',
-    'Aegrid Rules',
-    'intelligent asset management',
-    'service design',
-    'Australian councils',
+    'ISO 55000 compliance',
+    'asset intelligence platform',
+    'energy management',
+    'AI optimisation',
+    'anomaly detection',
     'asset lifecycle management',
-    'maintenance strategy',
-    'risk-based maintenance',
-    'Dale Rogers',
-    'council technology',
-    'asset intelligence',
-    'proactive maintenance',
-    'asset criticality',
+    'property portfolio management',
+    'university asset management',
+    'enterprise asset management',
+    'predictive maintenance',
+    'energy consumption analysis',
+    'asset performance optimisation',
+    'intelligent asset management',
+    'Aegrid Rules',
+    'Australian asset management',
   ],
   authors: [
     { name: 'Dale Rogers', url: 'https://linkedin.com/in/dale-rogers' },
@@ -46,9 +45,9 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Aegrid: Intelligent Asset Management for Visionary Councils',
+    title: 'Aegrid: ISO 55000 Compliant Asset Intelligence Platform',
     description:
-      "Partner with Aegrid to transform your council's asset management. Service designer-led platform built on revolutionary Aegrid Rules.",
+      "Transform your asset management with Aegrid's ISO 55000 compliant platform. Advanced energy analysis, AI-powered optimisation, and intelligent anomaly detection.",
     url: 'https://aegrid.au',
     siteName: 'Aegrid',
     images: [
@@ -56,7 +55,7 @@ export const metadata: Metadata = {
         url: '/images/CouncilWorks_HERO.png',
         width: 1200,
         height: 630,
-        alt: 'Aegrid dashboard interface showing intelligent asset management',
+        alt: 'Aegrid dashboard interface showing ISO 55000 compliance and energy management capabilities',
       },
     ],
     locale: 'en_AU',
@@ -64,9 +63,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Aegrid: Intelligent Asset Management for Visionary Councils',
+    title: 'Aegrid: ISO 55000 Compliant Asset Intelligence Platform',
     description:
-      "Partner with Aegrid to transform your council's asset management. Service designer-led platform built on revolutionary Aegrid Rules.",
+      "Transform your asset management with Aegrid's ISO 55000 compliant platform. Advanced energy analysis, AI-powered optimisation, and intelligent anomaly detection.",
     images: ['/images/CouncilWorks_HERO.png'],
     creator: '@aegrid_au',
   },
@@ -101,8 +100,8 @@ export default async function HomePage() {
   const variant = cookieStore.get('cw-ab-hero')?.value === 'B' ? 'B' : 'A';
   const headline =
     variant === 'A'
-      ? "The Future of Asset Management Isn't More Maintenance. It's a New Approach."
-      : 'Partner with us to build the future of asset management for your council.';
+      ? 'ISO 55000 Compliant Asset Intelligence: Energy Management, AI Optimisation & Predictive Analytics'
+      : 'Transform Your Asset Management with ISO 55000 Compliance, Energy Analysis & AI-Powered Optimisation';
 
   const structuredData = {
     '@context': 'https://schema.org',
@@ -174,14 +173,392 @@ export default async function HomePage() {
                 {headline}
               </h1>
               <p className="mt-4 text-lg text-muted-foreground">
-                Aegrid is a service designer-led platform that helps innovative
-                councils move from reactive maintenance to predictable outcomes.
-                We&apos;re looking for visionary partners to pilot a new
-                approach to asset management, built on the &apos;Aegrid
-                Rules&apos; – a revolutionary framework for intelligent asset
-                management.
+                Aegrid delivers ISO 55000 compliant asset intelligence with
+                advanced energy management, AI-powered optimisation, and
+                predictive analytics. Built on the revolutionary Aegrid Rules
+                framework, we help universities, property portfolios, and
+                enterprise organisations achieve predictable asset outcomes
+                through intelligent maintenance strategies.
               </p>
               <CTAs location="hero" variant={variant} />
+            </div>
+          </div>
+        </section>
+
+        {/* Core Feature Showcase */}
+        <section
+          id="core-features"
+          className="mx-auto max-w-6xl px-6 py-16 sm:py-20"
+          aria-labelledby="features-heading"
+        >
+          <div className="mb-10 max-w-3xl">
+            <h2
+              id="features-heading"
+              className="text-2xl font-semibold tracking-tight sm:text-3xl"
+            >
+              Core Features: ISO 55000 Compliance, Energy Management & AI
+              Optimisation
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              Transform your asset management with industry-leading capabilities
+              designed for modern organisations.
+            </p>
+          </div>
+
+          <div className="grid gap-8 lg:grid-cols-3">
+            {/* ISO 55000 Compliance */}
+            <div className="rounded-lg border border-border bg-background p-6 shadow-sm">
+              <div className="mb-4 flex items-center gap-3">
+                <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
+                  <svg
+                    className="w-6 h-6 text-green-600 dark:text-green-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold">ISO 55000 Compliance</h3>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4">
+                Full compliance with international asset management standards,
+                providing the framework for strategic asset management
+                excellence.
+              </p>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li className="flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 flex-shrink-0"></span>
+                  <span>Strategic asset management framework</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 flex-shrink-0"></span>
+                  <span>Risk-based decision making</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 flex-shrink-0"></span>
+                  <span>Performance measurement & reporting</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 flex-shrink-0"></span>
+                  <span>Continuous improvement processes</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Energy Management */}
+            <div className="rounded-lg border border-border bg-background p-6 shadow-sm">
+              <div className="mb-4 flex items-center gap-3">
+                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                  <svg
+                    className="w-6 h-6 text-blue-600 dark:text-blue-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold">Energy Management</h3>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4">
+                Advanced energy consumption analysis and optimisation
+                capabilities for sustainable asset operations.
+              </p>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li className="flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
+                  <span>Real-time energy consumption monitoring</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
+                  <span>Energy efficiency trend analysis</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
+                  <span>Carbon footprint tracking</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
+                  <span>Cost optimisation recommendations</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* AI Optimisation */}
+            <div className="rounded-lg border border-border bg-background p-6 shadow-sm">
+              <div className="mb-4 flex items-center gap-3">
+                <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center">
+                  <svg
+                    className="w-6 h-6 text-purple-600 dark:text-purple-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold">AI Optimisation</h3>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4">
+                Intelligent anomaly detection and predictive analytics powered
+                by advanced AI algorithms.
+              </p>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li className="flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 flex-shrink-0"></span>
+                  <span>Predictive maintenance scheduling</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 flex-shrink-0"></span>
+                  <span>Anomaly detection & alerting</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 flex-shrink-0"></span>
+                  <span>Performance optimisation recommendations</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 flex-shrink-0"></span>
+                  <span>Machine learning insights</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        {/* Interactive Demonstrations */}
+        <section
+          id="interactive-demos"
+          className="mx-auto max-w-6xl px-6 py-16 sm:py-20 bg-muted/30"
+          aria-labelledby="demos-heading"
+        >
+          <div className="mb-10 max-w-3xl">
+            <h2
+              id="demos-heading"
+              className="text-2xl font-semibold tracking-tight sm:text-3xl"
+            >
+              See Aegrid in Action: Interactive Demonstrations
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              Experience the power of Aegrid through live dashboard previews,
+              feature walkthroughs, and real-world case studies.
+            </p>
+          </div>
+
+          <div className="grid gap-8 lg:grid-cols-2">
+            {/* Live Dashboard Preview */}
+            <div className="rounded-lg border border-border bg-background p-6 shadow-sm">
+              <div className="mb-4 flex items-center gap-3">
+                <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                  <svg
+                    className="w-5 h-5 text-blue-600 dark:text-blue-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold">
+                  Live Dashboard Preview
+                </h3>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4">
+                Explore our executive dashboard with real-time asset performance
+                metrics, energy consumption analysis, and AI-powered insights.
+              </p>
+              <div className="space-y-3">
+                <div className="flex items-center gap-2 text-sm">
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <span>Real-time asset condition monitoring</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                  <span>Energy consumption trends and analysis</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm">
+                  <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                  <span>AI-powered anomaly detection alerts</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm">
+                  <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                  <span>ISO 55000 compliance status tracking</span>
+                </div>
+              </div>
+              <div className="mt-4">
+                <Link
+                  href="/demo"
+                  className="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors text-sm"
+                >
+                  View Live Demo →
+                </Link>
+              </div>
+            </div>
+
+            {/* Feature Walkthrough */}
+            <div className="rounded-lg border border-border bg-background p-6 shadow-sm">
+              <div className="mb-4 flex items-center gap-3">
+                <div className="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
+                  <svg
+                    className="w-5 h-5 text-green-600 dark:text-green-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold">
+                  Feature Walkthrough Videos
+                </h3>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4">
+                Watch step-by-step demonstrations of key features including
+                energy management, predictive maintenance, and compliance
+                reporting.
+              </p>
+              <div className="space-y-3">
+                <div className="flex items-center gap-2 text-sm">
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <span>Energy management and optimisation</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                  <span>Predictive maintenance scheduling</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm">
+                  <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                  <span>AI anomaly detection setup</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm">
+                  <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                  <span>Compliance reporting automation</span>
+                </div>
+              </div>
+              <div className="mt-4">
+                <Link
+                  href="/docs/feature-walkthroughs"
+                  className="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors text-sm"
+                >
+                  Watch Videos →
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Client Testimonials */}
+          <div className="mt-12">
+            <h3 className="text-xl font-semibold mb-6 text-center">
+              What Our Clients Say
+            </h3>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="rounded-lg border border-border bg-background p-6 shadow-sm">
+                <div className="mb-4">
+                  <div className="flex items-center gap-1 mb-2">
+                    {[...Array(5)].map((_, i) => (
+                      <svg
+                        key={i}
+                        className="w-4 h-4 text-yellow-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+                  <p className="text-sm text-muted-foreground italic">
+                    &ldquo;Aegrid&apos;s energy management capabilities helped
+                    us reduce operational costs by 23% while improving our
+                    sustainability metrics.&rdquo;
+                  </p>
+                </div>
+                <div className="text-sm font-medium">
+                  <div>Sarah Chen</div>
+                  <div className="text-muted-foreground">
+                    Facilities Director, University of Technology
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-lg border border-border bg-background p-6 shadow-sm">
+                <div className="mb-4">
+                  <div className="flex items-center gap-1 mb-2">
+                    {[...Array(5)].map((_, i) => (
+                      <svg
+                        key={i}
+                        className="w-4 h-4 text-yellow-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+                  <p className="text-sm text-muted-foreground italic">
+                    &ldquo;The AI-powered anomaly detection has prevented three
+                    major equipment failures this quarter, saving us over
+                    $500,000 in unplanned downtime.&rdquo;
+                  </p>
+                </div>
+                <div className="text-sm font-medium">
+                  <div>Michael Rodriguez</div>
+                  <div className="text-muted-foreground">
+                    Asset Manager, Property Portfolio Group
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-lg border border-border bg-background p-6 shadow-sm">
+                <div className="mb-4">
+                  <div className="flex items-center gap-1 mb-2">
+                    {[...Array(5)].map((_, i) => (
+                      <svg
+                        key={i}
+                        className="w-4 h-4 text-yellow-400"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+                  <p className="text-sm text-muted-foreground italic">
+                    &ldquo;ISO 55000 compliance was seamless with Aegrid. Our
+                    audit preparation time reduced from weeks to days.&rdquo;
+                  </p>
+                </div>
+                <div className="text-sm font-medium">
+                  <div>Dr. Emma Thompson</div>
+                  <div className="text-muted-foreground">
+                    Chief Operations Officer, Enterprise Solutions
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -380,58 +757,64 @@ export default async function HomePage() {
             </h2>
             <p className="mt-3 text-muted-foreground">
               From the front line to the executive suite, Aegrid delivers
-              tangible benefits that align with your council&apos;s strategic
-              objectives.
+              tangible benefits that align with your organisation&apos;s
+              strategic objectives and ISO 55000 compliance requirements.
             </p>
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <ValueCard
               role="For Executives"
               bullets={[
-                'Drive strategic outcomes with a clear line of sight from assets to service delivery',
-                'Performance KPIs',
-                'Condition trends',
-                '$AUD budget views',
+                'Strategic asset management with ISO 55000 compliance framework',
+                'Energy consumption analysis and cost optimisation',
+                'AI-powered performance insights and ROI tracking',
+                'Executive dashboard with $AUD budget views and KPI monitoring',
               ]}
             />
             <ValueCard
               role="For Managers"
               bullets={[
-                'Optimize resource allocation and make data-driven decisions with confidence',
-                '↓ downtime with risk‑based plans',
-                '↑ SLA compliance',
-                'Clean audits',
-              ]}
-            />
-            <ValueCard
-              role="For Crews"
-              bullets={[
-                'Simplify your work and focus on what matters most with a user-friendly mobile app',
-                'Offline inspections',
-                'GPS + photos',
-                'Fast mobile UI',
-              ]}
-            />
-            <ValueCard
-              role="For Citizens"
-              bullets={[
-                'Improve community satisfaction with more reliable services and greater transparency',
-                'Report issues',
-                'Track outcomes',
-                'Transparent updates',
+                'Optimise resource allocation with data-driven decision making',
+                'Risk-based maintenance planning and scheduling',
+                'Energy efficiency monitoring and sustainability reporting',
+                'Compliance status tracking and audit preparation',
               ]}
             />
             <ValueCard
               role="For Supervisors"
               bullets={[
-                'Assign and track work',
-                'Live status & SLAs',
-                'Map context',
+                'Work order assignment and progress tracking',
+                'Real-time asset condition monitoring',
+                'Mobile field operations with GPS and photo capture',
+                'Performance metrics and SLA compliance monitoring',
               ]}
             />
             <ValueCard
-              role="For Admins"
-              bullets={['SSO & RBAC', 'Audit logging', 'Organisation setup']}
+              role="For Crew Members"
+              bullets={[
+                'Mobile-optimised interface for field operations',
+                'Offline inspection capabilities with GPS integration',
+                'Simplified work order management and completion',
+                'Safety requirements and work instructions access',
+              ]}
+            />
+            <ValueCard
+              role="For Citizens"
+              bullets={[
+                'Community portal for issue reporting and tracking',
+                'Transparent service delivery updates',
+                'Real-time request status and resolution tracking',
+                'Improved service reliability and response times',
+              ]}
+            />
+            <ValueCard
+              role="For Administrators"
+              bullets={[
+                'Single Sign-On (SSO) and Role-Based Access Control (RBAC)',
+                'Comprehensive audit logging and compliance monitoring',
+                'System configuration and user management',
+                'Data import/export and integration capabilities',
+              ]}
             />
           </div>
         </section>
@@ -1000,10 +1383,11 @@ export default async function HomePage() {
             <div className="space-y-6">
               <div className="text-center">
                 <h3 className="text-lg font-semibold">
-                  Aegrid: Intelligent Asset Management for Visionary Councils
+                  Aegrid: ISO 55000 Compliant Asset Intelligence Platform
                 </h3>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Partner with us to transform your asset management approach
+                  Transform your asset management with energy analysis, AI
+                  optimisation, and predictive analytics
                 </p>
               </div>
               <div className="flex flex-wrap items-center justify-between gap-4">
@@ -1033,6 +1417,8 @@ export default async function HomePage() {
         <SectionObserver
           sectionIds={[
             'hero',
+            'core-features',
+            'interactive-demos',
             'founder',
             'how',
             'personas',

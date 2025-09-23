@@ -32,9 +32,9 @@ model Asset {
   name                       String
   description                String?
   assetType                  AssetType
-  status                     AssetStatus            @default(ACTIVE)
-  condition                  AssetCondition         @default(UNKNOWN)
-  priority                   AssetPriority          @default(MEDIUM)
+  assetStatus                AssetStatus            @default(Active)
+  assetCondition             AssetCondition         @default(Unknown)
+  assetPriority              AssetPriority          @default(Medium)
   location                   String?
   address                    String?
   suburb                     String?
@@ -88,12 +88,12 @@ model Asset {
 
   @@index([assetNumber])
   @@index([assetType])
-  @@index([condition])
+  @@index([assetCondition])
   @@index([createdAt])
   @@index([location])
   @@index([organisationId])
-  @@index([priority])
-  @@index([status])
+  @@index([assetPriority])
+  @@index([assetStatus])
 }
 
 model AssetCriticalControl {
@@ -145,7 +145,7 @@ model AssetInspection {
   inspectionDate     DateTime
   inspectorName      String
   inspectorId        String?
-  condition          AssetCondition
+  assetCondition     AssetCondition
   conditionNotes     String?
   issues             String[]          @default([])
   recommendations    String?
@@ -158,7 +158,7 @@ model AssetInspection {
   InspectionPhoto    InspectionPhoto[]
 
   @@index([assetId])
-  @@index([condition])
+  @@index([assetCondition])
   @@index([inspectionDate])
 }
 
@@ -524,8 +524,8 @@ model MaintenanceSchedule {
   dueDate       DateTime
   completedDate DateTime?
   assignedTo    String?
-  status        String               @default("PENDING")
-  priority      AssetPriority        @default(MEDIUM)
+  status        String               @default("Pending")
+  priority      AssetPriority        @default(Medium)
   workPerformed String?
   notes         String?
   createdAt     DateTime             @default(now())
@@ -788,7 +788,7 @@ model User {
   email                                String              @unique
   name                                 String?
   passwordHash                         String?
-  role                                 Role                @default(CITIZEN)
+  userRole                             Role                @default(Citizen)
   organisationId                       String?
   vendorId                             String?
   emailVerified                        DateTime?
@@ -868,10 +868,10 @@ model WorkOrder {
   id                              String              @id
   assetId                         String
   workOrderNumber                 String              @unique
-  title                           String
-  description                     String
-  priority                        AssetPriority       @default(MEDIUM)
-  status                          String              @default("OPEN")
+  workOrderType                   String
+  workDescription                 String
+  workOrderPriority               AssetPriority       @default(Medium)
+  workOrderStatus                 String              @default("OPEN")
   assignedTo                      String?
   assignedBy                      String?
   vendorId                        String?
@@ -904,9 +904,9 @@ model WorkOrder {
   @@index([assignedTo])
   @@index([contractId])
   @@index([dueDate])
-  @@index([priority])
+  @@index([workOrderPriority])
   @@index([slaId])
-  @@index([status])
+  @@index([workOrderStatus])
   @@index([vendorId])
   @@index([workOrderNumber])
 }
@@ -934,28 +934,28 @@ model WorkOrderEvidence {
 }
 
 enum AssetCondition {
-  EXCELLENT
-  GOOD
-  FAIR
-  POOR
-  CRITICAL
-  UNKNOWN
+  Excellent
+  Good
+  Fair
+  Poor
+  Critical
+  Unknown
 }
 
 enum AssetPriority {
-  LOW
-  MEDIUM
-  HIGH
-  CRITICAL
+  Low
+  Medium
+  High
+  Critical
 }
 
 enum AssetStatus {
-  ACTIVE
-  INACTIVE
-  UNDER_CONSTRUCTION
-  UNDER_MAINTENANCE
-  DECOMMISSIONED
-  PLANNED
+  Active
+  Inactive
+  UnderConstruction
+  UnderMaintenance
+  Decommissioned
+  Planned
 }
 
 enum AssetType {
@@ -1056,15 +1056,15 @@ enum RCMTemplateStatus {
 }
 
 enum Role {
-  ADMIN
-  MANAGER
-  SUPERVISOR
-  CREW
-  EXEC
-  CONTRACTOR
-  PARTNER
-  CITIZEN
-  MAINTENANCE_PLANNER
+  Administrator
+  Manager
+  Supervisor
+  CrewMember
+  Executive
+  Contractor
+  Partner
+  Citizen
+  MaintenancePlanner
 }
 
 // Resilience Command Models for Aegrid Rules Implementation
@@ -1081,8 +1081,8 @@ model ServicePurpose {
   // criticalControl   CriticalControl? @relation(fields: [criticalControlId], references: [id])
 
   // Purpose metadata
-  priority       AssetPriority @default(MEDIUM)
-  status         String        @default("ACTIVE")
+  priority       AssetPriority @default(Medium)
+  status         String        @default("Active")
   isCoreFunction Boolean       @default(false)
 
   // Relationships
@@ -1107,7 +1107,7 @@ model AssetPurposeMapping {
   servicePurposeId String
   servicePurpose   ServicePurpose @relation(fields: [servicePurposeId], references: [id])
   contribution     Int
-  criticality      AssetPriority  @default(MEDIUM)
+  criticality      AssetPriority  @default(Medium)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -1142,7 +1142,7 @@ model RiskRhythmProfile {
   nextMaintenance      DateTime?
 
   // Status
-  status         String   @default("ACTIVE")
+  status         String   @default("Active")
   lastCalculated DateTime @default(now())
 
   // Relationships
@@ -1239,11 +1239,11 @@ model DynamicMaintenanceSchedule {
 
   // Schedule details
   scheduledDate   DateTime
-  maintenanceType String // "PREVENTIVE", "PREDICTIVE", "CORRECTIVE", "EMERGENCY"
+  maintenanceType String // "Preventive", "Predictive", "Corrective", "Emergency"
   priority        AssetPriority
 
   // Status and completion
-  status      String    @default("SCHEDULED") // "SCHEDULED", "IN_PROGRESS", "COMPLETED", "CANCELLED"
+  status      String    @default("Scheduled") // "Scheduled", "InProgress", "Completed", "Cancelled"
   assignedTo  String? // User ID
   completedAt DateTime?
   notes       String?

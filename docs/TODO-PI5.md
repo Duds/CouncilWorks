@@ -48,6 +48,7 @@ Integrate energy management and AI intelligence as core system capabilities, imp
 **Stack Rank**: 1
 
 **Aegrid Rules Alignment**:
+
 - **Rule 1**: Energy purpose mapping and value contribution tracking
 - **Rule 2**: Risk-based energy optimisation and maintenance
 - **Rule 3**: Critical energy asset monitoring and response
@@ -56,24 +57,28 @@ Integrate energy management and AI intelligence as core system capabilities, imp
 **Features**:
 
 **F21.1: Energy Data Ingestion**
+
 - Energy meter integration and data collection
 - BMS/EMS connectivity and data processing
 - IoT sensor integration for environmental data
 - Weather data correlation and analysis
 
 **F21.2: Energy Analytics Engine**
+
 - Consumption analysis and pattern recognition
 - Efficiency scoring and benchmarking
 - Anomaly detection for energy usage
 - Cost analysis and financial impact tracking
 
 **F21.3: Carbon Tracking System**
+
 - Emission calculations and carbon footprint tracking
 - Scope 1, 2, 3 emission monitoring
 - Sustainability reporting and ESG compliance
 - Carbon reduction planning and goal tracking
 
 **F21.4: Energy Optimisation Engine**
+
 - Automated energy controls and optimisation
 - Load balancing and demand management
 - Peak demand management and load shedding
@@ -96,6 +101,7 @@ Integrate energy management and AI intelligence as core system capabilities, imp
 **Stack Rank**: 2
 
 **Aegrid Rules Alignment**:
+
 - **Rule 1**: AI-powered asset purpose optimisation
 - **Rule 2**: Predictive maintenance aligned with risk
 - **Rule 3**: Critical asset failure prediction and alerts
@@ -104,24 +110,28 @@ Integrate energy management and AI intelligence as core system capabilities, imp
 **Features**:
 
 **F22.1: Optimisation Engine**
+
 - Asset performance optimisation algorithms
 - Maintenance scheduling optimisation
 - Resource allocation optimisation
 - Energy efficiency optimisation
 
 **F22.2: Anomaly Detection System**
+
 - Pattern recognition and outlier identification
 - Statistical anomaly detection
 - Behavioural analysis and learning
 - Multi-dimensional analysis and correlation
 
 **F22.3: Predictive Maintenance Intelligence**
+
 - Failure prediction and condition monitoring
 - Remaining useful life estimation
 - Maintenance optimisation and timing
 - Spare parts prediction and forecasting
 
 **F22.4: Automated Red-flagging System**
+
 - Risk assessment and alert generation
 - Priority scoring and escalation logic
 - Exception handling and compliance monitoring
@@ -144,6 +154,7 @@ Integrate energy management and AI intelligence as core system capabilities, imp
 **Stack Rank**: 3
 
 **Aegrid Rules Alignment**:
+
 - **Rule 1**: ISO 55000 value principle implementation
 - **Rule 2**: ISO 55000 alignment principle with risk-based management
 - **Rule 3**: ISO 55000 assurance principle with real-world response
@@ -152,24 +163,28 @@ Integrate energy management and AI intelligence as core system capabilities, imp
 **Features**:
 
 **F23.1: Asset Management Policy Framework**
+
 - Policy templates and guidance
 - Policy alignment tracking
 - Policy communication tools
 - Policy review and update processes
 
 **F23.2: Strategic Asset Management Plan**
+
 - Strategic planning tools and frameworks
 - Lifecycle planning capabilities
 - Scenario planning and modelling
 - Long-term forecasting and analytics
 
 **F23.3: Asset Management Objectives**
+
 - Objective setting tools and frameworks
 - Performance measurement systems
 - KPI tracking and reporting
 - Objective achievement monitoring
 
 **F23.4: Performance Evaluation System**
+
 - Performance dashboards and monitoring
 - Compliance monitoring and tracking
 - Audit trail capabilities
@@ -183,47 +198,140 @@ Integrate energy management and AI intelligence as core system capabilities, imp
 **US23.4**: As a Planner, I want objective tracking so I can measure asset management effectiveness
 **US23.5**: As a Compliance Officer, I want audit trails so I can demonstrate regulatory compliance
 
-### E24: Language Simplification & Visualisation Enhancement
+### E24: Language Simplification & Visualisation Enhancement ✅ COMPLETED
 
 **Goal**: Simplify terminology and enhance visualisation for executive buy-in
 **Value**: Clear communication and "graphs sell it" executive presentation
 **Priority**: MEDIUM
 **Story Points**: 25
 **Stack Rank**: 4
+**Status**: 🚀 **IMPLEMENTATION COMPLETE** - Ready for Production
 
 **Aegrid Rules Alignment**:
-- **Rule 1**: Plain language for asset purpose communication
-- **Rule 2**: Clear risk communication and visualisation
-- **Rule 3**: Intuitive critical asset visualisation
-- **Rule 4**: Future-focused visual planning tools
+
+- **Rule 1**: Plain language for asset purpose communication ✅
+- **Rule 2**: Clear risk communication and visualisation ✅
+- **Rule 3**: Intuitive critical asset visualisation ✅
+- **Rule 4**: Future-focused visual planning tools ✅
+
+**Implementation Summary**:
+
+- **Language Dictionary System**: Comprehensive terminology mapping with 100+ entries
+- **Terminology Transformer**: Automated transformation utilities for consistent terminology
+- **Enhanced Executive Dashboard**: Interactive dashboards with drill-down capabilities
+- **Asset Visualisation Map**: Geographic mapping with condition overlays and filtering
+- **Executive Visual Report**: Comprehensive reporting with performance metrics and ROI analysis
+- **Navigation Updates**: All sidebar navigation updated with standardised terminology
+
+**Key Terminology Transformations**:
+
+- **Resilience Command** → **Asset Planning**
+- **Risk Rhythm** → **Maintenance Scheduling**
+- **Margin Management** → **Resource Management**
+- **Strategic Dashboard** → **Executive Dashboard**
+- **Resilience Engine** → **Asset Intelligence Engine**
+
+**Features Completed**:
+
+**F24.1: Terminology Simplification** ✅
+
+- ✅ Language mapping and translation system
+- ✅ Plain operational terminology implementation
+- ✅ User interface label simplification
+- ✅ Documentation language standardisation
+
+**F24.2: Enhanced Visualisation** ✅
+
+- ✅ Interactive dashboards with drill-down capabilities
+- ✅ Real-time status indicators and alerts
+- ✅ Geographic asset mapping with condition overlays
+- ✅ Financial impact visualisations
+
+**F24.3: Executive Reporting** ✅
+
+- ✅ Performance benchmarking charts
+- ✅ Strategic reports with visual elements
+- ✅ Cost-benefit analysis visualisations
+- ✅ ROI and value delivery metrics
+
+**User Stories Completed**:
+
+**US24.1**: As a User, I want plain language terminology so I can understand the system easily ✅
+**US24.2**: As an Executive, I want visual dashboards so I can see performance at a glance ✅
+**US24.3**: As a Manager, I want interactive charts so I can drill down into details ✅
+**US24.4**: As a Stakeholder, I want visual reports so I can understand value delivery ✅
+**US24.5**: As a Presenter, I want compelling visuals so I can demonstrate system value ✅
+
+**Implementation Files**:
+
+- `lib/language-dictionary/terminology-mapping.ts` - Comprehensive terminology mapping
+- `lib/language-dictionary/language-transformer.ts` - Automated transformation utilities
+- `components/app-sidebar.tsx` - Updated navigation with standardised terminology
+- `components/dashboard/enhanced-executive-dashboard.tsx` - Interactive executive dashboard
+- `components/dashboard/asset-visualisation-map.tsx` - Geographic asset mapping
+- `components/reports/executive-visual-report.tsx` - Comprehensive executive reporting
+- `docs/architecture/epic24-implementation-summary.md` - Implementation documentation
+
+**Business Value Delivered**:
+
+- **Clear Communication**: Standardised terminology across all interfaces
+- **Executive Buy-in**: Compelling visual presentations for stakeholder engagement
+- **Strategic Insights**: Enhanced decision-making with visual data
+- **Operational Efficiency**: Streamlined workflows with consistent terminology
+- **Compliance Tracking**: Clear regulatory compliance monitoring
+
+### E25: Landing Page Modernisation & Core Feature Highlighting
+
+**Goal**: Update landing page to showcase core features and align with language dictionary standards
+**Value**: Enhanced market positioning and executive buy-in through clear value proposition
+**Priority**: HIGH
+**Story Points**: 20
+**Stack Rank**: 5
+
+**Aegrid Rules Alignment**:
+
+- **Rule 1**: Clear asset purpose communication through feature highlighting
+- **Rule 2**: Risk-based positioning of core capabilities
+- **Rule 3**: Critical feature visibility and prominence
+- **Rule 4**: Future-focused messaging and market positioning
 
 **Features**:
 
-**F24.1: Terminology Simplification**
-- Language mapping and translation system
-- Plain operational terminology implementation
-- User interface label simplification
-- Documentation language standardisation
+**F25.1: Core Feature Showcase**
 
-**F24.2: Enhanced Visualisation**
-- Interactive dashboards with drill-down capabilities
-- Real-time status indicators and alerts
-- Geographic asset mapping with condition overlays
-- Financial impact visualisations
+- ISO 55000 compliance as primary feature highlight
+- Energy consumption and analysis capabilities
+- AI optimisation and anomaly detection positioning
+- Visual feature demonstrations and case studies
 
-**F24.3: Executive Reporting**
-- Performance benchmarking charts
-- Strategic reports with visual elements
-- Cost-benefit analysis visualisations
-- ROI and value delivery metrics
+**F25.2: Language Dictionary Implementation**
+
+- Landing page terminology aligned with language dictionary
+- Plain language messaging throughout
+- Industry-standard terminology usage
+- Consistent terminology across all landing page content
+
+**F25.3: Executive-Focused Messaging**
+
+- "Graphs sell it" visual approach
+- ROI and value delivery emphasis
+- Professional credibility through ISO standards
+- Market expansion messaging (universities, property portfolios)
+
+**F25.4: Interactive Demonstrations**
+
+- Live dashboard previews
+- Feature walkthrough videos
+- Interactive capability demonstrations
+- Client testimonial integration
 
 **User Stories**:
 
-**US24.1**: As a User, I want plain language terminology so I can understand the system easily
-**US24.2**: As an Executive, I want visual dashboards so I can see performance at a glance
-**US24.3**: As a Manager, I want interactive charts so I can drill down into details
-**US24.4**: As a Stakeholder, I want visual reports so I can understand value delivery
-**US24.5**: As a Presenter, I want compelling visuals so I can demonstrate system value
+**US25.1**: As a Property Director, I want to see ISO 55000 compliance highlighted so I can trust the platform's credibility
+**US25.2**: As a Facilities Manager, I want energy management prominently featured so I can see it addresses my core needs
+**US25.3**: As an Executive, I want AI capabilities clearly positioned so I can understand the optimisation value
+**US25.4**: As a Decision Maker, I want visual demonstrations so I can see the system in action
+**US25.5**: As a Potential Client, I want plain language messaging so I can understand the value proposition easily
 
 ## 🧪 TDD Implementation Strategy
 
@@ -237,18 +345,21 @@ Integrate energy management and AI intelligence as core system capabilities, imp
 ### Test Categories
 
 **Unit Tests**:
+
 - Individual function and component testing
 - Business logic validation
 - Edge case and error handling
 - Performance and efficiency testing
 
 **Integration Tests**:
+
 - API endpoint testing
 - Database integration testing
 - External service integration testing
 - End-to-end workflow testing
 
 **Acceptance Tests**:
+
 - User story validation
 - Business requirement verification
 - User experience testing
@@ -257,12 +368,14 @@ Integrate energy management and AI intelligence as core system capabilities, imp
 ### Test Data Strategy
 
 **Real Data Testing**:
+
 - Use actual asset data for testing
 - Real energy consumption patterns
 - Actual maintenance schedules
 - Real user scenarios and workflows
 
 **Test Data Management**:
+
 - Consistent test data sets
 - Data privacy and security compliance
 - Test data refresh and maintenance
@@ -275,12 +388,14 @@ Integrate energy management and AI intelligence as core system capabilities, imp
 **Focus**: Core energy management capabilities with TDD implementation
 
 **Week 1-2: Energy Data Ingestion**
+
 - F21.1: Energy meter integration and data collection
 - BMS/EMS connectivity implementation
 - IoT sensor integration
 - Weather data correlation
 
 **Week 3-4: Energy Analytics Engine**
+
 - F21.2: Consumption analysis and pattern recognition
 - Efficiency scoring and benchmarking
 - Anomaly detection implementation
@@ -291,12 +406,14 @@ Integrate energy management and AI intelligence as core system capabilities, imp
 **Focus**: Embedded AI capabilities with comprehensive testing
 
 **Week 5-6: Optimisation Engine**
+
 - F22.1: Asset performance optimisation
 - Maintenance scheduling optimisation
 - Resource allocation optimisation
 - Energy efficiency optimisation
 
 **Week 7-8: Anomaly Detection & Predictive Maintenance**
+
 - F22.2: Anomaly detection system
 - F22.3: Predictive maintenance intelligence
 - F22.4: Automated red-flagging system
@@ -306,10 +423,12 @@ Integrate energy management and AI intelligence as core system capabilities, imp
 **Focus**: Comprehensive compliance implementation
 
 **Week 9-10: Policy Framework & Strategic Planning**
+
 - F23.1: Asset management policy framework
 - F23.2: Strategic asset management plan
 
 **Week 11-12: Objectives & Performance Evaluation**
+
 - F23.3: Asset management objectives
 - F23.4: Performance evaluation system
 
@@ -318,25 +437,47 @@ Integrate energy management and AI intelligence as core system capabilities, imp
 **Focus**: User experience enhancement and executive presentation
 
 **Week 13-14: Language Simplification**
+
 - F24.1: Terminology simplification
 - Plain language implementation
 - UI label standardisation
 
 **Week 15-16: Enhanced Visualisation**
+
 - F24.2: Enhanced visualisation
 - F24.3: Executive reporting
 - Interactive dashboards
 
-### Phase 5: Integration & Testing (Weeks 17-20)
+### Phase 5: Landing Page Modernisation (Weeks 17-18)
+
+**Focus**: Market positioning and core feature highlighting
+
+**Week 17: Core Feature Showcase**
+
+- F25.1: ISO 55000 compliance highlighting
+- Energy management feature positioning
+- AI optimisation and anomaly detection showcase
+- Visual feature demonstrations
+
+**Week 18: Language Dictionary Implementation**
+
+- F25.2: Landing page terminology alignment
+- F25.3: Executive-focused messaging
+- F25.4: Interactive demonstrations
+- Market expansion messaging
+
+### Phase 6: Integration & Testing (Weeks 19-22)
 
 **Focus**: System integration and comprehensive testing
 
-**Week 17-18: System Integration**
+**Week 19-20: System Integration**
+
 - Energy and AI integration testing
 - ISO 55000 compliance validation
 - Performance optimisation
 
-**Week 19-20: Production Readiness**
+**Week 21-22: Production Readiness**
+
 - User acceptance testing
 - Performance validation
 - Documentation completion
@@ -344,6 +485,7 @@ Integrate energy management and AI intelligence as core system capabilities, imp
 ## 🎯 Success Metrics
 
 ### Technical Metrics
+
 - **Test Coverage**: 95%+ code coverage across all modules
 - **Performance**: <2s response times for all operations
 - **Energy Integration**: 100% of energy data sources integrated
@@ -351,13 +493,17 @@ Integrate energy management and AI intelligence as core system capabilities, imp
 - **ISO Compliance**: 100% ISO 55000 requirements met
 
 ### Business Metrics
+
 - **Energy Savings**: 15%+ reduction in energy consumption
 - **Maintenance Efficiency**: 25%+ improvement in maintenance scheduling
 - **User Satisfaction**: 4.5+ rating for simplified language
 - **Executive Adoption**: 100% of executives using visual dashboards
 - **Compliance Certification**: ISO 55000 certification achieved
+- **Landing Page Conversion**: 20%+ improvement in visitor-to-lead conversion
+- **Market Positioning**: Enhanced credibility with property directors and facilities managers
 
 ### User Experience Metrics
+
 - **Task Completion**: 95%+ completion rate for energy management tasks
 - **Learning Curve**: 50% reduction in user training time
 - **Error Rate**: <2% user errors with simplified language
@@ -366,18 +512,21 @@ Integrate energy management and AI intelligence as core system capabilities, imp
 ## 🔄 Risk Management
 
 ### Technical Risks
+
 - **Energy Data Integration**: Complex BMS/EMS integration challenges
 - **AI Model Accuracy**: Machine learning model performance and reliability
 - **Performance Impact**: Additional processing overhead from AI and energy systems
 - **Data Privacy**: Energy consumption data privacy and security
 
 ### Business Risks
+
 - **User Adoption**: Resistance to simplified language and new features
 - **Compliance Timeline**: ISO 55000 certification timeline and requirements
 - **Energy Savings**: Actual vs. projected energy savings realisation
 - **Executive Buy-in**: Visualisation effectiveness for stakeholder engagement
 
 ### Mitigation Strategies
+
 - **Phased Implementation**: Incremental rollout with feedback loops
 - **Comprehensive Testing**: Extensive testing with real data
 - **User Training**: Training programs for new features and terminology
@@ -392,12 +541,15 @@ Integrate energy management and AI intelligence as core system capabilities, imp
 - `docs/compliance/iso55000-compliance-mapping.md` — ISO 55000 compliance guide
 - `docs/architecture/SAD.md` — Updated system architecture
 - `docs/development/testing-guide.md` — TDD implementation guide
+- `docs/architecture/language-dictionary.md` — **Epic 24 Language Dictionary** - Comprehensive terminology standardisation for data dictionary and UI labels
 
 ## 🎯 Conclusion
 
 PI5 represents the integration of critical feedback from the UTS Property Director demo, implementing energy management and AI intelligence as core system capabilities. By following TDD principles and focusing on individual development efficiency, PI5 will deliver measurable business value while maintaining high code quality and system reliability.
 
-The comprehensive implementation of energy management, AI intelligence, ISO 55000 compliance, and enhanced visualisation will position Aegrid as a world-class asset management platform ready for university, property portfolio, and owner-operator markets.
+The comprehensive implementation of energy management, AI intelligence, ISO 55000 compliance, enhanced visualisation, and landing page modernisation will position Aegrid as a world-class asset management platform ready for university, property portfolio, and owner-operator markets.
+
+Epic 25's landing page modernisation ensures that Aegrid's core features are prominently showcased, addressing the critical gaps identified in the UTS Property Director demo while maintaining alignment with The Aegrid Rules and industry standards.
 
 **PI5 Status**: 🚀 **PLANNING** - Ready for TDD Implementation
 **Focus**: Energy Management & AI Intelligence Integration
