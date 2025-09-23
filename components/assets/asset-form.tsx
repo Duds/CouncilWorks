@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { 
   Save, 
   X, 
@@ -175,12 +176,7 @@ export function AssetForm({ asset, mode }: AssetFormProps) {
         <h1 className="text-3xl font-bold text-foreground">
           {mode === "create" ? "Create New Asset" : "Edit Asset"}
         </h1>
-        <p className="text-muted-foreground">
-          {mode === "create" 
-            ? "Add a new asset to the system" 
-            : "Update asset information"
-          }
-        </p>
+        
       </div>
 
       {/* Error Alert */}

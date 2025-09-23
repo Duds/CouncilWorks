@@ -36,6 +36,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface ResilienceMetrics {
   overallScore: number;
   criticalControls: number;
@@ -159,7 +160,7 @@ export function ManagerDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="h-8 w-8 animate-spin" />
+        <LoadingSpinner size="lg" />
         <span className="ml-2">Loading manager dashboard...</span>
       </div>
     );
@@ -188,9 +189,7 @@ export function ManagerDashboard() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-foreground">Manager Dashboard</h2>
-          <p className="text-muted-foreground">
-            Executive-level resilience metrics and critical control monitoring
-          </p>
+          
         </div>
         <div className="flex gap-2">
           <Select value={timeRange} onValueChange={setTimeRange}>
@@ -286,7 +285,7 @@ export function ManagerDashboard() {
                     {control.status === 'healthy' && <CheckCircle className="h-4 w-4 text-green-600" />}
                     <div>
                       <h4 className="font-medium">{control.name}</h4>
-                      <p className="text-sm text-muted-foreground">{control.assetType}</p>
+                      
                     </div>
                   </div>
                 </div>
@@ -330,19 +329,19 @@ export function ManagerDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
               <div className="text-center">
                 <div className="text-2xl font-bold text-blue-600">{marginStatus.timeMargin}%</div>
-                <p className="text-sm text-muted-foreground">Time Margin</p>
+                
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-green-600">{marginStatus.capacityMargin}%</div>
-                <p className="text-sm text-muted-foreground">Capacity Margin</p>
+                
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-purple-600">{marginStatus.materialMargin}%</div>
-                <p className="text-sm text-muted-foreground">Material Margin</p>
+                
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-orange-600">{marginStatus.financialMargin}%</div>
-                <p className="text-sm text-muted-foreground">Financial Margin</p>
+                
               </div>
             </div>
             

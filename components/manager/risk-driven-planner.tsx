@@ -39,6 +39,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface RiskAssessment {
   assetId: string;
   assetName: string;
@@ -180,7 +181,7 @@ export function RiskDrivenPlanner() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="h-8 w-8 animate-spin" />
+        <LoadingSpinner size="lg" />
         <span className="ml-2">Loading risk planning data...</span>
       </div>
     );
@@ -209,9 +210,7 @@ export function RiskDrivenPlanner() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-foreground">Risk-Driven Maintenance Planner</h2>
-          <p className="text-muted-foreground">
-            Dynamic scheduling based on risk assessment and real-world conditions
-          </p>
+          
         </div>
         <div className="flex gap-2">
           <Select value={timeRange} onValueChange={setTimeRange}>
@@ -269,12 +268,12 @@ export function RiskDrivenPlanner() {
                     </div>
                     
                     <div>
-                      <p className="text-xs text-muted-foreground">{assessment.assetType}</p>
+                      
                     </div>
                     
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-xs text-muted-foreground">Risk Score</p>
+                        
                         <p className={`text-lg font-bold ${getRiskColor(assessment.riskScore)}`}>
                           {assessment.riskScore}
                         </p>
@@ -286,19 +285,17 @@ export function RiskDrivenPlanner() {
                     
                     <div className="grid grid-cols-2 gap-2 text-xs">
                       <div>
-                        <p className="text-muted-foreground">Consequence</p>
+                        
                         <p className="font-medium">{assessment.consequence}</p>
                       </div>
                       <div>
-                        <p className="text-muted-foreground">Likelihood</p>
+                        
                         <p className="font-medium">{assessment.likelihood}</p>
                       </div>
                     </div>
                     
                     <div className="pt-2 border-t">
-                      <p className="text-xs text-muted-foreground">
-                        Next Assessment: {new Date(assessment.nextAssessment).toLocaleDateString("en-AU")}
-                      </p>
+                      
                     </div>
                   </div>
                 </CardContent>
@@ -331,7 +328,7 @@ export function RiskDrivenPlanner() {
                     {item.status === 'scheduled' && <Calendar className="h-4 w-4 text-gray-600" />}
                     <div>
                       <h4 className="font-medium">{item.taskType}</h4>
-                      <p className="text-sm text-muted-foreground">{item.assetName}</p>
+                      
                     </div>
                   </div>
                 </div>

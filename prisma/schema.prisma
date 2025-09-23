@@ -7,140 +7,765 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  ADMIN
-  MANAGER
-  SUPERVISOR
-  CREW
-  EXEC
-  CONTRACTOR
-  PARTNER
-  CITIZEN
-  MAINTENANCE_PLANNER
-}
-
-// Enhanced Organisation with resilience configuration
-model Organisation {
-  id        String     @id @default(cuid())
-  name      String     @unique
-  users     User[]
-  assets    Asset[]
-  auditLogs AuditLog[]
-  rcmTemplates RCMTemplate[]
-  invitations Invitation[]
-  
-  // Enhanced resilience configuration for Aegrid Rules
-  resilienceConfig Json?
-  marginSettings   Json?
-  
-  // New entities from ERD
-  vendors           Vendor[]
-  contracts         Contract[]
-  slas              SLA[]
-  criticalControls  CriticalControl[]
-  assetCriticalControls AssetCriticalControl[]
-  citizenReports    CitizenReport[]
-  citizenFeedback   CitizenFeedback[]
-  riskSignals       RiskSignal[]
-  environmentalSignals EnvironmentalSignal[]
-  marginCapacities  MarginCapacity[]
-  emergencyResponses EmergencyResponse[]
-  complianceRecords ComplianceRecord[]
-  escalationEvents  EscalationEvent[]
-  workOrderEvidence WorkOrderEvidence[]
-  inspectionPhotos  InspectionPhoto[]
-  
-  // Manager Dashboard data
-  managerMetrics        ManagerMetrics[]
-  marginStatuses        MarginStatus[]
-  riskTrends           RiskTrend[]
-  demoScenarios        DemoScenario[]
-  citizenDashboardStats CitizenDashboardStats[]
-  assetIntelligenceData AssetIntelligenceData[]
-  
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-}
-
-// Enhanced User model with vendor relationships
-model User {
-  id              String       @id @default(cuid())
-  email           String       @unique
-  name            String?
-  passwordHash    String?
-  role            Role         @default(CITIZEN)
-  organisationId  String?
-  organisation    Organisation? @relation(fields: [organisationId], references: [id])
-  
-  // Vendor relationship for contractors and partners
-  vendorId        String?
-  vendor          Vendor?      @relation(fields: [vendorId], references: [id])
-  
-  emailVerified   DateTime?
-  image           String?
-  accounts        Account[]
-  sessions        Session[]
-  isActive        Boolean      @default(true)
-  lastLoginAt     DateTime?
-  passwordResetAt DateTime?
-  auditLogs       AuditLog[]
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @updatedAt
-  
-  // MFA fields
-  mfaEnabled      Boolean      @default(false)
-  mfaSecret       String?
-  mfaBackupCodes  String[]     @default([])
-  mfaVerifiedAt   DateTime?
-  
-  // Profile fields
-  phoneNumber     String?
-  bio             String?
-  timezone        String       @default("Australia/Sydney")
-  language        String       @default("en-AU")
-  
-  // Notification preferences
-  notificationPreferences Json @default("{}")
-  
-  // Enhanced relationships for ERD entities
-  workOrdersAssigned WorkOrder[]
-  workOrdersCreated WorkOrder[] @relation("WorkOrderAssignedBy")
-  assetDocuments    AssetDocument[]
-  assetInspections  AssetInspection[]
-  assetMaintenance  AssetMaintenance[]
-  rcmTemplatesCreated RCMTemplate[] @relation("RCMTemplateCreatedBy")
-  invitationsSent   Invitation[] @relation("InvitedBy")
-  assetsCreated     Asset[] @relation("AssetCreatedBy")
-  assetsUpdated     Asset[] @relation("AssetUpdatedBy")
-  
-  // New ERD relationships
-  workOrderEvidence WorkOrderEvidence[]
-  inspectionPhotos InspectionPhoto[]
-  citizenReports  CitizenReport[]
-  citizenFeedback CitizenFeedback[]
-  riskSignals     RiskSignal[]
-  emergencyResponses EmergencyResponse[]
-  complianceRecords ComplianceRecord[]
-  escalationEvents EscalationEvent[]
-}
-
 model Account {
   id                String  @id @default(cuid())
   userId            String
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+}
+
+model Asset {
+  id                         String                 @id @default(cuid())
+  organisationId             String
+  assetNumber                String                 @unique
+  name                       String
+  description                String?
+  assetType                  AssetType
+  status                     AssetStatus            @default(ACTIVE)
+  condition                  AssetCondition         @default(UNKNOWN)
+  priority                   AssetPriority          @default(MEDIUM)
+  location                   String?
+  address                    String?
+  suburb                     String?
+  postcode                   String?
+  state                      String                 @default("NSW")
+  country                    String                 @default("Australia")
+  manufacturer               String?
+  model                      String?
+  serialNumber               String?
+  installationDate           DateTime?
+  warrantyExpiry             DateTime?
+  expectedLifespan           Int?
+  purchasePrice              Decimal?               @db.Decimal(12, 2)
+  currentValue               Decimal?               @db.Decimal(12, 2)
+  replacementCost            Decimal?               @db.Decimal(12, 2)
+  depreciationRate           Decimal?               @db.Decimal(5, 2)
+  lastInspection             DateTime?
+  nextInspection             DateTime?
+  inspectionFrequency        Int?
+  maintenanceCost            Decimal?               @db.Decimal(12, 2)
+  tags                       String[]               @default([])
+  notes                      String?
+  isPublic                   Boolean                @default(false)
+  createdBy                  String?
+  updatedBy                  String?
+  createdAt                  DateTime               @default(now())
+  updatedAt                  DateTime               @default(now())
+  User_Asset_createdByToUser User?                  @relation("Asset_createdByToUser", fields: [createdBy], references: [id])
+  Organisation               Organisation           @relation(fields: [organisationId], references: [id])
+  User_Asset_updatedByToUser User?                  @relation("Asset_updatedByToUser", fields: [updatedBy], references: [id])
+  AssetCriticalControl       AssetCriticalControl[]
+  AssetDocument              AssetDocument[]
+  AssetInspection            AssetInspection[]
+  AssetMaintenance           AssetMaintenance[]
+  AssetRCMTemplate           AssetRCMTemplate[]
+  AuditLog                   AuditLog[]
+  CitizenReport              CitizenReport[]
+  ComplianceRecord           ComplianceRecord[]
+  EmergencyResponse          EmergencyResponse[]
+  EscalationEvent            EscalationEvent[]
+  MaintenanceSchedule        MaintenanceSchedule[]
+  RiskSignal                 RiskSignal[]
+  RiskTrend                  RiskTrend[]
+  WorkOrder                  WorkOrder[]
+
+  // Resilience Command relationships
+  assetPurposeMappings        AssetPurposeMapping[]
+  riskRhythmProfiles          RiskRhythmProfile[]
+  resilienceSignals           ResilienceSignal[]
+  dynamicMaintenanceSchedules DynamicMaintenanceSchedule[]
+
+  @@index([assetNumber])
+  @@index([assetType])
+  @@index([condition])
+  @@index([createdAt])
+  @@index([location])
+  @@index([organisationId])
+  @@index([priority])
+  @@index([status])
+}
+
+model AssetCriticalControl {
+  id                String          @id
+  organisationId    String
+  assetId           String
+  criticalControlId String
+  vendorId          String?
+  lastExecutedAt    DateTime?
+  nextDueAt         DateTime?
+  status            String          @default("ACTIVE")
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime
+  Asset             Asset           @relation(fields: [assetId], references: [id])
+  CriticalControl   CriticalControl @relation(fields: [criticalControlId], references: [id])
+  Organisation      Organisation    @relation(fields: [organisationId], references: [id])
+  Vendor            Vendor?         @relation(fields: [vendorId], references: [id])
+
+  @@unique([assetId, criticalControlId])
+  @@index([assetId])
+  @@index([criticalControlId])
+  @@index([organisationId])
+}
+
+model AssetDocument {
+  id           String   @id
+  assetId      String
+  fileName     String
+  originalName String
+  fileSize     Int
+  mimeType     String
+  filePath     String
+  description  String?
+  documentType String
+  uploadedBy   String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime
+  Asset        Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  User         User?    @relation(fields: [uploadedBy], references: [id])
+
+  @@index([assetId])
+  @@index([createdAt])
+  @@index([documentType])
+}
+
+model AssetInspection {
+  id                 String            @id
+  assetId            String
+  inspectionDate     DateTime
+  inspectorName      String
+  inspectorId        String?
+  condition          AssetCondition
+  conditionNotes     String?
+  issues             String[]          @default([])
+  recommendations    String?
+  nextInspectionDate DateTime?
+  priorityActions    String?
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime
+  Asset              Asset             @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  User               User?             @relation(fields: [inspectorId], references: [id])
+  InspectionPhoto    InspectionPhoto[]
+
+  @@index([assetId])
+  @@index([condition])
+  @@index([inspectionDate])
+}
+
+model AssetIntelligenceData {
+  id                String       @id
+  organisationId    String
+  totalFunctions    Int
+  totalAssets       Int
+  totalValue        Float
+  criticalAssets    Int
+  categoryBreakdown Json
+  period            String
+  calculatedAt      DateTime     @default(now())
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime
+  Organisation      Organisation @relation(fields: [organisationId], references: [id])
+
+  @@index([calculatedAt])
+  @@index([organisationId])
+}
+
+model AssetMaintenance {
+  id              String   @id
+  assetId         String
+  maintenanceDate DateTime
+  maintenanceType String
+  description     String
+  performedBy     String?
+  cost            Decimal? @db.Decimal(12, 2)
+  duration        Int?
+  materials       String?
+  issuesFound     String?
+  workPerformed   String?
+  recommendations String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime
+  Asset           Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  User            User?    @relation(fields: [performedBy], references: [id])
+
+  @@index([assetId])
+  @@index([maintenanceDate])
+  @@index([maintenanceType])
+}
+
+model AssetRCMTemplate {
+  id          String      @id
+  assetId     String
+  templateId  String
+  isActive    Boolean     @default(true)
+  lastReview  DateTime?
+  nextReview  DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime
+  Asset       Asset       @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  RCMTemplate RCMTemplate @relation(fields: [templateId], references: [id])
+
+  @@unique([assetId, templateId])
+  @@index([assetId])
+  @@index([isActive])
+  @@index([templateId])
+}
+
+model AuditLog {
+  id             String        @id
+  action         AuditAction
+  userId         String?
+  organisationId String?
+  assetId        String?
+  details        Json?
+  ipAddress      String?
+  userAgent      String?
+  createdAt      DateTime      @default(now())
+  Asset          Asset?        @relation(fields: [assetId], references: [id])
+  Organisation   Organisation? @relation(fields: [organisationId], references: [id])
+  User           User?         @relation(fields: [userId], references: [id])
+
+  @@index([action])
+  @@index([assetId])
+  @@index([createdAt])
+  @@index([organisationId])
+  @@index([userId])
+}
+
+model CitizenDashboardStats {
+  id                    String       @id
+  organisationId        String
+  totalReportsCompleted Int
+  reportsThisMonth      Int
+  averageResolutionTime Float
+  satisfactionRate      Float
+  totalPeopleHelped     Int
+  costSavings           Float
+  period                String
+  calculatedAt          DateTime     @default(now())
+  createdAt             DateTime     @default(now())
+  updatedAt             DateTime
+  Organisation          Organisation @relation(fields: [organisationId], references: [id])
+
+  @@index([calculatedAt])
+  @@index([organisationId])
+}
+
+model CitizenFeedback {
+  id                 String         @id
+  organisationId     String
+  citizenReportId    String?
+  workOrderId        String?
+  submittedBy        String?
+  satisfactionRating Int
+  feedbackText       String?
+  serviceImprovement String?
+  submittedAt        DateTime       @default(now())
+  createdAt          DateTime       @default(now())
+  CitizenReport      CitizenReport? @relation(fields: [citizenReportId], references: [id])
+  Organisation       Organisation   @relation(fields: [organisationId], references: [id])
+  User               User?          @relation(fields: [submittedBy], references: [id])
+  WorkOrder          WorkOrder?     @relation(fields: [workOrderId], references: [id])
+
+  @@index([citizenReportId])
+  @@index([organisationId])
+  @@index([satisfactionRating])
+  @@index([workOrderId])
+}
+
+model CitizenReport {
+  id              String            @id
+  organisationId  String
+  assetId         String?
+  workOrderId     String?
+  reporterName    String
+  reporterEmail   String
+  reporterPhone   String?
+  reportedBy      String?
+  issueCategory   String
+  riskLevel       String
+  description     String
+  location        String?
+  status          String            @default("OPEN")
+  reportedAt      DateTime          @default(now())
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime
+  CitizenFeedback CitizenFeedback[]
+  Asset           Asset?            @relation(fields: [assetId], references: [id])
+  Organisation    Organisation      @relation(fields: [organisationId], references: [id])
+  User            User?             @relation(fields: [reportedBy], references: [id])
+  WorkOrder       WorkOrder?        @relation(fields: [workOrderId], references: [id])
+
+  @@index([assetId])
+  @@index([issueCategory])
+  @@index([organisationId])
+  @@index([riskLevel])
+  @@index([status])
+}
+
+model ComplianceRecord {
+  id                String           @id
+  organisationId    String
+  assetId           String?
+  criticalControlId String?
+  assignedTo        String?
+  complianceType    String
+  status            String
+  dueDate           DateTime?
+  completedDate     DateTime?
+  evidenceCount     Int              @default(0)
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime
+  Asset             Asset?           @relation(fields: [assetId], references: [id])
+  User              User?            @relation(fields: [assignedTo], references: [id])
+  CriticalControl   CriticalControl? @relation(fields: [criticalControlId], references: [id])
+  Organisation      Organisation     @relation(fields: [organisationId], references: [id])
+
+  @@index([assetId])
+  @@index([complianceType])
+  @@index([criticalControlId])
+  @@index([organisationId])
+  @@index([status])
+}
+
+model Contract {
+  id             String       @id
+  organisationId String
+  vendorId       String
+  name           String
+  startDate      DateTime
+  endDate        DateTime
+  scope          String
+  status         String       @default("ACTIVE")
+  renewalDueDate DateTime?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime
+  Organisation   Organisation @relation(fields: [organisationId], references: [id])
+  Vendor         Vendor       @relation(fields: [vendorId], references: [id])
+  SLA            SLA[]
+  WorkOrder      WorkOrder[]
+
+  @@index([organisationId])
+  @@index([status])
+  @@index([vendorId])
+}
+
+model CriticalControl {
+  id                   String                 @id
+  organisationId       String
+  name                 String
+  description          String?
+  type                 String
+  windowHours          Int
+  frequencyDays        Int
+  escalationPolicy     String?
+  status               String                 @default("ACTIVE")
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime
+  AssetCriticalControl AssetCriticalControl[]
+  ComplianceRecord     ComplianceRecord[]
+  Organisation         Organisation           @relation(fields: [organisationId], references: [id])
+  EscalationEvent      EscalationEvent[]
+
+  @@index([organisationId])
+  @@index([status])
+  @@index([type])
+}
+
+model DemoScenario {
+  id             String       @id
+  organisationId String
+  scenarioType   String
+  title          String
+  description    String
+  narrative      String
+  metrics        Json
+  keyStories     Json
+  isActive       Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime
+  Organisation   Organisation @relation(fields: [organisationId], references: [id])
+
+  @@index([isActive])
+  @@index([organisationId])
+  @@index([scenarioType])
+}
+
+model EmergencyResponse {
+  id                    String       @id
+  organisationId        String
+  assetId               String?
+  workOrderId           String?
+  activatedBy           String?
+  emergencyType         String
+  severity              String
+  responseTimeMinutes   Int
+  resolutionTimeMinutes Int
+  marginDeployed        Boolean      @default(false)
+  activatedAt           DateTime
+  resolvedAt            DateTime?
+  createdAt             DateTime     @default(now())
+  User                  User?        @relation(fields: [activatedBy], references: [id])
+  Asset                 Asset?       @relation(fields: [assetId], references: [id])
+  Organisation          Organisation @relation(fields: [organisationId], references: [id])
+  WorkOrder             WorkOrder?   @relation(fields: [workOrderId], references: [id])
+
+  @@index([activatedAt])
+  @@index([assetId])
+  @@index([emergencyType])
+  @@index([organisationId])
+  @@index([severity])
+}
+
+model EnvironmentalSignal {
+  id             String       @id
+  organisationId String
+  signalType     String
+  severity       String
+  description    String
+  location       String?
+  detectedAt     DateTime
+  expiresAt      DateTime?
+  status         String       @default("ACTIVE")
+  createdAt      DateTime     @default(now())
+  Organisation   Organisation @relation(fields: [organisationId], references: [id])
+
+  @@index([detectedAt])
+  @@index([organisationId])
+  @@index([severity])
+  @@index([signalType])
+}
+
+model EscalationEvent {
+  id                String           @id
+  organisationId    String
+  assetId           String?
+  criticalControlId String?
+  workOrderId       String?
+  escalatedBy       String?
+  escalationType    String
+  severity          String
+  reason            String
+  escalatedTo       String
+  escalatedAt       DateTime
+  acknowledgedAt    DateTime?
+  resolvedAt        DateTime?
+  createdAt         DateTime         @default(now())
+  Asset             Asset?           @relation(fields: [assetId], references: [id])
+  CriticalControl   CriticalControl? @relation(fields: [criticalControlId], references: [id])
+  User              User?            @relation(fields: [escalatedBy], references: [id])
+  Organisation      Organisation     @relation(fields: [organisationId], references: [id])
+  WorkOrder         WorkOrder?       @relation(fields: [workOrderId], references: [id])
+
+  @@index([assetId])
+  @@index([criticalControlId])
+  @@index([escalatedAt])
+  @@index([escalationType])
+  @@index([organisationId])
+  @@index([severity])
+  @@index([workOrderId])
+}
+
+model InspectionPhoto {
+  id              String          @id
+  organisationId  String
+  inspectionId    String
+  uploadedBy      String?
+  filePath        String
+  fileName        String
+  gpsCoordinates  String?
+  description     String?
+  uploadedAt      DateTime
+  createdAt       DateTime        @default(now())
+  AssetInspection AssetInspection @relation(fields: [inspectionId], references: [id])
+  Organisation    Organisation    @relation(fields: [organisationId], references: [id])
+  User            User?           @relation(fields: [uploadedBy], references: [id])
+
+  @@index([inspectionId])
+  @@index([organisationId])
+  @@index([uploadedAt])
+}
+
+model Invitation {
+  id             String           @id
+  email          String
+  role           Role
+  organisationId String
+  invitedBy      String
+  message        String?
+  status         InvitationStatus @default(PENDING)
+  expiresAt      DateTime
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime
+  User           User             @relation(fields: [invitedBy], references: [id])
+  Organisation   Organisation     @relation(fields: [organisationId], references: [id])
+
+  @@unique([email, organisationId])
+}
+
+model MaintenanceSchedule {
+  id            String               @id
+  assetId       String
+  templateId    String?
+  taskName      String
+  taskType      MaintenanceTaskType
+  frequency     MaintenanceFrequency
+  scheduledDate DateTime
+  dueDate       DateTime
+  completedDate DateTime?
+  assignedTo    String?
+  status        String               @default("PENDING")
+  priority      AssetPriority        @default(MEDIUM)
+  workPerformed String?
+  notes         String?
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime
+  Asset         Asset                @relation(fields: [assetId], references: [id], onDelete: Cascade)
+
+  @@index([assetId])
+  @@index([assignedTo])
+  @@index([dueDate])
+  @@index([scheduledDate])
+  @@index([status])
+}
+
+model ManagerMetrics {
+  id                String       @id
+  organisationId    String
+  overallScore      Float
+  criticalControls  Int
+  marginUtilization Float
+  riskTrend         Float
+  signalResponse    Float
+  antifragileScore  Float
+  timeRange         String
+  calculatedAt      DateTime     @default(now())
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime
+  Organisation      Organisation @relation(fields: [organisationId], references: [id])
+
+  @@index([calculatedAt])
+  @@index([organisationId])
+}
+
+model MarginCapacity {
+  id                String       @id
+  organisationId    String
+  capacityType      String
+  availableCapacity Int
+  utilisedCapacity  Int
+  marginPercentage  Decimal      @db.Decimal(5, 2)
+  lastUpdatedAt     DateTime
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime
+  Organisation      Organisation @relation(fields: [organisationId], references: [id])
+
+  @@index([capacityType])
+  @@index([organisationId])
+}
+
+model MarginStatus {
+  id                String       @id
+  organisationId    String
+  marginType        String
+  utilizationRate   Float
+  availableCapacity Float
+  totalCapacity     Float
+  status            String
+  lastUpdated       DateTime     @default(now())
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime
+  Organisation      Organisation @relation(fields: [organisationId], references: [id])
+
+  @@index([marginType])
+  @@index([organisationId])
+  @@index([status])
+}
+
+model Organisation {
+  id                    String                  @id @default(cuid())
+  name                  String                  @unique
+  resilienceConfig      Json?
+  marginSettings        Json?
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @default(now())
+  Asset                 Asset[]
+  AssetCriticalControl  AssetCriticalControl[]
+  AssetIntelligenceData AssetIntelligenceData[]
+  AuditLog              AuditLog[]
+  CitizenDashboardStats CitizenDashboardStats[]
+  CitizenFeedback       CitizenFeedback[]
+  CitizenReport         CitizenReport[]
+  ComplianceRecord      ComplianceRecord[]
+  Contract              Contract[]
+  CriticalControl       CriticalControl[]
+  DemoScenario          DemoScenario[]
+  EmergencyResponse     EmergencyResponse[]
+  EnvironmentalSignal   EnvironmentalSignal[]
+  EscalationEvent       EscalationEvent[]
+  InspectionPhoto       InspectionPhoto[]
+  Invitation            Invitation[]
+  ManagerMetrics        ManagerMetrics[]
+  MarginCapacity        MarginCapacity[]
+  MarginStatus          MarginStatus[]
+  RCMTemplate           RCMTemplate[]
+  RiskSignal            RiskSignal[]
+  RiskTrend             RiskTrend[]
+  SLA                   SLA[]
+  User                  User[]
+  Vendor                Vendor[]
+  WorkOrderEvidence     WorkOrderEvidence[]
+
+  // Resilience Command relationships
+  servicePurposes             ServicePurpose[]
+  riskRhythmProfiles          RiskRhythmProfile[]
+  resilienceSignals           ResilienceSignal[]
+  marginOperations            MarginOperation[]
+  dynamicMaintenanceSchedules DynamicMaintenanceSchedule[]
+}
+
+model RCMFailureMode {
+  id               String                @id
+  templateId       String
+  name             String
+  description      String?
+  type             FailureModeType
+  cause            String?
+  effect           String
+  severity         FailureEffectSeverity
+  consequences     String?
+  detectionMethod  String?
+  preventionMethod String?
+  probability      Int?
+  impact           Int?
+  riskScore        Int?
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime
+  RCMTemplate      RCMTemplate           @relation(fields: [templateId], references: [id], onDelete: Cascade)
+
+  @@index([severity])
+  @@index([templateId])
+  @@index([type])
+}
+
+model RCMMaintenanceTask {
+  id                 String               @id
+  templateId         String
+  name               String
+  description        String?
+  type               MaintenanceTaskType
+  frequency          MaintenanceFrequency
+  duration           Int?
+  skillLevel         String?
+  tools              String?
+  materials          String?
+  instructions       String?
+  safetyRequirements String?
+  complianceNotes    String?
+  estimatedCost      Decimal?             @db.Decimal(10, 2)
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime
+  RCMTemplate        RCMTemplate          @relation(fields: [templateId], references: [id], onDelete: Cascade)
+
+  @@index([frequency])
+  @@index([templateId])
+  @@index([type])
+}
+
+model RCMTemplate {
+  id                 String               @id
+  name               String
+  description        String?
+  assetType          String
+  version            String               @default("1.0")
+  status             RCMTemplateStatus    @default(DRAFT)
+  isPublic           Boolean              @default(false)
+  createdBy          String
+  organisationId     String
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime
+  AssetRCMTemplate   AssetRCMTemplate[]
+  RCMFailureMode     RCMFailureMode[]
+  RCMMaintenanceTask RCMMaintenanceTask[]
+  User               User                 @relation(fields: [createdBy], references: [id])
+  Organisation       Organisation         @relation(fields: [organisationId], references: [id])
+
+  @@index([assetType])
+  @@index([createdBy])
+  @@index([organisationId])
+  @@index([status])
+}
+
+model RiskSignal {
+  id             String       @id
+  organisationId String
+  assetId        String?
+  detectedBy     String?
+  signalType     String
+  severity       String
+  description    String
+  source         String
+  detectedAt     DateTime
+  resolvedAt     DateTime?
+  status         String       @default("OPEN")
+  createdAt      DateTime     @default(now())
+  Asset          Asset?       @relation(fields: [assetId], references: [id])
+  User           User?        @relation(fields: [detectedBy], references: [id])
+  Organisation   Organisation @relation(fields: [organisationId], references: [id])
+
+  @@index([assetId])
+  @@index([detectedAt])
+  @@index([organisationId])
+  @@index([severity])
+  @@index([signalType])
+}
+
+model RiskTrend {
+  id             String       @id
+  organisationId String
+  assetId        String?
+  riskScore      Float
+  trend          String
+  period         String
+  calculatedAt   DateTime     @default(now())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime
+  Asset          Asset?       @relation(fields: [assetId], references: [id])
+  Organisation   Organisation @relation(fields: [organisationId], references: [id])
+
+  @@index([assetId])
+  @@index([calculatedAt])
+  @@index([organisationId])
+}
+
+model SLA {
+  id                  String       @id
+  organisationId      String
+  contractId          String
+  name                String
+  responseTimeHours   Int
+  resolutionTimeHours Int
+  frequencyDays       Int?
+  costModel           String
+  breachEscalation    String?
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime
+  Contract            Contract     @relation(fields: [contractId], references: [id])
+  Organisation        Organisation @relation(fields: [organisationId], references: [id])
+  WorkOrder           WorkOrder[]
+
+  @@index([contractId])
+  @@index([organisationId])
 }
 
 model Session {
@@ -148,9 +773,6 @@ model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  // Session tracking fields
   ipAddress    String?
   userAgent    String?
   deviceInfo   String?
@@ -158,6 +780,80 @@ model Session {
   isActive     Boolean  @default(true)
   lastUsed     DateTime @default(now())
   createdAt    DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id                                   String              @id @default(cuid())
+  email                                String              @unique
+  name                                 String?
+  passwordHash                         String?
+  role                                 Role                @default(CITIZEN)
+  organisationId                       String?
+  vendorId                             String?
+  emailVerified                        DateTime?
+  image                                String?
+  isActive                             Boolean             @default(true)
+  lastLoginAt                          DateTime?
+  passwordResetAt                      DateTime?
+  createdAt                            DateTime            @default(now())
+  updatedAt                            DateTime            @default(now())
+  mfaEnabled                           Boolean             @default(false)
+  mfaSecret                            String?
+  mfaBackupCodes                       String[]            @default([])
+  mfaVerifiedAt                        DateTime?
+  phoneNumber                          String?
+  bio                                  String?
+  timezone                             String              @default("Australia/Sydney")
+  language                             String              @default("en-AU")
+  notificationPreferences              Json                @default("{}")
+  accounts                             Account[]
+  Asset_Asset_createdByToUser          Asset[]             @relation("Asset_createdByToUser")
+  Asset_Asset_updatedByToUser          Asset[]             @relation("Asset_updatedByToUser")
+  AssetDocument                        AssetDocument[]
+  AssetInspection                      AssetInspection[]
+  AssetMaintenance                     AssetMaintenance[]
+  AuditLog                             AuditLog[]
+  CitizenFeedback                      CitizenFeedback[]
+  CitizenReport                        CitizenReport[]
+  ComplianceRecord                     ComplianceRecord[]
+  EmergencyResponse                    EmergencyResponse[]
+  EscalationEvent                      EscalationEvent[]
+  InspectionPhoto                      InspectionPhoto[]
+  Invitation                           Invitation[]
+  RCMTemplate                          RCMTemplate[]
+  RiskSignal                           RiskSignal[]
+  sessions                             Session[]
+  Organisation                         Organisation?       @relation(fields: [organisationId], references: [id])
+  Vendor                               Vendor?             @relation(fields: [vendorId], references: [id])
+  WorkOrder_WorkOrder_assignedByToUser WorkOrder[]         @relation("WorkOrder_assignedByToUser")
+  WorkOrder_WorkOrder_assignedToToUser WorkOrder[]         @relation("WorkOrder_assignedToToUser")
+  WorkOrderEvidence                    WorkOrderEvidence[]
+
+  // Signal detection and response relations
+  detectedSignals  ResilienceSignal[] @relation("SignalDetectedBy")
+  respondedSignals ResilienceSignal[] @relation("SignalRespondedBy")
+}
+
+model Vendor {
+  id                   String                 @id
+  organisationId       String
+  name                 String
+  abn                  String?
+  contactEmail         String
+  contactPhone         String?
+  performanceRating    Decimal?               @db.Decimal(3, 2)
+  capacityMargin       Int?                   @default(20)
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime
+  AssetCriticalControl AssetCriticalControl[]
+  Contract             Contract[]
+  User                 User[]
+  Organisation         Organisation           @relation(fields: [organisationId], references: [id])
+  WorkOrder            WorkOrder[]
+
+  @@index([organisationId])
+  @@index([performanceRating])
 }
 
 model VerificationToken {
@@ -166,6 +862,122 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model WorkOrder {
+  id                              String              @id
+  assetId                         String
+  workOrderNumber                 String              @unique
+  title                           String
+  description                     String
+  priority                        AssetPriority       @default(MEDIUM)
+  status                          String              @default("OPEN")
+  assignedTo                      String?
+  assignedBy                      String?
+  vendorId                        String?
+  contractId                      String?
+  slaId                           String?
+  scheduledDate                   DateTime?
+  dueDate                         DateTime?
+  completedDate                   DateTime?
+  estimatedCost                   Decimal?            @db.Decimal(12, 2)
+  actualCost                      Decimal?            @db.Decimal(12, 2)
+  estimatedDuration               Int?
+  actualDuration                  Int?
+  workPerformed                   String?
+  notes                           String?
+  createdAt                       DateTime            @default(now())
+  updatedAt                       DateTime
+  CitizenFeedback                 CitizenFeedback[]
+  CitizenReport                   CitizenReport[]
+  EmergencyResponse               EmergencyResponse[]
+  EscalationEvent                 EscalationEvent[]
+  Asset                           Asset               @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  User_WorkOrder_assignedByToUser User?               @relation("WorkOrder_assignedByToUser", fields: [assignedBy], references: [id])
+  User_WorkOrder_assignedToToUser User?               @relation("WorkOrder_assignedToToUser", fields: [assignedTo], references: [id])
+  Contract                        Contract?           @relation(fields: [contractId], references: [id])
+  SLA                             SLA?                @relation(fields: [slaId], references: [id])
+  Vendor                          Vendor?             @relation(fields: [vendorId], references: [id])
+  WorkOrderEvidence               WorkOrderEvidence[]
+
+  @@index([assetId])
+  @@index([assignedTo])
+  @@index([contractId])
+  @@index([dueDate])
+  @@index([priority])
+  @@index([slaId])
+  @@index([status])
+  @@index([vendorId])
+  @@index([workOrderNumber])
+}
+
+model WorkOrderEvidence {
+  id             String       @id
+  organisationId String
+  workOrderId    String
+  uploadedBy     String?
+  evidenceType   String
+  filePath       String
+  fileName       String
+  fileSize       Int
+  gpsCoordinates String?
+  uploadedAt     DateTime
+  createdAt      DateTime     @default(now())
+  Organisation   Organisation @relation(fields: [organisationId], references: [id])
+  User           User?        @relation(fields: [uploadedBy], references: [id])
+  WorkOrder      WorkOrder    @relation(fields: [workOrderId], references: [id])
+
+  @@index([evidenceType])
+  @@index([organisationId])
+  @@index([uploadedAt])
+  @@index([workOrderId])
+}
+
+enum AssetCondition {
+  EXCELLENT
+  GOOD
+  FAIR
+  POOR
+  CRITICAL
+  UNKNOWN
+}
+
+enum AssetPriority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum AssetStatus {
+  ACTIVE
+  INACTIVE
+  UNDER_CONSTRUCTION
+  UNDER_MAINTENANCE
+  DECOMMISSIONED
+  PLANNED
+}
+
+enum AssetType {
+  BUILDING
+  ROAD
+  BRIDGE
+  FOOTPATH
+  PARK
+  PLAYGROUND
+  SPORTS_FACILITY
+  LIBRARY
+  COMMUNITY_CENTRE
+  CAR_PARK
+  STREET_FURNITURE
+  TRAFFIC_LIGHT
+  STREET_LIGHT
+  DRAINAGE
+  WATER_SUPPLY
+  SEWER
+  ELECTRICAL_INFRASTRUCTURE
+  TELECOMMUNICATIONS
+  OTHER
 }
 
 enum AuditAction {
@@ -192,323 +1004,11 @@ enum AuditAction {
   ASSET_DOCUMENT_REMOVED
 }
 
-model AuditLog {
-  id             String      @id @default(cuid())
-  action         AuditAction
-  userId         String?
-  user           User?       @relation(fields: [userId], references: [id])
-  organisationId String?
-  organisation   Organisation? @relation(fields: [organisationId], references: [id])
-  assetId        String?
-  asset          Asset?      @relation(fields: [assetId], references: [id])
-  details        Json?
-  ipAddress      String?
-  userAgent      String?
-  createdAt      DateTime    @default(now())
-
-  @@index([userId])
-  @@index([organisationId])
-  @@index([assetId])
-  @@index([action])
-  @@index([createdAt])
-}
-
-// Asset Management Schema
-enum AssetType {
-  BUILDING
-  ROAD
-  BRIDGE
-  FOOTPATH
-  PARK
-  PLAYGROUND
-  SPORTS_FACILITY
-  LIBRARY
-  COMMUNITY_CENTRE
-  CAR_PARK
-  STREET_FURNITURE
-  TRAFFIC_LIGHT
-  STREET_LIGHT
-  DRAINAGE
-  WATER_SUPPLY
-  SEWER
-  ELECTRICAL_INFRASTRUCTURE
-  TELECOMMUNICATIONS
-  OTHER
-}
-
-enum AssetStatus {
-  ACTIVE
-  INACTIVE
-  UNDER_CONSTRUCTION
-  UNDER_MAINTENANCE
-  DECOMMISSIONED
-  PLANNED
-}
-
-enum AssetCondition {
-  EXCELLENT
-  GOOD
-  FAIR
-  POOR
-  CRITICAL
-  UNKNOWN
-}
-
-enum AssetPriority {
+enum FailureEffectSeverity {
   LOW
   MEDIUM
   HIGH
   CRITICAL
-}
-
-model Asset {
-  id              String       @id @default(cuid())
-  organisationId  String
-  organisation    Organisation @relation(fields: [organisationId], references: [id])
-  
-  // Basic Asset Information
-  assetNumber     String       @unique
-  name            String
-  description     String?
-  assetType       AssetType
-  status          AssetStatus  @default(ACTIVE)
-  condition       AssetCondition @default(UNKNOWN)
-  priority        AssetPriority @default(MEDIUM)
-  
-  // Location Information (PostGIS spatial data)
-  location        String? // PostGIS Point geometry
-  address         String?
-  suburb          String?
-  postcode        String?
-  state           String       @default("NSW")
-  country         String       @default("Australia")
-  
-  // Asset Details
-  manufacturer    String?
-  model          String?
-  serialNumber   String?
-  installationDate DateTime?
-  warrantyExpiry DateTime?
-  expectedLifespan Int? // in years
-  
-  // Financial Information
-  purchasePrice  Decimal?     @db.Decimal(12,2)
-  currentValue   Decimal?     @db.Decimal(12,2)
-  replacementCost Decimal?    @db.Decimal(12,2)
-  depreciationRate Decimal?   @db.Decimal(5,2) // percentage
-  
-  // Maintenance Information
-  lastInspection DateTime?
-  nextInspection DateTime?
-  inspectionFrequency Int? // in days
-  maintenanceCost Decimal? @db.Decimal(12,2)
-  
-  // Metadata
-  tags           String[]     @default([])
-  notes          String?
-  isPublic       Boolean      @default(false)
-  
-  // Relationships
-  documents      AssetDocument[]
-  inspections    AssetInspection[]
-  maintenance    AssetMaintenance[]
-  workOrders     WorkOrder[]
-  auditLogs      AuditLog[]
-  
-  // RCM Templates & Scheduling
-  rcmTemplates   AssetRCMTemplate[]
-  maintenanceSchedules MaintenanceSchedule[]
-  
-  // New ERD relationships
-  assetCriticalControls AssetCriticalControl[]
-  citizenReports        CitizenReport[]
-  riskSignals          RiskSignal[]
-  emergencyResponses   EmergencyResponse[]
-  complianceRecords    ComplianceRecord[]
-  escalationEvents     EscalationEvent[]
-  riskTrends           RiskTrend[]
-  
-  // Audit fields
-  createdBy      String?
-  createdByUser  User?        @relation("AssetCreatedBy", fields: [createdBy], references: [id])
-  updatedBy      String?
-  updatedByUser  User?        @relation("AssetUpdatedBy", fields: [updatedBy], references: [id])
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
-
-  @@index([organisationId])
-  @@index([assetNumber])
-  @@index([assetType])
-  @@index([status])
-  @@index([condition])
-  @@index([priority])
-  @@index([location])
-  @@index([createdAt])
-}
-
-model AssetDocument {
-  id          String   @id @default(cuid())
-  assetId     String
-  asset       Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
-  
-  // Document Information
-  fileName    String
-  originalName String
-  fileSize    Int
-  mimeType    String
-  filePath    String
-  description String?
-  
-  // Document Type
-  documentType String // e.g., "MANUAL", "WARRANTY", "INSPECTION", "PHOTO", "DRAWING"
-  
-  // Metadata
-  uploadedBy  String?
-  uploadedByUser User? @relation(fields: [uploadedBy], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@index([assetId])
-  @@index([documentType])
-  @@index([createdAt])
-}
-
-model AssetInspection {
-  id          String   @id @default(cuid())
-  assetId     String
-  asset       Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
-  
-  // Inspection Details
-  inspectionDate DateTime
-  inspectorName  String
-  inspectorId    String?
-  inspector     User?   @relation(fields: [inspectorId], references: [id])
-  
-  // Inspection Results
-  condition     AssetCondition
-  conditionNotes String?
-  issues        String[] @default([])
-  recommendations String?
-  
-  // Next Actions
-  nextInspectionDate DateTime?
-  priorityActions   String?
-  
-  // Metadata
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  // New ERD relationships
-  photos       InspectionPhoto[]
-
-  @@index([assetId])
-  @@index([inspectionDate])
-  @@index([condition])
-}
-
-model AssetMaintenance {
-  id          String   @id @default(cuid())
-  assetId     String
-  asset       Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
-  
-  // Maintenance Details
-  maintenanceDate DateTime
-  maintenanceType String // e.g., "PREVENTIVE", "CORRECTIVE", "EMERGENCY"
-  description     String
-  performedBy     String?
-  performedByUser User?  @relation(fields: [performedBy], references: [id])
-  
-  // Cost and Time
-  cost        Decimal? @db.Decimal(12,2)
-  duration    Int? // in minutes
-  materials    String?
-  
-  // Results
-  issuesFound    String?
-  workPerformed  String?
-  recommendations String?
-  
-  // Metadata
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@index([assetId])
-  @@index([maintenanceDate])
-  @@index([maintenanceType])
-}
-
-model WorkOrder {
-  id          String   @id @default(cuid())
-  assetId     String
-  asset       Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
-  
-  // Work Order Details
-  workOrderNumber String @unique
-  title         String
-  description   String
-  priority      AssetPriority @default(MEDIUM)
-  status        String @default("OPEN") // OPEN, IN_PROGRESS, COMPLETED, CANCELLED
-  
-  // Assignment
-  assignedTo   String?
-  assignedToUser User? @relation(fields: [assignedTo], references: [id])
-  assignedBy   String?
-  assignedByUser User? @relation("WorkOrderAssignedBy", fields: [assignedBy], references: [id])
-  
-  // New ERD relationships
-  vendorId     String?
-  vendor       Vendor? @relation(fields: [vendorId], references: [id])
-  contractId   String?
-  contract     Contract? @relation(fields: [contractId], references: [id])
-  slaId        String?
-  sla          SLA? @relation(fields: [slaId], references: [id])
-  
-  // Scheduling
-  scheduledDate DateTime?
-  dueDate      DateTime?
-  completedDate DateTime?
-  
-  // Cost and Time
-  estimatedCost Decimal? @db.Decimal(12,2)
-  actualCost    Decimal? @db.Decimal(12,2)
-  estimatedDuration Int? // in minutes
-  actualDuration   Int? // in minutes
-  
-  // Results
-  workPerformed String?
-  notes        String?
-  
-  // Metadata
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  // New relationships from ERD
-  citizenReports     CitizenReport[]
-  citizenFeedback    CitizenFeedback[]
-  emergencyResponses EmergencyResponse[]
-  escalationEvents   EscalationEvent[]
-  evidence           WorkOrderEvidence[]
-
-  @@index([assetId])
-  @@index([workOrderNumber])
-  @@index([status])
-  @@index([priority])
-  @@index([assignedTo])
-  @@index([dueDate])
-  @@index([vendorId])
-  @@index([contractId])
-  @@index([slaId])
-}
-
-// =============================================================================
-// RCM Templates & Scheduling Models
-// =============================================================================
-
-enum RCMTemplateStatus {
-  DRAFT
-  ACTIVE
-  ARCHIVED
-  REVIEW_REQUIRED
 }
 
 enum FailureModeType {
@@ -518,22 +1018,11 @@ enum FailureModeType {
   INTERMITTENT_FAILURE
 }
 
-enum FailureEffectSeverity {
-  LOW
-  MEDIUM
-  HIGH
-  CRITICAL
-}
-
-enum MaintenanceTaskType {
-  INSPECTION
-  CLEANING
-  LUBRICATION
-  ADJUSTMENT
-  REPLACEMENT
-  REPAIR
-  CALIBRATION
-  TESTING
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  EXPIRED
+  CANCELLED
 }
 
 enum MaintenanceFrequency {
@@ -548,692 +1037,224 @@ enum MaintenanceFrequency {
   CONDITION_BASED
 }
 
-model RCMTemplate {
-  id          String   @id @default(cuid())
-  name        String
-  description String?
-  assetType   String   // Links to Asset.assetType
-  
-  // Template metadata
-  version     String   @default("1.0")
-  status      RCMTemplateStatus @default(DRAFT)
-  isPublic    Boolean  @default(false)
-  
-  // Ownership
-  createdBy   String
-  createdByUser User   @relation("RCMTemplateCreatedBy", fields: [createdBy], references: [id])
+enum MaintenanceTaskType {
+  INSPECTION
+  CLEANING
+  LUBRICATION
+  ADJUSTMENT
+  REPLACEMENT
+  REPAIR
+  CALIBRATION
+  TESTING
+}
+
+enum RCMTemplateStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+  REVIEW_REQUIRED
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  SUPERVISOR
+  CREW
+  EXEC
+  CONTRACTOR
+  PARTNER
+  CITIZEN
+  MAINTENANCE_PLANNER
+}
+
+// Resilience Command Models for Aegrid Rules Implementation
+
+model ServicePurpose {
+  id             String       @id @default(cuid())
   organisationId String
-  organisation Organisation @relation(fields: [organisationId], references: [id])
-  
-  // Template content
-  failureModes RCMFailureMode[]
-  maintenanceTasks RCMMaintenanceTask[]
-  
-  // Usage tracking
-  assetsUsingTemplate AssetRCMTemplate[]
-  
-  // Metadata
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  @@index([assetType])
-  @@index([status])
-  @@index([createdBy])
-  @@index([organisationId])
-}
+  organisation   Organisation @relation(fields: [organisationId], references: [id])
 
-model RCMFailureMode {
-  id          String   @id @default(cuid())
-  templateId  String
-  template    RCMTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
-  
-  // Failure mode details
-  name        String
-  description String?
-  type        FailureModeType
-  cause       String?
-  
-  // Effects analysis
-  effect      String
-  severity    FailureEffectSeverity
-  consequences String?
-  
-  // Detection and prevention
-  detectionMethod String?
-  preventionMethod String?
-  
-  // Risk assessment
-  probability Int? // 1-10 scale
-  impact      Int? // 1-10 scale
-  riskScore   Int? // Calculated: probability * impact
-  
-  // Metadata
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  @@index([templateId])
-  @@index([type])
-  @@index([severity])
-}
-
-model RCMMaintenanceTask {
-  id          String   @id @default(cuid())
-  templateId  String
-  template    RCMTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
-  
-  // Task details
-  name        String
-  description String?
-  type        MaintenanceTaskType
-  frequency   MaintenanceFrequency
-  
-  // Task specifics
-  duration    Int? // Estimated duration in minutes
-  skillLevel  String? // Required skill level
-  tools       String? // Required tools
-  materials   String? // Required materials
-  instructions String? // Step-by-step instructions
-  
-  // Safety and compliance
-  safetyRequirements String?
-  complianceNotes    String?
-  
-  // Cost estimation
-  estimatedCost Decimal? @db.Decimal(10, 2)
-  
-  // Metadata
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  @@index([templateId])
-  @@index([type])
-  @@index([frequency])
-}
-
-model AssetRCMTemplate {
-  id          String   @id @default(cuid())
-  assetId     String
-  asset       Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
-  templateId  String
-  template    RCMTemplate @relation(fields: [templateId], references: [id])
-  
-  // Customization
-  // customFailureModes RCMFailureMode[]
-  // customMaintenanceTasks RCMMaintenanceTask[]
-  
-  // Status
-  isActive    Boolean  @default(true)
-  lastReview  DateTime?
-  nextReview  DateTime?
-  
-  // Metadata
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  @@unique([assetId, templateId])
-  @@index([assetId])
-  @@index([templateId])
-  @@index([isActive])
-}
-
-model MaintenanceSchedule {
-  id          String   @id @default(cuid())
-  assetId     String
-  asset       Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
-  templateId  String?
-  // template    RCMTemplate? @relation(fields: [templateId], references: [id])
-  
-  // Schedule details
-  taskName    String
-  taskType    MaintenanceTaskType
-  frequency   MaintenanceFrequency
-  
-  // Timing
-  scheduledDate DateTime
-  dueDate     DateTime
-  completedDate DateTime?
-  
-  // Assignment
-  assignedTo String?
-  // assignedToUser User? @relation(fields: [assignedTo], references: [id])
-  
-  // Status
-  status     String @default("PENDING") // PENDING, IN_PROGRESS, COMPLETED, CANCELLED
-  priority   AssetPriority @default(MEDIUM)
-  
-  // Results
-  workPerformed String?
-  notes        String?
-  
-  // Metadata
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  @@index([assetId])
-  @@index([scheduledDate])
-  @@index([dueDate])
-  @@index([status])
-  @@index([assignedTo])
-}
-
-// New Vendor model from ERD
-model Vendor {
-  id                String   @id @default(cuid())
-  organisationId    String
-  organisation      Organisation @relation(fields: [organisationId], references: [id])
-  name              String
-  abn               String?
-  contactEmail      String
-  contactPhone      String?
-  performanceRating Decimal? @db.Decimal(3,2)
-  capacityMargin    Int?     @default(20)
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  
-  // Relationships
-  users             User[]
-  contracts         Contract[]
-  workOrders        WorkOrder[]
-  assetCriticalControls AssetCriticalControl[]
-  
-  @@index([organisationId])
-  @@index([performanceRating])
-}
-
-// New Contract model from ERD
-model Contract {
-  id              String   @id @default(cuid())
-  organisationId  String
-  organisation    Organisation @relation(fields: [organisationId], references: [id])
-  vendorId        String
-  vendor          Vendor   @relation(fields: [vendorId], references: [id])
-  name            String
-  startDate       DateTime
-  endDate         DateTime
-  scope           String
-  status          String   @default("ACTIVE")
-  renewalDueDate  DateTime?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  
-  // Relationships
-  slas            SLA[]
-  workOrders      WorkOrder[]
-  
-  @@index([organisationId])
-  @@index([vendorId])
-  @@index([status])
-}
-
-// New SLA model from ERD
-model SLA {
-  id                  String   @id @default(cuid())
-  organisationId      String
-  organisation        Organisation @relation(fields: [organisationId], references: [id])
-  contractId          String
-  contract            Contract @relation(fields: [contractId], references: [id])
-  name                String
-  responseTimeHours   Int
-  resolutionTimeHours Int
-  frequencyDays       Int?
-  costModel           String
-  breachEscalation    String?
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
-  
-  // Relationships
-  workOrders          WorkOrder[]
-  
-  @@index([organisationId])
-  @@index([contractId])
-}
-
-// New CriticalControl model from ERD
-model CriticalControl {
-  id                String   @id @default(cuid())
-  organisationId    String
-  organisation      Organisation @relation(fields: [organisationId], references: [id])
+  // Purpose details
   name              String
   description       String?
-  type              String
-  windowHours       Int
-  frequencyDays     Int
-  escalationPolicy  String?
-  status            String   @default("ACTIVE")
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  
-  // Relationships
-  assetMappings     AssetCriticalControl[]
-  complianceRecords ComplianceRecord[]
-  escalationEvents  EscalationEvent[]
-  
-  @@index([organisationId])
-  @@index([type])
-  @@index([status])
-}
+  criticalControlId String?
+  // criticalControl   CriticalControl? @relation(fields: [criticalControlId], references: [id])
 
-// New AssetCriticalControl model from ERD
-model AssetCriticalControl {
-  id                String   @id @default(cuid())
-  organisationId    String
-  organisation      Organisation @relation(fields: [organisationId], references: [id])
-  assetId           String
-  asset             Asset    @relation(fields: [assetId], references: [id])
-  criticalControlId String
-  criticalControl   CriticalControl @relation(fields: [criticalControlId], references: [id])
-  vendorId          String?
-  vendor            Vendor?  @relation(fields: [vendorId], references: [id])
-  lastExecutedAt    DateTime?
-  nextDueAt         DateTime?
-  status            String   @default("ACTIVE")
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  
-  @@unique([assetId, criticalControlId])
+  // Purpose metadata
+  priority       AssetPriority @default(MEDIUM)
+  status         String        @default("ACTIVE")
+  isCoreFunction Boolean       @default(false)
+
+  // Relationships
+  assetMappings     AssetPurposeMapping[]
+  riskProfiles      RiskRhythmProfile[]
+  resilienceSignals ResilienceSignal[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([organisationId, name])
   @@index([organisationId])
-  @@index([assetId])
   @@index([criticalControlId])
-}
-
-// New CitizenReport model from ERD
-model CitizenReport {
-  id              String   @id @default(cuid())
-  organisationId  String
-  organisation    Organisation @relation(fields: [organisationId], references: [id])
-  assetId         String?
-  asset           Asset?   @relation(fields: [assetId], references: [id])
-  workOrderId     String?
-  workOrder       WorkOrder? @relation(fields: [workOrderId], references: [id])
-  reporterName    String
-  reporterEmail   String
-  reporterPhone   String?
-  reportedBy      String?
-  reportedByUser  User? @relation(fields: [reportedBy], references: [id])
-  issueCategory   String
-  riskLevel       String
-  description     String
-  location        String?
-  status          String   @default("OPEN")
-  reportedAt      DateTime @default(now())
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  
-  // Relationships
-  feedback        CitizenFeedback[]
-  
-  @@index([organisationId])
-  @@index([assetId])
-  @@index([issueCategory])
-  @@index([riskLevel])
+  @@index([priority])
   @@index([status])
 }
 
-// New CitizenFeedback model from ERD
-model CitizenFeedback {
-  id                 String   @id @default(cuid())
-  organisationId     String
-  organisation       Organisation @relation(fields: [organisationId], references: [id])
-  citizenReportId    String?
-  citizenReport      CitizenReport? @relation(fields: [citizenReportId], references: [id])
-  workOrderId        String?
-  workOrder          WorkOrder? @relation(fields: [workOrderId], references: [id])
-  submittedBy        String?
-  submittedByUser    User? @relation(fields: [submittedBy], references: [id])
-  satisfactionRating Int      // 1-5 scale
-  feedbackText       String?
-  serviceImprovement String?
-  submittedAt        DateTime @default(now())
-  createdAt          DateTime @default(now())
-  
-  @@index([organisationId])
-  @@index([citizenReportId])
-  @@index([workOrderId])
-  @@index([satisfactionRating])
+model AssetPurposeMapping {
+  id               String         @id @default(cuid())
+  assetId          String
+  asset            Asset          @relation(fields: [assetId], references: [id])
+  servicePurposeId String
+  servicePurpose   ServicePurpose @relation(fields: [servicePurposeId], references: [id])
+  contribution     Int
+  criticality      AssetPriority  @default(MEDIUM)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([assetId])
+  @@index([servicePurposeId])
+  @@index([criticality])
 }
 
-// New RiskSignal model from ERD
-model RiskSignal {
-  id            String   @id @default(cuid())
-  organisationId String
-  organisation  Organisation @relation(fields: [organisationId], references: [id])
-  assetId       String?
-  asset         Asset?   @relation(fields: [assetId], references: [id])
-  detectedBy    String?
-  detectedByUser User? @relation(fields: [detectedBy], references: [id])
-  signalType    String
-  severity      String
-  description   String
-  source        String
-  detectedAt    DateTime
-  resolvedAt    DateTime?
-  status        String   @default("OPEN")
-  createdAt     DateTime @default(now())
-  
+model RiskRhythmProfile {
+  id               String          @id @default(cuid())
+  organisationId   String
+  organisation     Organisation    @relation(fields: [organisationId], references: [id])
+  assetId          String
+  asset            Asset           @relation(fields: [assetId], references: [id])
+  servicePurposeId String?
+  servicePurpose   ServicePurpose? @relation(fields: [servicePurposeId], references: [id])
+
+  // Risk calculation
+  consequenceScore Int // 1-10 scale
+  likelihoodScore  Int // 1-10 scale
+  riskScore        Int // Generated: consequence * likelihood
+
+  // Seasonal adjustments
+  seasonalAdjustment Decimal @default(1.0) @db.Decimal(3, 2)
+  weatherAdjustment  Decimal @default(1.0) @db.Decimal(3, 2)
+  usageAdjustment    Decimal @default(1.0) @db.Decimal(3, 2)
+
+  // Maintenance scheduling
+  maintenanceFrequency Int // in days
+  lastMaintenance      DateTime?
+  nextMaintenance      DateTime?
+
+  // Status
+  status         String   @default("ACTIVE")
+  lastCalculated DateTime @default(now())
+
+  // Relationships
+  dynamicMaintenanceSchedules DynamicMaintenanceSchedule[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@index([organisationId])
   @@index([assetId])
-  @@index([signalType])
-  @@index([severity])
-  @@index([detectedAt])
+  @@index([servicePurposeId])
+  @@index([riskScore])
+  @@index([nextMaintenance])
 }
 
-// New EnvironmentalSignal model from ERD
-model EnvironmentalSignal {
-  id            String   @id @default(cuid())
+model ResilienceSignal {
+  id             String       @id @default(cuid())
   organisationId String
-  organisation  Organisation @relation(fields: [organisationId], references: [id])
-  signalType    String
-  severity      String
-  description   String
-  location      String?
-  detectedAt    DateTime
-  expiresAt     DateTime?
-  status        String   @default("ACTIVE")
-  createdAt     DateTime @default(now())
-  
+  organisation   Organisation @relation(fields: [organisationId], references: [id])
+
+  // Signal details
+  signalType  String // "ENVIRONMENTAL", "OPERATIONAL", "COMMUNITY", "TECHNICAL"
+  source      String // Source of the signal
+  severity    String // "LOW", "MEDIUM", "HIGH", "CRITICAL"
+  description String
+
+  // Asset association
+  assetId          String?
+  asset            Asset?          @relation(fields: [assetId], references: [id])
+  servicePurposeId String?
+  servicePurpose   ServicePurpose? @relation(fields: [servicePurposeId], references: [id])
+
+  // Signal data
+  signalData       Json? // Structured data about the signal
+  processedAt      DateTime?
+  responseRequired Boolean   @default(false)
+  responseStatus   String    @default("PENDING") // "PENDING", "IN_PROGRESS", "RESOLVED", "ESCALATED"
+
+  // Detection
+  detectedBy     String?
+  detectedByUser User?    @relation("SignalDetectedBy", fields: [detectedBy], references: [id])
+  detectedAt     DateTime @default(now())
+
+  // Response
+  respondedBy     String?
+  respondedByUser User?     @relation("SignalRespondedBy", fields: [respondedBy], references: [id])
+  respondedAt     DateTime?
+  responseActions Json? // Actions taken in response
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@index([organisationId])
   @@index([signalType])
   @@index([severity])
-  @@index([detectedAt])
-}
-
-// New MarginCapacity model from ERD
-model MarginCapacity {
-  id                String   @id @default(cuid())
-  organisationId    String
-  organisation      Organisation @relation(fields: [organisationId], references: [id])
-  capacityType      String
-  availableCapacity Int
-  utilisedCapacity  Int
-  marginPercentage  Decimal  @db.Decimal(5,2)
-  lastUpdatedAt     DateTime
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  
-  @@index([organisationId])
-  @@index([capacityType])
-}
-
-// New EmergencyResponse model from ERD
-model EmergencyResponse {
-  id                    String   @id @default(cuid())
-  organisationId        String
-  organisation          Organisation @relation(fields: [organisationId], references: [id])
-  assetId               String?
-  asset                 Asset?   @relation(fields: [assetId], references: [id])
-  workOrderId           String?
-  workOrder             WorkOrder? @relation(fields: [workOrderId], references: [id])
-  activatedBy           String?
-  activatedByUser       User? @relation(fields: [activatedBy], references: [id])
-  emergencyType         String
-  severity              String
-  responseTimeMinutes   Int
-  resolutionTimeMinutes Int
-  marginDeployed        Boolean  @default(false)
-  activatedAt           DateTime
-  resolvedAt            DateTime?
-  createdAt             DateTime @default(now())
-  
-  @@index([organisationId])
   @@index([assetId])
-  @@index([emergencyType])
-  @@index([severity])
-  @@index([activatedAt])
+  @@index([servicePurposeId])
 }
 
-// New ComplianceRecord model from ERD
-model ComplianceRecord {
-  id                String   @id @default(cuid())
-  organisationId    String
-  organisation      Organisation @relation(fields: [organisationId], references: [id])
-  assetId           String?
-  asset             Asset?   @relation(fields: [assetId], references: [id])
-  criticalControlId String?
-  criticalControl   CriticalControl? @relation(fields: [criticalControlId], references: [id])
-  assignedTo        String?
-  assignedToUser    User? @relation(fields: [assignedTo], references: [id])
-  complianceType    String
-  status            String
-  dueDate           DateTime?
-  completedDate     DateTime?
-  evidenceCount     Int      @default(0)
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  
+model MarginOperation {
+  id             String       @id @default(cuid())
+  organisationId String
+  organisation   Organisation @relation(fields: [organisationId], references: [id])
+
+  // Operation details
+  operationType      String // "EMERGENCY_RESPONSE", "MAINTENANCE", "INSPECTION", etc.
+  resourceType       String // "WATER_TREATMENT", "TRAFFIC_SIGNALS", "POOL_MAINTENANCE", etc.
+  availableCapacity  Int // Total available capacity
+  utilizedCapacity   Int    @default(0) // Currently utilized capacity
+  emergencyThreshold Int // Threshold for emergency deployment
+
+  // Status and deployment
+  status         String    @default("AVAILABLE") // "AVAILABLE", "DEPLOYED", "MAINTENANCE", "OUT_OF_SERVICE"
+  lastDeployment DateTime?
+  deploymentData Json? // Data about last deployment
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@index([organisationId])
-  @@index([assetId])
-  @@index([criticalControlId])
-  @@index([complianceType])
+  @@index([operationType])
+  @@index([resourceType])
   @@index([status])
 }
 
-// New EscalationEvent model from ERD
-model EscalationEvent {
-  id                String   @id @default(cuid())
-  organisationId    String
-  organisation      Organisation @relation(fields: [organisationId], references: [id])
-  assetId           String?
-  asset             Asset?   @relation(fields: [assetId], references: [id])
-  criticalControlId String?
-  criticalControl   CriticalControl? @relation(fields: [criticalControlId], references: [id])
-  workOrderId       String?
-  workOrder         WorkOrder? @relation(fields: [workOrderId], references: [id])
-  escalatedBy       String?
-  escalatedByUser   User? @relation(fields: [escalatedBy], references: [id])
-  escalationType    String
-  severity          String
-  reason            String
-  escalatedTo       String
-  escalatedAt       DateTime
-  acknowledgedAt    DateTime?
-  resolvedAt        DateTime?
-  createdAt         DateTime @default(now())
-  
+model DynamicMaintenanceSchedule {
+  id             String             @id @default(cuid())
+  organisationId String
+  organisation   Organisation       @relation(fields: [organisationId], references: [id])
+  assetId        String
+  asset          Asset              @relation(fields: [assetId], references: [id])
+  riskProfileId  String?
+  riskProfile    RiskRhythmProfile? @relation(fields: [riskProfileId], references: [id])
+
+  // Schedule details
+  scheduledDate   DateTime
+  maintenanceType String // "PREVENTIVE", "PREDICTIVE", "CORRECTIVE", "EMERGENCY"
+  priority        AssetPriority
+
+  // Status and completion
+  status      String    @default("SCHEDULED") // "SCHEDULED", "IN_PROGRESS", "COMPLETED", "CANCELLED"
+  assignedTo  String? // User ID
+  completedAt DateTime?
+  notes       String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@index([organisationId])
   @@index([assetId])
-  @@index([criticalControlId])
-  @@index([workOrderId])
-  @@index([escalationType])
-  @@index([severity])
-  @@index([escalatedAt])
-}
-
-// New WorkOrderEvidence model from ERD
-model WorkOrderEvidence {
-  id              String   @id @default(cuid())
-  organisationId  String
-  organisation    Organisation @relation(fields: [organisationId], references: [id])
-  workOrderId     String
-  workOrder       WorkOrder @relation(fields: [workOrderId], references: [id])
-  uploadedBy      String?
-  uploadedByUser  User? @relation(fields: [uploadedBy], references: [id])
-  evidenceType    String
-  filePath        String
-  fileName        String
-  fileSize        Int
-  gpsCoordinates  String?
-  uploadedAt      DateTime
-  createdAt       DateTime @default(now())
-  
-  @@index([organisationId])
-  @@index([workOrderId])
-  @@index([evidenceType])
-  @@index([uploadedAt])
-}
-
-// New InspectionPhoto model from ERD
-model InspectionPhoto {
-  id              String   @id @default(cuid())
-  organisationId  String
-  organisation    Organisation @relation(fields: [organisationId], references: [id])
-  inspectionId    String
-  inspection      AssetInspection @relation(fields: [inspectionId], references: [id])
-  uploadedBy      String?
-  uploadedByUser  User? @relation(fields: [uploadedBy], references: [id])
-  filePath        String
-  fileName        String
-  gpsCoordinates  String?
-  description     String?
-  uploadedAt      DateTime
-  createdAt       DateTime @default(now())
-  
-  @@index([organisationId])
-  @@index([inspectionId])
-  @@index([uploadedAt])
-}
-
-model Invitation {
-  id            String     @id @default(cuid())
-  email         String
-  role          Role
-  organisationId String
-  organisation  Organisation @relation(fields: [organisationId], references: [id])
-  invitedBy     String
-  invitedByUser User       @relation("InvitedBy", fields: [invitedBy], references: [id])
-  message       String?
-  status        InvitationStatus @default(PENDING)
-  expiresAt     DateTime
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  
-  @@unique([email, organisationId])
-}
-
-enum InvitationStatus {
-  PENDING
-  ACCEPTED
-  EXPIRED
-  CANCELLED
-}
-
-// Manager Dashboard Models
-model ManagerMetrics {
-  id             String   @id @default(cuid())
-  organisationId String
-  organisation   Organisation @relation(fields: [organisationId], references: [id])
-  
-  // Resilience metrics
-  overallScore       Float
-  criticalControls   Int
-  marginUtilization  Float
-  riskTrend         Float
-  signalResponse    Float
-  antifragileScore  Float
-  
-  // Time range for these metrics
-  timeRange         String
-  calculatedAt      DateTime @default(now())
-  
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  
-  @@index([organisationId])
-  @@index([calculatedAt])
-}
-
-model MarginStatus {
-  id             String   @id @default(cuid())
-  organisationId String
-  organisation   Organisation @relation(fields: [organisationId], references: [id])
-  
-  // Margin data
-  marginType         String
-  utilizationRate    Float
-  availableCapacity  Float
-  totalCapacity      Float
-  status             String
-  lastUpdated        DateTime @default(now())
-  
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-  
-  @@index([organisationId])
-  @@index([marginType])
+  @@index([riskProfileId])
+  @@index([scheduledDate])
+  @@index([priority])
   @@index([status])
-}
-
-model RiskTrend {
-  id             String   @id @default(cuid())
-  organisationId String
-  organisation   Organisation @relation(fields: [organisationId], references: [id])
-  
-  // Risk trend data
-  assetId           String?
-  asset             Asset? @relation(fields: [assetId], references: [id])
-  riskScore         Float
-  trend             String // 'up', 'down', 'stable'
-  period            String
-  calculatedAt      DateTime @default(now())
-  
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  
-  @@index([organisationId])
-  @@index([assetId])
-  @@index([calculatedAt])
-}
-
-model DemoScenario {
-  id             String   @id @default(cuid())
-  organisationId String
-  organisation   Organisation @relation(fields: [organisationId], references: [id])
-  
-  // Demo scenario data
-  scenarioType   String
-  title          String
-  description    String
-  narrative      String
-  metrics        Json
-  keyStories     Json
-  isActive       Boolean @default(false)
-  
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  
-  @@index([organisationId])
-  @@index([scenarioType])
-  @@index([isActive])
-}
-
-model CitizenDashboardStats {
-  id             String   @id @default(cuid())
-  organisationId String
-  organisation   Organisation @relation(fields: [organisationId], references: [id])
-  
-  // Citizen dashboard statistics
-  totalReportsCompleted    Int
-  reportsThisMonth         Int
-  averageResolutionTime    Float
-  satisfactionRate         Float
-  totalPeopleHelped        Int
-  costSavings              Float
-  period                   String
-  calculatedAt             DateTime @default(now())
-  
-  createdAt                DateTime @default(now())
-  updatedAt                DateTime @updatedAt
-  
-  @@index([organisationId])
-  @@index([calculatedAt])
-}
-
-model AssetIntelligenceData {
-  id             String   @id @default(cuid())
-  organisationId String
-  organisation   Organisation @relation(fields: [organisationId], references: [id])
-  
-  // Asset intelligence metrics
-  totalFunctions     Int
-  totalAssets        Int
-  totalValue         Float
-  criticalAssets     Int
-  categoryBreakdown  Json
-  period             String
-  calculatedAt       DateTime @default(now())
-  
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-  
-  @@index([organisationId])
-  @@index([calculatedAt])
 }

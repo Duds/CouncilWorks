@@ -273,6 +273,41 @@ export async function generateUserPersonas(
     users.push(user);
   }
 
-  console.log(`  ✅ Created ${users.length} user personas across all roles`);
+  // Add Dale Rogers (the developer) as a manager user
+  const daleRogers = await prisma.user.upsert({
+    where: { email: 'hello@dalerogers.com.au' },
+    update: {
+      name: 'Dale Rogers',
+      role: Role.MANAGER,
+      organisationId,
+      isActive: true,
+      updatedAt: new Date(),
+    },
+    create: {
+      email: 'hello@dalerogers.com.au',
+      name: 'Dale Rogers',
+      role: Role.MANAGER,
+      organisationId,
+      passwordHash: await bcrypt.hash('Demo123!', 12),
+      emailVerified: new Date(),
+      phoneNumber: '+61 400 000 000',
+      bio: 'Aegrid Developer and System Administrator',
+      timezone: 'Australia/Sydney',
+      language: 'en-AU',
+      notificationPreferences: {
+        email: true,
+        sms: false,
+        push: true,
+        emergency_alerts: true,
+        strategic_reports: true,
+        margin_alerts: true,
+        operational_reports: true,
+        risk_alerts: true,
+      },
+    },
+  });
+  users.push(daleRogers);
+
+  console.log(`  ✅ Created ${users.length} user personas across all roles (including Dale Rogers)`);
   return users;
 }

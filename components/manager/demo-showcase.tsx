@@ -38,6 +38,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface DemoScenario {
   title: string;
   description: string;
@@ -109,7 +110,7 @@ export function DemoShowcase() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="h-8 w-8 animate-spin" />
+        <LoadingSpinner size="lg" />
         <span className="ml-2">Loading demo scenario...</span>
       </div>
     );
@@ -140,7 +141,7 @@ export function DemoShowcase() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-foreground">{demoData.title}</h2>
-          <p className="text-muted-foreground">{demoData.description}</p>
+          
         </div>
         <div className="flex gap-2">
           <Select value={scenario} onValueChange={setScenario}>
@@ -169,7 +170,7 @@ export function DemoShowcase() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-lg text-muted-foreground">{demoData.narrative}</p>
+          
         </CardContent>
       </Card>
 
@@ -201,7 +202,7 @@ export function DemoShowcase() {
                     
                     <div className="flex-1">
                       <h4 className="font-medium mb-2">{story.story}</h4>
-                      <p className="text-sm text-muted-foreground mb-3">{story.impact}</p>
+                      
                       <div className="flex items-center gap-2 text-sm">
                         <TrendingUp className="h-4 w-4 text-green-600" />
                         <span className="font-medium">{story.metrics}</span>
@@ -227,7 +228,7 @@ export function DemoShowcase() {
               <TrendingUp className="h-8 w-8 text-green-600" />
               <div className="ml-4">
                 <p className="text-2xl font-bold text-green-600">{demoData.metrics.resilienceImprovement}%</p>
-                <p className="text-xs text-muted-foreground">Resilience Improvement</p>
+                
               </div>
             </div>
           </CardContent>
@@ -239,7 +240,7 @@ export function DemoShowcase() {
               <DollarSign className="h-8 w-8 text-blue-600" />
               <div className="ml-4">
                 <p className="text-2xl font-bold text-blue-600">{demoData.metrics.costReduction}%</p>
-                <p className="text-xs text-muted-foreground">Cost Reduction</p>
+                
               </div>
             </div>
           </CardContent>
@@ -251,7 +252,7 @@ export function DemoShowcase() {
               <Clock className="h-8 w-8 text-purple-600" />
               <div className="ml-4">
                 <p className="text-2xl font-bold text-purple-600">{demoData.metrics.downtimeReduction}%</p>
-                <p className="text-xs text-muted-foreground">Downtime Reduction</p>
+                
               </div>
             </div>
           </CardContent>
@@ -263,7 +264,7 @@ export function DemoShowcase() {
               <Star className="h-8 w-8 text-orange-600" />
               <div className="ml-4">
                 <p className="text-2xl font-bold text-orange-600">{demoData.metrics.stakeholderSatisfaction}%</p>
-                <p className="text-xs text-muted-foreground">Stakeholder Satisfaction</p>
+                
               </div>
             </div>
           </CardContent>
@@ -286,17 +287,17 @@ export function DemoShowcase() {
             <div className="space-y-4">
               <div>
                 <h4 className="font-medium mb-2">The Story</h4>
-                <p className="text-muted-foreground">{demoData.keyStories[activeStory].story}</p>
+                
               </div>
               
               <div>
                 <h4 className="font-medium mb-2">Impact</h4>
-                <p className="text-muted-foreground">{demoData.keyStories[activeStory].impact}</p>
+                
               </div>
               
               <div>
                 <h4 className="font-medium mb-2">Metrics</h4>
-                <p className="text-muted-foreground">{demoData.keyStories[activeStory].metrics}</p>
+                
               </div>
               
               <div className="flex gap-2">

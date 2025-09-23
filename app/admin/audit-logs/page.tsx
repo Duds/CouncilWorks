@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { AuditAction } from "@prisma/client";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface AuditLog {
   id: string;
   action: AuditAction;
@@ -180,8 +181,8 @@ export default function AuditLogs() {
       >
         <div className="flex items-center justify-center h-64">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-            <p className="mt-2 text-muted-foreground">Loading audit logs...</p>
+            <LoadingSpinner size="lg" />
+            
           </div>
         </div>
       </AppLayout>
@@ -198,9 +199,7 @@ export default function AuditLogs() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-foreground">Audit Logs</h1>
-            <p className="text-muted-foreground mt-2">
-              Monitor system activity and security events
-            </p>
+            
           </div>
           <Button onClick={handleExport}>
             <Download className="h-4 w-4 mr-2" />

@@ -1,6 +1,6 @@
 'use client';
 
-import { Search, Bell, Mail, Plus, Upload } from 'lucide-react';
+import { Search, Bell, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Kbd } from '@/components/ui/kbd';
@@ -69,19 +69,6 @@ export function SiteHeader({ title }: SiteHeaderProps) {
           <Button variant="outline" size="sm" className="h-9 w-9 p-0">
             <Mail className="h-4 w-4" />
             <span className="sr-only">Messages</span>
-          </Button>
-        </div>
-        
-        {/* Action buttons */}
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm">
-            <Upload className="h-4 w-4 mr-2" />
-            Import Data
-          </Button>
-          
-          <Button size="sm">
-            <Plus className="h-4 w-4 mr-2" />
-            Add Asset
           </Button>
         </div>
       </div>

@@ -41,6 +41,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface WorkOrder {
   id: string;
   workOrderNumber: string;
@@ -305,7 +306,7 @@ export function MobileWorkOrders({ assignedTo, onWorkOrderSelect }: MobileWorkOr
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="h-8 w-8 animate-spin" />
+        <LoadingSpinner size="lg" />
         <span className="ml-2">Loading work orders...</span>
       </div>
     );
@@ -319,9 +320,7 @@ export function MobileWorkOrders({ assignedTo, onWorkOrderSelect }: MobileWorkOr
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-2xl font-bold text-foreground">Work Orders</h2>
-              <p className="text-muted-foreground">
-                Manage assigned maintenance tasks
-              </p>
+              
             </div>
             <Button variant="outline" onClick={loadWorkOrders}>
               <RefreshCw className="h-4 w-4 mr-2" />
@@ -393,7 +392,7 @@ export function MobileWorkOrders({ assignedTo, onWorkOrderSelect }: MobileWorkOr
                           <h4 className="font-medium">{workOrder.title}</h4>
                           <Badge variant="outline" size="sm">{workOrder.workOrderNumber}</Badge>
                         </div>
-                        <p className="text-sm text-muted-foreground mb-2">{workOrder.description}</p>
+                        
                         <div className="flex items-center gap-4 text-xs text-muted-foreground">
                           <span className="flex items-center gap-1">
                             <MapPin className="h-3 w-3" />
@@ -447,12 +446,7 @@ export function MobileWorkOrders({ assignedTo, onWorkOrderSelect }: MobileWorkOr
                   <div className="text-center py-8">
                     <Wrench className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
                     <h3 className="text-lg font-medium mb-2">No work orders found</h3>
-                    <p className="text-muted-foreground">
-                      {searchTerm || filter !== "ALL" 
-                        ? "Try adjusting your search or filter criteria"
-                        : "No work orders assigned to you yet"
-                      }
-                    </p>
+                    
                   </div>
                 </CardContent>
               </Card>
@@ -510,7 +504,7 @@ function WorkOrderDetail({ workOrder, onBack, onStatusUpdate, isOnline }: WorkOr
         </Button>
         <div>
           <h2 className="text-lg font-semibold">Work Order Details</h2>
-          <p className="text-sm text-muted-foreground">{workOrder.workOrderNumber}</p>
+          
         </div>
       </div>
 

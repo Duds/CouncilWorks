@@ -4,7 +4,6 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { ThemeToggle } from '@/components/theme-toggle';
 import type { Route } from 'next';
 
 interface ConditionalHeaderProps {
@@ -68,7 +67,6 @@ export default function ConditionalHeader({
                 <Button>Register</Button>
               </Link>
             </nav>
-            <ThemeToggle />
           </div>
         </div>
       </header>

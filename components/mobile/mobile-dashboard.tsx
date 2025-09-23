@@ -30,6 +30,7 @@ import {
 import { toast } from "sonner";
 import { offlineStorage, OfflineInspection } from "@/lib/offline-storage";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface DashboardStats {
   totalAssets: number;
   pendingInspections: number;
@@ -157,7 +158,7 @@ export function MobileDashboard() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Mobile Dashboard</h1>
-          <p className="text-muted-foreground">Asset inspection and management</p>
+          
         </div>
         <div className="flex items-center gap-2">
           <Button
@@ -167,7 +168,7 @@ export function MobileDashboard() {
             disabled={syncing}
           >
             {syncing ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
+              <LoadingSpinner size="sm" />
             ) : (
               <Sync className="h-4 w-4" />
             )}
@@ -203,7 +204,7 @@ export function MobileDashboard() {
               <MapPin className="h-8 w-8 text-blue-600" />
               <div className="ml-4">
                 <p className="text-2xl font-bold">{stats.totalAssets}</p>
-                <p className="text-xs text-muted-foreground">Assets</p>
+                
               </div>
             </div>
           </CardContent>
@@ -215,7 +216,7 @@ export function MobileDashboard() {
               <Camera className="h-8 w-8 text-green-600" />
               <div className="ml-4">
                 <p className="text-2xl font-bold">{stats.completedInspections}</p>
-                <p className="text-xs text-muted-foreground">Completed</p>
+                
               </div>
             </div>
           </CardContent>
@@ -227,7 +228,7 @@ export function MobileDashboard() {
               <Clock className="h-8 w-8 text-orange-600" />
               <div className="ml-4">
                 <p className="text-2xl font-bold">{stats.pendingInspections}</p>
-                <p className="text-xs text-muted-foreground">Pending</p>
+                
               </div>
             </div>
           </CardContent>
@@ -239,7 +240,7 @@ export function MobileDashboard() {
               <AlertTriangle className="h-8 w-8 text-red-600" />
               <div className="ml-4">
                 <p className="text-2xl font-bold">{stats.overdueMaintenance}</p>
-                <p className="text-xs text-muted-foreground">Overdue</p>
+                
               </div>
             </div>
           </CardContent>
@@ -343,21 +344,19 @@ export function MobileDashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-center">
-              <p className="text-sm text-muted-foreground mb-4">
-                You're working offline. All data is saved locally and will sync when you're back online.
-              </p>
+              
               <div className="grid grid-cols-3 gap-4 text-center">
                 <div>
                   <div className="text-lg font-bold text-blue-600">{stats.offlineData}</div>
-                  <p className="text-xs text-muted-foreground">Offline Items</p>
+                  
                 </div>
                 <div>
                   <div className="text-lg font-bold text-orange-600">{stats.pendingInspections}</div>
-                  <p className="text-xs text-muted-foreground">Pending Sync</p>
+                  
                 </div>
                 <div>
                   <div className="text-lg font-bold text-green-600">{stats.completedInspections}</div>
-                  <p className="text-xs text-muted-foreground">Synced</p>
+                  
                 </div>
               </div>
             </div>

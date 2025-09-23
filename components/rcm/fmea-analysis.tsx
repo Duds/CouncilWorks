@@ -29,6 +29,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface FMEAAnalysisProps {
   assetId: string;
   assetName: string;
@@ -173,7 +174,7 @@ export function FMEAAnalysis({ assetId, assetName }: FMEAAnalysisProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="h-8 w-8 animate-spin" />
+        <LoadingSpinner size="lg" />
         <span className="ml-2">Loading FMEA analysis...</span>
       </div>
     );
@@ -203,9 +204,7 @@ export function FMEAAnalysis({ assetId, assetName }: FMEAAnalysisProps) {
           <div className="text-center py-8">
             <AlertCircle className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
             <h3 className="text-lg font-medium mb-2">No FMEA data available</h3>
-            <p className="text-muted-foreground">
-              This asset doesn't have any RCM templates associated with it.
-            </p>
+            
           </div>
         </CardContent>
       </Card>
@@ -229,9 +228,7 @@ export function FMEAAnalysis({ assetId, assetName }: FMEAAnalysisProps) {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-foreground">FMEA Analysis</h2>
-          <p className="text-muted-foreground">
-            Failure Mode Effects Analysis for {fmeaData.asset.name}
-          </p>
+          
         </div>
         <Button variant="outline" onClick={loadFMEAData}>
           <RefreshCw className="h-4 w-4 mr-2" />
@@ -253,7 +250,7 @@ export function FMEAAnalysis({ assetId, assetName }: FMEAAnalysisProps) {
               <div className={`text-4xl font-bold ${getRiskColor(fmeaData.overallRiskScore)}`}>
                 {Math.round(fmeaData.overallRiskScore)}
               </div>
-              <p className="text-sm text-muted-foreground">Overall Risk Score</p>
+              
               <Badge variant={getRiskBadgeVariant(fmeaData.overallRiskLevel)} className="mt-2">
                 {fmeaData.overallRiskLevel}
               </Badge>
@@ -384,7 +381,7 @@ export function FMEAAnalysis({ assetId, assetName }: FMEAAnalysisProps) {
                   <div className="flex items-start justify-between mb-3">
                     <div>
                       <h4 className="font-medium">{failureMode.name}</h4>
-                      <p className="text-sm text-muted-foreground">{failureMode.effect}</p>
+                      
                     </div>
                     <div className="flex gap-2">
                       <Badge variant={getSeverityBadgeVariant(failureMode.severity)}>
@@ -440,7 +437,7 @@ export function FMEAAnalysis({ assetId, assetName }: FMEAAnalysisProps) {
                   <div className="flex items-start justify-between mb-3">
                     <div>
                       <h4 className="font-medium">{recommendation.title}</h4>
-                      <p className="text-sm text-muted-foreground">{recommendation.description}</p>
+                      
                     </div>
                     <Badge variant={getPriorityBadgeVariant(recommendation.priority)}>
                       {recommendation.priority}

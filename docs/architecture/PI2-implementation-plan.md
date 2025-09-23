@@ -15,11 +15,13 @@ This document outlines the technical implementation plan for Product Increment 2
 - **Storage**: Azure Blob Storage for documents
 
 ### Target Architecture (PI2)
-- **Frontend**: Next.js 15 with journey-centric navigation
+- **Frontend**: Next.js 15 with journey-centric navigation and enhanced visualisation
 - **Backend**: Node.js API with graph database integration
 - **Primary Database**: PostgreSQL with PostGIS (existing)
 - **Graph Database**: Neo4j or Azure Cosmos DB Gremlin API
-- **Authentication**: Enhanced NextAuth.js with ISO 27001 compliance
+- **Energy Management**: Core energy optimisation and BMS/EMS integration
+- **AI Intelligence**: Embedded optimisation algorithms and predictive analytics
+- **Authentication**: Enhanced NextAuth.js with ISO 27001/55000 compliance
 - **Deployment**: Azure Container Apps with enhanced monitoring
 - **Storage**: Multi-tier Azure Blob Storage with lifecycle management
 - **Analytics**: Azure Machine Learning for predictive analytics

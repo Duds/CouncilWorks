@@ -45,6 +45,7 @@ import {
 import { toast } from "sonner";
 import { getDynamicWidthStyle } from "@/lib/dynamic-styles";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface ExportOption {
   id: string;
   name: string;
@@ -235,7 +236,7 @@ export function ExportFunctionality() {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'pending': return <Clock className="h-4 w-4 text-gray-600" />;
-      case 'processing': return <Loader2 className="h-4 w-4 animate-spin text-blue-600" />;
+      case 'processing': return <LoadingSpinner size="sm" text-blue-600 />;
       case 'completed': return <CheckCircle className="h-4 w-4 text-green-600" />;
       case 'failed': return <AlertCircle className="h-4 w-4 text-red-600" />;
       default: return null;
@@ -272,9 +273,7 @@ export function ExportFunctionality() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-foreground">Export Reports & Data</h1>
-          <p className="text-muted-foreground">
-            Export dashboards, reports, and data in multiple formats
-          </p>
+          
         </div>
         <Dialog open={showExportDialog} onOpenChange={setShowExportDialog}>
           <DialogTrigger asChild>
@@ -359,7 +358,7 @@ export function ExportFunctionality() {
                   className="flex-1"
                 >
                   {isExporting ? (
-                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                    <LoadingSpinner size="sm" mr-2 />
                   ) : (
                     <Download className="h-4 w-4 mr-2" />
                   )}

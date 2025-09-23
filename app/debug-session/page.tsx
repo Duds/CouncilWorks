@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { RefreshCw, CheckCircle, XCircle, Info } from "lucide-react";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 export default function DebugSessionPage() {
   const { data: session, status, update } = useSession();
   const [debugData, setDebugData] = useState<Record<string, unknown> | null>(null);
@@ -65,8 +66,8 @@ export default function DebugSessionPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-2 text-muted-foreground">Loading session...</p>
+          <LoadingSpinner size="lg" />
+          
         </div>
       </div>
     );
@@ -97,9 +98,7 @@ export default function DebugSessionPage() {
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="text-center">
           <h1 className="text-3xl font-bold">Session Debug Tool</h1>
-          <p className="text-muted-foreground mt-2">
-            Debug your authentication session and onboarding status
-          </p>
+          
         </div>
 
         <div className="grid gap-6 md:grid-cols-2">
@@ -152,12 +151,7 @@ export default function DebugSessionPage() {
                     {session.user?.organisationId ? 'Has Organisation' : 'No Organisation'}
                   </span>
                 </div>
-                <p className="text-sm text-muted-foreground mt-1">
-                  {session.user?.organisationId 
-                    ? 'You should be able to access the dashboard' 
-                    : 'You will be redirected to onboarding'
-                  }
-                </p>
+                
               </div>
             </CardContent>
           </Card>

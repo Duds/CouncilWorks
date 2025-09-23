@@ -26,15 +26,16 @@ export async function logAuditEvent(
         where: { id: userId },
         select: { id: true }
       });
-      
+
       if (!userExists) {
         console.warn(`Cannot log audit event: User ${userId} does not exist`);
         return;
       }
     }
-    
+
     await prisma.auditLog.create({
       data: {
+        id: `audit-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         action,
         userId,
         organisationId,
@@ -60,7 +61,7 @@ export async function getAuditLogs(
   offset = 0
 ) {
   const where: any = {};
-  
+
   if (organisationId) where.organisationId = organisationId;
   if (userId) where.userId = userId;
   if (action) where.action = action;
@@ -113,6 +114,7 @@ export const ROLE_HIERARCHY: Record<Role, number> = {
   [Role.MANAGER]: 6,
   [Role.EXEC]: 7,
   [Role.ADMIN]: 8,
+  [Role.MAINTENANCE_PLANNER]: 3, // Same level as CONTRACTOR
 };
 
 /**
@@ -129,7 +131,7 @@ export function hasRole(userRole: Role, requiredRoles: Role[]): boolean {
 export function canManageUser(currentUserRole: Role, targetUserRole: Role): boolean {
   const currentLevel = ROLE_HIERARCHY[currentUserRole];
   const targetLevel = ROLE_HIERARCHY[targetUserRole];
-  
+
   // Users can only manage users with lower or equal roles
   // ADMIN can manage everyone, MANAGER can manage SUPERVISOR, CREW, CITIZEN, etc.
   return currentLevel >= targetLevel;
@@ -149,7 +151,7 @@ export function getRoleDisplayName(role: Role): string {
     [Role.PARTNER]: "Partner",
     [Role.CITIZEN]: "Citizen",
   };
-  
+
   return roleNames[role];
 }
 
@@ -167,6 +169,6 @@ export function getRoleDescription(role: Role): string {
     [Role.PARTNER]: "Partner organisation access for collaborative projects and data sharing",
     [Role.CITIZEN]: "Read-only access to public information and issue reporting",
   };
-  
+
   return descriptions[role];
 }

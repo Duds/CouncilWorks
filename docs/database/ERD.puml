@@ -460,4 +460,132 @@ CitizenReport ||--o{ CitizenFeedback : feedback_for
 ' Relationships - Margin & Emergency
 MarginCapacity ||--o{ EmergencyResponse : supports
 
+' Resilience Command Models for Aegrid Rules Implementation
+entity ServicePurpose {
+  * id : UUID
+  --
+  organisation_id : UUID
+  name : string
+  description : text
+  critical_control_id : UUID
+  priority : AssetPriority
+  status : string
+  is_core_function : boolean
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+entity AssetPurposeMapping {
+  * id : UUID
+  --
+  asset_id : UUID
+  service_purpose_id : UUID
+  contribution : int
+  criticality : AssetPriority
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+entity RiskRhythmProfile {
+  * id : UUID
+  --
+  organisation_id : UUID
+  asset_id : UUID
+  service_purpose_id : UUID
+  consequence_score : int
+  likelihood_score : int
+  risk_score : int
+  seasonal_adjustment : decimal
+  weather_adjustment : decimal
+  usage_adjustment : decimal
+  maintenance_frequency : int
+  last_maintenance : timestamp
+  next_maintenance : timestamp
+  status : string
+  last_calculated : timestamp
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+entity ResilienceSignal {
+  * id : UUID
+  --
+  organisation_id : UUID
+  signal_type : string
+  source : string
+  severity : string
+  description : text
+  asset_id : UUID
+  service_purpose_id : UUID
+  signal_data : json
+  processed_at : timestamp
+  response_required : boolean
+  response_status : string
+  detected_by : UUID
+  detected_at : timestamp
+  responded_by : UUID
+  responded_at : timestamp
+  response_actions : json
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+entity MarginOperation {
+  * id : UUID
+  --
+  organisation_id : UUID
+  operation_type : string
+  resource_type : string
+  available_capacity : int
+  utilized_capacity : int
+  emergency_threshold : int
+  status : string
+  last_deployment : timestamp
+  deployment_data : json
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+entity DynamicMaintenanceSchedule {
+  * id : UUID
+  --
+  organisation_id : UUID
+  asset_id : UUID
+  risk_profile_id : UUID
+  scheduled_date : timestamp
+  maintenance_type : string
+  priority : string
+  status : string
+  assigned_to : UUID
+  completed_at : timestamp
+  notes : text
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+' Resilience Relationships - Organisation
+Organisation ||--o{ ServicePurpose : defines
+Organisation ||--o{ RiskRhythmProfile : profiles
+Organisation ||--o{ ResilienceSignal : monitors
+Organisation ||--o{ MarginOperation : operates
+Organisation ||--o{ DynamicMaintenanceSchedule : schedules
+
+' Resilience Relationships - Assets & Purposes
+Asset ||--o{ AssetPurposeMapping : mapped
+Asset ||--o{ RiskRhythmProfile : profiled
+Asset ||--o{ ResilienceSignal : signalled
+Asset ||--o{ DynamicMaintenanceSchedule : scheduled
+
+ServicePurpose ||--o{ AssetPurposeMapping : purpose_of
+ServicePurpose ||--o{ RiskRhythmProfile : purpose_for
+ServicePurpose ||--o{ ResilienceSignal : purpose_related
+
+' Resilience Relationships - Risk & Maintenance
+RiskRhythmProfile ||--o{ DynamicMaintenanceSchedule : drives
+
+' Resilience Relationships - User Interactions
+User ||--o{ ResilienceSignal : detected
+User ||--o{ ResilienceSignal : responded
+User ||--o{ DynamicMaintenanceSchedule : assigned
+
 @enduml

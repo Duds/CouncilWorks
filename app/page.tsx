@@ -353,12 +353,12 @@ export default async function HomePage() {
                 </p>
               </div>
               <div className="pt-4">
-                <a
+                <Link
                   href="/contact"
                   className="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
                 >
                   Let&apos;s Start Your Pilot Journey
-                </a>
+                </Link>
               </div>
             </div>
             <DemoCarousel />
@@ -1011,6 +1011,7 @@ export default async function HomePage() {
                   © {new Date().getFullYear()} Aegrid. All rights reserved.
                 </div>
                 <nav className="flex items-center gap-4 text-sm text-muted-foreground">
+                  <Link href={'/contact' as Route}>Contact</Link>
                   <Link href={'/docs' as Route}>Docs</Link>
                   <Link href={'/docs/aegrid-rules' as Route}>
                     The Aegrid Rules

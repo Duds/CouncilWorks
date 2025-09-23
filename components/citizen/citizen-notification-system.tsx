@@ -57,6 +57,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface NotificationTemplate {
   id: string;
   name: string;
@@ -324,7 +325,7 @@ export function CitizenNotificationSystem() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="h-8 w-8 animate-spin" />
+        <LoadingSpinner size="lg" />
         <span className="ml-2">Loading notification system...</span>
       </div>
     );
@@ -336,9 +337,7 @@ export function CitizenNotificationSystem() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-foreground">Citizen Notification System</h1>
-          <p className="text-muted-foreground">
-            Manage notification templates and citizen communication preferences
-          </p>
+          
         </div>
         <Dialog open={showTemplateDialog} onOpenChange={setShowTemplateDialog}>
           <DialogTrigger asChild>

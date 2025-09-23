@@ -1,9 +1,9 @@
 'use client';
 
-import { ProtectedRoute } from '@/components/auth/protected-route';
 import { AppSidebar } from '@/components/app-sidebar';
+import { ProtectedRoute } from '@/components/auth/protected-route';
 import { SiteHeader } from '@/components/site-header';
-import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -15,7 +15,6 @@ interface AppLayoutProps {
 /**
  * Shared app layout for authenticated pages following shadcn/ui dashboard pattern
  * Provides sidebar navigation and header for all app pages using SidebarProvider
- * Header and content form one cohesive card with light grey background around edges
  * @component AppLayout
  * @example
  * ```tsx
@@ -40,19 +39,19 @@ export default function AppLayout({
         className="flex min-h-screen w-full"
         style={
           {
-            '--sidebar-width': '16rem',
-            '--sidebar-width-icon': '3rem',
+            '--sidebar-width': '20rem', // 320px
+            '--sidebar-width-icon': '3rem', // 48px
             '--header-height': '4rem',
           } as React.CSSProperties
         }
       >
-        <AppSidebar variant="sidebar" />
-        <SidebarInset className="flex-1 min-w-0 bg-sidebar">
-            <div className="bg-white rounded-lg shadow-md m-2 border-0">
+        <AppSidebar variant="sidebar" collapsible="icon" />
+        <SidebarInset className="flex-1 min-w-0 bg-sidebar flex flex-col min-h-screen">
+          <div className="bg-white rounded-lg shadow-md mx-2 my-2 border-0 flex flex-col min-h-full group-data-[collapsible=icon]/sidebar-wrapper:mx-1">
             <SiteHeader title={title} />
-            <div className="flex flex-1 flex-col">
+            <div className="flex-1 flex flex-col">
               <div className="@container/main flex flex-1 flex-col gap-2">
-                <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6 px-4 lg:px-6">
+                <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6 px-4 lg:px-6 flex-1">
                   {children}
                 </div>
               </div>

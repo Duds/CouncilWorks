@@ -9,7 +9,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth';
 import { iso14224Compliance } from '@/lib/iso-14224-compliance';
 import { iso55000Compliance } from '@/lib/iso-55000-compliance';
 import { iso27001Compliance } from '@/lib/iso-27001-compliance';

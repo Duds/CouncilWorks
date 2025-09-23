@@ -37,6 +37,7 @@ import {
 import { toast } from "sonner";
 import { getDynamicBorderStyle } from "@/lib/dynamic-styles";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface RiskStats {
   total: number;
   critical: number;
@@ -168,7 +169,7 @@ export function RiskDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="h-8 w-8 animate-spin" />
+        <LoadingSpinner size="lg" />
         <span className="ml-2">Loading risk analysis...</span>
       </div>
     );
@@ -198,9 +199,7 @@ export function RiskDashboard() {
           <div className="text-center py-8">
             <AlertCircle className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
             <h3 className="text-lg font-medium mb-2">No risk data available</h3>
-            <p className="text-muted-foreground">
-              No assets found with RCM templates for risk analysis.
-            </p>
+            
           </div>
         </CardContent>
       </Card>
@@ -213,9 +212,7 @@ export function RiskDashboard() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-foreground">Risk Analysis Dashboard</h2>
-          <p className="text-muted-foreground">
-            Comprehensive risk assessment across all assets
-          </p>
+          
         </div>
         <Button variant="outline" onClick={loadRiskData}>
           <RefreshCw className="h-4 w-4 mr-2" />
@@ -231,7 +228,7 @@ export function RiskDashboard() {
               <AlertTriangle className="h-8 w-8 text-red-600" />
               <div className="ml-4">
                 <p className="text-2xl font-bold text-red-600">{riskData.riskStats.critical}</p>
-                <p className="text-xs text-muted-foreground">Critical Risk</p>
+                
               </div>
             </div>
           </CardContent>
@@ -243,7 +240,7 @@ export function RiskDashboard() {
               <AlertCircle className="h-8 w-8 text-orange-600" />
               <div className="ml-4">
                 <p className="text-2xl font-bold text-orange-600">{riskData.riskStats.high}</p>
-                <p className="text-xs text-muted-foreground">High Risk</p>
+                
               </div>
             </div>
           </CardContent>
@@ -255,7 +252,7 @@ export function RiskDashboard() {
               <Info className="h-8 w-8 text-yellow-600" />
               <div className="ml-4">
                 <p className="text-2xl font-bold text-yellow-600">{riskData.riskStats.medium}</p>
-                <p className="text-xs text-muted-foreground">Medium Risk</p>
+                
               </div>
             </div>
           </CardContent>
@@ -267,7 +264,7 @@ export function RiskDashboard() {
               <CheckCircle className="h-8 w-8 text-green-600" />
               <div className="ml-4">
                 <p className="text-2xl font-bold text-green-600">{riskData.riskStats.low + riskData.riskStats.veryLow}</p>
-                <p className="text-xs text-muted-foreground">Low Risk</p>
+                
               </div>
             </div>
           </CardContent>
@@ -288,7 +285,7 @@ export function RiskDashboard() {
               <div className={`text-3xl font-bold ${getRiskColor(85)}`}>
                 {Math.round((riskData.riskStats.critical / riskData.riskStats.total) * 100)}%
               </div>
-              <p className="text-sm text-muted-foreground">Critical</p>
+              
               <Badge variant="destructive" className="mt-1">
                 {riskData.riskStats.critical} assets
               </Badge>
@@ -298,7 +295,7 @@ export function RiskDashboard() {
               <div className={`text-3xl font-bold ${getRiskColor(70)}`}>
                 {Math.round((riskData.riskStats.high / riskData.riskStats.total) * 100)}%
               </div>
-              <p className="text-sm text-muted-foreground">High</p>
+              
               <Badge variant="destructive" className="mt-1">
                 {riskData.riskStats.high} assets
               </Badge>
@@ -308,7 +305,7 @@ export function RiskDashboard() {
               <div className={`text-3xl font-bold ${getRiskColor(50)}`}>
                 {Math.round((riskData.riskStats.medium / riskData.riskStats.total) * 100)}%
               </div>
-              <p className="text-sm text-muted-foreground">Medium</p>
+              
               <Badge variant="outline" className="mt-1">
                 {riskData.riskStats.medium} assets
               </Badge>
@@ -318,7 +315,7 @@ export function RiskDashboard() {
               <div className={`text-3xl font-bold ${getRiskColor(30)}`}>
                 {Math.round((riskData.riskStats.low / riskData.riskStats.total) * 100)}%
               </div>
-              <p className="text-sm text-muted-foreground">Low</p>
+              
               <Badge variant="secondary" className="mt-1">
                 {riskData.riskStats.low} assets
               </Badge>
@@ -328,7 +325,7 @@ export function RiskDashboard() {
               <div className={`text-3xl font-bold ${getRiskColor(10)}`}>
                 {Math.round((riskData.riskStats.veryLow / riskData.riskStats.total) * 100)}%
               </div>
-              <p className="text-sm text-muted-foreground">Very Low</p>
+              
               <Badge variant="secondary" className="mt-1">
                 {riskData.riskStats.veryLow} assets
               </Badge>
@@ -452,7 +449,7 @@ export function RiskDashboard() {
                       <div className={`text-2xl font-bold ${getRiskColor(asset.overallRiskScore)}`}>
                         {asset.overallRiskScore}
                       </div>
-                      <p className="text-xs text-muted-foreground">Risk Score</p>
+                      
                     </div>
                   </div>
                   
@@ -477,9 +474,7 @@ export function RiskDashboard() {
             
             {riskData.assets.length > 20 && (
               <div className="text-center py-4">
-                <p className="text-sm text-muted-foreground">
-                  Showing first 20 of {riskData.assets.length} assets
-                </p>
+                
               </div>
             )}
           </div>
@@ -495,9 +490,7 @@ export function RiskDashboard() {
                 {riskData.riskStats.averageRiskScore}
               </span>
             </p>
-            <p className="text-xs text-muted-foreground mt-1">
-              Total assets analyzed: {riskData.riskStats.total}
-            </p>
+            
           </div>
         </CardContent>
       </Card>

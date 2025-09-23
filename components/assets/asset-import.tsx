@@ -5,6 +5,7 @@ import { useDropzone } from "react-dropzone";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { 
   Upload, 
   FileText, 
@@ -171,9 +172,7 @@ export function AssetImport() {
       {/* Header */}
       <div>
         <h2 className="text-2xl font-bold text-foreground">Import Assets</h2>
-        <p className="text-muted-foreground">
-          Upload CSV or Excel files to import assets into the system
-        </p>
+        
       </div>
 
       {/* Import Options */}
@@ -241,18 +240,14 @@ export function AssetImport() {
             {file ? (
               <div>
                 <p className="text-sm font-medium text-foreground">{file.name}</p>
-                <p className="text-xs text-muted-foreground">
-                  {(file.size / 1024 / 1024).toFixed(2)} MB
-                </p>
+                
               </div>
             ) : (
               <div>
                 <p className="text-sm font-medium text-foreground">
                   {isDragActive ? "Drop the file here" : "Drag & drop your file here"}
                 </p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  Supports CSV, XLS, and XLSX files
-                </p>
+                
               </div>
             )}
           </div>

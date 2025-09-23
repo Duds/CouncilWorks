@@ -1,23 +1,24 @@
 /**
  * Asset Intelligence Dashboard
- * 
+ *
  * Main dashboard for Epic 8: Graph-Based Asset Intelligence
  * Provides overview of function-based organization, multiple hierarchies,
  * and critical asset elevation features.
- * 
+ *
  * @fileoverview Asset intelligence dashboard component
  */
 
 "use client";
 
-import { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
-import { AlertTriangle, TrendingUp, Building, MapPin, Users, DollarSign } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { AlertTriangle, Building, DollarSign, MapPin, TrendingUp } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface FunctionAnalytics {
   totalFunctions: number;
   totalAssets: number;
@@ -81,7 +82,7 @@ export default function AssetIntelligenceDashboard() {
   const loadDashboardData = async () => {
     try {
       setLoading(true);
-      
+
       // In a real implementation, these would be actual API calls
       // For now, we'll use mock data
       const mockFunctionAnalytics: FunctionAnalytics = {
@@ -163,8 +164,8 @@ export default function AssetIntelligenceDashboard() {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading asset intelligence...</p>
+          <LoadingSpinner size="lg" />
+
         </div>
       </div>
     );
@@ -190,9 +191,7 @@ export default function AssetIntelligenceDashboard() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Asset Intelligence Dashboard</h1>
-          <p className="text-muted-foreground">
-            Graph-based asset intelligence with function-based organization and multiple hierarchies
-          </p>
+
         </div>
         <Button onClick={loadDashboardData}>
           Refresh Data
@@ -208,9 +207,7 @@ export default function AssetIntelligenceDashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{functionAnalytics?.totalAssets.toLocaleString()}</div>
-            <p className="text-xs text-muted-foreground">
-              Across {functionAnalytics?.totalFunctions} service functions
-            </p>
+
           </CardContent>
         </Card>
 
@@ -223,9 +220,7 @@ export default function AssetIntelligenceDashboard() {
             <div className="text-2xl font-bold">
               ${functionAnalytics?.totalValue.toLocaleString()}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Asset portfolio value
-            </p>
+
           </CardContent>
         </Card>
 
@@ -236,9 +231,7 @@ export default function AssetIntelligenceDashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{criticalDashboard?.totalCriticalAssets}</div>
-            <p className="text-xs text-muted-foreground">
-              High-consequence assets
-            </p>
+
           </CardContent>
         </Card>
 
@@ -249,9 +242,7 @@ export default function AssetIntelligenceDashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{criticalDashboard?.totalRiskExposure}</div>
-            <p className="text-xs text-muted-foreground">
-              Total risk score
-            </p>
+
           </CardContent>
         </Card>
       </div>
@@ -300,8 +291,8 @@ export default function AssetIntelligenceDashboard() {
                         <span className="ml-2 font-medium">{category.criticalAssets}</span>
                       </div>
                     </div>
-                    <Progress 
-                      value={(category.value / (functionAnalytics?.totalValue || 1)) * 100} 
+                    <Progress
+                      value={(category.value / (functionAnalytics?.totalValue || 1)) * 100}
                       className="h-2"
                     />
                   </div>
@@ -332,9 +323,7 @@ export default function AssetIntelligenceDashboard() {
                       <div key={node.name} className="flex items-center justify-between p-3 border rounded-lg">
                         <div>
                           <h4 className="font-medium">{node.name}</h4>
-                          <p className="text-sm text-muted-foreground">
-                            {node.assetCount} assets • ${node.totalValue.toLocaleString()}
-                          </p>
+
                         </div>
                         <Badge variant={node.criticalAssetCount > 0 ? "destructive" : "secondary"}>
                           {node.criticalAssetCount} critical
@@ -364,26 +353,26 @@ export default function AssetIntelligenceDashboard() {
                     <span>Compliant</span>
                     <span className="font-medium">{criticalDashboard?.compliantAssets}</span>
                   </div>
-                  <Progress 
-                    value={(criticalDashboard?.compliantAssets || 0) / (criticalDashboard?.totalCriticalAssets || 1) * 100} 
+                  <Progress
+                    value={(criticalDashboard?.compliantAssets || 0) / (criticalDashboard?.totalCriticalAssets || 1) * 100}
                     className="h-2"
                   />
-                  
+
                   <div className="flex items-center justify-between">
                     <span>Non-Compliant</span>
                     <span className="font-medium">{criticalDashboard?.nonCompliantAssets}</span>
                   </div>
-                  <Progress 
-                    value={(criticalDashboard?.nonCompliantAssets || 0) / (criticalDashboard?.totalCriticalAssets || 1) * 100} 
+                  <Progress
+                    value={(criticalDashboard?.nonCompliantAssets || 0) / (criticalDashboard?.totalCriticalAssets || 1) * 100}
                     className="h-2"
                   />
-                  
+
                   <div className="flex items-center justify-between">
                     <span>Overdue</span>
                     <span className="font-medium text-destructive">{criticalDashboard?.overdueAssets}</span>
                   </div>
-                  <Progress 
-                    value={(criticalDashboard?.overdueAssets || 0) / (criticalDashboard?.totalCriticalAssets || 1) * 100} 
+                  <Progress
+                    value={(criticalDashboard?.overdueAssets || 0) / (criticalDashboard?.totalCriticalAssets || 1) * 100}
                     className="h-2"
                   />
                 </div>
@@ -403,12 +392,10 @@ export default function AssetIntelligenceDashboard() {
                     <div key={asset.id} className="flex items-center justify-between p-3 border rounded-lg">
                       <div>
                         <h4 className="font-medium">{asset.name}</h4>
-                        <p className="text-sm text-muted-foreground">
-                          Risk Score: {asset.riskScore}
-                        </p>
+
                       </div>
                       <Badge variant={
-                        asset.criticalityLevel === 'Critical' ? 'destructive' : 
+                        asset.criticalityLevel === 'Critical' ? 'destructive' :
                         asset.criticalityLevel === 'High' ? 'default' : 'secondary'
                       }>
                         {asset.criticalityLevel}
@@ -445,7 +432,7 @@ export default function AssetIntelligenceDashboard() {
                     ))}
                   </div>
                 </div>
-                
+
                 <div>
                   <h3 className="font-medium mb-3">Value Distribution</h3>
                   <div className="space-y-2">

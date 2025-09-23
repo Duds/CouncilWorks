@@ -7,6 +7,7 @@ import AppLayout from "@/components/layout/app-layout";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle, Loader2 } from "lucide-react";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface Asset {
   id: string;
   assetNumber: string;
@@ -84,7 +85,7 @@ export default function EditAssetPage() {
         description="Loading asset for editing"
       >
         <div className="flex items-center justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin" />
+          <LoadingSpinner size="lg" />
           <span className="ml-2">Loading asset...</span>
         </div>
       </AppLayout>

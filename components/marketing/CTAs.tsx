@@ -18,7 +18,7 @@ export default function CTAs({ location, variant }: Props) {
         return {
           primary: {
             text: "Explore a Pilot Partnership",
-            href: "mailto:dale@aegrid.au?subject=Pilot%20Partnership%20Inquiry",
+            href: "/contact",
             tracking: "cta_pilot_partnership"
           },
           secondary: {
@@ -31,20 +31,33 @@ export default function CTAs({ location, variant }: Props) {
         return {
           primary: {
             text: "Let's Start Your Pilot Journey",
-            href: "mailto:dale@aegrid.au?subject=Pilot%20Journey%20Inquiry",
+            href: "/contact",
             tracking: "cta_pilot_journey"
           },
           secondary: {
             text: "Book a Discovery Call",
-            href: "mailto:dale@aegrid.au?subject=Discovery%20Call%20Request",
+            href: "/contact",
             tracking: "cta_discovery_call"
+          }
+        };
+      case "contact":
+        return {
+          primary: {
+            text: "Get in Touch",
+            href: "/contact",
+            tracking: "cta_contact_page"
+          },
+          secondary: {
+            text: "Read the Whitepaper",
+            href: "/docs/whitepaper",
+            tracking: "cta_whitepaper"
           }
         };
       default:
         return {
           primary: {
             text: "Explore a Pilot Partnership",
-            href: "mailto:dale@aegrid.au?subject=Pilot%20Partnership%20Inquiry",
+            href: "/contact",
             tracking: "cta_pilot_partnership"
           },
           secondary: {

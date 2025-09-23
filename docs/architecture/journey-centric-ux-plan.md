@@ -64,62 +64,63 @@ Based on industry research, both roles exist but serve different functions:
 
 ## Proposed Journey-Centric Navigation Structure - Aligned with The Aegrid Rules
 
-### 1. Resilience Overview (Executive Focus)
+### 1. Executive Dashboard (Executive Focus)
 
 **Primary Personas**: EXEC, MGR
 **Journey Stage**: Discovery, Monitoring, Reporting
 **Aegrid Rules**: Rule 3 (Real-World Response), Rule 4 (Plan for Tomorrow)
 
-```
-📊 Resilience Overview
-├── Resilience Dashboard (critical control monitoring)
-├── Risk & Compliance (compliance monitoring)
-├── Asset Trending (performance analysis)
-└── Strategic Reports (executive reporting)
+```text
+📊 Executive Dashboard
+├── Performance Overview (charts, graphs, key metrics)
+├── Critical Assets (high-consequence asset monitoring)
+├── Compliance Status (regulatory compliance tracking)
+├── Energy Performance (energy efficiency and costs)
+└── Strategic Reports (executive reporting with visualisations)
 ```
 
-### 2. Critical Control Planning (Planning Focus)
+### 2. Asset Planning (Planning Focus)
 
 **Primary Personas**: MGR, PLANNER
 **Journey Stage**: Planning, Configuration, Analysis
 **Aegrid Rules**: Rule 1 (Every Asset Purpose), Rule 2 (Risk Sets Rhythm)
 
-```
-🏗️ Critical Control Planning
-├── Asset Purpose Mapping (critical control connections)
-├── Risk-Based Templates (maintenance planning)
-├── Risk Analysis (consequence × likelihood)
-├── Adaptive Scheduling (dynamic planning)
-└── Sustainability Planning (future resilience)
+```text
+🏗️ Asset Planning
+├── Asset Registry (asset inventory and purpose mapping)
+├── Maintenance Scheduling (work planning and scheduling)
+├── Risk Assessment (consequence × likelihood analysis)
+├── Energy Optimisation (energy efficiency planning)
+└── Lifecycle Planning (long-term asset planning)
 ```
 
-### 3. Real-World Operations (Execution Focus)
+### 3. Operations Management (Execution Focus)
 
 **Primary Personas**: SUP, CREW, MGR
 **Journey Stage**: Execution, Assignment, Coordination
 **Aegrid Rules**: Rule 3 (Real-World Response), Rule 4 (Margin Management)
 
-```
-⚙️ Real-World Operations
-├── Signal Response (adaptive work orders)
-├── Field Operations (mobile inspections)
-├── Asset Map (spatial navigation)
-├── Margin Management (crew coordination)
-└── Critical Controls (compliance execution)
+```text
+⚙️ Operations Management
+├── Work Orders (task assignment and tracking)
+├── Field Inspections (mobile inspection tools)
+├── Asset Map (spatial navigation and asset location)
+├── Crew Management (team coordination and scheduling)
+└── Critical Controls (essential safety and compliance tasks)
 ```
 
-### 4. Community Signal Detection (Citizen Focus)
+### 4. Community Engagement (Citizen Focus)
 
 **Primary Personas**: CITIZEN, SUP, MGR
 **Journey Stage**: Communication, Transparency, Feedback
 **Aegrid Rules**: Rule 3 (Real-World Response), Rule 1 (Purpose-Driven Service)
 
-```
-👥 Community Signal Detection
-├── Signal Triage (community issue management)
-├── Public Dashboard ("You said, we did")
-├── Citizen Portal (issue reporting)
-└── Signal Notifications (real-time communication)
+```text
+👥 Community Engagement
+├── Issue Management (community issue tracking)
+├── Public Dashboard ("You said, we did" with visual updates)
+├── Citizen Portal (issue reporting and status tracking)
+└── Communication (notifications and updates)
 ```
 
 ### 5. System Administration (Admin Focus)
@@ -128,7 +129,7 @@ Based on industry research, both roles exist but serve different functions:
 **Journey Stage**: Configuration, Management, Monitoring
 **Aegrid Rules**: All Rules Support
 
-```
+```text
 🔧 System Administration
 ├── User Management (role & permissions)
 ├── Data Management (import/export)
@@ -211,6 +212,41 @@ Based on industry research, both roles exist but serve different functions:
 5. **Help** - Knowledge base and support, Aegrid Rules guidance
 
 **User Flow**: ADMIN → Users → Settings → Data → Logs → Help
+
+## Language Simplification and Visualisation Priority
+
+### Plain Language Implementation
+
+Based on client feedback, all feature names and UI labels must use plain, operational terms:
+
+**Before (Abstract/Confusing)** → **After (Plain Language)**
+
+- "Risk Rhythm" → "Maintenance Scheduling"
+- "Signal Response" → "Work Orders"
+- "Margin Management" → "Crew Coordination"
+- "Critical Control Planning" → "Asset Planning"
+- "Resilience Overview" → "Executive Dashboard"
+
+### Enhanced Visualisation Priority
+
+**Executive Priority**: "Graphs sell it" - visualisation is crucial for executive buy-in:
+
+**Charts and Graphs (MVP Features)**:
+
+- Asset performance trends with interactive charts
+- Energy consumption visualisations with cost impact
+- Risk assessment heat maps and dashboards
+- Maintenance scheduling Gantt charts
+- Compliance status visual indicators
+- Carbon footprint and sustainability metrics
+
+**Visual Reporting Components**:
+
+- Interactive dashboards with drill-down capabilities
+- Real-time status indicators and alerts
+- Geographic asset mapping with condition overlays
+- Financial impact visualisations
+- Performance benchmarking charts
 
 ## UX Best Practices Implementation
 

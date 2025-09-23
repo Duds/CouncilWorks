@@ -16,6 +16,7 @@ import {
 import { Role } from "@prisma/client";
 import { getRoleDisplayName } from "@/lib/audit";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface User {
   id: string;
   name: string | null;
@@ -126,8 +127,8 @@ export default function UserManagement() {
       >
         <div className="flex items-center justify-center h-64">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-            <p className="mt-2 text-muted-foreground">Loading users...</p>
+            <LoadingSpinner size="lg" />
+            
           </div>
         </div>
       </AppLayout>
@@ -144,9 +145,7 @@ export default function UserManagement() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-foreground">User Management</h1>
-            <p className="text-muted-foreground mt-2">
-              Manage user accounts, roles, and permissions
-            </p>
+            
           </div>
           <Button>
             <Plus className="h-4 w-4 mr-2" />

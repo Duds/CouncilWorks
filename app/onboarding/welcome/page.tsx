@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Building2, Users, Database, Upload, CheckCircle, ArrowRight } from "lucide-react";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface OnboardingData {
   organisationName: string;
   domain: string;
@@ -115,8 +116,8 @@ export default function OnboardingWelcomePage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-2 text-muted-foreground">Loading...</p>
+          <LoadingSpinner size="lg" />
+          
         </div>
       </div>
     );
@@ -153,9 +154,7 @@ export default function OnboardingWelcomePage() {
           <h1 className="text-3xl font-bold text-foreground mb-2">
             Welcome to Aegrid, {session.user?.name}!
           </h1>
-          <p className="text-muted-foreground">
-            Let's set up your organisation and get you started with asset management.
-          </p>
+          
         </div>
 
         {error && (
@@ -198,9 +197,7 @@ export default function OnboardingWelcomePage() {
                     placeholder="e.g., melbourne.vic.gov.au"
                     required
                   />
-                  <p className="text-sm text-muted-foreground">
-                    This will be used for team member invitations and organisation identification.
-                  </p>
+                  
                 </div>
 
                 <Button type="submit" disabled={loading} className="w-full">

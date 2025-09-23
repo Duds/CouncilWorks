@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface Asset {
   id: string;
   name: string;
@@ -104,8 +105,8 @@ export default function NewMobileInspectionPage() {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
-          <p className="text-muted-foreground">Loading assets...</p>
+          <LoadingSpinner size="lg" mx-auto mb-4 />
+          
         </div>
       </div>
     );
@@ -124,7 +125,7 @@ export default function NewMobileInspectionPage() {
             </Button>
             <div>
               <h1 className="text-lg font-semibold">New Inspection</h1>
-              <p className="text-sm text-muted-foreground">Create asset inspection</p>
+              
             </div>
           </div>
         </div>

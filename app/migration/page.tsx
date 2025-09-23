@@ -1,33 +1,34 @@
 /**
  * Migration Dashboard UI
- * 
+ *
  * Implements comprehensive migration dashboard for monitoring and management
- * 
+ *
  * @fileoverview Migration dashboard UI component
  */
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { 
-  Calendar, 
-  Clock, 
-  AlertTriangle, 
-  CheckCircle, 
-  XCircle, 
-  Pause,
-  Play,
-  BarChart3,
-  Database,
-  Sync,
-  Shield
+import {
+    AlertTriangle,
+    BarChart3,
+    Calendar,
+    CheckCircle,
+    Clock,
+    Database,
+    Pause,
+    Play,
+    Shield,
+    Sync,
+    XCircle
 } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 interface MigrationPhase {
   id: string;
@@ -98,7 +99,7 @@ export default function MigrationDashboard() {
       if (!response.ok) {
         throw new Error('Failed to fetch migration data');
       }
-      
+
       const data = await response.json();
       setPhases(data.timeline.phases);
       setMetrics(data.metrics);
@@ -171,7 +172,7 @@ export default function MigrationDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+        <LoadingSpinner size="lg" />
       </div>
     );
   }
@@ -192,9 +193,7 @@ export default function MigrationDashboard() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Migration Dashboard</h1>
-          <p className="text-muted-foreground">
-            Monitor and manage the hybrid database migration
-          </p>
+
         </div>
         <Button onClick={fetchMigrationData} variant="outline">
           Refresh
@@ -222,9 +221,7 @@ export default function MigrationDashboard() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{summary.remainingDuration}</div>
-              <p className="text-xs text-muted-foreground">
-                of {summary.totalDuration} total days
-              </p>
+
             </CardContent>
           </Card>
 
@@ -235,9 +232,7 @@ export default function MigrationDashboard() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{metrics?.activeRisks || 0}</div>
-              <p className="text-xs text-muted-foreground">
-                of {metrics?.totalRisks || 0} total risks
-              </p>
+
             </CardContent>
           </Card>
 
@@ -248,9 +243,7 @@ export default function MigrationDashboard() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{metrics?.completedTasks || 0}</div>
-              <p className="text-xs text-muted-foreground">
-                of {metrics?.totalTasks || 0} total tasks
-              </p>
+
             </CardContent>
           </Card>
         </div>
@@ -331,7 +324,7 @@ export default function MigrationDashboard() {
                         ))}
                       </div>
                     </div>
-                    
+
                     <div>
                       <h4 className="text-sm font-medium mb-2">Risks</h4>
                       <div className="space-y-2">

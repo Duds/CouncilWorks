@@ -59,7 +59,53 @@ module.exports = {
   				DEFAULT: 'var(--neutral)',
   				foreground: 'var(--neutral-foreground)'
   			},
+  			popover: {
+  				DEFAULT: 'var(--popover)',
+  				foreground: 'var(--popover-foreground)'
+  			},
   			border: 'var(--border)',
+  			// Priority colors
+  			'priority-low': {
+  				DEFAULT: 'var(--priority-low)',
+  				foreground: 'var(--priority-low-foreground)'
+  			},
+  			'priority-medium': {
+  				DEFAULT: 'var(--priority-medium)',
+  				foreground: 'var(--priority-medium-foreground)'
+  			},
+  			'priority-high': {
+  				DEFAULT: 'var(--priority-high)',
+  				foreground: 'var(--priority-high-foreground)'
+  			},
+  			'priority-critical': {
+  				DEFAULT: 'var(--priority-critical)',
+  				foreground: 'var(--priority-critical-foreground)'
+  			},
+  			// Condition colors
+  			'condition-excellent': {
+  				DEFAULT: 'var(--condition-excellent)',
+  				foreground: 'var(--condition-excellent-foreground)'
+  			},
+  			'condition-good': {
+  				DEFAULT: 'var(--condition-good)',
+  				foreground: 'var(--condition-good-foreground)'
+  			},
+  			'condition-fair': {
+  				DEFAULT: 'var(--condition-fair)',
+  				foreground: 'var(--condition-fair-foreground)'
+  			},
+  			'condition-poor': {
+  				DEFAULT: 'var(--condition-poor)',
+  				foreground: 'var(--condition-poor-foreground)'
+  			},
+  			'condition-critical': {
+  				DEFAULT: 'var(--condition-critical)',
+  				foreground: 'var(--condition-critical-foreground)'
+  			},
+  			'condition-unknown': {
+  				DEFAULT: 'var(--condition-unknown)',
+  				foreground: 'var(--condition-unknown-foreground)'
+  			},
   			sidebar: {
   				DEFAULT: 'hsl(var(--sidebar-background))',
   				foreground: 'hsl(var(--sidebar-foreground))',

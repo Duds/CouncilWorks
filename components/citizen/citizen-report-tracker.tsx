@@ -33,6 +33,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface ReportStatus {
   id: string;
   referenceNumber: string;
@@ -267,7 +268,7 @@ export function CitizenReportTracker() {
             <Button onClick={handleSearch} disabled={loading} className="w-full">
               {loading ? (
                 <>
-                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  <LoadingSpinner size="sm" mr-2 />
                   Searching...
                 </>
               ) : (

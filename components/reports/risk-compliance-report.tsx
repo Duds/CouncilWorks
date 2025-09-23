@@ -45,6 +45,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface RiskMetric {
   id: string;
   category: string;
@@ -263,7 +264,7 @@ export function RiskComplianceReport() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="h-8 w-8 animate-spin" />
+        <LoadingSpinner size="lg" />
         <span className="ml-2">Loading risk and compliance report...</span>
       </div>
     );
@@ -274,7 +275,7 @@ export function RiskComplianceReport() {
       <div className="text-center py-12">
         <AlertTriangle className="h-12 w-12 mx-auto mb-4 text-red-600" />
         <h3 className="text-lg font-medium mb-2">Failed to load report</h3>
-        <p className="text-muted-foreground mb-4">Unable to retrieve risk and compliance data</p>
+        
         <Button onClick={loadReportData}>
           <RefreshCw className="h-4 w-4 mr-2" />
           Retry
@@ -306,7 +307,7 @@ export function RiskComplianceReport() {
             disabled={refreshing}
           >
             {refreshing ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
+              <LoadingSpinner size="sm" />
             ) : (
               <RefreshCw className="h-4 w-4" />
             )}
@@ -331,10 +332,7 @@ export function RiskComplianceReport() {
               {reportData.overallRiskScore.toFixed(1)}/10
             </div>
             <Progress value={reportData.overallRiskScore * 10} className="mt-2" />
-            <p className="text-xs text-muted-foreground mt-1">
-              {reportData.overallRiskScore > 8 ? 'High Risk' : 
-               reportData.overallRiskScore > 6 ? 'Medium Risk' : 'Low Risk'}
-            </p>
+            
           </CardContent>
         </Card>
 
@@ -348,9 +346,7 @@ export function RiskComplianceReport() {
               {reportData.overallComplianceRate}%
             </div>
             <Progress value={reportData.overallComplianceRate} className="mt-2" />
-            <p className="text-xs text-muted-foreground mt-1">
-              Regulatory compliance
-            </p>
+            
           </CardContent>
         </Card>
 
@@ -363,9 +359,7 @@ export function RiskComplianceReport() {
             <div className="text-2xl font-bold text-red-600">
               {reportData.criticalIssues}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Requiring immediate attention
-            </p>
+            
           </CardContent>
         </Card>
 
@@ -378,9 +372,7 @@ export function RiskComplianceReport() {
             <div className="text-2xl font-bold text-orange-600">
               {reportData.overdueItems}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Past due date
-            </p>
+            
           </CardContent>
         </Card>
       </div>
@@ -403,9 +395,7 @@ export function RiskComplianceReport() {
                 <div className="flex items-start justify-between mb-3">
                   <div>
                     <h3 className="font-semibold">{metric.category}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      {metric.description}
-                    </p>
+                    
                   </div>
                   <div className="flex items-center gap-2">
                     {getTrendIcon(metric.trend)}
@@ -563,15 +553,7 @@ export function RiskComplianceReport() {
           <div className="flex items-center justify-between">
             <div>
               <h3 className="font-medium">Last Risk Assessment</h3>
-              <p className="text-sm text-muted-foreground">
-                {new Date(reportData.lastAssessment).toLocaleDateString("en-AU", {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit'
-                })}
-              </p>
+              
             </div>
             <Button variant="outline">
               <Calendar className="h-4 w-4 mr-2" />

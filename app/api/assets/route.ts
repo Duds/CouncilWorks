@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { z } from "zod";
 import { isManagerOrHigher } from "@/lib/rbac";
+import { getServerSession } from "next-auth";
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 /**
  * Asset creation schema validation
@@ -105,18 +105,25 @@ export async function GET(request: NextRequest) {
         take: limit,
         orderBy: { createdAt: "desc" },
         include: {
-          createdByUser: {
+          User_Asset_createdByToUser: {
             select: { id: true, name: true, email: true },
           },
-          updatedByUser: {
+          User_Asset_updatedByToUser: {
             select: { id: true, name: true, email: true },
+          },
+          assetPurposeMappings: {
+            include: {
+              servicePurpose: {
+                select: { id: true, name: true, description: true, priority: true }
+              }
+            }
           },
           _count: {
             select: {
-              documents: true,
-              inspections: true,
-              maintenance: true,
-              workOrders: true,
+              AssetDocument: true,
+              AssetInspection: true,
+              AssetMaintenance: true,
+              WorkOrder: true,
             },
           },
         },
@@ -124,8 +131,36 @@ export async function GET(request: NextRequest) {
       prisma.asset.count({ where }),
     ]);
 
+    // Extract latitude and longitude from PostGIS location field
+    const assetsWithCoordinates = assets.map(asset => {
+      let latitude: number | undefined;
+      let longitude: number | undefined;
+
+      if (asset.location) {
+        try {
+          // Parse PostGIS geometry - assuming it's stored as GeoJSON
+          const locationData = typeof asset.location === 'string'
+            ? JSON.parse(asset.location)
+            : asset.location;
+
+          if (locationData && locationData.coordinates && Array.isArray(locationData.coordinates)) {
+            // PostGIS stores coordinates as [longitude, latitude]
+            [longitude, latitude] = locationData.coordinates;
+          }
+        } catch (error) {
+          console.warn('Failed to parse location data for asset:', asset.id, error);
+        }
+      }
+
+      return {
+        ...asset,
+        latitude,
+        longitude,
+      };
+    });
+
     return NextResponse.json({
-      assets,
+      assets: assetsWithCoordinates,
       pagination: {
         page,
         limit,
@@ -210,10 +245,10 @@ export async function POST(request: NextRequest) {
     const asset = await prisma.asset.create({
       data: assetData,
       include: {
-        createdByUser: {
+        User_Asset_createdByToUser: {
           select: { id: true, name: true, email: true },
         },
-        updatedByUser: {
+        User_Asset_updatedByToUser: {
           select: { id: true, name: true, email: true },
         },
       },

@@ -1,35 +1,25 @@
 "use client";
 
-import { Building2, BarChart3, Calendar, Settings, Users, MapPin, Wrench, AlertTriangle, FileText, LogOut, HelpCircle, Bell } from "lucide-react";
-import { signOut, useSession } from "next-auth/react";
 import ReleaseBadge from "@/components/release-badge";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getAvatarImage, getUserInitials, handleAvatarError } from "@/lib/avatar-utils";
+import { cn } from "@/lib/utils";
+import { AlertTriangle, BarChart3, Bell, Building2, Calendar, HelpCircle, LogOut, MapPin, Settings, Users, Wrench } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 
 export default function Sidebar() {
   const { data: session } = useSession();
 
   const handleLogout = async () => {
     try {
-      await signOut({ 
+      await signOut({
         callbackUrl: "/auth/sign-in",
-        redirect: true 
+        redirect: true
       });
     } catch (error) {
       console.error("Logout error:", error);
     }
-  };
-
-  // Get user initials for fallback avatar
-  const getUserInitials = (name?: string | null) => {
-    if (!name) return "U";
-    return name
-      .split(" ")
-      .map(word => word.charAt(0))
-      .join("")
-      .toUpperCase()
-      .slice(0, 2);
   };
 
   const navigationItems = [
@@ -83,7 +73,7 @@ export default function Sidebar() {
                 )}
               </Link>
             ))}
-            
+
             <div className="px-3 py-2 text-xs font-medium text-muted-foreground uppercase tracking-wider mt-6">
               General
             </div>
@@ -100,8 +90,8 @@ export default function Sidebar() {
                 {item.label}
               </Link>
             ))}
-            
-            <button 
+
+            <button
               onClick={handleLogout}
               className={cn(
                 "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
@@ -113,14 +103,15 @@ export default function Sidebar() {
             </button>
           </nav>
         </div>
-        
+
         {/* User Info Section */}
         <div className="p-4 border-t">
           <div className="flex items-center gap-3 mb-4">
             <Avatar className="h-8 w-8">
-              <AvatarImage 
-                src={session?.user?.image || undefined} 
+              <AvatarImage
+                src={getAvatarImage(session?.user?.image)}
                 alt={session?.user?.name || "User avatar"}
+                onError={() => handleAvatarError(session?.user?.image)}
               />
               <AvatarFallback>
                 {getUserInitials(session?.user?.name)}

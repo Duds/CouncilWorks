@@ -1,49 +1,23 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { 
-  MapPin, 
-  Calendar, 
-  DollarSign, 
-  AlertTriangle, 
-  Plus,
-  Search,
-  Filter,
-  MoreHorizontal,
-  Upload
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { ViewToggleWithColumns } from "@/components/ui/view-toggle-with-columns";
+import {
+    Calendar,
+    DollarSign,
+    MapPin,
+    MoreHorizontal,
+    Plus,
+    Search,
+    Upload
 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
-
-interface Asset {
-  id: string;
-  assetNumber: string;
-  name: string;
-  description?: string;
-  assetType: string;
-  status: string;
-  condition: string;
-  priority: string;
-  address?: string;
-  suburb?: string;
-  latitude?: number;
-  longitude?: number;
-  purchasePrice?: number;
-  currentValue?: number;
-  lastInspection?: string;
-  nextInspection?: string;
-  createdAt: string;
-  _count: {
-    documents: number;
-    inspections: number;
-    maintenance: number;
-    workOrders: number;
-  };
-}
+import { useEffect, useState } from "react";
+import { Asset, AssetDataTable } from "./asset-data-table";
 
 interface AssetListProps {
   initialAssets?: Asset[];
@@ -51,19 +25,24 @@ interface AssetListProps {
 
 /**
  * Asset List Component
- * Displays a paginated list of assets with filtering and search capabilities
+ * Displays assets in either table or card view with filtering and search capabilities
+ * @component AssetList
+ * @example
+ * ```tsx
+ * <AssetList initialAssets={assets} />
+ * ```
+ * @accessibility
+ * - ARIA roles: main content area
+ * - Keyboard navigation: Tab through controls and content
+ * - Screen reader: Announces view changes and content structure
  */
 export function AssetList({ initialAssets = [] }: AssetListProps) {
   const { data: session } = useSession();
   const [assets, setAssets] = useState<Asset[]>(initialAssets);
   const [loading, setLoading] = useState(false);
+  const [view, setView] = useState<"table" | "cards">("table");
   const [searchTerm, setSearchTerm] = useState("");
-  const [filters, setFilters] = useState({
-    assetType: "",
-    status: "",
-    condition: "",
-    priority: "",
-  });
+  const [tableInstance, setTableInstance] = useState<any>(null);
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 10,
@@ -71,18 +50,13 @@ export function AssetList({ initialAssets = [] }: AssetListProps) {
     pages: 0,
   });
 
-  // Fetch assets with current filters and pagination
-  const fetchAssets = async (page = 1) => {
+  // Fetch all assets (let the table handle pagination)
+  const fetchAssets = async () => {
     setLoading(true);
     try {
       const params = new URLSearchParams({
-        page: page.toString(),
-        limit: pagination.limit.toString(),
+        limit: "1000", // Fetch a large number to get all assets
         ...(searchTerm && { search: searchTerm }),
-        ...(filters.assetType && { assetType: filters.assetType }),
-        ...(filters.status && { status: filters.status }),
-        ...(filters.condition && { condition: filters.condition }),
-        ...(filters.priority && { priority: filters.priority }),
       });
 
       const response = await fetch(`/api/assets?${params}`);
@@ -107,65 +81,44 @@ export function AssetList({ initialAssets = [] }: AssetListProps) {
 
   // Handle search
   const handleSearch = () => {
-    fetchAssets(1);
+    fetchAssets();
   };
 
-  // Handle filter changes
-  const handleFilterChange = (key: string, value: string) => {
-    setFilters(prev => ({ ...prev, [key]: value }));
-  };
 
-  // Apply filters
-  const applyFilters = () => {
-    fetchAssets(1);
-  };
-
-  // Clear filters
-  const clearFilters = () => {
-    setFilters({
-      assetType: "",
-      status: "",
-      condition: "",
-      priority: "",
-    });
-    setSearchTerm("");
-    fetchAssets(1);
-  };
-
-  // Get status badge variant
-  const getStatusBadgeVariant = (status: string) => {
+  // Get status badge class
+  const getStatusBadgeClass = (status: string) => {
     switch (status) {
-      case "ACTIVE": return "default";
-      case "INACTIVE": return "secondary";
-      case "UNDER_CONSTRUCTION": return "outline";
-      case "UNDER_MAINTENANCE": return "destructive";
-      case "DECOMMISSIONED": return "secondary";
-      case "PLANNED": return "outline";
-      default: return "default";
+      case "ACTIVE": return "badge-status-active";
+      case "INACTIVE": return "badge-status-inactive";
+      case "UNDER_CONSTRUCTION": return "badge-status-construction";
+      case "UNDER_MAINTENANCE": return "badge-status-maintenance";
+      case "DECOMMISSIONED": return "badge-status-decommissioned";
+      case "PLANNED": return "badge-status-planned";
+      default: return "badge-status-inactive";
     }
   };
 
-  // Get condition badge variant
-  const getConditionBadgeVariant = (condition: string) => {
+  // Get condition badge class
+  const getConditionBadgeClass = (condition: string) => {
     switch (condition) {
-      case "EXCELLENT": return "default";
-      case "GOOD": return "default";
-      case "FAIR": return "outline";
-      case "POOR": return "destructive";
-      case "CRITICAL": return "destructive";
-      case "UNKNOWN": return "secondary";
-      default: return "default";
+      case "EXCELLENT": return "badge-condition-excellent";
+      case "GOOD": return "badge-condition-good";
+      case "FAIR": return "badge-condition-fair";
+      case "POOR": return "badge-condition-poor";
+      case "CRITICAL": return "badge-condition-critical";
+      case "UNKNOWN": return "badge-condition-unknown";
+      default: return "badge-condition-unknown";
     }
   };
 
-  // Get priority badge variant
-  const getPriorityBadgeVariant = (priority: string) => {
+  // Get priority badge class
+  const getPriorityBadgeClass = (priority: string) => {
     switch (priority) {
-      case "LOW": return "secondary";
-      case "MEDIUM": return "default";
-      case "HIGH": return "destructive";
-      case "CRITICAL": return "destructive";
-      default: return "default";
+      case "LOW": return "badge-priority-low";
+      case "MEDIUM": return "badge-priority-medium";
+      case "HIGH": return "badge-priority-high";
+      case "CRITICAL": return "badge-priority-critical";
+      default: return "badge-priority-medium";
     }
   };
 
@@ -210,132 +163,36 @@ export function AssetList({ initialAssets = [] }: AssetListProps) {
         </div>
       </div>
 
-      {/* Search and Filters */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Search className="h-5 w-5" />
-            Search & Filter Assets
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {/* Search */}
-          <div className="flex gap-2">
+      {/* Search and View Controls */}
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex-1 max-w-md">
+          <div className="relative">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search by name, number, or description..."
+              placeholder="Search assets by name, number, or description..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyPress={(e) => e.key === "Enter" && handleSearch()}
+              className="pl-8 h-9"
             />
-            <Button onClick={handleSearch} variant="outline">
-              <Search className="h-4 w-4" />
-            </Button>
           </div>
-
-          {/* Filters */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div>
-              <label className="text-sm font-medium">Asset Type</label>
-              <select
-                className="w-full mt-1 p-2 border rounded-md"
-                value={filters.assetType}
-                onChange={(e) => handleFilterChange("assetType", e.target.value)}
-                title="Select asset type to filter by"
-              >
-                <option value="">All Types</option>
-                <option value="BUILDING">Building</option>
-                <option value="ROAD">Road</option>
-                <option value="BRIDGE">Bridge</option>
-                <option value="FOOTPATH">Footpath</option>
-                <option value="PARK">Park</option>
-                <option value="PLAYGROUND">Playground</option>
-                <option value="SPORTS_FACILITY">Sports Facility</option>
-                <option value="LIBRARY">Library</option>
-                <option value="COMMUNITY_CENTRE">Community Centre</option>
-                <option value="CAR_PARK">Car Park</option>
-                <option value="STREET_FURNITURE">Street Furniture</option>
-                <option value="TRAFFIC_LIGHT">Traffic Light</option>
-                <option value="STREET_LIGHT">Street Light</option>
-                <option value="DRAINAGE">Drainage</option>
-                <option value="WATER_SUPPLY">Water Supply</option>
-                <option value="SEWER">Sewer</option>
-                <option value="ELECTRICAL_INFRASTRUCTURE">Electrical Infrastructure</option>
-                <option value="TELECOMMUNICATIONS">Telecommunications</option>
-                <option value="OTHER">Other</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="text-sm font-medium">Status</label>
-              <select
-                className="w-full mt-1 p-2 border rounded-md"
-                value={filters.status}
-                onChange={(e) => handleFilterChange("status", e.target.value)}
-                title="Select status to filter by"
-              >
-                <option value="">All Statuses</option>
-                <option value="ACTIVE">Active</option>
-                <option value="INACTIVE">Inactive</option>
-                <option value="UNDER_CONSTRUCTION">Under Construction</option>
-                <option value="UNDER_MAINTENANCE">Under Maintenance</option>
-                <option value="DECOMMISSIONED">Decommissioned</option>
-                <option value="PLANNED">Planned</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="text-sm font-medium">Condition</label>
-              <select
-                className="w-full mt-1 p-2 border rounded-md"
-                value={filters.condition}
-                onChange={(e) => handleFilterChange("condition", e.target.value)}
-                title="Select condition to filter by"
-              >
-                <option value="">All Conditions</option>
-                <option value="EXCELLENT">Excellent</option>
-                <option value="GOOD">Good</option>
-                <option value="FAIR">Fair</option>
-                <option value="POOR">Poor</option>
-                <option value="CRITICAL">Critical</option>
-                <option value="UNKNOWN">Unknown</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="text-sm font-medium">Priority</label>
-              <select
-                className="w-full mt-1 p-2 border rounded-md"
-                value={filters.priority}
-                onChange={(e) => handleFilterChange("priority", e.target.value)}
-                title="Select priority to filter by"
-              >
-                <option value="">All Priorities</option>
-                <option value="LOW">Low</option>
-                <option value="MEDIUM">Medium</option>
-                <option value="HIGH">High</option>
-                <option value="CRITICAL">Critical</option>
-              </select>
-            </div>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="text-sm text-muted-foreground h-9 flex items-center">
+            {assets.length} assets
           </div>
+          <ViewToggleWithColumns
+            currentView={view}
+            onViewChange={setView}
+            table={tableInstance}
+          />
+        </div>
+      </div>
 
-          {/* Filter Actions */}
-          <div className="flex gap-2">
-            <Button onClick={applyFilters}>
-              <Filter className="h-4 w-4 mr-2" />
-              Apply Filters
-            </Button>
-            <Button onClick={clearFilters} variant="outline">
-              Clear Filters
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Assets Grid */}
+      {/* Content */}
       {loading ? (
         <div className="text-center py-8">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-2 text-muted-foreground">Loading assets...</p>
+          <LoadingSpinner size="lg" text="Loading assets..." />
         </div>
       ) : assets.length === 0 ? (
         <Card>
@@ -346,6 +203,14 @@ export function AssetList({ initialAssets = [] }: AssetListProps) {
             </Button>
           </CardContent>
         </Card>
+      ) : view === "table" ? (
+        <AssetDataTable
+          data={assets}
+          loading={loading}
+          searchTerm={searchTerm}
+          showColumnToggle={false}
+          onTableReady={setTableInstance}
+        />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {assets.map((asset) => (
@@ -353,9 +218,20 @@ export function AssetList({ initialAssets = [] }: AssetListProps) {
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div>
-                    <CardTitle className="text-lg">{asset.name}</CardTitle>
+                    <Link href={`/assets/${asset.id}`}>
+                      <CardTitle className="text-lg hover:text-primary hover:underline cursor-pointer">
+                        {asset.name}
+                      </CardTitle>
+                    </Link>
                     <CardDescription className="mt-1">
-                      {asset.assetNumber} • {asset.assetType.replace("_", " ")}
+                      <Link
+                        href={`/assets/${asset.id}`}
+                        className="hover:text-primary hover:underline"
+                      >
+                        {asset.assetNumber}
+                      </Link>
+                      {" • "}
+                      {asset.assetType.replace("_", " ")}
                     </CardDescription>
                   </div>
                   <Button variant="ghost" size="sm">
@@ -366,15 +242,15 @@ export function AssetList({ initialAssets = [] }: AssetListProps) {
               <CardContent className="space-y-4">
                 {/* Status Badges */}
                 <div className="flex flex-wrap gap-2">
-                  <Badge variant={getStatusBadgeVariant(asset.status)}>
+                  <div className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors ${getStatusBadgeClass(asset.status)}`}>
                     {asset.status.replace("_", " ")}
-                  </Badge>
-                  <Badge variant={getConditionBadgeVariant(asset.condition)}>
+                  </div>
+                  <div className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors ${getConditionBadgeClass(asset.condition)}`}>
                     {asset.condition}
-                  </Badge>
-                  <Badge variant={getPriorityBadgeVariant(asset.priority)}>
+                  </div>
+                  <div className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors ${getPriorityBadgeClass(asset.priority)}`}>
                     {asset.priority}
-                  </Badge>
+                  </div>
                 </div>
 
                 {/* Description */}
@@ -436,34 +312,12 @@ export function AssetList({ initialAssets = [] }: AssetListProps) {
         </div>
       )}
 
-      {/* Pagination */}
-      {pagination.pages > 1 && (
-        <div className="flex items-center justify-between">
-          <p className="text-sm text-muted-foreground">
-            Showing {((pagination.page - 1) * pagination.limit) + 1} to{" "}
-            {Math.min(pagination.page * pagination.limit, pagination.total)} of{" "}
-            {pagination.total} assets
-          </p>
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => fetchAssets(pagination.page - 1)}
-              disabled={pagination.page <= 1}
-            >
-              Previous
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => fetchAssets(pagination.page + 1)}
-              disabled={pagination.page >= pagination.pages}
-            >
-              Next
-            </Button>
-          </div>
-        </div>
-      )}
+      {/* Asset count display */}
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-muted-foreground">
+          Showing {assets.length} assets
+        </p>
+      </div>
     </div>
   );
 }

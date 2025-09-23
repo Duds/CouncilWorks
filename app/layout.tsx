@@ -3,6 +3,7 @@ import '@/styles/globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import AuthSessionProvider from '@/components/providers/session-provider';
 import ConditionalHeader from '@/components/layout/conditional-header';
+import { Toaster } from 'sonner';
 
 export const metadata: Metadata = {
   metadataBase: new URL('http://localhost:3000'),
@@ -65,6 +66,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               />
               {children}
             </ConditionalHeader>
+            <Toaster position="top-right" richColors />
           </ThemeProvider>
         </AuthSessionProvider>
       </body>

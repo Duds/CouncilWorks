@@ -16,6 +16,7 @@ This project uses a comprehensive set of Cursor rules to ensure code quality, se
 - **[authentication-security.mdc](authentication-security.mdc)** - Security and authentication standards
 - **[testing-standards.mdc](testing-standards.mdc)** - Testing requirements and best practices
 - **[database-operations.mdc](database-operations.mdc)** - Database and Prisma standards
+- **[popover-modal-standards.mdc](popover-modal-standards.mdc)** - Popover and modal UI standards
 
 ### **📚 Documentation & Workflow Rules**
 
@@ -31,6 +32,7 @@ This project uses a comprehensive set of Cursor rules to ensure code quality, se
 | **Code Changes**     | `mandatory`, `development-standards` | `testing-standards`                  |
 | **Authentication**   | `authentication-security`            | `mandatory`, `testing-standards`     |
 | **Database Work**    | `database-operations`                | `mandatory`, `testing-standards`     |
+| **UI Components**    | `popover-modal-standards`            | `mandatory`, `development-standards` |
 | **Testing**          | `testing-standards`                  | `mandatory`, `development-standards` |
 | **Documentation**    | `update-docs`, `documentation`       | `mandatory`                          |
 | **Git Operations**   | `github-workflow`                    | `mandatory`                          |
@@ -62,6 +64,7 @@ pnpm lint
 - **Testing**: High coverage with Jest + React Testing Library
 - **Security**: bcrypt password hashing, NextAuth.js, RBAC
 - **Database**: Prisma ORM with PostgreSQL, proper migrations
+- **UI Components**: Radix UI only for popovers/modals, proper background styling
 - **Code Quality**: ESLint, Prettier, comprehensive documentation
 - **Git Workflow**: Development branch + main strategy with feature sub-branches
 

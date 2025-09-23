@@ -46,6 +46,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface AssetTrendData {
   assetId: string;
   assetName: string;
@@ -259,7 +260,7 @@ export function AssetConditionTrending() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="h-8 w-8 animate-spin" />
+        <LoadingSpinner size="lg" />
         <span className="ml-2">Loading asset condition trending...</span>
       </div>
     );
@@ -270,7 +271,7 @@ export function AssetConditionTrending() {
       <div className="text-center py-12">
         <AlertTriangle className="h-12 w-12 mx-auto mb-4 text-red-600" />
         <h3 className="text-lg font-medium mb-2">Failed to load trending data</h3>
-        <p className="text-muted-foreground mb-4">Unable to retrieve asset condition data</p>
+        
         <Button onClick={loadTrendingData}>
           <RefreshCw className="h-4 w-4 mr-2" />
           Retry
@@ -285,9 +286,7 @@ export function AssetConditionTrending() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-foreground">Asset Condition Trending</h1>
-          <p className="text-muted-foreground">
-            Predictive analytics and condition monitoring for asset lifecycle management
-          </p>
+          
         </div>
         <div className="flex items-center gap-3">
           <Select value={timeRange} onValueChange={setTimeRange}>
@@ -308,7 +307,7 @@ export function AssetConditionTrending() {
             disabled={refreshing}
           >
             {refreshing ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
+              <LoadingSpinner size="sm" />
             ) : (
               <RefreshCw className="h-4 w-4" />
             )}
@@ -333,9 +332,7 @@ export function AssetConditionTrending() {
               {summary.averageCondition.toFixed(1)}/10
             </div>
             <Progress value={summary.averageCondition * 10} className="mt-2" />
-            <p className="text-xs text-muted-foreground mt-1">
-              Portfolio condition score
-            </p>
+            
           </CardContent>
         </Card>
 
@@ -348,9 +345,7 @@ export function AssetConditionTrending() {
             <div className="text-2xl font-bold text-green-600">
               {summary.assetsImproving}
             </div>
-            <p className="text-xs text-muted-foreground">
-              {((summary.assetsImproving / summary.totalAssets) * 100).toFixed(1)}% of portfolio
-            </p>
+            
           </CardContent>
         </Card>
 
@@ -363,9 +358,7 @@ export function AssetConditionTrending() {
             <div className="text-2xl font-bold text-red-600">
               {summary.assetsDeclining}
             </div>
-            <p className="text-xs text-muted-foreground">
-              {((summary.assetsDeclining / summary.totalAssets) * 100).toFixed(1)}% of portfolio
-            </p>
+            
           </CardContent>
         </Card>
 
@@ -378,9 +371,7 @@ export function AssetConditionTrending() {
             <div className="text-2xl font-bold text-orange-600">
               {summary.highRiskAssets}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Requiring attention
-            </p>
+            
           </CardContent>
         </Card>
       </div>
@@ -439,9 +430,7 @@ export function AssetConditionTrending() {
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <h3 className="font-semibold text-lg">{asset.assetName}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      {asset.assetType} • Asset ID: {asset.assetId}
-                    </p>
+                    
                   </div>
                   <div className="flex items-center gap-2">
                     {getTrendIcon(asset.trend)}

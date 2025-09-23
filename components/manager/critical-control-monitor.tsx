@@ -1,41 +1,42 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle
+} from "@/components/ui/card";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select";
 import {
-  AlertTriangle,
-  CheckCircle,
-  Clock,
-  Eye,
-  Shield,
-  Target,
-  Activity,
-  Zap,
-  Loader2,
-  RefreshCw,
-  AlertCircle,
-  MapPin,
-  Calendar,
-  TrendingUp,
-  AlertOctagon,
+    Activity,
+    AlertCircle,
+    AlertOctagon,
+    AlertTriangle,
+    Calendar,
+    CheckCircle,
+    Clock,
+    Eye,
+    MapPin,
+    RefreshCw
 } from "lucide-react";
-import { toast } from "sonner";
+import { useEffect, useState } from "react";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface CriticalControl {
   id: string;
   name: string;
@@ -86,7 +87,7 @@ export function CriticalControlMonitor() {
   const loadCriticalControls = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const params = new URLSearchParams();
       if (filterStatus !== "ALL") params.append("status", filterStatus);
@@ -145,7 +146,7 @@ export function CriticalControlMonitor() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="h-8 w-8 animate-spin" />
+        <LoadingSpinner size="lg" />
         <span className="ml-2">Loading critical controls...</span>
       </div>
     );
@@ -174,9 +175,7 @@ export function CriticalControlMonitor() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-foreground">Critical Control Monitor</h2>
-          <p className="text-muted-foreground">
-            High-consequence asset monitoring and management
-          </p>
+
         </div>
         <div className="flex gap-2">
           <Select value={filterStatus} onValueChange={setFilterStatus}>
@@ -190,7 +189,7 @@ export function CriticalControlMonitor() {
               <SelectItem value="healthy">Healthy</SelectItem>
             </SelectContent>
           </Select>
-          
+
           <Select value={filterImpact} onValueChange={setFilterImpact}>
             <SelectTrigger className="w-32">
               <SelectValue placeholder="Impact" />
@@ -203,7 +202,7 @@ export function CriticalControlMonitor() {
               <SelectItem value="low">Low</SelectItem>
             </SelectContent>
           </Select>
-          
+
           <Button variant="outline" onClick={loadCriticalControls}>
             <RefreshCw className="h-4 w-4 mr-2" />
             Refresh
@@ -214,8 +213,8 @@ export function CriticalControlMonitor() {
       {/* Critical Controls Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {controls.map((control) => (
-          <Card 
-            key={control.id} 
+          <Card
+            key={control.id}
             className={`cursor-pointer transition-all hover:shadow-md ${
               control.status === 'critical' ? 'border-red-200 bg-red-50' :
               control.status === 'warning' ? 'border-yellow-200 bg-yellow-50' :
@@ -237,18 +236,18 @@ export function CriticalControlMonitor() {
             <CardContent>
               <div className="space-y-3">
                 <div>
-                  <p className="text-xs text-muted-foreground mb-1">Asset Type</p>
+
                   <p className="text-sm font-medium">{control.assetType}</p>
                 </div>
-                
+
                 <div>
-                  <p className="text-xs text-muted-foreground mb-1">Purpose</p>
+
                   <p className="text-sm">{control.purpose}</p>
                 </div>
-                
+
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-xs text-muted-foreground">Risk Score</p>
+
                     <p className={`text-lg font-bold ${getRiskColor(control.riskScore)}`}>
                       {control.riskScore}
                     </p>
@@ -257,7 +256,7 @@ export function CriticalControlMonitor() {
                     {control.impactLevel.toUpperCase()}
                   </Badge>
                 </div>
-                
+
                 <div className="pt-2 border-t">
                   <div className="flex items-center justify-between text-xs text-muted-foreground">
                     <div className="flex items-center gap-1">
@@ -279,35 +278,29 @@ export function CriticalControlMonitor() {
       </div>
 
       {/* Control Detail Modal */}
-      {selectedControl && (
-        <Card className="fixed inset-4 z-50 bg-background border shadow-lg overflow-auto">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                {getStatusIcon(selectedControl.status)}
-                <div>
-                  <CardTitle>{selectedControl.name}</CardTitle>
-                  <CardDescription>{selectedControl.assetType}</CardDescription>
-                </div>
+      <Dialog open={!!selectedControl} onOpenChange={() => setSelectedControl(null)}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <div className="flex items-center gap-3">
+              {selectedControl && getStatusIcon(selectedControl.status)}
+              <div>
+                <DialogTitle>{selectedControl?.name}</DialogTitle>
+                <DialogDescription>{selectedControl?.assetType}</DialogDescription>
               </div>
-              <Button variant="outline" onClick={() => setSelectedControl(null)}>
-                Close
-              </Button>
             </div>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          </DialogHeader>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <div>
                   <h4 className="font-medium mb-2">Asset Purpose</h4>
-                  <p className="text-sm text-muted-foreground">{selectedControl.purpose}</p>
+
                 </div>
-                
+
                 <div>
                   <h4 className="font-medium mb-2">Failure Consequence</h4>
-                  <p className="text-sm text-muted-foreground">{selectedControl.consequence}</p>
+
                 </div>
-                
+
                 <div>
                   <h4 className="font-medium mb-2">Current Status</h4>
                   <div className="flex items-center gap-2">
@@ -320,7 +313,7 @@ export function CriticalControlMonitor() {
                     </Badge>
                   </div>
                 </div>
-                
+
                 <div>
                   <h4 className="font-medium mb-2">Risk Assessment</h4>
                   <div className="flex items-center gap-2">
@@ -331,7 +324,7 @@ export function CriticalControlMonitor() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="space-y-4">
                 <div>
                   <h4 className="font-medium mb-2">Inspection Schedule</h4>
@@ -346,7 +339,7 @@ export function CriticalControlMonitor() {
                     </div>
                   </div>
                 </div>
-                
+
                 {selectedControl.location && (
                   <div>
                     <h4 className="font-medium mb-2">Location</h4>
@@ -356,14 +349,14 @@ export function CriticalControlMonitor() {
                     </div>
                   </div>
                 )}
-                
+
                 {selectedControl.responsibleTeam && (
                   <div>
                     <h4 className="font-medium mb-2">Responsible Team</h4>
-                    <p className="text-sm text-muted-foreground">{selectedControl.responsibleTeam}</p>
+
                   </div>
                 )}
-                
+
                 <div>
                   <h4 className="font-medium mb-2">Actions</h4>
                   <div className="flex gap-2">
@@ -383,9 +376,8 @@ export function CriticalControlMonitor() {
                 </div>
               </div>
             </div>
-          </CardContent>
-        </Card>
-      )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

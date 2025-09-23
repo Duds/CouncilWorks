@@ -40,6 +40,7 @@ import { toast } from "sonner";
 import { offlineStorage, OfflineInspection } from "@/lib/offline-storage";
 import { EnhancedPhotoCapture, PhotoMetadata } from "./enhanced-photo-capture";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface Asset {
   id: string;
   name: string;
@@ -349,7 +350,7 @@ export function EnhancedInspectionForm({ asset, inspectionId, onSave, onCancel }
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="h-8 w-8 animate-spin" />
+        <LoadingSpinner size="lg" />
         <span className="ml-2">Loading inspection...</span>
       </div>
     );

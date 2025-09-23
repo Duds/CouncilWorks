@@ -4,47 +4,44 @@ import ReleaseBadge from '@/components/release-badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarSeparator,
+    Sidebar,
+    SidebarContent,
+    SidebarFooter,
+    SidebarGroup,
+    SidebarGroupContent,
+    SidebarGroupLabel,
+    SidebarHeader,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+    SidebarSeparator,
 } from '@/components/ui/sidebar';
+import { getAvatarImage, getUserInitials, handleAvatarError } from '@/lib/avatar-utils';
 import {
-  Activity,
-  AlertCircle,
-  AlertTriangle,
-  BarChart3,
-  Bell,
-  Building2,
-  Calendar,
-  CheckCircle,
-  ChevronDown,
-  ChevronRight,
-  ClipboardList,
-  Clock,
-  Cog,
-  Eye,
-  FileText,
-  Globe,
-  Layers,
-  LogOut,
-  MapPin,
-  Play,
-  Settings,
-  Shield,
-  Target,
-  TrendingUp,
-  Upload,
-  Users,
-  Wrench,
-  Zap,
+    Activity,
+    AlertCircle,
+    AlertTriangle,
+    BarChart3,
+    Bell,
+    Building2,
+    CheckCircle,
+    ChevronDown,
+    ChevronRight,
+    ClipboardList,
+    Clock,
+    Cog,
+    Eye,
+    Globe,
+    LogOut,
+    MapPin,
+    Play,
+    Settings,
+    Shield,
+    Target,
+    TrendingUp,
+    Users,
+    Wrench,
+    Zap
 } from 'lucide-react';
 import type { Route } from 'next';
 import { signOut, useSession } from 'next-auth/react';
@@ -89,7 +86,7 @@ export function AppSidebar({
     Record<string, boolean>
   >({
     strategic: false,
-    assetPlanning: false,
+    resilienceCommand: false,
     operations: false,
     contractor: false,
     community: false,
@@ -133,15 +130,6 @@ export function AppSidebar({
     } catch (error) {
       console.error('Logout error:', error);
     }
-  };
-
-  const getInitials = (name: string) => {
-    return name
-      .split(' ')
-      .map(word => word.charAt(0))
-      .join('')
-      .toUpperCase()
-      .slice(0, 2);
   };
 
   // Check if user has admin access
@@ -210,49 +198,25 @@ export function AppSidebar({
     },
   ];
 
-  // Asset Planning Group - Manager, Asset Planner personas
-  const assetPlanningItems: SidebarItem[] = [
+  // Resilience Command Group - Manager, Asset Planner personas
+  const resilienceCommandItems: SidebarItem[] = [
     {
-      href: '/assets',
-      icon: Building2,
-      label: 'Asset Register',
-      badge: assetCount !== null ? assetCount.toLocaleString() : undefined,
+      href: '/resilience/risk-rhythm',
+      icon: Activity,
+      label: 'Risk Rhythm',
       roles: ['ADMIN', 'MANAGER', 'SUPERVISOR'],
     },
     {
-      href: '/critical-controls',
-      icon: Target,
-      label: 'Critical Controls',
+      href: '/resilience/margin-operations',
+      icon: Clock,
+      label: 'Margin Operations',
       roles: ['ADMIN', 'MANAGER', 'EXEC'],
     },
     {
-      href: '/risk-planner',
-      icon: Activity,
-      label: 'Risk Planner',
-      roles: ['ADMIN', 'MANAGER', 'SUPERVISOR'],
-    },
-    {
-      href: '/rcm-templates',
-      icon: Wrench,
-      label: 'RCM Templates',
-      roles: ['ADMIN', 'MANAGER', 'SUPERVISOR'],
-    },
-    {
-      href: '/maintenance',
-      icon: Calendar,
-      label: 'Maintenance Planning',
-      roles: ['ADMIN', 'MANAGER', 'SUPERVISOR'],
-    },
-    {
-      href: '/reports/builder',
-      icon: FileText,
-      label: 'Custom Reports',
-      roles: ['ADMIN', 'MANAGER', 'SUPERVISOR'],
-    },
-    {
-      href: '/imports',
-      icon: Upload,
-      label: 'Data Import',
+      href: '/resilience/asset-lookup',
+      icon: Building2,
+      label: 'Asset Lookup',
+      badge: assetCount !== null ? assetCount.toLocaleString() : undefined,
       roles: ['ADMIN', 'MANAGER', 'SUPERVISOR'],
     },
   ];
@@ -546,26 +510,26 @@ export function AppSidebar({
           </>
         )}
 
-        {/* Asset Planning Group */}
+        {/* Resilience Command Group */}
         {canAccessSupervisor(userRole) && (
           <>
             <SidebarGroup>
               <SidebarGroupLabel
                 className="flex items-center gap-2 cursor-pointer hover:bg-sidebar-accent rounded-md px-2 py-1"
-                onClick={() => toggleGroup('assetPlanning')}
+                onClick={() => toggleGroup('resilienceCommand')}
               >
-                <Layers className="h-4 w-4" />
-                Asset Planning
-                {collapsedGroups.assetPlanning ? (
+                <Shield className="h-4 w-4" />
+                Resilience Command
+                {collapsedGroups.resilienceCommand ? (
                   <ChevronRight className="h-4 w-4 ml-auto" />
                 ) : (
                   <ChevronDown className="h-4 w-4 ml-auto" />
                 )}
               </SidebarGroupLabel>
-              {!collapsedGroups.assetPlanning && (
+              {!collapsedGroups.resilienceCommand && (
                 <SidebarGroupContent>
                   <SidebarMenu>
-                    {filterItemsByRole(assetPlanningItems, userRole).map(
+                    {filterItemsByRole(resilienceCommandItems, userRole).map(
                       item => (
                         <SidebarMenuItem key={item.href}>
                           <SidebarMenuButton asChild>
@@ -830,11 +794,12 @@ export function AppSidebar({
           <div className="flex items-center gap-2 p-2 rounded-lg bg-sidebar-accent">
             <Avatar className="h-8 w-8">
               <AvatarImage
-                src={session?.user?.image || ''}
+                src={getAvatarImage(session?.user?.image)}
                 alt={session?.user?.name || 'User'}
+                onError={() => handleAvatarError(session?.user?.image)}
               />
               <AvatarFallback className="text-xs">
-                {session?.user?.name ? getInitials(session.user.name) : 'U'}
+                {getUserInitials(session?.user?.name)}
               </AvatarFallback>
             </Avatar>
             <div className="flex flex-col min-w-0 group-data-[collapsible=icon]:hidden">

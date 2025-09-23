@@ -1,39 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  User, 
-  Mail, 
-  Phone, 
-  Globe, 
-  Bell, 
-  Shield, 
-  Save,
-  Upload,
-  Camera,
-  Key,
-  Lock,
-  Smartphone,
-  Copy,
-  Check,
-  AlertTriangle,
-  Activity,
-  Monitor,
-  Clock,
-  MapPin,
-  Trash2,
-  LogOut
-} from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { getAvatarImage, getUserInitials, handleAvatarError } from "@/lib/avatar-utils";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface UserProfile {
   id: string;
@@ -96,7 +74,7 @@ export function ProfileManagement() {
       if (!response.ok) {
         throw new Error("Failed to fetch profile");
       }
-      
+
       const data = await response.json();
       setProfile(data);
       setFormData({
@@ -106,7 +84,7 @@ export function ProfileManagement() {
         timezone: data.timezone || "Australia/Sydney",
         language: data.language || "en-AU",
       });
-      
+
       if (data.notificationPreferences) {
         setNotifications(data.notificationPreferences);
       }
@@ -168,46 +146,46 @@ export function ProfileManagement() {
 
   const handleAvatarUpload = async (file: File) => {
     if (!file) return;
-    
+
     // Validate file type and size
     const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
     if (!allowedTypes.includes(file.type)) {
       setError('Please select a valid image file (JPG, PNG, GIF, or WebP)');
       return;
     }
-    
+
     if (file.size > 2 * 1024 * 1024) { // 2MB limit
       setError('File size must be less than 2MB');
       return;
     }
-    
+
     setSaving(true);
     setError("");
-    
+
     try {
       // Create FormData for file upload
       const formData = new FormData();
       formData.append('avatar', file);
-      
+
       const response = await fetch('/api/profile/avatar', {
         method: 'POST',
         body: formData,
       });
-      
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to upload avatar');
       }
-      
+
       const result = await response.json();
-      
+
       // Update the profile with new avatar URL
       setProfile(prev => prev ? { ...prev, image: result.avatarUrl } : null);
       setSuccess('Avatar updated successfully');
-      
+
       // Refresh the page to update the session
       window.location.reload();
-      
+
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to upload avatar');
     } finally {
@@ -226,27 +204,27 @@ export function ProfileManagement() {
     if (!confirm('Are you sure you want to remove your avatar?')) {
       return;
     }
-    
+
     setSaving(true);
     setError("");
-    
+
     try {
       const response = await fetch('/api/profile/avatar', {
         method: 'DELETE',
       });
-      
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to remove avatar');
       }
-      
+
       // Update the profile to remove avatar
       setProfile(prev => prev ? { ...prev, image: null } : null);
       setSuccess('Avatar removed successfully');
-      
+
       // Refresh the page to update the session
       window.location.reload();
-      
+
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to remove avatar');
     } finally {
@@ -342,9 +320,13 @@ export function ProfileManagement() {
               {/* Avatar */}
               <div className="flex items-center gap-4">
                 <Avatar className="h-20 w-20">
-                  <AvatarImage src={profile.image || ""} alt={profile.name || "User avatar"} />
+                  <AvatarImage
+                    src={getAvatarImage(profile.image)}
+                    alt={profile.name || "User avatar"}
+                    onError={() => handleAvatarError(profile.image)}
+                  />
                   <AvatarFallback>
-                    {profile.name?.charAt(0) || profile.email.charAt(0)}
+                    {getUserInitials(profile.name)}
                   </AvatarFallback>
                 </Avatar>
                 <div>
@@ -357,9 +339,9 @@ export function ProfileManagement() {
                     disabled={saving}
                     aria-label="Upload avatar image"
                   />
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
+                  <Button
+                    variant="outline"
+                    size="sm"
                     className="mb-2"
                     onClick={() => document.getElementById('avatar-upload')?.click()}
                     disabled={saving}
@@ -371,9 +353,9 @@ export function ProfileManagement() {
                     JPG, PNG, GIF or WebP. Max size 2MB.
                   </p>
                   {profile.image && (
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
+                    <Button
+                      variant="ghost"
+                      size="sm"
                       className="mt-1 text-destructive hover:text-destructive"
                       onClick={handleAvatarRemoval}
                       disabled={saving}
@@ -493,7 +475,7 @@ export function ProfileManagement() {
                   <Switch
                     id="email-notifications"
                     checked={notifications.emailNotifications}
-                    onCheckedChange={(checked) => 
+                    onCheckedChange={(checked) =>
                       handleNotificationUpdate("emailNotifications", checked)
                     }
                   />
@@ -509,7 +491,7 @@ export function ProfileManagement() {
                   <Switch
                     id="sms-notifications"
                     checked={notifications.smsNotifications}
-                    onCheckedChange={(checked) => 
+                    onCheckedChange={(checked) =>
                       handleNotificationUpdate("smsNotifications", checked)
                     }
                   />
@@ -525,7 +507,7 @@ export function ProfileManagement() {
                   <Switch
                     id="push-notifications"
                     checked={notifications.pushNotifications}
-                    onCheckedChange={(checked) => 
+                    onCheckedChange={(checked) =>
                       handleNotificationUpdate("pushNotifications", checked)
                     }
                   />
@@ -541,7 +523,7 @@ export function ProfileManagement() {
                   <Switch
                     id="weekly-digest"
                     checked={notifications.weeklyDigest}
-                    onCheckedChange={(checked) => 
+                    onCheckedChange={(checked) =>
                       handleNotificationUpdate("weeklyDigest", checked)
                     }
                   />
@@ -557,7 +539,7 @@ export function ProfileManagement() {
                   <Switch
                     id="security-alerts"
                     checked={notifications.securityAlerts}
-                    onCheckedChange={(checked) => 
+                    onCheckedChange={(checked) =>
                       handleNotificationUpdate("securityAlerts", checked)
                     }
                   />
@@ -573,7 +555,7 @@ export function ProfileManagement() {
                   <Switch
                     id="maintenance-updates"
                     checked={notifications.maintenanceUpdates}
-                    onCheckedChange={(checked) => 
+                    onCheckedChange={(checked) =>
                       handleNotificationUpdate("maintenanceUpdates", checked)
                     }
                   />
@@ -693,17 +675,17 @@ function MFAComponent() {
       const data = await response.json();
       setSuccess("MFA enabled successfully!");
       setSetupStep('backup');
-      
+
       // Generate backup codes
       const backupResponse = await fetch("/api/mfa/backup-codes", {
         method: "POST",
       });
-      
+
       if (backupResponse.ok) {
         const backupData = await backupResponse.json();
         setBackupCodes(backupData.codes);
       }
-      
+
       // Refresh MFA status
       await fetchMFAStatus();
     } catch (err) {
@@ -939,7 +921,7 @@ function MFAComponent() {
             <Alert>
               <AlertTriangle className="h-4 w-4" />
               <AlertDescription>
-                <strong>Important:</strong> Each backup code can only be used once. 
+                <strong>Important:</strong> Each backup code can only be used once.
                 Store them securely and don't share them with anyone.
               </AlertDescription>
             </Alert>
@@ -992,7 +974,7 @@ function ActivityComponent() {
     const date = new Date(timestamp);
     const now = new Date();
     const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
-    
+
     if (diffInHours < 1) {
       return "Just now";
     } else if (diffInHours < 24) {

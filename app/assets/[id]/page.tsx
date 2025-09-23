@@ -1,31 +1,29 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { DocumentManager } from "@/components/assets/document-manager";
 import AppLayout from "@/components/layout/app-layout";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { FMEAAnalysis } from "@/components/rcm/fmea-analysis";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { 
-  MapPin, 
-  Calendar, 
-  DollarSign, 
-  Edit, 
-  ArrowLeft,
-  AlertCircle,
-  Loader2,
-  Building2,
-  Clock,
-  User,
-  FileText,
-  Wrench,
-  ClipboardList
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+    AlertCircle,
+    ArrowLeft,
+    Building2,
+    Calendar,
+    ClipboardList,
+    DollarSign,
+    Edit,
+    MapPin,
+    User,
+    Wrench
 } from "lucide-react";
 import Link from "next/link";
-import { DocumentManager } from "@/components/assets/document-manager";
-import { FMEAAnalysis } from "@/components/rcm/fmea-analysis";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface Asset {
   id: string;
   assetNumber: string;
@@ -86,7 +84,7 @@ interface Asset {
 export default function AssetDetailPage() {
   const params = useParams();
   const assetId = params.id as string;
-  
+
   const [asset, setAsset] = useState<Asset | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -178,7 +176,7 @@ export default function AssetDetailPage() {
         description="Loading asset details"
       >
         <div className="flex items-center justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin" />
+          <LoadingSpinner size="lg" />
           <span className="ml-2">Loading asset...</span>
         </div>
       </AppLayout>
@@ -255,7 +253,7 @@ export default function AssetDetailPage() {
                 {asset.description && (
                   <div>
                     <h4 className="font-medium text-foreground mb-1">Description</h4>
-                    <p className="text-muted-foreground">{asset.description}</p>
+
                   </div>
                 )}
 
@@ -263,19 +261,19 @@ export default function AssetDetailPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <h4 className="font-medium text-foreground mb-1">Asset Type</h4>
-                    <p className="text-muted-foreground">{asset.assetType.replace("_", " ")}</p>
+
                   </div>
                   <div>
                     <h4 className="font-medium text-foreground mb-1">Manufacturer</h4>
-                    <p className="text-muted-foreground">{asset.manufacturer || "N/A"}</p>
+
                   </div>
                   <div>
                     <h4 className="font-medium text-foreground mb-1">Model</h4>
-                    <p className="text-muted-foreground">{asset.model || "N/A"}</p>
+
                   </div>
                   <div>
                     <h4 className="font-medium text-foreground mb-1">Serial Number</h4>
-                    <p className="text-muted-foreground">{asset.serialNumber || "N/A"}</p>
+
                   </div>
                 </div>
 
@@ -295,7 +293,7 @@ export default function AssetDetailPage() {
                 {asset.notes && (
                   <div>
                     <h4 className="font-medium text-foreground mb-1">Notes</h4>
-                    <p className="text-muted-foreground">{asset.notes}</p>
+
                   </div>
                 )}
               </CardContent>
@@ -313,13 +311,7 @@ export default function AssetDetailPage() {
                 {asset.address && (
                   <div>
                     <h4 className="font-medium text-foreground mb-1">Address</h4>
-                    <p className="text-muted-foreground">
-                      {asset.address}
-                      {asset.suburb && `, ${asset.suburb}`}
-                      {asset.postcode && ` ${asset.postcode}`}
-                      {asset.state && `, ${asset.state}`}
-                      {asset.country && `, ${asset.country}`}
-                    </p>
+
                   </div>
                 )}
 
@@ -327,11 +319,11 @@ export default function AssetDetailPage() {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <h4 className="font-medium text-foreground mb-1">Latitude</h4>
-                      <p className="text-muted-foreground">{asset.latitude}</p>
+
                     </div>
                     <div>
                       <h4 className="font-medium text-foreground mb-1">Longitude</h4>
-                      <p className="text-muted-foreground">{asset.longitude}</p>
+
                     </div>
                   </div>
                 )}
@@ -350,20 +342,20 @@ export default function AssetDetailPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
                     <h4 className="font-medium text-foreground mb-1">Purchase Price</h4>
-                    <p className="text-muted-foreground">{formatCurrency(asset.purchasePrice)}</p>
+
                   </div>
                   <div>
                     <h4 className="font-medium text-foreground mb-1">Current Value</h4>
-                    <p className="text-muted-foreground">{formatCurrency(asset.currentValue)}</p>
+
                   </div>
                   <div>
                     <h4 className="font-medium text-foreground mb-1">Replacement Cost</h4>
-                    <p className="text-muted-foreground">{formatCurrency(asset.replacementCost)}</p>
+
                   </div>
                 </div>
                 <div className="mt-4">
                   <h4 className="font-medium text-foreground mb-1">Depreciation Rate</h4>
-                  <p className="text-muted-foreground">{asset.depreciationRate ? `${asset.depreciationRate}%` : "N/A"}</p>
+
                 </div>
               </CardContent>
             </Card>
@@ -380,21 +372,19 @@ export default function AssetDetailPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <h4 className="font-medium text-foreground mb-1">Last Inspection</h4>
-                    <p className="text-muted-foreground">{formatDate(asset.lastInspection)}</p>
+
                   </div>
                   <div>
                     <h4 className="font-medium text-foreground mb-1">Next Inspection</h4>
-                    <p className="text-muted-foreground">{formatDate(asset.nextInspection)}</p>
+
                   </div>
                   <div>
                     <h4 className="font-medium text-foreground mb-1">Inspection Frequency</h4>
-                    <p className="text-muted-foreground">
-                      {asset.inspectionFrequency ? `${asset.inspectionFrequency} days` : "N/A"}
-                    </p>
+
                   </div>
                   <div>
                     <h4 className="font-medium text-foreground mb-1">Annual Maintenance Cost</h4>
-                    <p className="text-muted-foreground">{formatCurrency(asset.maintenanceCost)}</p>
+
                   </div>
                 </div>
               </CardContent>
@@ -446,17 +436,15 @@ export default function AssetDetailPage() {
               <CardContent className="space-y-4">
                 <div>
                   <h4 className="font-medium text-foreground mb-1">Installation Date</h4>
-                  <p className="text-muted-foreground">{formatDate(asset.installationDate)}</p>
+
                 </div>
                 <div>
                   <h4 className="font-medium text-foreground mb-1">Warranty Expiry</h4>
-                  <p className="text-muted-foreground">{formatDate(asset.warrantyExpiry)}</p>
+
                 </div>
                 <div>
                   <h4 className="font-medium text-foreground mb-1">Expected Lifespan</h4>
-                  <p className="text-muted-foreground">
-                    {asset.expectedLifespan ? `${asset.expectedLifespan} years` : "N/A"}
-                  </p>
+
                 </div>
               </CardContent>
             </Card>
@@ -472,16 +460,20 @@ export default function AssetDetailPage() {
               <CardContent className="space-y-4">
                 <div>
                   <h4 className="font-medium text-foreground mb-1">Created</h4>
-                  <p className="text-muted-foreground">{formatDateTime(asset.createdAt)}</p>
+
                   {asset.createdByUser && (
-                    <p className="text-xs text-muted-foreground">by {asset.createdByUser.name}</p>
+                    <p className="text-sm text-muted-foreground">
+                      by {asset.createdByUser.name}
+                    </p>
                   )}
                 </div>
                 <div>
                   <h4 className="font-medium text-foreground mb-1">Last Updated</h4>
-                  <p className="text-muted-foreground">{formatDateTime(asset.updatedAt)}</p>
+
                   {asset.updatedByUser && (
-                    <p className="text-xs text-muted-foreground">by {asset.updatedByUser.name}</p>
+                    <p className="text-sm text-muted-foreground">
+                      by {asset.updatedByUser.name}
+                    </p>
                   )}
                 </div>
               </CardContent>

@@ -20,6 +20,7 @@ import { Separator } from '@/components/ui/separator';
 import { AlertCircle, CheckCircle, Clock, Shield, Target, AlertTriangle } from 'lucide-react';
 import ProtectedRoute from '@/components/auth/protected-route';
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface ComplianceData {
   iso14224: {
     status: 'compliant' | 'non-compliant' | 'partial';
@@ -101,7 +102,7 @@ export default function ComplianceDashboard() {
     return (
       <ProtectedRoute>
         <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+          <LoadingSpinner size="lg" className="h-32 w-32" />
         </div>
       </ProtectedRoute>
     );
@@ -152,9 +153,7 @@ export default function ComplianceDashboard() {
                     </div>
                     <div className="mt-2">
                       <Progress value={complianceData.iso14224.score} className="h-2" />
-                      <p className="text-sm text-muted-foreground mt-1">
-                        {complianceData.iso14224.score}% compliant
-                      </p>
+                      
                     </div>
                   </CardContent>
                 </Card>
@@ -173,9 +172,7 @@ export default function ComplianceDashboard() {
                     </div>
                     <div className="mt-2">
                       <Progress value={complianceData.iso55000.score} className="h-2" />
-                      <p className="text-sm text-muted-foreground mt-1">
-                        {complianceData.iso55000.score}% compliant
-                      </p>
+                      
                     </div>
                   </CardContent>
                 </Card>
@@ -194,9 +191,7 @@ export default function ComplianceDashboard() {
                     </div>
                     <div className="mt-2">
                       <Progress value={complianceData.iso27001.score} className="h-2" />
-                      <p className="text-sm text-muted-foreground mt-1">
-                        {complianceData.iso27001.score}% compliant
-                      </p>
+                      
                     </div>
                   </CardContent>
                 </Card>
@@ -215,9 +210,7 @@ export default function ComplianceDashboard() {
                     </div>
                     <div className="mt-2">
                       <Progress value={complianceData.iso31000.score} className="h-2" />
-                      <p className="text-sm text-muted-foreground mt-1">
-                        {complianceData.iso31000.score}% compliant
-                      </p>
+                      
                     </div>
                   </CardContent>
                 </Card>

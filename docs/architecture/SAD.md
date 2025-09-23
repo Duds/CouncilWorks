@@ -19,15 +19,17 @@ Last updated: 10/09/2025
 - Support **signal-driven operations** with real-time risk assessment and adaptive response.
 - Embed **Critical Control Theory (CCT)** to guarantee execution of non-negotiable controls on critical assets, with escalation.
 - Enable **margin management** with practical slack for absorbing shocks and enhancing resilience.
-- Ensure **integration** with ERP, GIS, and citizen reporting systems for comprehensive signal detection.
+- **Energy Management Integration**: Core energy optimisation, metering, and carbon tracking as first-class module with BMS/EMS integration.
+- **AI-Powered Intelligence**: Embedded optimisation algorithms, anomaly detection, and predictive maintenance as core system capabilities.
+- Ensure **integration** with ERP, GIS, citizen reporting, and energy management systems for comprehensive signal detection.
 - Enable **scalable, multi-tenant SaaS** hosting with resilience-focused architecture.
-- Maintain **security and compliance** with government standards and ISO requirements.
+- Maintain **security and compliance** with government standards and **ISO 55000** asset management requirements.
 - Deliver **usability for field crews** (mobile-first, offline capable) with resilience-aware interfaces.
 - Facilitate **continuous improvement** (modular upgrades, pilot-to-product pipeline) with antifragile design.
 - **Resilience-First Architecture**: Antifragile systems, signal detection, margin management, adaptive response.
 - **Mobile-first PWA** with offline capability, resilience-aware sync, and signal-driven updates.
 - **Secure by default**: RBAC, audit logging, least privilege, input validation (Zod), resilience monitoring.
-- **Interoperable**: Standards-based APIs, GIS via PostGIS/GeoJSON, ERP adapters, signal integration.
+- **Interoperable**: Standards-based APIs, GIS via PostGIS/GeoJSON, ERP adapters, signal integration, BMS/EMS connectivity.
 - **Observability**: structured logging, traces, metrics, health checks, resilience monitoring.
 - **Regional alignment**: Australian English, DD/MM/YYYY, 24-hour time, AUD, metric units, Australian time zones and public holidays.
 
@@ -48,7 +50,9 @@ Last updated: 10/09/2025
 - **Database**: PostgreSQL with PostGIS for relational + geospatial data.
 - **API Gateway**: Node.js for handling REST/GraphQL requests, authentication, and integrations.
 - **Analytics Engine**: Python services for risk scoring, forecasting, predictive maintenance, and reporting.
-- **Frontend**: React/Next.js dashboards for managers, executives, and councillors.
+- **Energy Management Module**: Core energy optimisation, metering integration, carbon tracking, and BMS/EMS connectivity.
+- **AI Intelligence Engine**: Embedded optimisation algorithms, anomaly detection, predictive maintenance, and automated red-flagging.
+- **Frontend**: React/Next.js dashboards for managers, executives, and councillors with enhanced visualisation (charts, gantts, graphs).
 - **Mobile App (PWA)**: Offline-enabled inspections, work orders, and field data capture.
 - **SLA & Service Lifecycle Management (SLM)**: Contract records, SLA definitions, vendor portal, SLA timers/alerts, evidence capture, and reporting.
 - **Critical Controls Module (CCT)**: Identify critical assets, define control rules/windows, enforce execution/compliance, trigger escalations and dashboards.
@@ -57,20 +61,23 @@ Last updated: 10/09/2025
 
 - **ERP/Finance Systems** (Civica, TechOne): CapEx/OpEx, depreciation, financial workflows.
 - **GIS Platforms** (ESRI, QGIS): Asset mapping and spatial overlays.
+- **Energy Management Systems (BMS/EMS)**: Building automation, energy metering, HVAC optimisation, carbon tracking.
 - **Citizen Reporting Tools** (Snap Send Solve, APIs): Community-reported issues.
-- **IoT/Telematics**: Fleet sensors, solar/battery performance feeds.
+- **IoT/Telematics**: Fleet sensors, solar/battery performance feeds, energy consumption monitoring.
 - **Vendor Communications**: Email/SMS/Push notifications for contractor assignment and SLA alerts.
 - **Escalation Channels**: Email/SMS/Teams/Slack for critical control escalations and acknowledgements.
 
 ### Technical Implementation
 
-- Frontend: Next.js (App Router) dashboards; PWA for field crews (offline cache, background sync).
+- Frontend: Next.js (App Router) dashboards with enhanced visualisation (charts, gantts, graphs); PWA for field crews (offline cache, background sync).
 - API Layer: Node.js (TypeScript) REST/GraphQL gateway; validation with Zod; authentication with NextAuth.js (JWT sessions) and RBAC.
 - Analytics & Scheduling: Python services for RCM‑lite, forecasting, optimisation (containers, async jobs/worker queue).
+- Energy Management: Python services for energy optimisation, BMS/EMS integration, carbon tracking, and energy analytics.
+- AI Intelligence: Python ML services for anomaly detection, predictive maintenance, optimisation algorithms, and automated red-flagging.
 - Database: PostgreSQL + PostGIS; Prisma ORM for app data access; Postgres RLS for tenant and role scoping.
 - SLA Timers & Alerts: Scheduler/worker service tracks response/resolution windows; notifications on thresholds; idempotent state transitions on work orders.
 - Critical Control Enforcement: Rules engine evaluates control windows (due-by, frequency, grace); generates tasks; escalates on breach/at-risk; immutable audit trail of acknowledgements and overrides.
-- Integrations: Webhooks, adapters for ERP, citizen reporting portals, IoT; message queue for async tasks.
+- Integrations: Webhooks, adapters for ERP, citizen reporting portals, IoT, BMS/EMS systems; message queue for async tasks.
 - Observability: OpenTelemetry traces, structured logs, metrics; dashboards and alerting.
 - Deployment: Containers (Docker, Kubernetes/Azure Container Apps); environments: dev, test, prod.
 
@@ -211,10 +218,49 @@ package "Aegrid Platform" {
 - RCM‑lite: templates, failure modes, tasks, risk scoring; generation policies.
 - Scheduling: preventive plans; work order creation and allocation.
 - Inspections (PWA): offline forms, photos, GPS tagging; sync resolution.
-- Reporting & Exports: risk/compliance dashboards; audit-ready packs.
-- Integrations: Citizen intake API, ERP sync, IoT signals.
+- Energy Management: energy metering, optimisation algorithms, carbon tracking, BMS/EMS integration.
+- AI Intelligence: anomaly detection, predictive maintenance, optimisation engines, automated red-flagging.
+- Reporting & Exports: risk/compliance dashboards; audit-ready packs with enhanced visualisation.
+- Integrations: Citizen intake API, ERP sync, IoT signals, BMS/EMS connectivity.
 - SLA & SLM: Contract management, vendor portal, SLA definitions, timers, alerts, compliance dashboards, exports.
 - Critical Controls: Control configuration, asset mapping, enforcement engine, escalations, compliance dashboards.
+
+## 9.1 ISO 55000 Compliance Framework
+
+### Mapping Aegrid Rules to ISO 55000 Principles
+
+**ISO 55000 Value Principle**: Every Asset Has a Purpose
+
+- Asset purpose mapping and service delivery tracking
+- Value contribution analysis and reporting
+- Strategic alignment with organisational objectives
+
+**ISO 55000 Alignment Principle**: Risk Sets the Rhythm
+
+- Risk-based maintenance scheduling aligned with criticality
+- Asset criticality assessment and management
+- Failure mode analysis and mitigation strategies
+
+**ISO 55000 Assurance Principle**: Respond to the Real World
+
+- Real-time signal detection and adaptive response
+- Critical control enforcement and escalation
+- Compliance monitoring and audit trails
+
+**ISO 55000 Leadership Principle**: Operate with Margin
+
+- Margin management for operational resilience
+- Antifragile system design and continuous improvement
+- Organisational learning and capability development
+
+### ISO 55000 Implementation Requirements
+
+- **Asset Management Policy**: Documented alignment with organisational strategy
+- **Strategic Asset Management Plan**: Long-term asset lifecycle planning
+- **Asset Management Objectives**: Measurable targets for asset performance
+- **Asset Management System**: Integrated processes for asset lifecycle management
+- **Performance Evaluation**: Regular assessment against ISO 55000 requirements
+- **Improvement**: Continuous enhancement of asset management capabilities
 
 ## 10. Deployment & Environments
 
@@ -266,10 +312,12 @@ package "Aegrid Platform" {
 
 ## 14. Future Enhancements
 
-- **AI Predictive Maintenance** using ML models on fleet and IoT data.
-- **Sustainability Module**: Track carbon impact of asset decisions.
+- **Advanced AI Predictive Maintenance**: Enhanced ML models with deeper fleet and IoT data integration.
+- **Sustainability Module**: Comprehensive carbon impact tracking and ESG reporting.
 - **Benchmarking Service**: Anonymised cross-council performance comparisons.
-- **Digital Twin Integration**: Optional module for advanced councils.
+- **Digital Twin Integration**: Optional module for advanced councils with 3D asset modelling.
+- **Advanced Energy Optimisation**: Machine learning-driven energy consumption optimisation.
+- **Predictive Analytics**: Enhanced forecasting for asset lifecycle and maintenance needs.
 
 ## 15. Open Decisions (ADRs)
 
@@ -284,5 +332,10 @@ package "Aegrid Platform" {
 - **RLS**: Row-Level Security (Postgres).
 - **PWA**: Progressive Web App.
 - **SLO/SLA**: Service Level Objective/Agreement.
+- **BMS**: Building Management System.
+- **EMS**: Energy Management System.
+- **AI Intelligence**: Embedded optimisation algorithms, anomaly detection, and predictive maintenance.
+- **Energy Optimisation**: Continuous monitoring and optimisation of energy consumption and efficiency.
+- **ISO 55000**: International standard for asset management systems.
 - **Standards Referenced**: OGC GIS standards, ISO 55000 (asset management), WCAG 2.1 AA (accessibility).
-- **Glossary**: RCM-lite, FMEA, PoC, CapEx, OpEx, GIS, ERP.
+- **Glossary**: RCM-lite, FMEA, PoC, CapEx, OpEx, GIS, ERP, BMS, EMS.

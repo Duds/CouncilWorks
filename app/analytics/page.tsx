@@ -1,43 +1,39 @@
 /**
  * Advanced Analytics & AI Dashboard UI
- * 
+ *
  * Implements comprehensive dashboard for predictive analytics, AI intelligence, and decision support
- * 
+ *
  * @fileoverview Advanced analytics and AI dashboard UI component
  */
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { 
-  Brain, 
-  TrendingUp, 
-  AlertTriangle, 
-  CheckCircle,
-  Clock,
-  Target,
-  BarChart3,
-  PieChart,
-  LineChart,
-  Activity,
-  Zap,
-  Lightbulb,
-  Settings,
-  Play,
-  Pause,
-  RefreshCw,
-  Download,
-  Upload,
-  Plus,
-  Eye,
-  EyeOff
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { Progress } from '@/components/ui/progress';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+    Activity,
+    AlertTriangle,
+    BarChart3,
+    Brain,
+    CheckCircle,
+    Download,
+    Eye,
+    EyeOff,
+    Lightbulb,
+    Pause,
+    Play,
+    Plus,
+    RefreshCw,
+    Settings,
+    Target,
+    Zap
 } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 interface PredictiveModel {
   id: string;
@@ -96,7 +92,7 @@ export default function AdvancedAnalyticsDashboard() {
   const fetchAnalyticsData = async () => {
     try {
       setLoading(true);
-      
+
       // Fetch models
       const modelsResponse = await fetch('/api/analytics/models');
       if (!modelsResponse.ok) throw new Error('Failed to fetch models');
@@ -169,7 +165,7 @@ export default function AdvancedAnalyticsDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+        <LoadingSpinner size="lg" />
       </div>
     );
   }
@@ -190,9 +186,7 @@ export default function AdvancedAnalyticsDashboard() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Advanced Analytics & AI</h1>
-          <p className="text-muted-foreground">
-            Predictive analytics, AI intelligence, and intelligent decision support
-          </p>
+
         </div>
         <div className="flex items-center space-x-4">
           <Button onClick={fetchAnalyticsData} variant="outline">
@@ -215,9 +209,7 @@ export default function AdvancedAnalyticsDashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{models.length}</div>
-            <p className="text-xs text-muted-foreground">
-              {models.filter(m => m.status === 'deployed').length} deployed
-            </p>
+
           </CardContent>
         </Card>
 
@@ -228,9 +220,7 @@ export default function AdvancedAnalyticsDashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{intelligence.length}</div>
-            <p className="text-xs text-muted-foreground">
-              {intelligence.filter(i => i.status === 'active').length} active
-            </p>
+
           </CardContent>
         </Card>
 
@@ -241,9 +231,7 @@ export default function AdvancedAnalyticsDashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{scenarios.length}</div>
-            <p className="text-xs text-muted-foreground">
-              {scenarios.filter(s => s.status === 'pending').length} pending
-            </p>
+
           </CardContent>
         </Card>
 
@@ -254,9 +242,7 @@ export default function AdvancedAnalyticsDashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{workflows.length}</div>
-            <p className="text-xs text-muted-foreground">
-              {workflows.filter(w => w.status === 'active').length} active
-            </p>
+
           </CardContent>
         </Card>
       </div>
@@ -288,7 +274,7 @@ export default function AdvancedAnalyticsDashboard() {
                     <div key={item.id} className="flex items-center justify-between p-3 border rounded-lg">
                       <div className="flex-1">
                         <h4 className="font-medium">{item.title}</h4>
-                        <p className="text-sm text-muted-foreground">{item.description}</p>
+
                         <div className="flex items-center space-x-2 mt-2">
                           <Badge className={getSeverityColor(item.severity)}>
                             {item.severity}
@@ -341,9 +327,7 @@ export default function AdvancedAnalyticsDashboard() {
                         </div>
                         <Progress value={model.accuracy * 100} className="h-2" />
                       </div>
-                      <p className="text-xs text-muted-foreground">
-                        Last trained: {new Date(model.lastTrained).toLocaleDateString()}
-                      </p>
+
                     </div>
                   ))}
                 </div>
@@ -366,7 +350,7 @@ export default function AdvancedAnalyticsDashboard() {
                   <div key={scenario.id} className="flex items-center justify-between p-4 border rounded-lg">
                     <div className="flex-1">
                       <h4 className="font-medium">{scenario.name}</h4>
-                      <p className="text-sm text-muted-foreground">{scenario.description}</p>
+
                       <div className="flex items-center space-x-2 mt-2">
                         <Badge className={getPriorityColor(scenario.priority)}>
                           {scenario.priority}
@@ -415,7 +399,7 @@ export default function AdvancedAnalyticsDashboard() {
                   <div key={model.id} className="flex items-center justify-between p-4 border rounded-lg">
                     <div className="flex-1">
                       <h4 className="font-medium">{model.name}</h4>
-                      <p className="text-sm text-muted-foreground">{model.description}</p>
+
                       <div className="flex items-center space-x-4 mt-2">
                         <Badge variant="outline">{model.type}</Badge>
                         <Badge className={getStatusColor(model.status)}>
@@ -465,7 +449,7 @@ export default function AdvancedAnalyticsDashboard() {
                   <div key={item.id} className="flex items-center justify-between p-4 border rounded-lg">
                     <div className="flex-1">
                       <h4 className="font-medium">{item.title}</h4>
-                      <p className="text-sm text-muted-foreground">{item.description}</p>
+
                       <div className="flex items-center space-x-2 mt-2">
                         <Badge className={getSeverityColor(item.severity)}>
                           {item.severity}
@@ -520,7 +504,7 @@ export default function AdvancedAnalyticsDashboard() {
                   <div key={scenario.id} className="flex items-center justify-between p-4 border rounded-lg">
                     <div className="flex-1">
                       <h4 className="font-medium">{scenario.name}</h4>
-                      <p className="text-sm text-muted-foreground">{scenario.description}</p>
+
                       <div className="flex items-center space-x-2 mt-2">
                         <Badge className={getPriorityColor(scenario.priority)}>
                           {scenario.priority}
@@ -575,7 +559,7 @@ export default function AdvancedAnalyticsDashboard() {
                   <div key={workflow.id} className="flex items-center justify-between p-4 border rounded-lg">
                     <div className="flex-1">
                       <h4 className="font-medium">{workflow.name}</h4>
-                      <p className="text-sm text-muted-foreground">{workflow.description}</p>
+
                       <div className="flex items-center space-x-2 mt-2">
                         <Badge className={getStatusColor(workflow.status)}>
                           {workflow.status}

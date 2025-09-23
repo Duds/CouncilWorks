@@ -1,0 +1,344 @@
+{
+  "folders": [
+    {
+      "name": "Aegrid",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "typescript.preferences.importModuleSpecifier": "relative",
+    "typescript.suggest.autoImports": true,
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit",
+      "source.organizeImports": "explicit"
+    },
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/.next": true,
+      "**/dist": true,
+      "**/.turbo": true,
+      "**/coverage": true
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/.next": true,
+      "**/dist": true,
+      "**/.turbo": true,
+      "**/coverage": true,
+      "**/prisma/migrations": true
+    },
+    "files.watcherExclude": {
+      "**/node_modules/**": true,
+      "**/.next/**": true,
+      "**/dist/**": true,
+      "**/.turbo/**": true,
+      "**/coverage/**": true
+    },
+    "emmet.includeLanguages": {
+      "typescript": "html",
+      "typescriptreact": "html"
+    },
+    "tailwindCSS.includeLanguages": {
+      "typescript": "html",
+      "typescriptreact": "html"
+    },
+    "tailwindCSS.experimental.classRegex": [
+      ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+      ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+    ],
+    "prisma.showPrismaDataPlatformNotification": false,
+    "jest.jestCommandLine": "npm test --",
+    "jest.autoRun": "off",
+    "jest.showCoverageOnLoad": false,
+    "eslint.workingDirectories": ["."],
+    "eslint.validate": [
+      "javascript",
+      "javascriptreact",
+      "typescript",
+      "typescriptreact"
+    ]
+  },
+  "extensions": {
+    "recommendations": [
+      "bradlc.vscode-tailwindcss",
+      "esbenp.prettier-vscode",
+      "dbaeumer.vscode-eslint",
+      "ms-vscode.vscode-typescript-next",
+      "prisma.prisma",
+      "ms-vscode.vscode-json",
+      "redhat.vscode-yaml",
+      "ms-vscode.vscode-markdown",
+      "ms-playwright.playwright",
+      "orta.vscode-jest",
+      "ms-vscode.vscode-github-actions",
+      "ms-azuretools.vscode-docker",
+      "ms-vscode-remote.remote-containers",
+      "github.copilot",
+      "github.copilot-chat",
+      "ms-vscode.vscode-typescript-next",
+      "bradlc.vscode-tailwindcss",
+      "formulahendry.auto-rename-tag",
+      "christian-kohler.path-intellisense",
+      "ms-vscode.vscode-json",
+      "redhat.vscode-yaml",
+      "ms-vscode.vscode-markdown",
+      "ms-playwright.playwright",
+      "orta.vscode-jest",
+      "ms-vscode.vscode-github-actions",
+      "ms-azuretools.vscode-docker",
+      "ms-vscode-remote.remote-containers"
+    ]
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "dev",
+        "type": "shell",
+        "command": "npm run dev",
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        },
+        "isBackground": true,
+        "problemMatcher": {
+          "owner": "typescript",
+          "source": "ts",
+          "applyTo": "closedDocuments",
+          "fileLocation": "relative",
+          "pattern": "$tsc",
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": {
+              "regexp": "(.*?)"
+            },
+            "endsPattern": {
+              "regexp": "Local:.*?http://localhost:3000"
+            }
+          }
+        }
+      },
+      {
+        "label": "build",
+        "type": "shell",
+        "command": "npm run build",
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        }
+      },
+      {
+        "label": "test",
+        "type": "shell",
+        "command": "npm test",
+        "group": "test",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        }
+      },
+      {
+        "label": "test:watch",
+        "type": "shell",
+        "command": "npm test -- --watch",
+        "group": "test",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        },
+        "isBackground": true
+      },
+      {
+        "label": "lint",
+        "type": "shell",
+        "command": "npm run lint",
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        }
+      },
+      {
+        "label": "lint:fix",
+        "type": "shell",
+        "command": "npm run lint:fix",
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        }
+      },
+      {
+        "label": "typecheck",
+        "type": "shell",
+        "command": "npm run typecheck",
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        }
+      },
+      {
+        "label": "db:migrate",
+        "type": "shell",
+        "command": "npm run db:migrate",
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        }
+      },
+      {
+        "label": "db:seed",
+        "type": "shell",
+        "command": "npm run db:seed",
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        }
+      },
+      {
+        "label": "prisma:studio",
+        "type": "shell",
+        "command": "npx prisma studio",
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        },
+        "isBackground": true
+      },
+      {
+        "label": "storybook",
+        "type": "shell",
+        "command": "npm run storybook",
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        },
+        "isBackground": true
+      },
+      {
+        "label": "docker:up",
+        "type": "shell",
+        "command": "docker compose up -d",
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        }
+      },
+      {
+        "label": "docker:down",
+        "type": "shell",
+        "command": "docker compose down",
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        }
+      }
+    ]
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Next.js: debug server-side",
+        "type": "node",
+        "request": "launch",
+        "program": "${workspaceFolder}/node_modules/.bin/next",
+        "args": ["dev"],
+        "cwd": "${workspaceFolder}",
+        "console": "integratedTerminal",
+        "skipFiles": ["<node_internals>/**"]
+      },
+      {
+        "name": "Next.js: debug client-side",
+        "type": "chrome",
+        "request": "launch",
+        "url": "http://localhost:3000",
+        "webRoot": "${workspaceFolder}"
+      },
+      {
+        "name": "Next.js: debug full stack",
+        "type": "node",
+        "request": "launch",
+        "program": "${workspaceFolder}/node_modules/.bin/next",
+        "args": ["dev"],
+        "cwd": "${workspaceFolder}",
+        "console": "integratedTerminal",
+        "skipFiles": ["<node_internals>/**"],
+        "serverReadyAction": {
+          "pattern": "Local:.*?http://localhost:3000",
+          "uriFormat": "http://localhost:3000",
+          "action": "debugWithChrome"
+        }
+      },
+      {
+        "name": "Debug Jest Tests",
+        "type": "node",
+        "request": "launch",
+        "program": "${workspaceFolder}/node_modules/.bin/jest",
+        "args": ["--runInBand"],
+        "console": "integratedTerminal",
+        "internalConsoleOptions": "neverOpen",
+        "disableOptimisticBPs": true,
+        "windows": {
+          "program": "${workspaceFolder}/node_modules/jest/bin/jest"
+        }
+      },
+      {
+        "name": "Debug Current Jest Test",
+        "type": "node",
+        "request": "launch",
+        "program": "${workspaceFolder}/node_modules/.bin/jest",
+        "args": ["--runInBand", "${relativeFile}"],
+        "console": "integratedTerminal",
+        "internalConsoleOptions": "neverOpen",
+        "disableOptimisticBPs": true,
+        "windows": {
+          "program": "${workspaceFolder}/node_modules/jest/bin/jest"
+        }
+      }
+    ],
+    "compounds": [
+      {
+        "name": "Debug Full Stack",
+        "configurations": ["Next.js: debug server-side", "Next.js: debug client-side"]
+      }
+    ]
+  }
+}

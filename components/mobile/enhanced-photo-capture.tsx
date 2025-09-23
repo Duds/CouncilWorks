@@ -1,31 +1,33 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Camera,
-  MapPin,
-  Clock,
-  Tag,
-  Trash2,
-  Edit3,
-  Save,
-  X,
-  RotateCw,
-  ZoomIn,
-  ZoomOut,
-  Flashlight,
-  FlashlightOff,
-  CheckCircle,
-  AlertCircle,
-} from "lucide-react";
-import { toast } from "sonner";
 import { getDynamicTransformStyle } from "@/lib/dynamic-styles";
+import {
+    AlertCircle,
+    Camera,
+    CheckCircle,
+    Clock,
+    Edit3,
+    MapPin,
+    RotateCw,
+    Save,
+    Tag,
+    Trash2,
+    X
+} from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 
 interface PhotoMetadata {
   id: string;
@@ -56,10 +58,10 @@ interface EnhancedPhotoCaptureProps {
  * Enhanced Photo Capture Component
  * Advanced photo capture with GPS tagging, metadata, and editing capabilities
  */
-export function EnhancedPhotoCapture({ 
-  onPhotosChange, 
-  initialPhotos = [], 
-  maxPhotos = 10 
+export function EnhancedPhotoCapture({
+  onPhotosChange,
+  initialPhotos = [],
+  maxPhotos = 10
 }: EnhancedPhotoCaptureProps) {
   const [photos, setPhotos] = useState<PhotoMetadata[]>(initialPhotos);
   const [editingPhoto, setEditingPhoto] = useState<PhotoMetadata | null>(null);
@@ -70,7 +72,7 @@ export function EnhancedPhotoCapture({
     longitude: number;
     accuracy: number;
   } | null>(null);
-  
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
 
@@ -155,7 +157,7 @@ export function EnhancedPhotoCapture({
         flashUsed: false,
         syncStatus: 'pending',
       };
-      
+
       setPhotos(prev => [...prev, photo]);
     };
     reader.readAsDataURL(file);
@@ -201,7 +203,7 @@ export function EnhancedPhotoCapture({
 
   const addTag = (photoId: string, tag: string) => {
     if (!tag.trim()) return;
-    
+
     setPhotos(prev => prev.map(photo => {
       if (photo.id === photoId && !photo.tags.includes(tag)) {
         return {
@@ -243,7 +245,7 @@ export function EnhancedPhotoCapture({
         </div>
         <div className="flex items-center gap-2">
           {currentLocation && (
-            <Badge 
+            <Badge
               variant={locationStatus.status === 'success' ? 'default' : 'secondary'}
               className="gap-1"
             >
@@ -266,7 +268,7 @@ export function EnhancedPhotoCapture({
               <Camera className="h-6 w-6" />
               <span className="text-sm">Take Photo</span>
             </Button>
-            
+
             <Button
               variant="outline"
               onClick={handleFileCapture}
@@ -277,7 +279,7 @@ export function EnhancedPhotoCapture({
               <span className="text-sm">Choose File</span>
             </Button>
           </div>
-          
+
           <input
             ref={cameraInputRef}
             type="file"
@@ -286,7 +288,7 @@ export function EnhancedPhotoCapture({
             onChange={handleFileSelect}
             className="hidden"
           />
-          
+
           <input
             ref={fileInputRef}
             type="file"
@@ -310,7 +312,7 @@ export function EnhancedPhotoCapture({
                   className="w-full h-32 object-cover dynamic-transform"
                   style={getDynamicTransformStyle(`rotate(${photo.rotation}deg)`)}
                 />
-                
+
                 {/* Photo Overlay */}
                 <div className="absolute top-2 left-2 right-2 flex justify-between">
                   <div className="flex gap-1">
@@ -326,7 +328,7 @@ export function EnhancedPhotoCapture({
                       </Badge>
                     )}
                   </div>
-                  
+
                   <div className="flex gap-1">
                     <Button
                       size="sm"
@@ -346,7 +348,7 @@ export function EnhancedPhotoCapture({
                     </Button>
                   </div>
                 </div>
-                
+
                 {/* Sync Status */}
                 <div className="absolute bottom-2 right-2">
                   {photo.syncStatus === 'synced' && (
@@ -360,12 +362,12 @@ export function EnhancedPhotoCapture({
                   )}
                 </div>
               </div>
-              
+
               <CardContent className="p-3">
                 <div className="text-xs text-muted-foreground mb-2">
                   {new Date(photo.timestamp).toLocaleString("en-AU")}
                 </div>
-                
+
                 {photo.location && (
                   <div className="text-xs text-muted-foreground mb-2">
                     <MapPin className="h-3 w-3 inline mr-1" />
@@ -373,7 +375,7 @@ export function EnhancedPhotoCapture({
                     <span className="ml-2">(±{Math.round(photo.location.accuracy)}m)</span>
                   </div>
                 )}
-                
+
                 {photo.tags.length > 0 && (
                   <div className="flex flex-wrap gap-1">
                     {photo.tags.map((tag, index) => (
@@ -417,13 +419,13 @@ interface PhotoEditorProps {
   onRotate: (photoId: string, direction: 'left' | 'right') => void;
 }
 
-function PhotoEditor({ 
-  photo, 
-  onSave, 
-  onCancel, 
-  onAddTag, 
-  onRemoveTag, 
-  onRotate 
+function PhotoEditor({
+  photo,
+  onSave,
+  onCancel,
+  onAddTag,
+  onRemoveTag,
+  onRotate
 }: PhotoEditorProps) {
   const [editedPhoto, setEditedPhoto] = useState<PhotoMetadata>(photo);
   const [newTag, setNewTag] = useState('');
@@ -440,12 +442,12 @@ function PhotoEditor({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <Card className="w-full max-w-md max-h-[90vh] overflow-y-auto">
-        <CardHeader>
-          <CardTitle className="text-lg">Edit Photo</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
+    <Dialog open={true} onOpenChange={onCancel}>
+      <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>Edit Photo</DialogTitle>
+        </DialogHeader>
+        <div className="space-y-4">
           {/* Photo Preview */}
           <div className="relative">
             <img
@@ -454,7 +456,7 @@ function PhotoEditor({
               className="w-full h-48 object-cover rounded-lg dynamic-transform"
               style={getDynamicTransformStyle(`rotate(${editedPhoto.rotation}deg)`)}
             />
-            
+
             {/* Rotation Controls */}
             <div className="absolute top-2 right-2 flex gap-1">
               <Button
@@ -500,14 +502,14 @@ function PhotoEditor({
                 <Tag className="h-4 w-4" />
               </Button>
             </div>
-            
+
             {photo.tags.length > 0 && (
               <div className="flex flex-wrap gap-1">
                 {photo.tags.map((tag, index) => (
                   <Badge key={index} variant="secondary" className="gap-1">
                     {tag}
-                    <X 
-                      className="h-3 w-3 cursor-pointer" 
+                    <X
+                      className="h-3 w-3 cursor-pointer"
                       onClick={() => onRemoveTag(photo.id, tag)}
                     />
                   </Badge>
@@ -542,8 +544,8 @@ function PhotoEditor({
               Save
             </Button>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }

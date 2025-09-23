@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface BarcodeResult {
   type: string;
   data: string;
@@ -163,9 +164,7 @@ export function BarcodeScanner({ onScan, onClose, mode = 'camera' }: BarcodeScan
       <div className="flex items-center justify-between">
         <div>
           <h3 className="text-lg font-semibold">Barcode Scanner</h3>
-          <p className="text-sm text-muted-foreground">
-            Scan asset barcodes or QR codes
-          </p>
+          
         </div>
         {onClose && (
           <Button variant="ghost" size="sm" onClick={onClose}>

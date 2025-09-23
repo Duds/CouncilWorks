@@ -1,31 +1,27 @@
 "use client";
 
-import { useEffect, useState, useRef, useMemo, useCallback } from "react";
-import dynamic from "next/dynamic";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { 
-  MapPin, 
-  Layers, 
-  Filter, 
-  Search,
-  AlertCircle,
-  Loader2,
-  ZoomIn,
-  ZoomOut,
-  Navigation,
-  Building2,
-  Road,
-  TreePine,
-  BookOpen,
-  Activity,
-  TrafficCone,
-  Droplets,
-  Zap
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+    Activity,
+    AlertCircle,
+    BookOpen,
+    Building2,
+    Droplets,
+    Filter,
+    Loader2,
+    MapPin,
+    Road,
+    TrafficCone,
+    TreePine,
+    Zap
 } from "lucide-react";
+import dynamic from "next/dynamic";
+import { useEffect, useRef, useState } from "react";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 // Dynamically import Leaflet components to avoid SSR issues
 const MapContainer = dynamic(() => import("react-leaflet").then((mod) => mod.MapContainer), { ssr: false });
 const TileLayer = dynamic(() => import("react-leaflet").then((mod) => mod.TileLayer), { ssr: false });
@@ -33,37 +29,85 @@ const Marker = dynamic(() => import("react-leaflet").then((mod) => mod.Marker), 
 const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), { ssr: false });
 const MarkerClusterGroup = dynamic(() => import("react-leaflet").then((mod) => mod.MarkerClusterGroup), { ssr: false });
 
-// Separate map component to prevent re-initialization
-const LeafletMap = dynamic(() => Promise.resolve(function LeafletMapComponent({ 
-  center, 
-  zoom, 
-  assets, 
-  onAssetSelect 
+/**
+ * Map component with proper instance management to prevent re-initialization
+ *
+ * This component fixes the "Map container is already initialized" error by:
+ * 1. Using useRef to track map instance
+ * 2. Implementing proper cleanup on unmount
+ * 3. Adding a ready state to prevent premature rendering
+ * 4. Checking for existing map instance before creating new one
+ */
+function LeafletMapComponent({
+  center,
+  zoom,
+  assets,
+  onAssetSelect
 }: {
   center: [number, number];
   zoom: number;
   assets: Asset[];
   onAssetSelect?: (asset: Asset) => void;
 }) {
+  const mapRef = useRef<any>(null);
+  const [isMapReady, setIsMapReady] = useState(false);
+
+  useEffect(() => {
+    // Set map as ready after component mounts
+    const timer = setTimeout(() => {
+      setIsMapReady(true);
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+      setIsMapReady(false);
+      // Clean up map instance if it exists
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+      }
+    };
+  }, []);
+
+  // Don't render map until it's ready
+  if (!isMapReady) {
+    return (
+      <div className="h-full w-full flex items-center justify-center bg-gray-100 rounded-lg">
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <LoadingSpinner size="sm" />
+          <span>Loading map...</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <MapContainer
-      key="stable-asset-map"
+      ref={mapRef}
       center={center}
       zoom={zoom}
       className="h-full w-full rounded-lg"
+      whenCreated={(mapInstance) => {
+        // Only set the map instance if we don't already have one
+        if (!mapRef.current) {
+          mapRef.current = mapInstance;
+        }
+      }}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
-      
+
       <MarkerClusterGroup>
         {assets.map((asset) => {
+          if (!asset.latitude || !asset.longitude) return null;
+
           const { IconComponent, color } = getAssetIcon(asset);
           return (
             <Marker
               key={asset.id}
-              position={[asset.latitude!, asset.longitude!]}
+              position={[asset.latitude, asset.longitude]}
               eventHandlers={{
                 click: () => onAssetSelect?.(asset),
               }}
@@ -77,7 +121,7 @@ const LeafletMap = dynamic(() => Promise.resolve(function LeafletMapComponent({
                       <p className="text-xs text-gray-600">{asset.assetNumber}</p>
                     </div>
                   </div>
-                  
+
                   <div className="space-y-1 mb-3">
                     <Badge variant={getStatusBadgeVariant(asset.status)} className="text-xs">
                       {asset.status.replace("_", " ")}
@@ -89,7 +133,7 @@ const LeafletMap = dynamic(() => Promise.resolve(function LeafletMapComponent({
                       {asset.priority}
                     </Badge>
                   </div>
-                  
+
                   {asset.address && (
                     <p className="text-xs text-gray-600 mb-2">
                       📍 {asset.address}
@@ -97,11 +141,11 @@ const LeafletMap = dynamic(() => Promise.resolve(function LeafletMapComponent({
                       {asset.postcode && ` ${asset.postcode}`}
                     </p>
                   )}
-                  
+
                   <div className="flex gap-2">
-                    <Button 
-                      size="sm" 
-                      variant="outline" 
+                    <Button
+                      size="sm"
+                      variant="outline"
                       className="text-xs h-6 px-2"
                       onClick={() => onAssetSelect?.(asset)}
                     >
@@ -116,7 +160,20 @@ const LeafletMap = dynamic(() => Promise.resolve(function LeafletMapComponent({
       </MarkerClusterGroup>
     </MapContainer>
   );
-}), { ssr: false });
+}
+
+// Dynamically import the map component with proper loading state
+const LeafletMap = dynamic(() => Promise.resolve(LeafletMapComponent), {
+  ssr: false,
+  loading: () => (
+    <div className="h-full w-full flex items-center justify-center bg-gray-100 rounded-lg">
+      <div className="flex items-center gap-2 text-muted-foreground">
+        <LoadingSpinner size="sm" />
+        <span>Loading map...</span>
+      </div>
+    </div>
+  )
+});
 
 // Helper functions moved outside component
 const getAssetIcon = (asset: Asset) => {
@@ -187,11 +244,11 @@ interface AssetMapProps {
  * Asset Map Component
  * Displays assets on an interactive map with clustering and filtering
  */
-export function AssetMap({ 
-  assets = [], 
-  onAssetSelect, 
+export function AssetMap({
+  assets = [],
+  onAssetSelect,
   selectedAsset,
-  height = "500px" 
+  height = "500px"
 }: AssetMapProps) {
   const [mapAssets, setMapAssets] = useState<Asset[]>([]);
   const [loading, setLoading] = useState(false);
@@ -205,7 +262,7 @@ export function AssetMap({
   });
   const [mapKey] = useState(() => `map-${Math.random().toString(36).substr(2, 9)}`);
   // Filter assets that have location data
-  const assetsWithLocation = assets.filter(asset => 
+  const assetsWithLocation = assets.filter(asset =>
     asset.latitude && asset.longitude &&
     asset.latitude >= -90 && asset.latitude <= 90 &&
     asset.longitude >= -180 && asset.longitude <= 180
@@ -234,8 +291,8 @@ export function AssetMap({
     return (
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
-          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2" />
-          <p className="text-muted-foreground">Loading map...</p>
+          <LoadingSpinner size="lg" mx-auto mb-2 />
+          
         </div>
       </div>
     );
@@ -279,7 +336,7 @@ export function AssetMap({
                 ))}
               </select>
             </div>
-            
+
             <div>
               <label className="text-sm font-medium mb-2 block">Status</label>
               <select
@@ -294,7 +351,7 @@ export function AssetMap({
                 ))}
               </select>
             </div>
-            
+
             <div>
               <label className="text-sm font-medium mb-2 block">Condition</label>
               <select
@@ -309,7 +366,7 @@ export function AssetMap({
                 ))}
               </select>
             </div>
-            
+
             <div>
               <label className="text-sm font-medium mb-2 block">Priority</label>
               <select
@@ -325,7 +382,7 @@ export function AssetMap({
               </select>
             </div>
           </div>
-          
+
           <div className="flex gap-2">
             <Button
               variant="outline"

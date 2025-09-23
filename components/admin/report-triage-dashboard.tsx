@@ -56,6 +56,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface CitizenReport {
   id: string;
   referenceNumber: string;
@@ -350,7 +351,7 @@ export function ReportTriageDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="h-8 w-8 animate-spin" />
+        <LoadingSpinner size="lg" />
         <span className="ml-2">Loading reports...</span>
       </div>
     );
@@ -362,9 +363,7 @@ export function ReportTriageDashboard() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-foreground">Report Triage Dashboard</h1>
-          <p className="text-muted-foreground">
-            Review, assign, and manage citizen reports from all sources
-          </p>
+          
         </div>
         <Button
           variant="outline"
@@ -372,7 +371,7 @@ export function ReportTriageDashboard() {
           disabled={refreshing}
         >
           {refreshing ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
+            <LoadingSpinner size="sm" />
           ) : (
             <RefreshCw className="h-4 w-4" />
           )}
@@ -390,9 +389,7 @@ export function ReportTriageDashboard() {
             <div className="text-2xl font-bold text-red-600">
               {reports.filter(r => r.status === 'new').length}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Requiring triage
-            </p>
+            
           </CardContent>
         </Card>
 
@@ -405,9 +402,7 @@ export function ReportTriageDashboard() {
             <div className="text-2xl font-bold text-orange-600">
               {reports.filter(r => r.status === 'in-progress').length}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Being worked on
-            </p>
+            
           </CardContent>
         </Card>
 
@@ -420,9 +415,7 @@ export function ReportTriageDashboard() {
             <div className="text-2xl font-bold text-green-600">
               {reports.filter(r => r.status === 'completed').length}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Resolved this week
-            </p>
+            
           </CardContent>
         </Card>
 
@@ -435,9 +428,7 @@ export function ReportTriageDashboard() {
             <div className="text-2xl font-bold text-blue-600">
               {reports.length}
             </div>
-            <p className="text-xs text-muted-foreground">
-              All sources
-            </p>
+            
           </CardContent>
         </Card>
       </div>

@@ -1,38 +1,35 @@
 /**
  * Sector-Neutral Dashboard UI
- * 
+ *
  * Implements comprehensive sector-neutral dashboard for language and template management
- * 
+ *
  * @fileoverview Sector-neutral dashboard UI component
  */
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getDynamicBackgroundStyle, getDynamicTextStyle } from '@/lib/dynamic-styles';
-import { 
-  Globe, 
-  FileText, 
-  Settings, 
-  Languages, 
-  Template, 
-  Building2,
-  AlertTriangle,
-  CheckCircle,
-  Plus,
-  Edit,
-  Trash2,
-  Download,
-  Upload
+import {
+    AlertTriangle,
+    Building2,
+    CheckCircle,
+    Download,
+    Edit,
+    Globe,
+    Languages,
+    Plus,
+    Settings,
+    Template,
+    Trash2
 } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 interface LanguageMapping {
   councilTerm: string;
@@ -87,7 +84,7 @@ export default function SectorNeutralDashboard() {
   const fetchSectorNeutralData = async () => {
     try {
       setLoading(true);
-      
+
       // Fetch language mappings
       const languageResponse = await fetch('/api/sector-neutral/language');
       if (!languageResponse.ok) {
@@ -199,7 +196,7 @@ export default function SectorNeutralDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+        <LoadingSpinner size="lg" />
       </div>
     );
   }
@@ -220,9 +217,7 @@ export default function SectorNeutralDashboard() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Sector-Neutral Platform</h1>
-          <p className="text-muted-foreground">
-            Manage language, templates, and configurations for multiple industry sectors
-          </p>
+
         </div>
         <div className="flex items-center space-x-4">
           <Select value={currentSector} onValueChange={handleSectorChange}>
@@ -259,12 +254,10 @@ export default function SectorNeutralDashboard() {
               <h3 className="text-lg font-semibold">
                 {sectorConfigurations.find(c => c.id === currentSector)?.displayName || 'General'}
               </h3>
-              <p className="text-sm text-muted-foreground">
-                {sectorConfigurations.find(c => c.id === currentSector)?.description || 'Default configuration'}
-              </p>
+
             </div>
-            <Badge 
-              variant="outline" 
+            <Badge
+              variant="outline"
               className="dynamic-bg dynamic-text"
               style={{ ...getDynamicBackgroundStyle(getSectorColor(currentSector)), ...getDynamicTextStyle('white') }}
             >
@@ -308,19 +301,19 @@ export default function SectorNeutralDashboard() {
                       <div className="flex items-center space-x-4">
                         <div>
                           <h4 className="font-medium">{mapping.councilTerm}</h4>
-                          <p className="text-sm text-muted-foreground">{mapping.description}</p>
+
                         </div>
                         <div className="text-2xl">→</div>
                         <div>
                           <h4 className="font-medium">{mapping.neutralTerm}</h4>
-                          <p className="text-sm text-muted-foreground">Sector-neutral term</p>
+
                         </div>
                       </div>
                       <div className="flex items-center space-x-2 mt-2">
                         <Badge variant="outline">{mapping.category}</Badge>
                         {mapping.sectors.map((sector) => (
-                          <Badge 
-                            key={sector} 
+                          <Badge
+                            key={sector}
                             variant="secondary"
                             className="dynamic-bg"
                             style={getDynamicBackgroundStyle(getSectorColor(sector))}
@@ -369,7 +362,7 @@ export default function SectorNeutralDashboard() {
                     <CardHeader>
                       <CardTitle className="flex items-center justify-between">
                         <span className="text-lg">{template.displayName}</span>
-                        <Badge 
+                        <Badge
                           variant="outline"
                           className="dynamic-bg"
                           style={getDynamicBackgroundStyle(getSectorColor(template.sector))}
@@ -424,11 +417,11 @@ export default function SectorNeutralDashboard() {
                       <div className="flex items-center space-x-4">
                         <div>
                           <h4 className="font-medium">{classification.displayName}</h4>
-                          <p className="text-sm text-muted-foreground">{classification.description}</p>
+
                         </div>
                       </div>
                       <div className="flex items-center space-x-2 mt-2">
-                        <Badge 
+                        <Badge
                           variant="outline"
                           className="dynamic-bg"
                           style={getDynamicBackgroundStyle(getSectorColor(classification.sector))}
@@ -485,7 +478,7 @@ export default function SectorNeutralDashboard() {
                     <CardHeader>
                       <CardTitle className="flex items-center justify-between">
                         <span className="text-lg">{config.displayName}</span>
-                        <Badge 
+                        <Badge
                           variant="outline"
                           className="dynamic-bg"
                           style={getDynamicBackgroundStyle(getSectorColor(config.id))}

@@ -41,6 +41,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface MarginType {
   type: 'TIME' | 'CAPACITY' | 'MATERIAL' | 'FINANCIAL';
   allocated: number;
@@ -165,7 +166,7 @@ export function MarginManagementDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="h-8 w-8 animate-spin" />
+        <LoadingSpinner size="lg" />
         <span className="ml-2">Loading margin management data...</span>
       </div>
     );
@@ -194,9 +195,7 @@ export function MarginManagementDashboard() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-foreground">Margin Management Dashboard</h2>
-          <p className="text-muted-foreground">
-            Operational slack and antifragile system management
-          </p>
+          
         </div>
         <div className="flex gap-2">
           <Select value={timeRange} onValueChange={setTimeRange}>
@@ -247,14 +246,14 @@ export function MarginManagementDashboard() {
             <CardContent>
               <div className="space-y-3">
                 <div>
-                  <p className="text-xs text-muted-foreground mb-1">Available</p>
+                  
                   <p className={`text-2xl font-bold ${getUtilizationColor(margin.utilizationRate)}`}>
                     {margin.available}%
                   </p>
                 </div>
                 
                 <div>
-                  <p className="text-xs text-muted-foreground mb-1">Description</p>
+                  
                   <p className="text-sm">{margin.description}</p>
                 </div>
                 
@@ -272,7 +271,7 @@ export function MarginManagementDashboard() {
                 </div>
                 
                 <div className="pt-2">
-                  <p className="text-xs text-muted-foreground mb-1">Examples:</p>
+                  
                   <div className="space-y-1">
                     {margin.examples.slice(0, 2).map((example, index) => (
                       <p key={index} className="text-xs text-muted-foreground">• {example}</p>
@@ -303,30 +302,24 @@ export function MarginManagementDashboard() {
                 <div className="text-3xl font-bold text-green-600 mb-2">
                   +{antifragileMetrics.improvementRate}%
                 </div>
-                <p className="text-sm text-muted-foreground">Improvement Rate</p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  System gets stronger under stress
-                </p>
+                
+                
               </div>
               
               <div className="text-center">
                 <div className="text-3xl font-bold text-blue-600 mb-2">
                   {antifragileMetrics.adaptationScore}
                 </div>
-                <p className="text-sm text-muted-foreground">Adaptation Score</p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  Learning and adaptation capability
-                </p>
+                
+                
               </div>
               
               <div className="text-center">
                 <div className="text-3xl font-bold text-purple-600 mb-2">
                   {antifragileMetrics.resilienceGain}%
                 </div>
-                <p className="text-sm text-muted-foreground">Resilience Gain</p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  Overall resilience improvement
-                </p>
+                
+                
               </div>
             </div>
             

@@ -34,6 +34,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface MaintenanceItem {
   id: string;
   type: "SCHEDULED_MAINTENANCE" | "WORK_ORDER";
@@ -249,7 +250,7 @@ export function MaintenanceCalendar({
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="h-8 w-8 animate-spin" />
+        <LoadingSpinner size="lg" />
         <span className="ml-2">Loading maintenance schedule...</span>
       </div>
     );
@@ -278,9 +279,7 @@ export function MaintenanceCalendar({
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-foreground">Maintenance Schedule</h2>
-          <p className="text-muted-foreground">
-            View and manage scheduled maintenance activities
-          </p>
+          
         </div>
         <div className="flex gap-2">
           <Button variant="outline" onClick={loadSchedule}>
@@ -493,7 +492,7 @@ export function MaintenanceCalendar({
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <h4 className="font-medium">{item.title}</h4>
-                        <p className="text-sm text-muted-foreground mt-1">{item.description}</p>
+                        
                         
                         <div className="flex items-center gap-4 mt-3 text-sm text-muted-foreground">
                           <div className="flex items-center gap-1">

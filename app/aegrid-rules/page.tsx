@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title:
     'The Aegrid Rules: Resilient Asset Management for Critical Control | Aegrid',
   description:
-    'A comprehensive whitepaper introducing the Aegrid Rules - four principles that transform asset management from reactive maintenance to proactive risk management discipline.',
+    'A summary of the Aegrid Rules - four principles that transform asset management from reactive maintenance to proactive risk management discipline.',
   keywords: [
     'Aegrid Rules',
     'asset management',
@@ -24,7 +24,6 @@ export const metadata: Metadata = {
     'operational resilience',
     'antifragile systems',
     'Dale Rogers',
-    'whitepaper',
     'asset management philosophy',
   ],
   authors: [
@@ -35,7 +34,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'The Aegrid Rules: Resilient Asset Management for Critical Control',
     description:
-      'A comprehensive whitepaper introducing the Aegrid Rules - four principles that transform asset management from reactive maintenance to proactive risk management discipline.',
+      'A summary of the Aegrid Rules - four principles that transform asset management from reactive maintenance to proactive risk management discipline.',
     url: 'https://aegrid.au/aegrid-rules',
     siteName: 'Aegrid',
     images: [
@@ -43,7 +42,7 @@ export const metadata: Metadata = {
         url: '/images/aegrid-hero.png',
         width: 1200,
         height: 630,
-        alt: 'The Aegrid Rules whitepaper cover',
+        alt: 'The Aegrid Rules summary cover',
       },
     ],
     locale: 'en_AU',
@@ -53,7 +52,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'The Aegrid Rules: Resilient Asset Management for Critical Control',
     description:
-      'A comprehensive whitepaper introducing the Aegrid Rules - four principles that transform asset management from reactive maintenance to proactive risk management discipline.',
+      'A summary of the Aegrid Rules - four principles that transform asset management from reactive maintenance to proactive risk management discipline.',
     images: ['/images/aegrid-hero.png'],
     creator: '@aegrid_au',
   },
@@ -93,7 +92,7 @@ export default async function AegridRulesPage() {
               <div className="h-4 w-px bg-border" />
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <BookOpen className="h-4 w-4" />
-                The Aegrid Rules Whitepaper
+                The Aegrid Rules Summary
               </div>
             </div>
             <div className="flex items-center gap-2">

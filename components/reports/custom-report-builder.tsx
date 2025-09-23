@@ -46,6 +46,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface ReportWidget {
   id: string;
   type: 'chart' | 'table' | 'metric' | 'map';
@@ -265,9 +266,7 @@ export function CustomReportBuilder() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-foreground">Custom Report Builder</h1>
-          <p className="text-muted-foreground">
-            Create custom reports and dashboards with drag-and-drop widgets
-          </p>
+          
         </div>
         <Dialog>
           <DialogTrigger asChild>
@@ -330,7 +329,7 @@ export function CustomReportBuilder() {
                 </Button>
                 <Button onClick={saveReport} disabled={saving}>
                   {saving ? (
-                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                    <LoadingSpinner size="sm" mr-2 />
                   ) : (
                     <Save className="h-4 w-4 mr-2" />
                   )}

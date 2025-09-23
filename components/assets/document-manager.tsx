@@ -1,25 +1,24 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
-import { useDropzone } from "react-dropzone";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { 
-  Upload, 
-  FileText, 
-  Download, 
-  Trash2, 
-  Eye,
-  AlertCircle,
-  Loader2,
-  Plus,
-  Search,
-  Filter
+import {
+    AlertCircle,
+    Download,
+    Eye,
+    FileText,
+    Loader2,
+    Plus,
+    Search,
+    Trash2,
+    Upload
 } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { useDropzone } from "react-dropzone";
 
 interface Document {
   id: string;
@@ -49,12 +48,12 @@ export function DocumentManager({ assetId, assetName }: DocumentManagerProps) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showUploadForm, setShowUploadForm] = useState(false);
-  
+
   // Upload form state
   const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [documentType, setDocumentType] = useState("OTHER");
   const [description, setDescription] = useState("");
-  
+
   // Filter state
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("");
@@ -199,9 +198,7 @@ export function DocumentManager({ assetId, assetName }: DocumentManagerProps) {
       {/* Header */}
       <div>
         <h3 className="text-lg font-semibold text-foreground">Documents</h3>
-        <p className="text-sm text-muted-foreground">
-          Manage documents for {assetName}
-        </p>
+
       </div>
 
       {/* Error Alert */}
@@ -242,9 +239,7 @@ export function DocumentManager({ assetId, assetName }: DocumentManagerProps) {
                   <p className="text-sm font-medium text-foreground">
                     Drag & drop your file here, or click to browse
                   </p>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Supports images, PDFs, documents, and spreadsheets (max 50MB)
-                  </p>
+
                 </div>
               )}
             </div>
@@ -316,9 +311,9 @@ export function DocumentManager({ assetId, assetName }: DocumentManagerProps) {
                     </>
                   )}
                 </Button>
-                <Button 
-                  type="button" 
-                  variant="outline" 
+                <Button
+                  type="button"
+                  variant="outline"
                   onClick={() => {
                     setShowUploadForm(false);
                     setUploadFile(null);
@@ -407,9 +402,7 @@ export function DocumentManager({ assetId, assetName }: DocumentManagerProps) {
                         <p className="font-medium text-sm truncate" title={doc.originalName}>
                           {doc.originalName}
                         </p>
-                        <p className="text-xs text-muted-foreground">
-                          {doc.documentType} • {formatFileSize(doc.fileSize)}
-                        </p>
+
                       </div>
                     </div>
                     <div className="flex gap-1">
@@ -439,13 +432,13 @@ export function DocumentManager({ assetId, assetName }: DocumentManagerProps) {
                       </Button>
                     </div>
                   </div>
-                  
+
                   {doc.description && (
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-sm text-muted-foreground mt-2">
                       {doc.description}
                     </p>
                   )}
-                  
+
                   <div className="flex items-center justify-between text-xs text-muted-foreground">
                     <span>Uploaded by {doc.uploadedBy}</span>
                     <span>{formatDate(doc.createdAt)}</span>

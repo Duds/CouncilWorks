@@ -1,4 +1,4 @@
-@startuml Manager Customer Journey - Resilient Asset Management
+@startuml Manager Customer Journey - Focused Resilience Management
 !theme plain
 skinparam backgroundColor #FFFFFF
 skinparam activity {
@@ -17,66 +17,68 @@ skinparam note {
   FontColor #000000
 }
 
-title Manager Customer Journey - Resilient Asset Management
+title Manager Customer Journey - Focused Resilience Management
 
 start
 
 :Manager logs into Aegrid dashboard;
-note right: **Rule 3: Respond to Real World**\nRole-based access control\napplies MANAGER permissions
+note right: **Access Control**\nMANAGER role permissions\nSingle login for all tools
 
-:Views Resilience Dashboard;
-note right: **Rule 3: Real-World Monitoring**\nCritical control status\nRisk signals and alerts\nMargin utilization\nSystem resilience metrics
+:Navigates to Resilience Command;
+note right: **Simplified Navigation**\n3 focused interfaces\nreplacing 7 scattered tools
 
-:Reviews Critical Controls Status;
-note right: **Rule 3: Protect Critical Few**\nHigh-consequence asset monitoring\nCritical control effectiveness\nFailure consequence assessment\nResource allocation verification
+:Opens Control Dashboard;
+note right: **Rule 1: Every Asset Has a Purpose**\nPurpose-driven asset organization\nCritical control status overview\nWhat needs attention and why
 
-:Assesses Risk Signals;
-note right: **Rule 2: Risk Sets Rhythm**\nWeather and condition signals\nPerformance degradation alerts\nCommunity feedback signals\nAsset failure predictions
+if (Critical controls need attention?) then (yes)
+  :Reviews Critical Control Status;
+  note right: **Purpose-Driven Management**\nAssets organized by service purpose\nClear identification of what's slipping\nPurpose validation and alignment
+  :Makes Purpose Decisions;
+  note right: **Strategic Decision Making**\nApprove resource allocation\nIdentify orphaned assets\nValidate service contribution
+else (no)
+  :Assets functioning normally;
+endif
+
+:Opens Risk Rhythm;
+note right: **Rule 2: Risk Sets the Rhythm**\nDynamic scheduling based on risk\nConsequence × likelihood calculations\nSeasonal risk profile changes
 
 if (Risk signals detected?) then (yes)
-  :Adapts Maintenance Schedule;
-  note right: **Rule 2: Risk-Driven Rhythm**\nDynamic schedule adjustment\nPriority rebalancing\nResource reallocation\nEmergency response activation
-  :Reallocates Resources;
-  note right: **Rule 4: Operate with Margin**\nDeploy margin capacity\nCross-train crew assignments\nEmergency contractor activation\nMaterial buffer utilization
+  :Reviews Risk-Based Schedule;
+  note right: **Risk-Driven Rhythm**\nMaintenance scheduled by risk (not time)\nResource allocation recommendations\nPriority adjustments based on signals
+  :Adjusts Priorities;
+  note right: **Dynamic Adaptation**\nApprove schedule changes\nMake strategic resource decisions\nReview and adjust risk thresholds
 else (no)
-  :Continues routine operations;
+  :Standard risk profile maintained;
 endif
 
-:Reviews Asset Purpose Mapping;
-note right: **Rule 1: Every Asset Purpose**\nCritical control connections\nService delivery alignment\nPurpose validation\nValue contribution assessment
+:Opens Margin Operations;
+note right: **Rules 3 & 4: Respond to Real World + Operate with Margin**\nSignal response effectiveness\nMargin utilization status\nEmergency resource availability
 
-:Conducts Risk-Based Planning;
-note right: **Rule 2: Risk Sets Rhythm**\nConsequence × likelihood analysis\nMaintenance strategy adjustment\nResource allocation optimization\nRCM-lite implementation
-
-:Manages Margin Operations;
-note right: **Rule 4: Operate with Margin**\nProtected crew time allocation\nCritical spare inventory\nEmergency response capacity\nSurge capability management
-
-:Monitors Signal Activity;
-note right: **Rule 3: Real-World Response**\nCommunity signal processing\nEnvironmental condition monitoring\nPerformance metric tracking\nEarly warning system alerts
-
-:Reviews Asset Register by Purpose;
-note right: **Rule 1: Purpose-Driven Management**\nFunction-based asset organization\nService purpose validation\nCritical control mapping\nValue delivery tracking
-
-:Generates Resilience Reports;
-note right: **Rule 4: Future Planning**\nResilience metrics dashboard\nCritical control effectiveness\nMargin utilization analysis\nStrategic planning insights
-
-:Updates Critical Control Status;
-note right: **Rule 3: Protect Critical Few**\nCritical asset condition updates\nControl effectiveness monitoring\nFailure consequence tracking\nResource concentration verification
-
-:Plans Future Resilience;
-note right: **Rule 4: Plan for Tomorrow**\nLong-term scenario modeling\nSustainability integration\nFuture service alignment\nStrategic asset planning
-
-if (Critical control at risk?) then (yes)
-  :Activates Emergency Response;
-  note right: **Rule 3: Real-World Response**\nImmediate resource deployment\nCritical control protection\nEmergency protocols activation\nStakeholder communication
+if (Signals require response?) then (yes)
+  :Monitors Signal Activity;
+  note right: **Real-World Response**\nCommunity signal processing\nEnvironmental condition monitoring\nPerformance metric tracking
   :Deploys Margin Resources;
-  note right: **Rule 4: Margin Deployment**\nEmergency crew activation\nCritical spare deployment\nContractor surge capacity\nFinancial emergency funds
+  note right: **Margin Management**\nActivate emergency resources\nDeploy surge capacity\nCoordinate emergency response
 else (no)
-  :Maintains normal operations;
+  :Normal margin operations;
 endif
 
-:Conducts Resilience Review;
-note right: **Rule 4: Continuous Improvement**\nSystem performance analysis\nMargin effectiveness assessment\nLearning integration\nAdaptation strategy refinement
+if (Strategic decisions needed?) then (yes)
+  :Makes Strategic Decisions;
+  note right: **Strategic Planning**\nPlan future resilience investments\nReview system performance under stress\nOptimize margin effectiveness
+else (no)
+  :Continues operational focus;
+endif
+
+:Reviews Daily Summary;
+note right: **Integrated Insights**\nPurpose alignment status\nRisk rhythm effectiveness\nMargin utilization metrics\nSystem resilience indicators
+
+if (Follow-up required?) then (yes)
+  :Schedules Follow-up Actions;
+  note right: **Proactive Management**\nPlan future interventions\nSchedule strategic reviews\nCoordinate with stakeholders
+else (no)
+  :Day complete;
+endif
 
 stop
 

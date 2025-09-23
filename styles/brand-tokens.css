@@ -1,33 +1,37 @@
 :root {
   /* Raw Palette */
-  --saffron: #FF4C46;
-  --white:   #FFFFFF;
-  --tea:     #DFFFDE;
-  --nocturn: #012B3A;
+  --saffron: #ff4c46;
+  --white: #ffffff;
+  --tea: #dfffde;
+  --nocturn: #012b3a;
 
-  --mint:    #B2FFC6;
-  --spring:  #87F8AE;
-  --jade:    #42D49C;
-  --cedar:   #00A68A;
-  --spruce:  #007978;
-  --lake:    #004963;
+  --mint: #b2ffc6;
+  --spring: #87f8ae;
+  --jade: #42d49c;
+  --cedar: #00a68a;
+  --spruce: #007978;
+  --lake: #004963;
 
   /* Neutral Greys (light) for optional muted backgrounds */
-  --grey-1:  #F7F9F8; /* lightest grey */
-  --grey-2:  #F1F4F3; /* light grey */
-  --grey-3:  #ECEFEF; /* slightly deeper */
+  --grey-1: #f7f9f8; /* lightest grey */
+  --grey-2: #f1f4f3; /* light grey */
+  --grey-3: #ecefef; /* slightly deeper */
 
   /* Functional Tokens - Light */
   --background: var(--white);
   --foreground: var(--nocturn);
 
   /* New complementary light grey surface for shells/wrappers */
-  --surface: #F5F7F6; /* light neutral grey tuned to Aegrid greens */
+  --surface: #f5f7f6; /* light neutral grey tuned to Aegrid greens */
   --surface-foreground: var(--nocturn);
 
   /* Card tokens */
   --card: var(--background);
   --card-foreground: var(--foreground);
+
+  /* Popover tokens */
+  --popover: var(--background);
+  --popover-foreground: var(--foreground);
 
   --primary: var(--jade);
   --primary-foreground: var(--white);
@@ -57,14 +61,67 @@
   --neutral: var(--tea);
   --neutral-foreground: var(--nocturn);
 
+  /* Status Tokens - Semantic Colors for Asset Management */
+  --status-active: var(--spring); /* Green for active/operational */
+  --status-active-foreground: var(--nocturn);
+
+  --status-inactive: var(--grey-2); /* Light grey for inactive */
+  --status-inactive-foreground: var(--nocturn);
+
+  --status-construction: #f59e0b; /* Amber for under construction */
+  --status-construction-foreground: var(--white);
+
+  --status-maintenance: #f97316; /* Orange for maintenance */
+  --status-maintenance-foreground: var(--white);
+
+  --status-decommissioned: var(--grey-3); /* Grey for decommissioned */
+  --status-decommissioned-foreground: var(--nocturn);
+
+  --status-planned: #8b5cf6; /* Purple for planned */
+  --status-planned-foreground: var(--white);
+
+  /* Condition Tokens - Health Status Colors */
+  --condition-excellent: var(--spring); /* Bright green for excellent */
+  --condition-excellent-foreground: var(--nocturn);
+
+  --condition-good: var(--jade); /* Green for good */
+  --condition-good-foreground: var(--white);
+
+  --condition-fair: #f59e0b; /* Amber for fair */
+  --condition-fair-foreground: var(--white);
+
+  --condition-poor: #ef4444; /* Red for poor */
+  --condition-poor-foreground: var(--white);
+
+  --condition-critical: #dc2626; /* Dark red for critical */
+  --condition-critical-foreground: var(--white);
+
+  --condition-unknown: var(--grey-2); /* Light grey for unknown */
+  --condition-unknown-foreground: var(--nocturn);
+
+  /* Priority Tokens - Urgency Colors */
+  --priority-low: #10b981; /* Green for low priority - safe, no urgency */
+  --priority-low-foreground: var(--white);
+
+  --priority-medium: #3b82f6; /* Blue for medium priority - neutral, moderate attention */
+  --priority-medium-foreground: var(--white);
+
+  --priority-high: #f59e0b; /* Amber for high priority - caution, needs attention */
+  --priority-high-foreground: var(--white);
+
+  --priority-critical: #dc2626; /* Dark red for critical priority - danger, immediate action */
+  --priority-critical-foreground: var(--white);
+
   --border: var(--grey-3); /* Light grey border matching sidebar separators */
 
   /* Shadow tokens */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-lg:
+    0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl:
+    0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
   --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
 }
@@ -75,12 +132,16 @@
   --foreground: var(--tea);
 
   /* Dark counterpart for surface */
-  --surface: #0F2F2E;
+  --surface: #0f2f2e;
   --surface-foreground: var(--tea);
 
   /* Card tokens */
   --card: var(--background);
   --card-foreground: var(--foreground);
+
+  /* Popover tokens */
+  --popover: var(--background);
+  --popover-foreground: var(--foreground);
 
   --primary: var(--spring);
   --primary-foreground: var(--nocturn);
@@ -110,14 +171,67 @@
   --neutral: var(--nocturn);
   --neutral-foreground: var(--tea);
 
-  --border: #1A3A3A; /* Subtle dark teal complementary to sidebar separators */
+  /* Status Tokens - Dark Mode */
+  --status-active: var(--spring); /* Bright green for active */
+  --status-active-foreground: var(--nocturn);
+
+  --status-inactive: #374151; /* Dark grey for inactive */
+  --status-inactive-foreground: var(--tea);
+
+  --status-construction: #f59e0b; /* Amber for under construction */
+  --status-construction-foreground: var(--nocturn);
+
+  --status-maintenance: #f97316; /* Orange for maintenance */
+  --status-maintenance-foreground: var(--nocturn);
+
+  --status-decommissioned: #4b5563; /* Medium grey for decommissioned */
+  --status-decommissioned-foreground: var(--tea);
+
+  --status-planned: #8b5cf6; /* Purple for planned */
+  --status-planned-foreground: var(--nocturn);
+
+  /* Condition Tokens - Dark Mode */
+  --condition-excellent: var(--spring); /* Bright green for excellent */
+  --condition-excellent-foreground: var(--nocturn);
+
+  --condition-good: var(--jade); /* Green for good */
+  --condition-good-foreground: var(--nocturn);
+
+  --condition-fair: #f59e0b; /* Amber for fair */
+  --condition-fair-foreground: var(--nocturn);
+
+  --condition-poor: #ef4444; /* Red for poor */
+  --condition-poor-foreground: var(--nocturn);
+
+  --condition-critical: #dc2626; /* Dark red for critical */
+  --condition-critical-foreground: var(--nocturn);
+
+  --condition-unknown: #374151; /* Dark grey for unknown */
+  --condition-unknown-foreground: var(--tea);
+
+  /* Priority Tokens - Dark Mode */
+  --priority-low: #059669; /* Darker green for low priority - safe, no urgency */
+  --priority-low-foreground: var(--white);
+
+  --priority-medium: #2563eb; /* Darker blue for medium priority - neutral, moderate attention */
+  --priority-medium-foreground: var(--white);
+
+  --priority-high: #d97706; /* Darker amber for high priority - caution, needs attention */
+  --priority-high-foreground: var(--white);
+
+  --priority-critical: #b91c1c; /* Darker red for critical priority - danger, immediate action */
+  --priority-critical-foreground: var(--white);
+
+  --border: #1a3a3a; /* Subtle dark teal complementary to sidebar separators */
 
   /* Shadow tokens */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-lg:
+    0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl:
+    0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
   --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
 }

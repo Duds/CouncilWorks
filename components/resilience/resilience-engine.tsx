@@ -1,9 +1,9 @@
 /**
  * Resilience Engine UI Component
- * 
+ *
  * React component for resilience engine management and monitoring
  * Aligned with The Aegrid Rules for resilient asset management
- * 
+ *
  * @file components/resilience/resilience-engine.tsx
  * @version 1.0.0
  * @since PI3 - Resilience Implementation
@@ -11,53 +11,53 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { 
-  Activity, 
-  AlertTriangle, 
-  CheckCircle, 
-  Clock, 
-  DollarSign, 
-  HardDrive, 
-  Settings, 
-  Shield, 
-  TrendingUp,
-  Zap
-} from 'lucide-react';
-import { 
-  ResilienceStatus, 
-  ResilienceMode, 
-  MarginType,
-  SignalSeverity 
+import {
+    MarginType,
+    ResilienceMode,
+    ResilienceStatus
 } from '@/types/resilience';
+import {
+    Activity,
+    AlertTriangle,
+    CheckCircle,
+    Clock,
+    DollarSign,
+    HardDrive,
+    Settings,
+    Shield,
+    TrendingUp,
+    Zap
+} from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 interface ResilienceEngineProps {
   /** Organisation ID for resilience operations */
   organisationId: string;
-  
+
   /** User role for permission checking */
   userRole: string;
-  
+
   /** Refresh interval in milliseconds */
   refreshInterval?: number;
 }
 
 /**
  * Resilience Engine Component
- * 
+ *
  * Provides a comprehensive interface for monitoring and managing
  * the resilience engine aligned with The Aegrid Rules
  */
-export function ResilienceEngine({ 
-  organisationId, 
-  userRole, 
-  refreshInterval = 30000 
+export function ResilienceEngine({
+  organisationId,
+  userRole,
+  refreshInterval = 30000
 }: ResilienceEngineProps) {
   const [status, setStatus] = useState<ResilienceStatus | null>(null);
   const [loading, setLoading] = useState(true);
@@ -69,7 +69,7 @@ export function ResilienceEngine({
     try {
       const response = await fetch('/api/resilience');
       const data = await response.json();
-      
+
       if (data.success) {
         setStatus(data.data);
         setError(null);
@@ -87,7 +87,7 @@ export function ResilienceEngine({
   // Initial load and periodic refresh
   useEffect(() => {
     fetchStatus();
-    
+
     const interval = setInterval(fetchStatus, refreshInterval);
     return () => clearInterval(interval);
   }, [refreshInterval]);
@@ -105,7 +105,7 @@ export function ResilienceEngine({
           reason: 'Manual allocation via UI'
         })
       });
-      
+
       const data = await response.json();
       if (data.success) {
         await fetchStatus(); // Refresh status
@@ -130,7 +130,7 @@ export function ResilienceEngine({
           reason: 'Emergency deployment via UI'
         })
       });
-      
+
       const data = await response.json();
       if (data.success) {
         await fetchStatus(); // Refresh status
@@ -187,7 +187,7 @@ export function ResilienceEngine({
       <Card>
         <CardContent className="p-6">
           <div className="flex items-center justify-center">
-            <Activity className="h-6 w-6 animate-spin mr-2" />
+            <LoadingSpinner size="default" className="mr-2" />
             <span>Loading resilience status...</span>
           </div>
         </CardContent>
@@ -223,9 +223,7 @@ export function ResilienceEngine({
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold">Resilience Engine</h2>
-          <p className="text-muted-foreground">
-            Monitor and manage system resilience aligned with The Aegrid Rules
-          </p>
+
         </div>
         <div className="flex items-center space-x-2">
           <Badge variant={getModeBadgeVariant(status.mode)} className="flex items-center space-x-1">
@@ -251,9 +249,7 @@ export function ResilienceEngine({
           <CardContent>
             <div className="text-2xl font-bold">{status.healthScore}%</div>
             <Progress value={status.healthScore} className="mt-2" />
-            <p className="text-xs text-muted-foreground mt-1">
-              Overall system health
-            </p>
+
           </CardContent>
         </Card>
 
@@ -266,9 +262,7 @@ export function ResilienceEngine({
           <CardContent>
             <div className="text-2xl font-bold">{status.antifragileScore}%</div>
             <Progress value={status.antifragileScore} className="mt-2" />
-            <p className="text-xs text-muted-foreground mt-1">
-              System improvement under stress
-            </p>
+
           </CardContent>
         </Card>
 
@@ -280,9 +274,7 @@ export function ResilienceEngine({
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{status.activeSignalsCount}</div>
-            <p className="text-xs text-muted-foreground mt-1">
-              Currently processing
-            </p>
+
           </CardContent>
         </Card>
 
@@ -295,9 +287,7 @@ export function ResilienceEngine({
           <CardContent>
             <div className="text-2xl font-bold">{status.marginUtilization}%</div>
             <Progress value={status.marginUtilization} className="mt-2" />
-            <p className="text-xs text-muted-foreground mt-1">
-              Current margin usage
-            </p>
+
           </CardContent>
         </Card>
       </div>
@@ -356,24 +346,24 @@ export function ResilienceEngine({
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-2">
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   className="w-full justify-start"
                   onClick={() => handleAllocateMargin(MarginType.CAPACITY, 25)}
                 >
                   <HardDrive className="h-4 w-4 mr-2" />
                   Allocate Capacity Margin
                 </Button>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   className="w-full justify-start"
                   onClick={() => handleAllocateMargin(MarginType.TIME, 10)}
                 >
                   <Clock className="h-4 w-4 mr-2" />
                   Allocate Time Margin
                 </Button>
-                <Button 
-                  variant="destructive" 
+                <Button
+                  variant="destructive"
                   className="w-full justify-start"
                   onClick={() => handleDeployMargin(MarginType.CAPACITY, 50)}
                 >

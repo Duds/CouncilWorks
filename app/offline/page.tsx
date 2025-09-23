@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { 
   WifiOff, 
   RefreshCw, 
@@ -106,9 +107,7 @@ export default function OfflinePage() {
             <WifiOff className="h-8 w-8 text-muted-foreground" />
           </div>
           <h1 className="text-2xl font-bold text-foreground mb-2">You're Offline</h1>
-          <p className="text-muted-foreground">
-            Aegrid works offline! You can still access cached data and perform inspections.
-          </p>
+          
         </div>
 
         {/* Connection Status */}
@@ -146,15 +145,15 @@ export default function OfflinePage() {
             <div className="grid grid-cols-3 gap-4 text-center">
               <div>
                 <div className="text-2xl font-bold text-blue-600">{offlineData.inspections}</div>
-                <p className="text-xs text-muted-foreground">Inspections</p>
+                
               </div>
               <div>
                 <div className="text-2xl font-bold text-green-600">{offlineData.assets}</div>
-                <p className="text-xs text-muted-foreground">Assets</p>
+                
               </div>
               <div>
                 <div className="text-2xl font-bold text-orange-600">{offlineData.pendingSync}</div>
-                <p className="text-xs text-muted-foreground">Pending Sync</p>
+                
               </div>
             </div>
           </CardContent>
@@ -171,7 +170,7 @@ export default function OfflinePage() {
                 <Smartphone className="h-5 w-5 text-blue-600" />
                 <div className="flex-1">
                   <p className="text-sm font-medium">Mobile Inspections</p>
-                  <p className="text-xs text-muted-foreground">Create and manage inspections offline</p>
+                  
                 </div>
                 <CheckCircle className="h-4 w-4 text-green-600" />
               </div>
@@ -180,7 +179,7 @@ export default function OfflinePage() {
                 <Clock className="h-5 w-5 text-green-600" />
                 <div className="flex-1">
                   <p className="text-sm font-medium">Asset Data</p>
-                  <p className="text-xs text-muted-foreground">View cached asset information</p>
+                  
                 </div>
                 <CheckCircle className="h-4 w-4 text-green-600" />
               </div>
@@ -189,7 +188,7 @@ export default function OfflinePage() {
                 <AlertTriangle className="h-5 w-5 text-orange-600" />
                 <div className="flex-1">
                   <p className="text-sm font-medium">Maintenance Tasks</p>
-                  <p className="text-xs text-muted-foreground">View scheduled maintenance</p>
+                  
                 </div>
                 <CheckCircle className="h-4 w-4 text-green-600" />
               </div>

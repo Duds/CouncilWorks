@@ -57,9 +57,29 @@ export async function generateGreenfieldCouncil(prisma: PrismaClient) {
           real_time_monitoring: true,
           predictive_maintenance: true,
         },
+
+        // Innovation focus areas
+        innovation_focus: [
+          'renewable_energy',
+          'smart_infrastructure',
+          'battery_storage',
+          'iot_sensors',
+          'electric_vehicle_charging',
+          'climate_adaptation',
+          'digital_transformation',
+        ],
+
+        // Geographic and demographic information
+        geographic_coverage: {
+          area_km2: 2500,
+          population: 45000,
+          major_towns: ['Greenfield', 'Windy Ridge', 'Solar Valley', 'Bright Plains'],
+          climate_zone: 'temperate',
+          risk_factors: ['storm_damage', 'heat_waves', 'bushfire_risk', 'flood_risk'],
+        },
       },
 
-      // Enhanced margin settings for Rule 4
+      // Detailed margin settings for Rule 4
       marginSettings: {
         time_margin: {
           buffer_hours: 2,
@@ -82,39 +102,9 @@ export async function generateGreenfieldCouncil(prisma: PrismaClient) {
           maintenance_reserve_percentage: 8,
         },
       },
-
-      // Innovation Focus Areas
-      innovation_focus: [
-        'renewable_energy',
-        'smart_infrastructure',
-        'battery_storage',
-        'iot_sensors',
-        'electric_vehicle_charging',
-        'climate_adaptation',
-        'digital_transformation',
-      ],
-
-      // Geographic Coverage
-      geographic_coverage: {
-        area_km2: 2500,
-        population: 45000,
-        major_towns: [
-          'Greenfield',
-          'Windy Ridge',
-          'Solar Valley',
-          'Bright Plains',
-        ],
-        climate_zone: 'temperate',
-        risk_factors: [
-          'storm_damage',
-          'heat_waves',
-          'bushfire_risk',
-          'flood_risk',
-        ],
-      },
     },
   });
 
-  console.log(`  ✅ Created: ${organisation.name} (ID: ${organisation.id})`);
+  console.log(`   ✅ Created organisation: ${organisation.name}`);
   return organisation;
 }

@@ -1,42 +1,41 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
 import {
-  Plus,
-  Edit,
-  Trash2,
-  Eye,
-  Copy,
-  Search,
-  Filter,
-  Loader2,
-  AlertCircle,
-  CheckCircle,
-  Clock,
-  Users,
+    AlertCircle,
+    CheckCircle,
+    Clock,
+    Copy,
+    Edit,
+    Eye,
+    Filter,
+    Plus,
+    Search,
+    Trash2,
+    Users
 } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface RCMTemplate {
   id: string;
   name: string;
@@ -83,9 +82,9 @@ interface RCMTemplateManagerProps {
  * RCM Template Manager Component
  * Manages RCM templates for asset maintenance planning
  */
-export function RCMTemplateManager({ 
-  assetType, 
-  onTemplateSelect 
+export function RCMTemplateManager({
+  assetType,
+  onTemplateSelect
 }: RCMTemplateManagerProps) {
   const { data: session } = useSession();
   const [templates, setTemplates] = useState<RCMTemplate[]>([]);
@@ -102,7 +101,7 @@ export function RCMTemplateManager({
   const loadTemplates = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const params = new URLSearchParams();
       if (assetTypeFilter !== "ALL") params.append("assetType", assetTypeFilter);
@@ -217,9 +216,7 @@ export function RCMTemplateManager({
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-foreground">RCM Templates</h2>
-          <p className="text-muted-foreground">
-            Manage Reliability Centered Maintenance templates for asset classes
-          </p>
+
         </div>
         <Button onClick={() => {/* TODO: Open create template modal */}}>
           <Plus className="h-4 w-4 mr-2" />
@@ -244,7 +241,7 @@ export function RCMTemplateManager({
                 />
               </div>
             </div>
-            
+
             <div>
               <Label htmlFor="assetType">Asset Type</Label>
               <Select
@@ -270,7 +267,7 @@ export function RCMTemplateManager({
                 </SelectContent>
               </Select>
             </div>
-            
+
             <div>
               <Label htmlFor="status">Status</Label>
               <Select
@@ -291,7 +288,7 @@ export function RCMTemplateManager({
                 </SelectContent>
               </Select>
             </div>
-            
+
             <div className="flex items-end">
               <Button variant="outline" onClick={loadTemplates} className="w-full">
                 <Filter className="h-4 w-4 mr-2" />
@@ -305,7 +302,7 @@ export function RCMTemplateManager({
       {/* Templates List */}
       {loading ? (
         <div className="flex items-center justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin" />
+          <LoadingSpinner size="lg" />
           <span className="ml-2">Loading templates...</span>
         </div>
       ) : error ? (
@@ -323,11 +320,7 @@ export function RCMTemplateManager({
             <div className="text-center py-8">
               <AlertCircle className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
               <h3 className="text-lg font-medium mb-2">No templates found</h3>
-              <p className="text-muted-foreground mb-4">
-                {searchTerm || statusFilter !== "ALL" || assetTypeFilter !== "ALL"
-                  ? "Try adjusting your search criteria"
-                  : "Create your first RCM template to get started"}
-              </p>
+
               <Button onClick={() => {/* TODO: Open create template modal */}}>
                 <Plus className="h-4 w-4 mr-2" />
                 Create Template
@@ -410,9 +403,9 @@ export function RCMTemplateManager({
                         </div>
                       ))}
                       {template.failureModes.length > 3 && (
-                        <p className="text-xs text-muted-foreground">
-                          +{template.failureModes.length - 3} more...
-                        </p>
+                        <div className="text-sm text-muted-foreground">
+                          +{template.failureModes.length - 3} more failure modes
+                        </div>
                       )}
                     </div>
                   </div>
@@ -433,9 +426,9 @@ export function RCMTemplateManager({
                         </div>
                       ))}
                       {template.maintenanceTasks.length > 3 && (
-                        <p className="text-xs text-muted-foreground">
-                          +{template.maintenanceTasks.length - 3} more...
-                        </p>
+                        <div className="text-sm text-muted-foreground">
+                          +{template.maintenanceTasks.length - 3} more tasks
+                        </div>
                       )}
                     </div>
                   </div>

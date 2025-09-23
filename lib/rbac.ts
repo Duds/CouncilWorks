@@ -1,5 +1,5 @@
+import { hasRole } from "@/lib/audit";
 import { Role } from "@prisma/client";
-import { hasRole, canManageUser } from "@/lib/audit";
 
 /**
  * RBAC utility functions for role-based access control
@@ -24,6 +24,13 @@ export function isManagerOrHigher(userRole: Role): boolean {
  */
 export function isSupervisorOrHigher(userRole: Role): boolean {
   return hasRole(userRole, [Role.SUPERVISOR, Role.MANAGER, Role.EXEC, Role.ADMIN]);
+}
+
+/**
+ * Check if user can access executive features (EXEC and ADMIN only, not MANAGER)
+ */
+export function canAccessExecutive(userRole: Role): boolean {
+  return hasRole(userRole, [Role.EXEC, Role.ADMIN]);
 }
 
 /**
@@ -65,7 +72,7 @@ export function canAssignWorkOrders(userRole: Role): boolean {
  * Check if user can perform field work
  */
 export function canPerformFieldWork(userRole: Role): boolean {
-  return hasRole(userRole, [Role.CONTRACTOR, Role.CREW, Role.SUPERVISOR, Role.MANAGER, Role.ADMIN]);
+  return hasRole(userRole, [Role.CONTRACTOR, Role.MAINTENANCE_PLANNER, Role.CREW, Role.SUPERVISOR, Role.MANAGER, Role.ADMIN]);
 }
 
 /**
@@ -129,35 +136,35 @@ export function canShareDataWithPartners(userRole: Role): boolean {
  */
 export function getAccessibleRoutes(userRole: Role): string[] {
   const routes: string[] = ["/dashboard"];
-  
+
   if (canAccessAdmin(userRole)) {
     routes.push("/admin");
   }
-  
+
   if (canViewReports(userRole)) {
     routes.push("/reports");
   }
-  
+
   if (canCreateWorkOrders(userRole)) {
     routes.push("/work-orders");
   }
-  
+
   if (canPerformFieldWork(userRole)) {
     routes.push("/field-work");
   }
-  
+
   if (canCreateCitizenReports(userRole)) {
     routes.push("/citizen-reports");
   }
-  
+
   if (canAccessContractorFeatures(userRole)) {
     routes.push("/contractor-portal");
   }
-  
+
   if (canAccessPartnerFeatures(userRole)) {
     routes.push("/partner-portal");
   }
-  
+
   return routes;
 }
 

@@ -1,9 +1,10 @@
 "use client";
 
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import type { Route } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import type { Route } from "next";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -19,14 +20,14 @@ export function ProtectedRoute({ children, requiredRole, requiredRoles }: Protec
     if (status === "loading") return; // Still loading
 
     if (!session) {
-      router.push("/auth/sign-in");
+      router.push("/");
       return;
     }
 
     // Check role permissions
     const userRole = session.user.role;
     const rolesToCheck = requiredRoles || (requiredRole ? [requiredRole] : []);
-    
+
     if (rolesToCheck.length > 0 && !rolesToCheck.includes(userRole)) {
       router.push("/unauthorized" as Route);
       return;
@@ -36,10 +37,7 @@ export function ProtectedRoute({ children, requiredRole, requiredRoles }: Protec
   if (status === "loading") {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-2 text-muted-foreground">Loading...</p>
-        </div>
+        <LoadingSpinner size="lg" text="Loading..." />
       </div>
     );
   }
@@ -51,7 +49,7 @@ export function ProtectedRoute({ children, requiredRole, requiredRoles }: Protec
   // Check role permissions
   const userRole = session.user.role;
   const rolesToCheck = requiredRoles || (requiredRole ? [requiredRole] : []);
-  
+
   if (rolesToCheck.length > 0 && !rolesToCheck.includes(userRole)) {
     return null; // Will redirect
   }

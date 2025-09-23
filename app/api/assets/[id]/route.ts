@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { z } from "zod";
 import { isManagerOrHigher } from "@/lib/rbac";
+import { getServerSession } from "next-auth";
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 /**
  * Asset update schema validation
@@ -70,10 +70,10 @@ export async function GET(
         organisationId: session.user.organisationId,
       },
       include: {
-        createdByUser: {
+        User_Asset_createdByToUser: {
           select: { id: true, name: true, email: true },
         },
-        updatedByUser: {
+        User_Asset_updatedByToUser: {
           select: { id: true, name: true, email: true },
         },
         documents: {
@@ -211,10 +211,10 @@ export async function PUT(
       where: { id: params.id },
       data: updateData,
       include: {
-        createdByUser: {
+        User_Asset_createdByToUser: {
           select: { id: true, name: true, email: true },
         },
-        updatedByUser: {
+        User_Asset_updatedByToUser: {
           select: { id: true, name: true, email: true },
         },
       },

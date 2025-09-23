@@ -1,15 +1,14 @@
-import { NextAuthOptions } from "next-auth";
+import { logAuditEvent } from "@/lib/audit";
+import { verifyMFAToken } from "@/lib/mfa";
+import { prisma } from "@/lib/prisma";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { AuditAction, Role } from "@prisma/client";
+import bcrypt from "bcryptjs";
+import { NextAuthOptions } from "next-auth";
+import AzureADProvider from "next-auth/providers/azure-ad";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import AzureADProvider from "next-auth/providers/azure-ad";
-import { prisma } from "@/lib/prisma";
-import bcrypt from "bcryptjs";
 import { z } from "zod";
-import { Role } from "@prisma/client";
-import { logAuditEvent } from "@/lib/audit";
-import { AuditAction } from "@prisma/client";
-import { verifyMFAToken, verifyBackupCode } from "@/lib/mfa";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -128,7 +127,48 @@ if (process.env.NODE_ENV === "development") {
 }
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
+  adapter: {
+    ...PrismaAdapter(prisma),
+    async createUser(user) {
+      // Check if user already exists (OAuth users might be created multiple times)
+      const existingUser = await prisma.user.findUnique({
+        where: { email: user.email! },
+        include: { Organisation: true }
+      });
+
+      if (existingUser) {
+        return existingUser;
+      }
+
+      // For OAuth users, try to assign them to an existing organisation
+      // based on their email domain or create them without organisation (for onboarding)
+      let organisationId = null;
+
+      if (user.email) {
+        // Check if there's an existing user with the same domain
+        const domain = user.email.split('@')[1];
+        const existingOrgUser = await prisma.user.findFirst({
+          where: {
+            email: { endsWith: `@${domain}` },
+            organisationId: { not: null }
+          },
+          select: { organisationId: true }
+        });
+
+        if (existingOrgUser?.organisationId) {
+          organisationId = existingOrgUser.organisationId;
+          console.log(`Assigning OAuth user ${user.email} to existing organisation`);
+        }
+      }
+
+      return await prisma.user.create({
+        data: {
+          ...user,
+          organisationId,
+        }
+      });
+    }
+  },
   providers,
   session: {
     strategy: "jwt",
@@ -227,7 +267,7 @@ export const authOptions: NextAuthOptions = {
                 where: { id: user.id },
                 data: updateData,
               });
-              
+
               console.log(`Updated ${account.provider} profile for user ${user.id}`);
             }
           } catch (error) {
@@ -243,7 +283,7 @@ export const authOptions: NextAuthOptions = {
       if (url.startsWith("/")) return `${baseUrl}${url}`;
       // Allows callback URLs on the same origin
       else if (new URL(url).origin === baseUrl) return url;
-      
+
       // Default redirect - will be handled by middleware to check for onboarding
       return `${baseUrl}/dashboard`;
     },

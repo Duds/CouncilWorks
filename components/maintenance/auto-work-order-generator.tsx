@@ -32,6 +32,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 interface Asset {
   id: string;
   name: string;
@@ -211,7 +212,7 @@ export function AutoWorkOrderGenerator() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="h-8 w-8 animate-spin" />
+        <LoadingSpinner size="lg" />
         <span className="ml-2">Loading assets and templates...</span>
       </div>
     );
@@ -223,9 +224,7 @@ export function AutoWorkOrderGenerator() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-foreground">Auto Work Order Generator</h2>
-          <p className="text-muted-foreground">
-            Automatically generate work orders from RCM templates based on risk analysis
-          </p>
+          
         </div>
         <Button variant="outline" onClick={loadAssetsAndTemplates}>
           <RefreshCw className="h-4 w-4 mr-2" />
@@ -343,7 +342,7 @@ export function AutoWorkOrderGenerator() {
                       </Badge>
                     </div>
                   </div>
-                  <p className="text-xs text-muted-foreground">{asset.assetNumber} • {asset.assetType}</p>
+                  
                 </div>
               </div>
             ))}
@@ -376,9 +375,7 @@ export function AutoWorkOrderGenerator() {
                 />
                 <div className="flex-1">
                   <h4 className="font-medium text-sm">{template.name}</h4>
-                  <p className="text-xs text-muted-foreground">
-                    {template.assetType} • {template.maintenanceTasks.length} tasks
-                  </p>
+                  
                 </div>
               </div>
             ))}
@@ -399,15 +396,15 @@ export function AutoWorkOrderGenerator() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
               <div className="text-center">
                 <div className="text-2xl font-bold text-green-600">{result.summary.totalGenerated}</div>
-                <p className="text-sm text-muted-foreground">Work Orders Generated</p>
+                
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-orange-600">{result.summary.totalErrors}</div>
-                <p className="text-sm text-muted-foreground">Errors</p>
+                
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-blue-600">{result.summary.assetsProcessed}</div>
-                <p className="text-sm text-muted-foreground">Assets Processed</p>
+                
               </div>
             </div>
 
