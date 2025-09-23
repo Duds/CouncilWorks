@@ -2,6 +2,69 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.0] - 2025-01-23
+
+### 🎨 **E25: Landing Page Modernisation & Core Feature Highlighting**
+
+#### **Core Feature Showcase**
+
+- **ISO 55000 Compliance**: Highlighted as primary feature for professional credibility
+- **Energy Management**: Advanced consumption analysis and optimisation capabilities prominently featured
+- **AI Optimisation**: Intelligent anomaly detection and predictive analytics positioning
+- **Visual Demonstrations**: Structured feature cards with icons and compelling layouts
+- **Market Positioning**: Targeting universities, property portfolios, and enterprise organisations
+
+#### **Executive-Focused Messaging**
+
+- **Professional Credibility**: ISO 55000 compliance framework for enhanced market positioning
+- **ROI Emphasis**: Value delivery and cost savings prominently displayed
+- **Visual Approach**: "Graphs sell it" methodology with compelling feature presentations
+- **Client Testimonials**: Quantified results and success stories for credibility
+
+#### **Interactive Demonstrations**
+
+- **Live Dashboard Previews**: Real-time asset performance metrics and energy consumption analysis
+- **Feature Walkthrough Videos**: Step-by-step demonstrations of key capabilities
+- **Client Testimonials**: Success stories with quantified results (23% cost reduction, $500K+ savings)
+- **Interactive Capabilities**: Comprehensive system demonstrations
+
+#### **Language Dictionary Implementation**
+
+- **Terminology Alignment**: Landing page content aligned with Epic 24 language dictionary standards
+- **Plain Language**: Clear, industry-standard terminology throughout
+- **Consistent Messaging**: Unified terminology across all landing page content
+- **Professional Communication**: Enhanced clarity for executive decision-makers
+
+#### **Technical Implementation**
+
+- **Metadata Updates**: SEO optimisation for ISO 55000 compliance positioning
+- **Open Graph Enhancement**: Professional social media cards with updated branding
+- **Section Observer**: Updated navigation tracking for new landing page sections
+- **Responsive Design**: Optimised layouts for all device types
+- **Accessibility**: WCAG AA compliance maintained throughout
+
+### 🔧 **Bug Fixes**
+
+- **Linting Issues**: Resolved all ESLint errors in landing page components
+- **Quote Escaping**: Fixed HTML entity escaping for proper quote display
+- **Code Formatting**: Applied consistent formatting across all modified files
+- **Type Safety**: Ensured proper TypeScript compliance throughout
+
+### 📚 **Documentation Updates**
+
+- **TODO-PI5.md**: Updated with E25 completion status and implementation summary
+- **Archived TODO.md**: Added Epic 25 completion summary to historical records
+- **Changelog**: Comprehensive documentation of landing page modernisation
+- **Implementation Files**: Updated component documentation and code comments
+
+### 📊 **Business Impact**
+
+- **Market Positioning**: Enhanced credibility with ISO 55000 compliance highlighting
+- **Target Audience**: Clear value proposition for universities, property portfolios, and enterprise
+- **Executive Buy-in**: Professional messaging with quantified ROI and value delivery
+- **Feature Visibility**: Core capabilities prominently showcased with visual demonstrations
+- **Terminology Consistency**: Landing page aligned with Epic 24 language dictionary standards
+
 ## [0.3.1] - 2025-01-15
 
 ### 🎨 **Sidebar Enhancement & Asset Management**

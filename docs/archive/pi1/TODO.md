@@ -9,12 +9,14 @@ Last updated: 13/09/2025
 ## MVP Epics (Phase 1)
 
 ### E1: Foundation & Authentication ✅ **FULLY COMPLETED**
+
 **Goal**: Establish secure, multi-tenant foundation with role-based access control
 **Value**: Secure platform foundation enabling council-specific data isolation
 
 **Status**: ✅ **FULLY COMPLETED** - All phases implemented and deployed to develop branch.
 
 **Final Updates (12/09/2025)**:
+
 - ✅ Moved administrative functions to dedicated settings page
 - ✅ Enhanced profile management with tabbed interface
 - ✅ Improved navigation and user experience
@@ -23,12 +25,14 @@ Last updated: 13/09/2025
 - ✅ Comprehensive documentation updated
 
 ### E2: Asset Register & GIS Integration ✅ **FULLY COMPLETED**
+
 **Goal**: Import, manage, and visualise assets with spatial capabilities
 **Value**: Centralised asset registry with GIS visualisation for better asset management
 
 **Status**: ✅ **FULLY COMPLETED** - All phases implemented and deployed.
 
 **Final Updates (13/09/2025)**:
+
 - ✅ Complete asset management system with CRUD operations
 - ✅ CSV/Excel import functionality with validation
 - ✅ Interactive GIS map visualization with Leaflet
@@ -77,42 +81,51 @@ Last updated: 13/09/2025
     - Document attachments work for assets
 
 ### E3: RCM-lite Templates & Scheduling
+
 **Goal**: Implement simplified reliability-centred maintenance with automated scheduling
 **Value**: Proactive maintenance planning reducing reactive work and extending asset life
 
 ### E4: Mobile Inspections (PWA)
+
 **Goal**: Offline-capable mobile app for field inspections and work order management
 **Value**: Efficient field operations with offline capability and seamless data sync
 
 ### E5: Dashboards & Reporting
+
 **Goal**: Executive dashboards and compliance reporting for all user roles
 **Value**: Data-driven decision making and audit-ready compliance reporting
 
 ### E6: Citizen Integration
+
 **Goal**: Integrate citizen reporting into council workflows
 **Value**: Improved community engagement and streamlined issue resolution
 
 ## Future Epics (Phase 2+)
 
 ### E7: Advanced Analytics & Forecasting
+
 **Goal**: Predictive maintenance and long-term asset renewal planning
 **Value**: Strategic asset planning and budget optimisation
 
 ### E8: ERP & System Integrations
+
 **Goal**: Seamless integration with existing council systems
 **Value**: Reduced data silos and improved operational efficiency
 
 ### E9: Sustainability & Carbon Tracking
+
 **Goal**: Track environmental impact and sustainability metrics
 **Value**: Support council climate commitments and sustainability goals
 
 ### E10: IoT & Telematics Integration
+
 **Goal**: Real-time asset monitoring and predictive maintenance
 **Value**: Enhanced asset reliability through real-time monitoring
 
 ## Features by Epic
 
 ### E1: Foundation & Authentication ✅ **FULLY COMPLETED**
+
 - **F1.1**: Multi-tenant database architecture with RLS ✅
 - **F1.2**: NextAuth.js authentication with JWT sessions ✅
 - **F1.3**: Role-based access control (RBAC) implementation ✅
@@ -128,6 +141,7 @@ Last updated: 13/09/2025
 - **F1.13**: Storybook/Component documentation ✅
 
 ### E2: Asset Register & GIS Integration ✅ **FULLY COMPLETED**
+
 - **F2.1**: Asset import from CSV/Excel files ✅
 - **F2.2**: ERP system integration for asset data
 - **F2.3**: PostGIS spatial database setup ✅
@@ -137,6 +151,7 @@ Last updated: 13/09/2025
 - **F2.7**: Asset attachment and document management ✅
 
 ### E3: RCM Templates & Scheduling ✅ **FULLY COMPLETED**
+
 - **F3.1**: Pre-built RCM templates for top 10 asset classes ✅
 - **F3.2**: Custom RCM template creation and editing ✅
 - **F3.3**: Failure mode and effects analysis (FMEA) ✅
@@ -146,6 +161,7 @@ Last updated: 13/09/2025
 - **F3.7**: Maintenance task library management ✅
 
 ### E4: Mobile Inspections (PWA) ✅ **FULLY COMPLETED**
+
 - **F4.1**: Progressive Web App (PWA) development ✅
 - **F4.2**: Offline data storage and sync ✅
 - **F4.3**: Mobile inspection forms and workflows ✅
@@ -155,6 +171,7 @@ Last updated: 13/09/2025
 - **F4.7**: Mobile-optimised user interface ✅
 
 ### E5: Dashboards & Reporting ✅ **FULLY COMPLETED**
+
 - **F5.1**: Executive KPI dashboard ✅
 - **F5.2**: Manager operational dashboard ✅
 - **F5.3**: Supervisor work order dashboard ✅
@@ -164,6 +181,7 @@ Last updated: 13/09/2025
 - **F5.7**: Custom report builder ✅
 
 ### E6: Citizen Integration ✅ **FULLY COMPLETED**
+
 - **F6.1**: Citizen reporting portal ✅
 - **F6.2**: Snap Send Solve API integration ✅
 - **F6.3**: Report triage and assignment ✅
@@ -173,6 +191,7 @@ Last updated: 13/09/2025
 ## User Stories by Feature
 
 ### E1: Foundation & Authentication ✅ **FULLY COMPLETED**
+
 - **US1.1**: As an Admin, I want to set up my council organisation so that I can configure the system for my council ✅
 - **US1.2**: As an Admin, I want to manage user accounts and roles so that I can control access to sensitive data ✅
 - **US1.3**: As a user, I want to log in securely so that I can access the system with appropriate permissions ✅
@@ -188,6 +207,7 @@ Last updated: 13/09/2025
 - **US1.13**: As a developer, I want Storybook so I can build UI consistently ✅
 
 ### E2: Asset Register & GIS Integration ✅ **FULLY COMPLETED**
+
 - **US2.1**: As an Asset Manager, I want to import assets from Excel so that I can quickly populate the system ✅
 - **US2.2**: As an Asset Manager, I want to see assets on a map so that I can understand their spatial distribution ✅
 - **US2.3**: As a Manager, I want to search and filter assets so that I can find specific items quickly ✅
@@ -201,6 +221,7 @@ Last updated: 13/09/2025
 - **US2.11**: As a User, I want to preview documents without downloading so that I can save bandwidth ✅
 
 ### E3: RCM Templates & Scheduling ✅ **FULLY COMPLETED**
+
 **Goal**: Implement Reliability Centered Maintenance (RCM) templates and automated scheduling
 **Value**: Proactive maintenance planning based on failure modes and risk analysis
 
@@ -222,6 +243,7 @@ Last updated: 13/09/2025
     - ✅ Role-based access control implemented
 
 **Epic 3 Phase 1 Completion Summary (13/09/2025)**:
+
 - ✅ **Database Schema**: Complete RCM template schema with RCMTemplate, RCMFailureMode, RCMMaintenanceTask models
 - ✅ **API Implementation**: Full CRUD operations for RCM templates with proper validation and error handling
 - ✅ **UI Components**: RCM template manager with search, filtering, and template management capabilities
@@ -244,6 +266,7 @@ Last updated: 13/09/2025
     - ✅ Risk dashboard with statistics, charts, and actionable insights
 
 **Epic 3 Phase 2 Completion Summary (13/09/2025)**:
+
 - ✅ **FMEA Analysis**: Individual asset failure mode analysis with risk calculation and maintenance recommendations
 - ✅ **Risk Scoring**: Multi-factor risk algorithms considering condition, age, maintenance history, and inspections
 - ✅ **Asset Prioritization**: Risk-based asset sorting and filtering with comprehensive search capabilities
@@ -266,6 +289,7 @@ Last updated: 13/09/2025
     - ✅ Risk-based prioritization and time horizon management
 
 **Epic 3 Phase 3 Completion Summary (13/09/2025)**:
+
 - ✅ **Automated Work Order Generation**: Intelligent work order creation from RCM templates with risk-based prioritization
 - ✅ **Maintenance Scheduling System**: Comprehensive scheduling with calendar integration and multiple view options
 - ✅ **Interactive Calendar**: Month, week, and day views with filtering, navigation, and real-time updates
@@ -276,6 +300,7 @@ Last updated: 13/09/2025
 **Epic 3: RCM Templates & Scheduling - FULLY COMPLETED** 🎉
 
 ### E4: Mobile Inspections (PWA) ✅ **FULLY COMPLETED**
+
 **Goal**: Create a Progressive Web App for mobile inspections with offline capabilities
 **Value**: Enable field workers to perform inspections without internet connectivity
 
@@ -298,6 +323,7 @@ Last updated: 13/09/2025
     - ✅ Photo capture and storage for inspection documentation
 
 **Epic 4 Phase 1 Completion Summary (13/09/2025)**:
+
 - ✅ **PWA Configuration**: Comprehensive manifest with app icons, shortcuts, and metadata
 - ✅ **Service Worker**: Offline caching, background sync, and push notifications
 - ✅ **IndexedDB Storage**: Offline storage for inspections, assets, and maintenance data
@@ -320,6 +346,7 @@ Last updated: 13/09/2025
     - ✅ Enhanced mobile user experience with advanced features
 
 **Epic 4 Phase 2 Completion Summary (13/09/2025)**:
+
 - ✅ **Enhanced Photo Capture**: GPS tagging, rotation, zoom, flash control, and metadata editing
 - ✅ **Mobile Work Orders**: Assignment, tracking, status updates, and offline management
 - ✅ **Advanced Sync System**: Conflict resolution, error handling, and retry mechanisms
@@ -331,6 +358,7 @@ Last updated: 13/09/2025
 **Epic 4: Mobile Inspections (PWA) - FULLY COMPLETED** 🎉
 
 ### E5: Dashboards & Reporting 🚧 **STARTING**
+
 **Goal**: Create comprehensive dashboards and reporting system for different user roles
 **Value**: Provide role-specific insights and analytics for better decision-making
 
@@ -353,6 +381,7 @@ Last updated: 13/09/2025
     - ✅ Role-based access control restricts dashboard access appropriately
 
 **Epic 5 Phase 1 Completion Summary (13/09/2025)**:
+
 - ✅ **Executive Dashboard**: High-level KPIs with financial metrics, compliance rates, and risk scores
 - ✅ **Manager Dashboard**: Team performance tracking with utilization rates and work order management
 - ✅ **Supervisor Dashboard**: Work order management with status updates and task tracking
@@ -375,6 +404,7 @@ Last updated: 13/09/2025
     - Custom reports created with intuitive builder interface
 
 **Epic 5 Phase 2 Completion Summary (13/09/2025)**:
+
 - ✅ **Risk & Compliance Reporting**: Comprehensive risk assessment with regulatory compliance tracking
 - ✅ **Asset Condition Trending**: Predictive analytics with lifecycle management and condition monitoring
 - ✅ **Export Functionality**: Multi-format export (PDF, Excel, CSV, Image) with job tracking and progress monitoring
@@ -387,6 +417,7 @@ Last updated: 13/09/2025
 **Epic 5: Dashboards & Reporting - FULLY COMPLETED** 🎉
 
 **Epic 6 Completion Summary (13/09/2025)**:
+
 - ✅ **Citizen Reporting Portal**: Multi-step form with file uploads and anonymous reporting
 - ✅ **Snap Send Solve Integration**: Webhook processing and external report aggregation
 - ✅ **Report Triage System**: Administrative dashboard for assignment and status management
@@ -397,9 +428,22 @@ Last updated: 13/09/2025
 - ✅ **Administrative Workflows**: Staff assignment, priority management, and note tracking
 
 **Epic 6: Citizen Integration - FULLY COMPLETED** 🎉
-- **US2.11**: As a Supervisor, I want to generate thumbnails for images so that I can preview documents quickly
+
+## Epic 25 Completion Summary (23/09/2025):
+
+- ✅ **Landing Page Modernisation**: Complete overhaul with core feature highlighting
+- ✅ **ISO 55000 Compliance**: Prominently featured as primary value proposition
+- ✅ **Energy Management**: Advanced capabilities showcased for property management
+- ✅ **AI Optimisation**: Intelligent anomaly detection and predictive analytics positioning
+- ✅ **Executive Messaging**: Professional credibility with ROI and value delivery emphasis
+- ✅ **Interactive Demonstrations**: Live dashboard previews and client testimonials
+- ✅ **Language Dictionary**: Landing page terminology aligned with Epic 24 standards
+- ✅ **Market Expansion**: Targeting universities, property portfolios, and enterprise organisations
+
+**Epic 25: Landing Page Modernisation & Core Feature Highlighting - FULLY COMPLETED** 🎉
 
 ### E3: RCM-lite Templates & Scheduling
+
 - **US3.1**: As a Manager, I want to use pre-built RCM templates so that I can quickly set up maintenance programs
 - **US3.2**: As a Manager, I want to create custom RCM templates so that I can tailor maintenance to my assets
 - **US3.3**: As a Manager, I want to see risk scores for assets so that I can prioritise maintenance
@@ -407,6 +451,7 @@ Last updated: 13/09/2025
 - **US3.5**: As a Manager, I want to schedule preventive maintenance so that I can reduce reactive work
 
 ### E4: Mobile Inspections (PWA)
+
 - **US4.1**: As a Crew member, I want to perform inspections offline so that I can work in areas with poor connectivity
 - **US4.2**: As a Crew member, I want to take photos during inspections so that I can document asset condition
 - **US4.3**: As a Crew member, I want to update work order status so that supervisors know progress
@@ -414,6 +459,7 @@ Last updated: 13/09/2025
 - **US4.5**: As a Supervisor, I want to assign work orders to crew members so that work is distributed efficiently
 
 ### E5: Dashboards & Reporting
+
 - **US5.1**: As an Executive, I want to see high-level KPIs so that I can monitor council performance
 - **US5.2**: As a Manager, I want to see operational metrics so that I can manage day-to-day operations
 - **US5.3**: As a Manager, I want to generate compliance reports so that I can meet audit requirements
@@ -421,6 +467,7 @@ Last updated: 13/09/2025
 - **US5.5**: As a Manager, I want to see asset condition trends so that I can plan renewals
 
 ### E6: Citizen Integration ✅ **FULLY COMPLETED**
+
 - **US6.1**: As a Citizen, I want to report issues easily so that I can help improve my community ✅
 - **US6.2**: As a Citizen, I want to track my report status so that I know it's being addressed ✅
 - **US6.3**: As a Supervisor, I want to receive citizen reports so that I can prioritise community issues ✅
@@ -430,6 +477,7 @@ Last updated: 13/09/2025
 ## Technical Tasks
 
 ### Infrastructure & DevOps ✅ **COMPLETED**
+
 - **T1**: Set up PostgreSQL with PostGIS extension ✅
 - **T2**: Implement Prisma ORM with migrations ✅
 - **T3**: Configure NextAuth.js with JWT sessions ✅
@@ -439,6 +487,7 @@ Last updated: 13/09/2025
 - **T7**: Set up monitoring and logging with OpenTelemetry 🚧
 
 ### Security & Compliance ✅ **COMPLETED**
+
 - **T8**: Implement bcrypt password hashing ✅
 - **T9**: Set up Row-Level Security (RLS) policies ✅
 - **T10**: Configure CORS and security headers ✅
@@ -447,6 +496,7 @@ Last updated: 13/09/2025
 - **T13**: Configure rate limiting and DDoS protection 🚧
 
 ### Testing & Quality ✅ **COMPLETED**
+
 - **T14**: Set up Jest testing framework ✅
 - **T15**: Implement React Testing Library for components ✅
 - **T16**: Set up API testing with supertest ✅
@@ -456,19 +506,23 @@ Last updated: 13/09/2025
 - **T20**: Configure linting and code quality checks ✅
 
 ### 🚧 Remaining Technical Tasks
+
 - **T6** (Issue #119): Configure Azure Container Apps deployment (in progress)
 - **T7** (Issue #120): Set up monitoring and logging with OpenTelemetry (in progress)
 - **T13** (Issue #121): Configure rate limiting and DDoS protection (in progress)
 
 ### 📊 Technical Tasks Summary
+
 - **Completed**: 17/20 tasks (85%)
 - **In Progress**: 3/20 tasks (15%)
 - **Total Story Points**: 18 points remaining
 
 ## Bugs & Issues
-*To be populated as issues are discovered during development*
+
+_To be populated as issues are discovered during development_
 
 ## Notes
+
 - All user stories follow the format: "As a [role], I want [goal] so that [value]"
 - Features are prioritised based on MVP requirements and user value
 - Technical tasks support the implementation of features and user stories
@@ -562,6 +616,7 @@ Last updated: 13/09/2025
 **Epic 1: Foundation & Authentication** has been **FULLY COMPLETED** with all phases implemented and deployed to develop branch.
 
 ### ✅ All Features Implemented
+
 - **Multi-tenant Database Architecture**: PostgreSQL with PostGIS, Prisma ORM, RLS policies
 - **NextAuth.js Authentication**: JWT sessions, bcrypt password hashing, secure login/logout
 - **Role-Based Access Control**: Complete RBAC system with 8 roles and permission matrix
@@ -581,6 +636,7 @@ Last updated: 13/09/2025
 - **Settings Page**: Centralized settings with administrative functions
 
 ### ✅ Phase 3 Work (Completed)
+
 - **F1.6**: ✅ MFA implementation (TOTP + SMS/email fallback)
 - **F1.7**: ✅ Profile management UI (avatar upload, notification preferences)
 - **F1.8**: ✅ Notification preferences system
@@ -591,6 +647,7 @@ Last updated: 13/09/2025
 - **F1.13**: ✅ Storybook documentation
 
 ### 📊 GitHub Issues Status
+
 - **Epic 1 (Issue #30)**: ✅ Closed - Core foundation complete
 - **All Features Completed**: F1.1 through F1.13, all user stories US1.1 through US1.13
 - **Phase 3 Features**: All completed and merged to develop branch
@@ -603,21 +660,25 @@ Last updated: 13/09/2025
 **Epic 2 Phase 1: Database Schema & Core Infrastructure** has been **COMPLETED** with all deliverables implemented and tested.
 
 ### ✅ Phase 1 Deliverables Completed
+
 - **PostGIS Spatial Database Configuration**: PostGIS extension enabled, spatial geometry support for asset locations, spatial indexing for performance
 - **Asset Database Schema Design**: Comprehensive schema with 5 main models (Asset, AssetDocument, AssetInspection, AssetMaintenance, WorkOrder), full audit logging integration, multi-tenant organisation isolation
 - **Prisma Migrations**: Migration `20250912061353_add_asset_management_schema` created, all asset tables with proper relationships, PostGIS spatial columns configured, comprehensive indexing strategy
 - **Basic Asset CRUD API Endpoints**: Complete REST API with GET/POST/PUT/DELETE operations, role-based access control (MANAGER+ for CRUD, ADMIN for delete), spatial data handling, comprehensive validation
 
 ### ✅ Testing & Validation Completed
+
 - **PostGIS Functionality Verified**: Spatial queries tested (ST_Within, ST_Distance, ST_GeomFromText), asset creation with spatial coordinates, distance calculations working correctly, spatial indexing performing well
 - **Database Integrity**: Foreign key constraints working, multi-tenant isolation confirmed, audit logging operational
 - **API Testing**: All CRUD operations tested, role-based access control verified, spatial data handling confirmed
 
 ### ✅ UI Components Completed
+
 - **Asset Management UI**: AssetList component with search and filtering, responsive card-based layout, status/condition/priority badges, location/financial/inspection information display, pagination support, accessibility improvements
 - **Navigation Integration**: Updated sidebar with Assets link, protected route implementation
 
 ### ✅ Features Implemented
+
 - **F2.3**: PostGIS spatial database setup ✅
 - **F2.5**: Asset CRUD operations with spatial data ✅
 - **F2.6**: Asset search and filtering capabilities ✅
@@ -625,6 +686,7 @@ Last updated: 13/09/2025
 - **US2.5**: View asset details functionality ✅
 
 ### 📊 Epic 2 Current Status
+
 - **Phase 1**: ✅ **COMPLETED** - Database Schema & Core Infrastructure
 - **Phase 2**: 🚧 **READY TO START** - Asset Import & Management (F2.1, F2.7, US2.1, US2.4)
 - **Phase 3**: 📋 **PLANNED** - GIS Visualization (F2.2, F2.4, US2.2)
@@ -706,9 +768,11 @@ Last updated: 13/09/2025
 ## F2.7: Document Management & Storage Strategy
 
 ### **📋 Feature Overview**
+
 Comprehensive document management system for asset attachments with Azure cost optimization, automatic file processing, and intelligent storage tiering.
 
 ### **🎯 Core Requirements**
+
 - **File Upload & Validation**: Support multiple file types with size limits and security scanning
 - **Storage Optimization**: Multi-tier Azure storage with automatic compression and lifecycle management
 - **Cost Management**: Real-time cost tracking and optimization recommendations
@@ -718,6 +782,7 @@ Comprehensive document management system for asset attachments with Azure cost o
 ### **🏗️ Implementation Phases**
 
 #### **Phase 1: Core Document Upload (Week 1-2)**
+
 - **Scope**: US2.4, US2.6, US2.7
 - **Deliverables**:
   - File upload API with validation and security scanning
@@ -732,6 +797,7 @@ Comprehensive document management system for asset attachments with Azure cost o
   - Document type classification and tagging system
 
 #### **Phase 2: Storage Optimization (Week 3-4)**
+
 - **Scope**: US2.9, US2.10, US2.11
 - **Deliverables**:
   - Multi-tier storage (Hot/Cool/Archive) with automatic migration
@@ -746,6 +812,7 @@ Comprehensive document management system for asset attachments with Azure cost o
   - Cost calculation engine with monthly reporting
 
 #### **Phase 3: Advanced Features (Week 5-6)**
+
 - **Scope**: US2.8
 - **Deliverables**:
   - Full-text search across document content and metadata
@@ -762,6 +829,7 @@ Comprehensive document management system for asset attachments with Azure cost o
 ### **💾 Storage Architecture**
 
 #### **Multi-Tier Storage Strategy**
+
 ```
 Hot Tier (0-30 days):
 ├── Recent uploads and frequently accessed files
@@ -780,6 +848,7 @@ Archive Tier (365+ days):
 ```
 
 #### **File Type Optimization**
+
 ```typescript
 const STORAGE_STRATEGIES = {
   PHOTOS: {
@@ -788,26 +857,27 @@ const STORAGE_STRATEGIES = {
     thumbnails: [150, 300, 600],
     maxSize: '5MB',
     retention: '7years',
-    tier: 'hot-to-cool'
+    tier: 'hot-to-cool',
   },
   MANUALS: {
     compression: 'pdf',
     maxSize: '50MB',
     retention: '10years',
-    tier: 'hot-to-archive'
+    tier: 'hot-to-archive',
   },
   WARRANTIES: {
     compression: 'none',
     maxSize: '10MB',
     retention: '15years',
-    tier: 'hot-to-archive'
-  }
-}
+    tier: 'hot-to-archive',
+  },
+};
 ```
 
 ### **🔒 Security & Compliance**
 
 #### **Access Control Matrix**
+
 ```typescript
 const DOCUMENT_PERMISSIONS = {
   ADMIN: ['read', 'write', 'delete', 'manage', 'export'],
@@ -815,11 +885,12 @@ const DOCUMENT_PERMISSIONS = {
   SUPERVISOR: ['read', 'write'],
   CREW: ['read'],
   EXEC: ['read'],
-  CITIZEN: ['read'] // Only public documents
-}
+  CITIZEN: ['read'], // Only public documents
+};
 ```
 
 #### **Retention Policies**
+
 - **Safety Documents**: 10 years
 - **Maintenance Records**: 7 years
 - **Inspection Reports**: 5 years
@@ -829,18 +900,21 @@ const DOCUMENT_PERMISSIONS = {
 ### **💰 Cost Optimization Features**
 
 #### **Real-Time Cost Tracking**
+
 - Monthly storage cost per organization
 - Cost breakdown by document type and storage tier
 - Projected annual costs with optimization recommendations
 - Usage alerts and budget controls
 
 #### **Automated Optimization**
+
 - Access pattern analysis with tier recommendations
 - Automatic compression for images and documents
 - Lifecycle management with policy enforcement
 - Cleanup of temporary and duplicate files
 
 ### **📊 Success Metrics**
+
 - **Storage Efficiency**: 60-80% size reduction through compression
 - **Cost Savings**: 40-60% reduction through tiering
 - **Performance**: <2s upload time for 10MB files
@@ -848,6 +922,7 @@ const DOCUMENT_PERMISSIONS = {
 - **Security**: Zero data breaches or unauthorized access
 
 ### **🛠️ Technical Dependencies**
+
 - Azure Blob Storage with lifecycle management
 - Azure Cognitive Search for full-text search
 - Azure Security Center for virus scanning
@@ -856,6 +931,7 @@ const DOCUMENT_PERMISSIONS = {
 - Azure Monitor for cost tracking
 
 ### **📈 Expected Outcomes**
+
 - Complete document lifecycle management
 - Significant reduction in Azure storage costs
 - Improved user experience with fast document access
@@ -869,6 +945,7 @@ const DOCUMENT_PERMISSIONS = {
 ### **🔧 Technical Infrastructure Tasks**
 
 #### **Infrastructure & DevOps**
+
 - **T6**: Configure Azure Container Apps deployment 🚧 **IN PROGRESS**
   - **Issue**: #119
   - **Status**: Azure deployment configuration pending
@@ -882,6 +959,7 @@ const DOCUMENT_PERMISSIONS = {
   - **Effort**: 2-3 days
 
 #### **Security & Compliance**
+
 - **T13**: Configure rate limiting and DDoS protection 🚧 **IN PROGRESS**
   - **Issue**: #121
   - **Status**: Production security hardening needed
@@ -891,6 +969,7 @@ const DOCUMENT_PERMISSIONS = {
 ### **📋 Future Epic Features**
 
 #### **E7: Advanced Analytics & Forecasting**
+
 - **Goal**: Predictive maintenance and long-term asset renewal planning
 - **Value**: Strategic asset planning and budget optimisation
 - **Status**: 📋 **PLANNED** - Not started
@@ -898,6 +977,7 @@ const DOCUMENT_PERMISSIONS = {
 - **Effort**: 4-6 weeks
 
 #### **E8: ERP & System Integrations**
+
 - **Goal**: Seamless integration with existing council systems
 - **Value**: Reduced data silos and improved operational efficiency
 - **Status**: 📋 **PLANNED** - Not started
@@ -905,6 +985,7 @@ const DOCUMENT_PERMISSIONS = {
 - **Effort**: 6-8 weeks
 
 #### **E9: Sustainability & Carbon Tracking**
+
 - **Goal**: Track environmental impact and sustainability metrics
 - **Value**: Support council climate commitments and sustainability goals
 - **Status**: 📋 **PLANNED** - Not started
@@ -912,6 +993,7 @@ const DOCUMENT_PERMISSIONS = {
 - **Effort**: 3-4 weeks
 
 #### **E10: IoT & Telematics Integration**
+
 - **Goal**: Real-time asset monitoring and predictive maintenance
 - **Value**: Enhanced asset reliability through real-time monitoring
 - **Status**: 📋 **PLANNED** - Not started
@@ -921,12 +1003,14 @@ const DOCUMENT_PERMISSIONS = {
 ### **🔍 Missing Features & Enhancements**
 
 #### **Asset Management Enhancements**
+
 - **F2.2**: ERP system integration for asset data
   - **Status**: ❌ **NOT IMPLEMENTED**
   - **Priority**: Medium
   - **Effort**: 2-3 weeks
 
 #### **Document Management Advanced Features**
+
 - **F2.7**: Advanced document management features from detailed specification
   - **Status**: 🚧 **PARTIAL** - Basic upload/download implemented, advanced features pending
   - **Missing**:
@@ -941,6 +1025,7 @@ const DOCUMENT_PERMISSIONS = {
 ### **🧪 Testing & Quality Assurance**
 
 #### **Missing Test Coverage**
+
 - **Unit Tests**: Some components lack comprehensive unit tests
   - **Status**: 🚧 **PARTIAL**
   - **Priority**: Medium
@@ -957,6 +1042,7 @@ const DOCUMENT_PERMISSIONS = {
   - **Effort**: 2 weeks
 
 #### **Performance Testing**
+
 - **Load Testing**: System performance under load
   - **Status**: ❌ **NOT IMPLEMENTED**
   - **Priority**: Medium
@@ -970,6 +1056,7 @@ const DOCUMENT_PERMISSIONS = {
 ### **📚 Documentation & User Experience**
 
 #### **User Documentation**
+
 - **User Manuals**: Comprehensive user guides for each role
   - **Status**: ❌ **NOT IMPLEMENTED**
   - **Priority**: Medium
@@ -981,6 +1068,7 @@ const DOCUMENT_PERMISSIONS = {
   - **Effort**: 1 week
 
 #### **Admin Documentation**
+
 - **Administration Guide**: System administration procedures
   - **Status**: ❌ **NOT IMPLEMENTED**
   - **Priority**: Medium
@@ -994,6 +1082,7 @@ const DOCUMENT_PERMISSIONS = {
 ### **🔧 Bug Fixes & Issues**
 
 #### **Known Issues**
+
 - **Authentication**: Password validation error (working as intended - security feature)
   - **Status**: ✅ **RESOLVED** - This is correct behavior
   - **Priority**: None
@@ -1006,18 +1095,21 @@ const DOCUMENT_PERMISSIONS = {
 ### **🎯 Immediate Priorities (Next 2-4 Weeks)**
 
 #### **High Priority**
+
 1. **T6**: Azure Container Apps deployment configuration
 2. **T7**: Production monitoring and logging setup
 3. **T13**: Rate limiting and DDoS protection
 4. **Deployment Guide**: Complete production deployment documentation
 
 #### **Medium Priority**
+
 1. **F2.2**: ERP system integration planning
 2. **Document Management**: Advanced Azure Blob Storage features
 3. **Testing**: Comprehensive test coverage
 4. **User Documentation**: User manuals and guides
 
 #### **Low Priority**
+
 1. **Future Epics**: E7-E10 planning and design
 2. **API Documentation**: Complete API documentation
 3. **Performance Optimization**: Database and query optimization
@@ -1025,12 +1117,14 @@ const DOCUMENT_PERMISSIONS = {
 ### **📊 Summary Statistics**
 
 #### **Completion Status**
+
 - **Completed Epics**: 6/6 (100%) ✅
 - **Completed Features**: 37/39 (95%) ✅
 - **Completed User Stories**: 48/48 (100%) ✅
 - **Completed Technical Tasks**: 17/20 (85%) ✅
 
 #### **Outstanding Items**
+
 - **Technical Tasks**: 3 items (15%)
 - **Future Epics**: 4 items (planned)
 - **Missing Features**: 2 items
@@ -1039,7 +1133,8 @@ const DOCUMENT_PERMISSIONS = {
 - **Bug Fixes**: 1 item
 
 #### **Total Outstanding Effort**
+
 - **High Priority**: ~10-15 days
-- **Medium Priority**: ~15-25 days  
+- **Medium Priority**: ~15-25 days
 - **Low Priority**: ~10-15 days
 - **Total Estimated Effort**: ~35-55 days
