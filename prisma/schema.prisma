@@ -86,6 +86,14 @@ model Asset {
   resilienceSignals           ResilienceSignal[]
   dynamicMaintenanceSchedules DynamicMaintenanceSchedule[]
 
+  // Energy Management relationships
+  energyMeters              EnergyMeter[]
+  energyConsumption         EnergyConsumption[]
+  energyEfficiencyMetrics   EnergyEfficiencyMetric[]
+  carbonEmissions           CarbonEmission[]
+  energyAlerts              EnergyAlert[]
+  energyOptimisationActions EnergyOptimisationAction[]
+
   @@index([assetNumber])
   @@index([assetType])
   @@index([assetCondition])
@@ -632,6 +640,14 @@ model Organisation {
   resilienceSignals           ResilienceSignal[]
   marginOperations            MarginOperation[]
   dynamicMaintenanceSchedules DynamicMaintenanceSchedule[]
+
+  // Energy Management relationships
+  energyMeters              EnergyMeter[]
+  energyConsumption         EnergyConsumption[]
+  energyEfficiencyMetrics   EnergyEfficiencyMetric[]
+  carbonEmissions           CarbonEmission[]
+  energyAlerts              EnergyAlert[]
+  energyOptimisationActions EnergyOptimisationAction[]
 }
 
 model RCMFailureMode {
@@ -1257,4 +1273,309 @@ model DynamicMaintenanceSchedule {
   @@index([scheduledDate])
   @@index([priority])
   @@index([status])
+}
+
+// Energy Management Models - E21: Energy Management Core Integration
+
+model EnergyMeter {
+  id             String       @id @default(cuid())
+  organisationId String
+  organisation   Organisation @relation(fields: [organisationId], references: [id])
+
+  // Meter identification
+  meterId      String          @unique
+  name         String
+  description  String?
+  meterType    EnergyMeterType
+  manufacturer String?
+  model        String?
+  serialNumber String?
+
+  // Asset association
+  assetId String?
+  asset   Asset?  @relation(fields: [assetId], references: [id])
+
+  // Location and installation
+  location         String?
+  installationDate DateTime?
+  lastCalibration  DateTime?
+  nextCalibration  DateTime?
+
+  // Meter configuration
+  unit         String @default("kWh") // kWh, kW, MWh, etc.
+  precision    Int    @default(4) // Decimal places
+  samplingRate Int    @default(15) // Minutes between readings
+
+  // Connection details
+  connectionType   String @default("DIRECT") // DIRECT, MODBUS, BACNET, API, etc.
+  connectionConfig Json? // Connection-specific configuration
+
+  // Status
+  status      String    @default("ACTIVE") // ACTIVE, INACTIVE, MAINTENANCE, ERROR
+  isOnline    Boolean   @default(true)
+  lastReading DateTime?
+
+  // Relationships
+  energyConsumption EnergyConsumption[]
+  energyEfficiency  EnergyEfficiencyMetric[]
+  carbonEmissions   CarbonEmission[]
+  energyAlerts      EnergyAlert[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([organisationId])
+  @@index([assetId])
+  @@index([meterType])
+  @@index([status])
+  @@index([isOnline])
+}
+
+model EnergyConsumption {
+  id             String       @id @default(cuid())
+  organisationId String
+  organisation   Organisation @relation(fields: [organisationId], references: [id])
+
+  // Meter and asset association
+  meterId String
+  meter   EnergyMeter @relation(fields: [meterId], references: [id])
+  assetId String?
+  asset   Asset?      @relation(fields: [assetId], references: [id])
+
+  // Consumption data
+  consumptionValue Decimal  @db.Decimal(15, 6) // High precision for energy data
+  consumptionUnit  String   @default("kWh")
+  timestamp        DateTime
+
+  // Derived metrics
+  powerDemand Decimal? @db.Decimal(10, 3) // Instantaneous power in kW
+  costPerUnit Decimal? @db.Decimal(10, 6) // Cost per unit of energy
+  totalCost   Decimal? @db.Decimal(12, 2) // Total cost for this reading
+
+  // Data quality
+  dataQuality String @default("GOOD") // GOOD, SUSPICIOUS, ERROR, ESTIMATED
+  source      String @default("METER") // METER, ESTIMATED, CALCULATED
+
+  // Environmental context
+  temperature Decimal? @db.Decimal(5, 2) // Ambient temperature in Celsius
+  humidity    Decimal? @db.Decimal(5, 2) // Humidity percentage
+  occupancy   Int? // Number of people/occupancy level
+
+  createdAt DateTime @default(now())
+
+  @@index([organisationId])
+  @@index([meterId])
+  @@index([assetId])
+  @@index([timestamp])
+  @@index([dataQuality])
+  @@index([source])
+}
+
+model EnergyEfficiencyMetric {
+  id             String       @id @default(cuid())
+  organisationId String
+  organisation   Organisation @relation(fields: [organisationId], references: [id])
+
+  // Asset and meter association
+  assetId String?
+  asset   Asset?       @relation(fields: [assetId], references: [id])
+  meterId String?
+  meter   EnergyMeter? @relation(fields: [meterId], references: [id])
+
+  // Efficiency metrics
+  efficiencyScore Decimal  @db.Decimal(5, 2) // 0-100 efficiency score
+  benchmarkScore  Decimal? @db.Decimal(5, 2) // Industry benchmark
+  carbonIntensity Decimal  @db.Decimal(10, 6) // kg CO2 per unit energy
+  costPerUnit     Decimal  @db.Decimal(10, 6) // Cost per unit energy
+
+  // Performance indicators
+  energyUseIndex Decimal? @db.Decimal(10, 4) // Energy Use Intensity (EUI)
+  peakDemand     Decimal? @db.Decimal(10, 3) // Peak power demand in kW
+  loadFactor     Decimal? @db.Decimal(5, 2) // Load factor percentage
+
+  // Measurement period
+  periodStart DateTime
+  periodEnd   DateTime
+  periodType  String   @default("DAILY") // HOURLY, DAILY, WEEKLY, MONTHLY, YEARLY
+
+  // Comparison data
+  previousPeriodScore Decimal? @db.Decimal(5, 2)
+  yearOverYearChange  Decimal? @db.Decimal(5, 2)
+
+  // Status and alerts
+  status     String  @default("NORMAL") // NORMAL, WARNING, CRITICAL
+  alertLevel String? // LOW, MEDIUM, HIGH, CRITICAL
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([organisationId])
+  @@index([assetId])
+  @@index([meterId])
+  @@index([periodStart])
+  @@index([periodEnd])
+  @@index([periodType])
+  @@index([status])
+}
+
+model CarbonEmission {
+  id             String       @id @default(cuid())
+  organisationId String
+  organisation   Organisation @relation(fields: [organisationId], references: [id])
+
+  // Asset and meter association
+  assetId String?
+  asset   Asset?       @relation(fields: [assetId], references: [id])
+  meterId String?
+  meter   EnergyMeter? @relation(fields: [meterId], references: [id])
+
+  // Emission calculations
+  scope1Emissions Decimal  @db.Decimal(12, 6) // Direct emissions (kg CO2e)
+  scope2Emissions Decimal  @db.Decimal(12, 6) // Indirect emissions from energy (kg CO2e)
+  scope3Emissions Decimal? @db.Decimal(12, 6) // Other indirect emissions (kg CO2e)
+  totalEmissions  Decimal  @db.Decimal(12, 6) // Total emissions (kg CO2e)
+
+  // Emission factors
+  emissionFactor Decimal @db.Decimal(10, 6) // kg CO2e per unit energy
+  energyConsumed Decimal @db.Decimal(15, 6) // Energy consumed in this period
+
+  // Measurement period
+  measurementPeriod DateTime
+  periodType        String   @default("MONTHLY") // DAILY, WEEKLY, MONTHLY, YEARLY
+
+  // Renewable energy offsets
+  renewableEnergy Decimal? @db.Decimal(15, 6) // Renewable energy generated/used
+  carbonOffset    Decimal? @db.Decimal(12, 6) // Carbon offset in kg CO2e
+
+  // Compliance and reporting
+  reportingStandard  String? // ISO 14064, GHG Protocol, etc.
+  verificationStatus String  @default("UNVERIFIED") // UNVERIFIED, VERIFIED, AUDITED
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([organisationId])
+  @@index([assetId])
+  @@index([meterId])
+  @@index([measurementPeriod])
+  @@index([periodType])
+  @@index([reportingStandard])
+}
+
+model EnergyAlert {
+  id             String       @id @default(cuid())
+  organisationId String
+  organisation   Organisation @relation(fields: [organisationId], references: [id])
+
+  // Alert source
+  meterId String?
+  meter   EnergyMeter? @relation(fields: [meterId], references: [id])
+  assetId String?
+  asset   Asset?       @relation(fields: [assetId], references: [id])
+
+  // Alert details
+  alertType   EnergyAlertType
+  severity    String // LOW, MEDIUM, HIGH, CRITICAL
+  title       String
+  description String
+  alertData   Json? // Additional alert-specific data
+
+  // Thresholds and values
+  thresholdValue Decimal? @db.Decimal(15, 6)
+  actualValue    Decimal? @db.Decimal(15, 6)
+  unit           String?
+
+  // Status and response
+  status         String    @default("ACTIVE") // ACTIVE, ACKNOWLEDGED, RESOLVED, SUPPRESSED
+  acknowledgedBy String?
+  acknowledgedAt DateTime?
+  resolvedBy     String?
+  resolvedAt     DateTime?
+  resolution     String?
+
+  // Timing
+  detectedAt DateTime  @default(now())
+  expiresAt  DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([organisationId])
+  @@index([assetId])
+  @@index([meterId])
+  @@index([alertType])
+  @@index([severity])
+  @@index([status])
+  @@index([detectedAt])
+}
+
+model EnergyOptimisationAction {
+  id             String       @id @default(cuid())
+  organisationId String
+  organisation   Organisation @relation(fields: [organisationId], references: [id])
+
+  // Target asset or system
+  assetId    String?
+  asset      Asset?  @relation(fields: [assetId], references: [id])
+  systemType String // HVAC, LIGHTING, EQUIPMENT, LOAD_BALANCING
+
+  // Action details
+  actionType  String // SCHEDULE_ADJUSTMENT, LOAD_SHEDDING, EFFICIENCY_IMPROVEMENT, etc.
+  description String
+  parameters  Json? // Action-specific parameters
+
+  // Execution
+  status      String    @default("PENDING") // PENDING, EXECUTING, COMPLETED, FAILED, CANCELLED
+  scheduledAt DateTime?
+  executedAt  DateTime?
+  completedAt DateTime?
+
+  // Results
+  expectedSavings Decimal? @db.Decimal(12, 2) // Expected cost savings
+  actualSavings   Decimal? @db.Decimal(12, 2) // Actual cost savings
+  energyReduction Decimal? @db.Decimal(15, 6) // Energy reduction achieved
+  executionLog    Json? // Execution details and logs
+
+  // Trigger information
+  triggeredBy   String? // Alert ID, schedule, manual, etc.
+  triggerReason String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([organisationId])
+  @@index([assetId])
+  @@index([systemType])
+  @@index([actionType])
+  @@index([status])
+  @@index([scheduledAt])
+}
+
+// Enums for Energy Management
+
+enum EnergyMeterType {
+  ELECTRICITY
+  GAS
+  WATER
+  STEAM
+  CHILLED_WATER
+  HOT_WATER
+  SOLAR_PV
+  WIND_TURBINE
+  BATTERY_STORAGE
+  THERMAL_STORAGE
+  OTHER
+}
+
+enum EnergyAlertType {
+  CONSUMPTION_SPIKE
+  CONSUMPTION_DROP
+  EFFICIENCY_DECLINE
+  PEAK_DEMAND_EXCEEDED
+  COST_ANOMALY
+  CARBON_INTENSITY_HIGH
+  METER_OFFLINE
+  DATA_QUALITY_ISSUE
+  MAINTENANCE_REQUIRED
+  OPTIMISATION_OPPORTUNITY
 }
