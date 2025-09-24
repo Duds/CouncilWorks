@@ -1,6 +1,11 @@
-import CTAs from '@/components/marketing/CTAs';
-import DemoCarousel from '@/components/marketing/DemoCarousel';
 import SectionObserver from '@/components/marketing/SectionObserver';
+import AnalyticsInitializer from '@/components/marketing/analytics-initializer';
+import FeatureShowcase from '@/components/marketing/feature-showcase';
+import HeroSection from '@/components/marketing/hero-section';
+import ROICalculator from '@/components/marketing/interactive-demo';
+import { EnhancedStatsSection, InteractiveFeatureCard } from '@/components/marketing/enhanced-visual-design';
+import MobileOptimizedSection, { MobileCarousel } from '@/components/marketing/mobile-optimized-section';
+import { LazySection } from '@/components/marketing/lazy-section';
 import type { Metadata, Route } from 'next';
 import { cookies } from 'next/headers';
 import Image from 'next/image';
@@ -145,277 +150,97 @@ export default async function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       <main className="min-h-screen bg-background text-foreground">
-        {/* Hero */}
-        <section
-          id="hero"
-          className="relative isolate"
-          aria-labelledby="hero-heading"
-        >
-          <div className="absolute inset-0 -z-10">
-            <div className="absolute inset-0">
-              <Image
-                src="/images/CouncilWorks_HERO.png"
-                alt="Aegrid dashboard interface showing intelligent asset management capabilities"
-                fill
-                priority
-                sizes="100vw"
-                className="object-cover opacity-25"
-              />
-            </div>
-            <div className="absolute inset-0 bg-gradient-to-b from-background/40 to-background" />
-          </div>
-          <div className="mx-auto max-w-6xl px-6 py-24 sm:py-28 lg:py-32">
-            <div className="max-w-3xl">
-              <h1
-                id="hero-heading"
-                className="text-4xl font-bold tracking-tight sm:text-5xl"
-              >
-                {headline}
-              </h1>
-              <p className="mt-4 text-lg text-muted-foreground">
-                Aegrid delivers ISO 55000 compliant asset intelligence with
-                advanced energy management, AI-powered optimisation, and
-                predictive analytics. Built on the revolutionary Aegrid Rules
-                framework, we help universities, property portfolios, and
-                enterprise organisations achieve predictable asset outcomes
-                through intelligent maintenance strategies.
-              </p>
-              <CTAs location="hero" variant={variant} />
-            </div>
-          </div>
-        </section>
+        {/* Initialize Analytics */}
+        <AnalyticsInitializer />
 
-        {/* Core Feature Showcase */}
+        {/* Enhanced Hero Section */}
+        <HeroSection />
+
+        {/* Enhanced Feature Showcase */}
+        <FeatureShowcase maxVisible={3} variant="grid" />
+
+        {/* Interactive ROI Calculator */}
+        <LazySection className="mx-auto max-w-6xl px-6 py-16 sm:py-20 bg-muted/30">
+          <div className="mb-10 max-w-3xl">
+            <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+              Calculate Your Potential Savings
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              See how much you could save with Aegrid's intelligent asset management platform.
+            </p>
+          </div>
+          <ROICalculator />
+        </LazySection>
+
+        {/* Enhanced Stats Section */}
+        <EnhancedStatsSection />
+
+        {/* Mobile Optimized Section */}
+        <MobileOptimizedSection
+          title="Optimized for Every Device"
+          description="Experience Aegrid seamlessly across desktop, tablet, and mobile devices with touch-optimized interactions and responsive design."
+          showDevicePreview={true}
+        >
+          <MobileCarousel
+            items={[
+              {
+                id: 'mobile-1',
+                title: 'Mobile Operations',
+                description: 'Field-ready mobile interface with offline capabilities',
+                icon: () => (
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                  </svg>
+                ),
+                badge: 'Mobile First'
+              },
+              {
+                id: 'tablet-1',
+                title: 'Tablet Dashboard',
+                description: 'Optimized tablet experience for field supervisors',
+                icon: () => (
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+                  </svg>
+                ),
+                badge: 'Touch Optimized'
+              },
+              {
+                id: 'desktop-1',
+                title: 'Desktop Analytics',
+                description: 'Full-featured desktop experience for deep analysis',
+                icon: () => (
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                ),
+                badge: 'Full Featured'
+              }
+            ]}
+          />
+        </MobileOptimizedSection>
+
+        {/* Value for every stakeholder */}
         <section
-          id="core-features"
+          id="personas"
           className="mx-auto max-w-6xl px-6 py-16 sm:py-20"
-          aria-labelledby="features-heading"
+          aria-labelledby="stakeholder-heading"
         >
           <div className="mb-10 max-w-3xl">
             <h2
-              id="features-heading"
+              id="stakeholder-heading"
               className="text-2xl font-semibold tracking-tight sm:text-3xl"
             >
-              Core Features: ISO 55000 Compliance, Energy Management & AI
-              Optimisation
+              Value for Every Stakeholder
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Transform your asset management with industry-leading capabilities
-              designed for modern organisations.
+              Aegrid delivers measurable value across your entire organisation,
+              from field teams to executive leadership.
             </p>
           </div>
 
           <div className="grid gap-8 lg:grid-cols-3">
-            {/* ISO 55000 Compliance */}
-            <div className="rounded-lg border border-border bg-background p-6 shadow-sm">
-              <div className="mb-4 flex items-center gap-3">
-                <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
-                  <svg
-                    className="w-6 h-6 text-green-600 dark:text-green-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                    />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-semibold">ISO 55000 Compliance</h3>
-              </div>
-              <p className="text-sm text-muted-foreground mb-4">
-                Full compliance with international asset management standards,
-                providing the framework for strategic asset management
-                excellence.
-              </p>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 flex-shrink-0"></span>
-                  <span>Strategic asset management framework</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 flex-shrink-0"></span>
-                  <span>Risk-based decision making</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 flex-shrink-0"></span>
-                  <span>Performance measurement & reporting</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 flex-shrink-0"></span>
-                  <span>Continuous improvement processes</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Energy Management */}
-            <div className="rounded-lg border border-border bg-background p-6 shadow-sm">
-              <div className="mb-4 flex items-center gap-3">
-                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
-                  <svg
-                    className="w-6 h-6 text-blue-600 dark:text-blue-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M13 10V3L4 14h7v7l9-11h-7z"
-                    />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-semibold">Energy Management</h3>
-              </div>
-              <p className="text-sm text-muted-foreground mb-4">
-                Advanced energy consumption analysis and optimisation
-                capabilities for sustainable asset operations.
-              </p>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
-                  <span>Real-time energy consumption monitoring</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
-                  <span>Energy efficiency trend analysis</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
-                  <span>Carbon footprint tracking</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
-                  <span>Cost optimisation recommendations</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* AI Optimisation */}
-            <div className="rounded-lg border border-border bg-background p-6 shadow-sm">
-              <div className="mb-4 flex items-center gap-3">
-                <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center">
-                  <svg
-                    className="w-6 h-6 text-purple-600 dark:text-purple-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
-                    />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-semibold">AI Optimisation</h3>
-              </div>
-              <p className="text-sm text-muted-foreground mb-4">
-                Intelligent anomaly detection and predictive analytics powered
-                by advanced AI algorithms.
-              </p>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 flex-shrink-0"></span>
-                  <span>Predictive maintenance scheduling</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 flex-shrink-0"></span>
-                  <span>Anomaly detection & alerting</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 flex-shrink-0"></span>
-                  <span>Performance optimisation recommendations</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 flex-shrink-0"></span>
-                  <span>Machine learning insights</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        {/* Interactive Demonstrations */}
-        <section
-          id="interactive-demos"
-          className="mx-auto max-w-6xl px-6 py-16 sm:py-20 bg-muted/30"
-          aria-labelledby="demos-heading"
-        >
-          <div className="mb-10 max-w-3xl">
-            <h2
-              id="demos-heading"
-              className="text-2xl font-semibold tracking-tight sm:text-3xl"
-            >
-              See Aegrid in Action: Interactive Demonstrations
-            </h2>
-            <p className="mt-3 text-muted-foreground">
-              Experience the power of Aegrid through live dashboard previews,
-              feature walkthroughs, and real-world case studies.
-            </p>
-          </div>
-
-          <div className="grid gap-8 lg:grid-cols-2">
-            {/* Live Dashboard Preview */}
-            <div className="rounded-lg border border-border bg-background p-6 shadow-sm">
-              <div className="mb-4 flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
-                  <svg
-                    className="w-5 h-5 text-blue-600 dark:text-blue-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                    />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-semibold">
-                  Live Dashboard Preview
-                </h3>
-              </div>
-              <p className="text-sm text-muted-foreground mb-4">
-                Explore our executive dashboard with real-time asset performance
-                metrics, energy consumption analysis, and AI-powered insights.
-              </p>
-              <div className="space-y-3">
-                <div className="flex items-center gap-2 text-sm">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span>Real-time asset condition monitoring</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                  <span>Energy consumption trends and analysis</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm">
-                  <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                  <span>AI-powered anomaly detection alerts</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm">
-                  <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                  <span>ISO 55000 compliance status tracking</span>
-                </div>
-              </div>
-              <div className="mt-4">
-                <Link
-                  href="/demo"
-                  className="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors text-sm"
-                >
-                  View Live Demo →
-                </Link>
-              </div>
-            </div>
-
-            {/* Feature Walkthrough */}
+            {/* Executive Leadership */}
             <div className="rounded-lg border border-border bg-background p-6 shadow-sm">
               <div className="mb-4 flex items-center gap-3">
                 <div className="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
