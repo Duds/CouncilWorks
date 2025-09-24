@@ -1,21 +1,18 @@
 "use client";
 
-import { useState, useRef, useEffect } from 'react';
-import { motion, useInView, useMotionValue, useTransform } from 'framer-motion';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { 
-  Loader2, 
-  Eye, 
-  EyeOff, 
-  ChevronDown, 
-  ChevronUp,
-  Play,
-  Pause
-} from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 import { trackLandingPageEvent } from '@/lib/analytics/landing-page-analytics';
+import { motion, useInView } from 'framer-motion';
+import {
+    ChevronDown,
+    ChevronUp,
+    Eye,
+    EyeOff,
+    Loader2
+} from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 
 interface LazySectionProps {
   children: React.ReactNode;
@@ -50,13 +47,13 @@ function LazySection({
   useEffect(() => {
     if (isInView && !isLoaded && !isLoading) {
       setIsLoading(true);
-      
+
       // Simulate loading delay for better UX
       const timer = setTimeout(() => {
         setIsLoaded(true);
         setIsLoading(false);
         onLoad?.();
-        
+
         trackLandingPageEvent('feature_interaction', {
           action: 'lazy_section_loaded',
           threshold,
@@ -172,7 +169,7 @@ function ProgressiveImage({
     <div ref={ref} className={`relative overflow-hidden ${className}`}>
       {/* Placeholder */}
       {!isLoaded && !hasError && (
-        <div 
+        <div
           className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center"
           style={{ width, height }}
         >
@@ -182,7 +179,7 @@ function ProgressiveImage({
 
       {/* Error State */}
       {hasError && (
-        <div 
+        <div
           className="absolute inset-0 bg-gray-100 flex items-center justify-center"
           style={{ width, height }}
         >
@@ -235,7 +232,7 @@ function CollapsibleSection({
   const handleToggle = () => {
     const newExpanded = !isExpanded;
     setIsExpanded(newExpanded);
-    
+
     if (newExpanded && !hasBeenExpanded) {
       setHasBeenExpanded(true);
       trackLandingPageEvent('feature_interaction', {
@@ -247,7 +244,7 @@ function CollapsibleSection({
 
   return (
     <Card className={className}>
-      <CardHeader 
+      <CardHeader
         className="cursor-pointer select-none"
         onClick={handleToggle}
       >
@@ -389,7 +386,7 @@ function IntersectionObserverSection({
         const isIntersecting = entry.isIntersecting;
         setIsVisible(isIntersecting);
         onIntersect?.(isIntersecting);
-        
+
         if (isIntersecting) {
           trackLandingPageEvent('feature_interaction', {
             action: 'section_intersected',
@@ -422,9 +419,6 @@ function IntersectionObserverSection({
 }
 
 export {
-  LazySection,
-  ProgressiveImage,
-  CollapsibleSection,
-  VirtualizedList,
-  IntersectionObserverSection
+    CollapsibleSection, IntersectionObserverSection, LazySection,
+    ProgressiveImage, VirtualizedList
 };

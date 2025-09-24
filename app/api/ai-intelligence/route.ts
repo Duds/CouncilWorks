@@ -4,8 +4,8 @@
  * REST API endpoints for AI Intelligence Core functionality
  */
 
-import { authOptions } from '@/lib/auth';
 import { createAIIntelligenceCore } from '@/lib/ai-intelligence-core';
+import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';

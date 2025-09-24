@@ -1,397 +1,361 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
-import { Calculator, TrendingUp, DollarSign, Clock, Users, Zap } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { trackLandingPageEvent } from '@/lib/analytics/landing-page-analytics';
-import { staggerContainer, staggerItem, scaleIn } from '@/lib/animations/landing-page-animations';
+import { AnimatePresence, motion } from 'framer-motion';
+import {
+    AlertTriangle,
+    ArrowRight,
+    CheckCircle,
+    Pause,
+    Play,
+    RotateCcw,
+    Shield,
+    TrendingUp,
+    Zap
+} from 'lucide-react';
+import { useEffect, useState } from 'react';
 
-interface ROICalculation {
-  currentMaintenanceCost: number;
-  assetCount: number;
-  averageAssetValue: number;
-  downtimeHours: number;
-  laborCostPerHour: number;
-  energyCostPerMonth: number;
+interface DemoStep {
+  id: string;
+  title: string;
+  description: string;
+  icon: React.ComponentType<{ className?: string }>;
+  duration: number;
+  data?: {
+    assets: number;
+    alerts: number;
+    savings: string;
+    efficiency: string;
+  };
+  highlight?: string;
 }
 
-interface ROICalculatorProps {
-  variant?: 'inline' | 'modal' | 'fullscreen';
+interface InteractiveDemoProps {
   className?: string;
 }
 
-export default function ROICalculator({ 
-  variant = 'inline',
-  className = ''
-}: ROICalculatorProps) {
-  const [calculation, setCalculation] = useState<ROICalculation>({
-    currentMaintenanceCost: 50000,
-    assetCount: 100,
-    averageAssetValue: 50000,
-    downtimeHours: 120,
-    laborCostPerHour: 75,
-    energyCostPerMonth: 25000
-  });
+const DEMO_STEPS: DemoStep[] = [
+  {
+    id: 'dashboard-overview',
+    title: 'Dashboard Overview',
+    description: 'See all your assets at a glance with intelligent prioritization',
+    icon: Shield,
+    duration: 3000,
+    data: {
+      assets: 1247,
+      alerts: 3,
+      savings: '$47,500',
+      efficiency: '94%'
+    },
+    highlight: 'Every Asset Has a Purpose'
+  },
+  {
+    id: 'risk-analysis',
+    title: 'Risk Analysis',
+    description: 'AI-powered risk assessment showing critical assets needing attention',
+    icon: AlertTriangle,
+    duration: 4000,
+    data: {
+      assets: 1247,
+      alerts: 12,
+      savings: '$89,200',
+      efficiency: '87%'
+    },
+    highlight: 'Risk Sets the Rhythm'
+  },
+  {
+    id: 'maintenance-optimization',
+    title: 'Maintenance Optimization',
+    description: 'Smart scheduling based on actual risk and condition data',
+    icon: TrendingUp,
+    duration: 3500,
+    data: {
+      assets: 1247,
+      alerts: 8,
+      savings: '$156,800',
+      efficiency: '91%'
+    },
+    highlight: 'Respond to the Real World'
+  },
+  {
+    id: 'energy-optimization',
+    title: 'Energy Optimization',
+    description: 'Real-time energy monitoring with anomaly detection',
+    icon: Zap,
+    duration: 3000,
+    data: {
+      assets: 1247,
+      alerts: 5,
+      savings: '$203,400',
+      efficiency: '96%'
+    },
+    highlight: 'Operate with Margin'
+  }
+];
 
-  const [results, setResults] = useState({
-    annualSavings: 0,
-    roiPercentage: 0,
-    paybackPeriod: 0,
-    totalBenefit: 0
-  });
+export default function InteractiveDemo({ className = '' }: InteractiveDemoProps) {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
 
-  const [isCalculating, setIsCalculating] = useState(false);
+  const currentDemo = DEMO_STEPS[currentStep];
 
   useEffect(() => {
-    calculateROI();
-  }, [calculation]);
+    let interval: NodeJS.Timeout;
 
-  const calculateROI = async () => {
-    setIsCalculating(true);
-    
-    // Simulate calculation delay for better UX
-    await new Promise(resolve => setTimeout(resolve, 800));
+    if (isPlaying) {
+      const startTime = Date.now();
+      const totalDuration = currentDemo.duration;
 
-    const {
-      currentMaintenanceCost,
-      assetCount,
-      averageAssetValue,
-      downtimeHours,
-      laborCostPerHour,
-      energyCostPerMonth
-    } = calculation;
+      interval = setInterval(() => {
+        const elapsed = Date.now() - startTime;
+        const newProgress = Math.min((elapsed / totalDuration) * 100, 100);
+        setProgress(newProgress);
 
-    // Aegrid savings calculations based on industry data
-    const maintenanceSavings = currentMaintenanceCost * 0.23; // 23% reduction
-    const downtimeSavings = downtimeHours * laborCostPerHour * 0.67; // 67% reduction
-    const energySavings = energyCostPerMonth * 12 * 0.18; // 18% reduction
-    const assetUtilizationSavings = (assetCount * averageAssetValue * 0.05); // 5% better utilization
+        if (newProgress >= 100) {
+          setProgress(0);
+          setCurrentStep((prev) => (prev + 1) % DEMO_STEPS.length);
 
-    const annualSavings = maintenanceSavings + downtimeSavings + energySavings + assetUtilizationSavings;
-    const aegridCost = 24000; // Annual Aegrid cost estimate
-    const totalBenefit = annualSavings - aegridCost;
-    const roiPercentage = (totalBenefit / aegridCost) * 100;
-    const paybackPeriod = aegridCost / (annualSavings / 12);
+          // Track demo progression
+          trackLandingPageEvent('demo_step_completed', {
+            step: currentDemo.id,
+            step_title: currentDemo.title,
+            total_steps: DEMO_STEPS.length,
+            current_step: currentStep + 1
+          });
+        }
+      }, 50);
+    }
 
-    setResults({
-      annualSavings: Math.round(annualSavings),
-      roiPercentage: Math.round(roiPercentage),
-      paybackPeriod: Math.round(paybackPeriod * 10) / 10,
-      totalBenefit: Math.round(totalBenefit)
+    return () => clearInterval(interval);
+  }, [isPlaying, currentDemo.duration, currentDemo.id, currentDemo.title, currentStep]);
+
+  const handlePlayPause = () => {
+    if (isPlaying) {
+      setIsPlaying(false);
+      trackLandingPageEvent('demo_paused', {
+        step: currentDemo.id,
+        progress: progress
+      });
+    } else {
+      setIsPlaying(true);
+      trackLandingPageEvent('demo_started', {
+        step: currentDemo.id,
+        is_resume: progress > 0
+      });
+    }
+  };
+
+  const handleReset = () => {
+    setIsPlaying(false);
+    setCurrentStep(0);
+    setProgress(0);
+    trackLandingPageEvent('demo_reset', {
+      step: currentDemo.id
     });
+  };
 
-    setIsCalculating(false);
-
-    // Track calculation event
-    trackLandingPageEvent('feature_interaction', {
-      action: 'roi_calculated',
-      asset_count: assetCount,
-      annual_savings: annualSavings,
-      roi_percentage: roiPercentage
+  const handleStepClick = (stepIndex: number) => {
+    setCurrentStep(stepIndex);
+    setProgress(0);
+    setIsPlaying(false);
+    trackLandingPageEvent('demo_step_selected', {
+      step: DEMO_STEPS[stepIndex].id,
+      step_title: DEMO_STEPS[stepIndex].title
     });
   };
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-AU', {
-      style: 'currency',
-      currency: 'AUD',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    }).format(amount);
-  };
-
-  const handleInputChange = (field: keyof ROICalculation, value: number) => {
-    setCalculation(prev => ({
-      ...prev,
-      [field]: value
-    }));
-  };
-
-  const InputSlider = ({ 
-    label, 
-    field, 
-    min, 
-    max, 
-    step = 1, 
-    unit = '',
-    description 
-  }: {
-    label: string;
-    field: keyof ROICalculation;
-    min: number;
-    max: number;
-    step?: number;
-    unit?: string;
-    description?: string;
-  }) => (
-    <div className="space-y-3">
-      <div className="flex items-center justify-between">
-        <Label htmlFor={field} className="text-sm font-medium">
-          {label}
-        </Label>
-        <div className="flex items-center gap-2">
-          <Input
-            id={field}
-            type="number"
-            value={calculation[field]}
-            onChange={(e) => handleInputChange(field, Number(e.target.value))}
-            className="w-24 h-8 text-sm"
-          />
-          {unit && <span className="text-sm text-gray-500">{unit}</span>}
-        </div>
-      </div>
-      <Slider
-        value={[calculation[field]]}
-        onValueChange={([value]) => handleInputChange(field, value)}
-        min={min}
-        max={max}
-        step={step}
-        className="w-full"
-      />
-      {description && (
-        <p className="text-xs text-gray-500">{description}</p>
-      )}
-    </div>
-  );
-
-  const ResultCard = ({ 
-    icon: Icon, 
-    title, 
-    value, 
-    description, 
-    color = 'text-green-600' 
-  }: {
-    icon: React.ComponentType<{ className?: string }>;
-    title: string;
-    value: string;
-    description: string;
-    color?: string;
-  }) => (
-    <motion.div variants={staggerItem}>
-      <Card className="text-center">
-        <CardContent className="p-6">
-          <div className={`w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center ${
-            color === 'text-green-600' ? 'bg-green-100' :
-            color === 'text-blue-600' ? 'bg-blue-100' :
-            color === 'text-purple-600' ? 'bg-purple-100' :
-            'bg-gray-100'
-          }`}>
-            <Icon className={`w-6 h-6 ${color}`} />
-          </div>
-          <h3 className="text-lg font-semibold mb-2">{title}</h3>
-          <div className={`text-2xl font-bold mb-2 ${color}`}>{value}</div>
-          <p className="text-sm text-gray-600">{description}</p>
-        </CardContent>
-      </Card>
-    </motion.div>
-  );
 
   return (
-    <motion.div
-      initial="initial"
-      animate="animate"
-      variants={staggerContainer}
-      className={`${className}`}
-    >
-      <Card className="overflow-hidden">
-        <CardHeader className="bg-gradient-to-r from-green-50 to-blue-50 border-b">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-              <Calculator className="w-5 h-5 text-green-600" />
-            </div>
-            <div>
-              <CardTitle className="text-xl">ROI Calculator</CardTitle>
-              <CardDescription>
-                Calculate your potential savings with Aegrid's intelligent asset management
-              </CardDescription>
-            </div>
-          </div>
-        </CardHeader>
+    <div className={`w-full max-w-6xl mx-auto ${className}`}>
+      <div className="text-center mb-8">
+        <h2 className="text-3xl font-bold tracking-tight mb-4">
+          See Aegrid in Action
+        </h2>
+        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          Watch how The Aegrid Rules transform complex asset management into intelligent, resilient systems
+        </p>
+      </div>
 
-        <CardContent className="p-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Input Section */}
-            <motion.div variants={staggerItem} className="space-y-6">
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Your Current Situation</h3>
-                <div className="space-y-6">
-                  <InputSlider
-                    label="Annual Maintenance Cost"
-                    field="currentMaintenanceCost"
-                    min={10000}
-                    max={500000}
-                    step={5000}
-                    unit="AUD"
-                    description="Current annual maintenance spending"
-                  />
+      <div className="grid lg:grid-cols-2 gap-8 items-start">
+        {/* Demo Controls */}
+        <div className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <currentDemo.icon className="w-5 h-5" />
+                {currentDemo.title}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-muted-foreground">
+                {currentDemo.description}
+              </p>
 
-                  <InputSlider
-                    label="Number of Assets"
-                    field="assetCount"
-                    min={10}
-                    max={1000}
-                    step={10}
-                    unit="assets"
-                    description="Total number of managed assets"
-                  />
-
-                  <InputSlider
-                    label="Average Asset Value"
-                    field="averageAssetValue"
-                    min={5000}
-                    max={500000}
-                    step={5000}
-                    unit="AUD"
-                    description="Average value per asset"
-                  />
-
-                  <InputSlider
-                    label="Annual Downtime Hours"
-                    field="downtimeHours"
-                    min={20}
-                    max={500}
-                    step={10}
-                    unit="hours"
-                    description="Total unplanned downtime per year"
-                  />
-
-                  <InputSlider
-                    label="Labor Cost per Hour"
-                    field="laborCostPerHour"
-                    min={30}
-                    max={150}
-                    step={5}
-                    unit="AUD"
-                    description="Average hourly labor cost"
-                  />
-
-                  <InputSlider
-                    label="Monthly Energy Cost"
-                    field="energyCostPerMonth"
-                    min={5000}
-                    max={100000}
-                    step={1000}
-                    unit="AUD"
-                    description="Monthly energy consumption cost"
-                  />
+              {/* Progress Bar */}
+              <div className="space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span>Progress</span>
+                  <span>{Math.round(progress)}%</span>
                 </div>
-              </div>
-            </motion.div>
-
-            {/* Results Section */}
-            <motion.div variants={staggerItem} className="space-y-6">
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Your Potential Savings</h3>
-                
-                {isCalculating ? (
-                  <div className="space-y-4">
-                    {[...Array(4)].map((_, i) => (
-                      <div key={i} className="h-24 bg-gray-100 rounded-lg animate-pulse"></div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <ResultCard
-                      icon={DollarSign}
-                      title="Annual Savings"
-                      value={formatCurrency(results.annualSavings)}
-                      description="Total cost reduction per year"
-                      color="text-green-600"
-                    />
-
-                    <ResultCard
-                      icon={TrendingUp}
-                      title="ROI"
-                      value={`${results.roiPercentage}%`}
-                      description="Return on investment"
-                      color="text-blue-600"
-                    />
-
-                    <ResultCard
-                      icon={Clock}
-                      title="Payback Period"
-                      value={`${results.paybackPeriod} months`}
-                      description="Time to recover investment"
-                      color="text-purple-600"
-                    />
-
-                    <ResultCard
-                      icon={Zap}
-                      title="Net Benefit"
-                      value={formatCurrency(results.totalBenefit)}
-                      description="Annual profit after Aegrid cost"
-                      color="text-green-600"
-                    />
-                  </div>
-                )}
-
-                {results.totalBenefit > 0 && (
+                <div className="w-full bg-muted rounded-full h-2">
                   <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: 0.3 }}
-                    className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg"
-                  >
-                    <div className="flex items-center gap-2 mb-2">
-                      <TrendingUp className="w-5 h-5 text-green-600" />
-                      <span className="font-semibold text-green-800">Great News!</span>
-                    </div>
-                    <p className="text-sm text-green-700">
-                      You could save <strong>{formatCurrency(results.annualSavings)}</strong> annually 
-                      with a <strong>{results.roiPercentage}% ROI</strong> and payback in 
-                      just <strong>{results.paybackPeriod} months</strong>.
-                    </p>
-                  </motion.div>
-                )}
-
-                <div className="mt-6">
-                  <Button 
-                    className="w-full" 
-                    onClick={() => trackLandingPageEvent('feature_interaction', { action: 'roi_cta_click' })}
-                  >
-                    Get Your Custom ROI Report
-                  </Button>
-                  <p className="text-xs text-gray-500 text-center mt-2">
-                    Detailed analysis with implementation timeline
-                  </p>
+                    className="bg-primary h-2 rounded-full"
+                    initial={{ width: 0 }}
+                    animate={{ width: `${progress}%` }}
+                    transition={{ duration: 0.1 }}
+                  />
                 </div>
               </div>
-            </motion.div>
-          </div>
 
-          {/* Savings Breakdown */}
-          <motion.div
-            variants={staggerItem}
-            className="mt-8 pt-6 border-t"
-          >
-            <h3 className="text-lg font-semibold mb-4">Savings Breakdown</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="text-center p-4 bg-green-50 rounded-lg">
-                <div className="text-2xl font-bold text-green-600">23%</div>
-                <div className="text-sm text-gray-600">Maintenance Reduction</div>
+              {/* Controls */}
+              <div className="flex items-center gap-3">
+                <Button
+                  onClick={handlePlayPause}
+                  variant={isPlaying ? "outline" : "default"}
+                  size="sm"
+                  className="flex items-center gap-2"
+                >
+                  {isPlaying ? (
+                    <>
+                      <Pause className="w-4 h-4" />
+                      Pause
+                    </>
+                  ) : (
+                    <>
+                      <Play className="w-4 h-4" />
+                      Play
+                    </>
+                  )}
+                </Button>
+
+                <Button
+                  onClick={handleReset}
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-2"
+                >
+                  <RotateCcw className="w-4 h-4" />
+                  Reset
+                </Button>
               </div>
-              <div className="text-center p-4 bg-blue-50 rounded-lg">
-                <div className="text-2xl font-bold text-blue-600">67%</div>
-                <div className="text-sm text-gray-600">Downtime Reduction</div>
+
+              {/* Step Navigation */}
+              <div className="grid grid-cols-2 gap-2">
+                {DEMO_STEPS.map((step, index) => (
+                  <Button
+                    key={step.id}
+                    variant={currentStep === index ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => handleStepClick(index)}
+                    className="text-xs"
+                  >
+                    {step.title}
+                  </Button>
+                ))}
               </div>
-              <div className="text-center p-4 bg-purple-50 rounded-lg">
-                <div className="text-2xl font-bold text-purple-600">18%</div>
-                <div className="text-sm text-gray-600">Energy Savings</div>
+            </CardContent>
+          </Card>
+
+          {/* Highlight Badge */}
+          <div className="text-center">
+            <Badge variant="secondary" className="px-4 py-2 text-sm">
+              <Shield className="w-4 h-4 mr-2" />
+              {currentDemo.highlight}
+            </Badge>
+          </div>
+        </div>
+
+        {/* Demo Visualization */}
+        <div className="relative">
+          <Card className="overflow-hidden">
+            <CardContent className="p-0">
+              <div className="aspect-video bg-gradient-to-br from-blue-50 to-indigo-100 relative">
+                {/* Mock Dashboard */}
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentDemo.id}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.5 }}
+                    className="absolute inset-4 bg-white rounded-lg shadow-lg p-6"
+                  >
+                    <div className="space-y-4">
+                      {/* Header */}
+                      <div className="flex items-center justify-between">
+                        <h3 className="font-semibold text-lg">Aegrid Dashboard</h3>
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                          <span className="text-sm text-muted-foreground">Live</span>
+                        </div>
+                      </div>
+
+                      {/* Metrics Grid */}
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="bg-muted/50 rounded-lg p-3">
+                          <div className="text-2xl font-bold text-blue-600">
+                            {currentDemo.data?.assets.toLocaleString()}
+                          </div>
+                          <div className="text-sm text-muted-foreground">Total Assets</div>
+                        </div>
+                        <div className="bg-muted/50 rounded-lg p-3">
+                          <div className="text-2xl font-bold text-orange-600">
+                            {currentDemo.data?.alerts}
+                          </div>
+                          <div className="text-sm text-muted-foreground">Active Alerts</div>
+                        </div>
+                        <div className="bg-muted/50 rounded-lg p-3">
+                          <div className="text-2xl font-bold text-green-600">
+                            {currentDemo.data?.savings}
+                          </div>
+                          <div className="text-sm text-muted-foreground">Annual Savings</div>
+                        </div>
+                        <div className="bg-muted/50 rounded-lg p-3">
+                          <div className="text-2xl font-bold text-purple-600">
+                            {currentDemo.data?.efficiency}
+                          </div>
+                          <div className="text-sm text-muted-foreground">Efficiency</div>
+                        </div>
+                      </div>
+
+                      {/* Chart Area */}
+                      <div className="bg-muted/30 rounded-lg h-20 flex items-center justify-center">
+                        <div className="flex items-center gap-2 text-muted-foreground">
+                          <currentDemo.icon className="w-5 h-5" />
+                          <span className="text-sm">{currentDemo.title} Visualization</span>
+                        </div>
+                      </div>
+
+                      {/* Status Indicators */}
+                      <div className="flex items-center gap-4 text-sm">
+                        <div className="flex items-center gap-1">
+                          <CheckCircle className="w-4 h-4 text-green-500" />
+                          <span>System Healthy</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <AlertTriangle className="w-4 h-4 text-orange-500" />
+                          <span>{currentDemo.data?.alerts} Issues</span>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
               </div>
-              <div className="text-center p-4 bg-orange-50 rounded-lg">
-                <div className="text-2xl font-bold text-orange-600">5%</div>
-                <div className="text-sm text-gray-600">Asset Utilization</div>
-              </div>
-            </div>
-          </motion.div>
-        </CardContent>
-      </Card>
-    </motion.div>
+            </CardContent>
+          </Card>
+
+          {/* CTA Overlay */}
+          <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2">
+            <Button className="flex items-center gap-2 shadow-lg">
+              Start Your Pilot Journey
+              <ArrowRight className="w-4 h-4" />
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

@@ -1,9 +1,7 @@
 "use client";
 
 import { HeroCTA } from '@/components/marketing/cta-group';
-import SocialProofBar from '@/components/marketing/social-proof-bar';
 import { Badge } from '@/components/ui/badge';
-import { useHeroABTesting } from '@/hooks/useAdvancedABTesting';
 import { initializeLandingPageAnalytics } from '@/lib/analytics/landing-page-analytics';
 import { Shield, Sparkles, Zap } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -13,7 +11,7 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({ className = '' }: HeroSectionProps) {
-  const { variant, isLoading, config, trackEvent } = useHeroABTesting();
+  // Simplified version without A/B testing for better performance
   const [analyticsInitialized, setAnalyticsInitialized] = useState(false);
 
   useEffect(() => {
@@ -24,20 +22,18 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
   }, [analyticsInitialized]);
 
   const getHeadline = () => {
-    if (isLoading) return 'Loading...';
-    return config.headline || 'Transform Your Asset Management with AI-Powered Intelligence';
+    return 'Asset Management Reimagined: Four Rules That Change Everything';
   };
 
   const getSubheadline = () => {
-    if (isLoading) return 'Loading...';
-    return config.subheadline || 'Join 500+ Australian organisations using Aegrid to reduce maintenance costs by 23% and prevent equipment failures before they happen. ISO 55000 compliant, energy-optimised, and built for the future.';
+    return 'Built on revolutionary simplicity: Every Asset Has a Purpose, Risk Sets the Rhythm, Respond to the Real World, Operate with Margin. No complexity. No bureaucracy. Just intelligent asset management that works.';
   };
 
   const getTrustIndicators = () => {
     const indicators = [
-      { icon: Shield, text: 'ISO 55000 Compliant', color: 'text-green-600' },
-      { icon: Zap, text: 'AI-Powered Intelligence', color: 'text-blue-600' },
-      { icon: Sparkles, text: '500+ Organisations', color: 'text-purple-600' }
+      { icon: Shield, text: 'Every Asset Has a Purpose', color: 'text-green-600' },
+      { icon: Zap, text: 'Risk Sets the Rhythm', color: 'text-blue-600' },
+      { icon: Sparkles, text: 'Respond to the Real World', color: 'text-purple-600' }
     ];
 
     return indicators.map((indicator, index) => (
@@ -48,42 +44,31 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
     ));
   };
 
-  if (isLoading) {
-    return <HeroSectionSkeleton className={className} />;
-  }
+  // Removed loading check for better performance
 
   return (
-    <section className={`relative isolate bg-gradient-to-br from-background via-background to-muted/20 ${className}`}>
-      {/* Social Proof Bar */}
-      <SocialProofBar variant="minimal" />
-
+    <section className={`relative isolate bg-gradient-to-br from-background via-background to-muted/20 min-h-screen flex items-center ${className}`}>
       {/* Main Hero Content */}
-      <div className="mx-auto max-w-6xl px-6 py-16 sm:py-20 lg:py-24">
+      <div className="mx-auto max-w-6xl px-6 py-16 sm:py-20 lg:py-24 w-full">
         <div className="text-center">
           {/* Trust Badge */}
           <div className="mb-8">
             <Badge
               variant="secondary"
-              className="mb-4 px-4 py-2 text-sm font-medium bg-green-50 text-green-700 border-green-200 hover:bg-green-100"
+              className="mb-4 px-4 py-2 text-sm font-medium bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100"
             >
               <Shield className="w-4 h-4 mr-2" />
-              Trusted by 500+ Australian organisations
+              Built on The Aegrid Rules
             </Badge>
           </div>
 
           {/* Main Headline */}
-          <h1
-            className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl mb-6"
-            onClick={() => trackEvent('headline_view', { variant })}
-          >
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl mb-6">
             {getHeadline()}
           </h1>
 
           {/* Subheadline */}
-          <p
-            className="mt-6 text-lg sm:text-xl lg:text-2xl leading-8 text-muted-foreground max-w-4xl mx-auto"
-            onClick={() => trackEvent('subheadline_view', { variant })}
-          >
+          <p className="mt-6 text-lg sm:text-xl lg:text-2xl leading-8 text-muted-foreground max-w-4xl mx-auto">
             {getSubheadline()}
           </p>
 
@@ -93,24 +78,24 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
           </div>
 
           {/* CTA Buttons */}
-          <div className="mt-10" onClick={() => trackEvent('cta_section_view', { variant })}>
-            <HeroCTA variant={variant as 'A' | 'B' | 'C' | 'control'} />
+          <div className="mt-10">
+            <HeroCTA variant="control" />
           </div>
 
-          {/* Additional Trust Elements */}
+          {/* The Aegrid Rules Value Propositions */}
           <div className="mt-12">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-2xl mx-auto">
               <div className="text-center">
-                <div className="text-2xl font-bold text-green-600">23%</div>
-                <div className="text-sm text-gray-600">Cost Reduction</div>
+                <div className="text-2xl font-bold text-green-600">Purpose</div>
+                <div className="text-sm text-gray-600">Function-Based Anchoring</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-blue-600">$500k</div>
-                <div className="text-sm text-gray-600">Saved in Downtime</div>
+                <div className="text-2xl font-bold text-blue-600">Risk</div>
+                <div className="text-sm text-gray-600">Sets the Rhythm</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-purple-600">4.8★</div>
-                <div className="text-sm text-gray-600">Customer Rating</div>
+                <div className="text-2xl font-bold text-purple-600">Margin</div>
+                <div className="text-sm text-gray-600">Operational Slack</div>
               </div>
             </div>
           </div>
@@ -126,7 +111,7 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
   );
 }
 
-function HeroSectionSkeleton({ className }: { className: string }) {
+function _HeroSectionSkeleton({ className }: { className: string }) {
   return (
     <section className={`relative isolate bg-gradient-to-br from-background via-background to-muted/20 ${className}`}>
       {/* Social Proof Skeleton */}

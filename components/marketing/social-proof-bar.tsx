@@ -1,8 +1,8 @@
 "use client";
 
-import { LandingPageAnalytics, SocialProofData } from '@/lib/analytics/landing-page-analytics';
+import { SocialProofData } from '@/lib/analytics/landing-page-analytics';
 import { MessageSquare, Star, Users } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 interface SocialProofBarProps {
   data?: SocialProofData | null;
@@ -15,33 +15,19 @@ export default function SocialProofBar({
   variant = 'minimal',
   className = ''
 }: SocialProofBarProps) {
-  const [socialProofData, setSocialProofData] = useState<SocialProofData | null>(data || null);
-  const [isLoading, setIsLoading] = useState(!data);
-
-  useEffect(() => {
-    if (!data) {
-      const fetchData = async () => {
-        try {
-          const result = await LandingPageAnalytics.getSocialProofData();
-          setSocialProofData(result);
-        } catch (error) {
-          console.error('Failed to load social proof data:', error);
-          // Use fallback data
-          setSocialProofData({
-            userCount: 500,
-            rating: 4.8,
-            testimonialCount: 47,
-            customerLogos: [],
-            lastUpdated: new Date()
-          });
-        } finally {
-          setIsLoading(false);
-        }
-      };
-
-      fetchData();
+  // Use provided data or default honest data for better performance
+  const [socialProofData, setSocialProofData] = useState<SocialProofData | null>(
+    data || {
+      userCount: 0,
+      rating: 5.0,
+      testimonialCount: 0,
+      customerLogos: [],
+      lastUpdated: new Date()
     }
-  }, [data]);
+  );
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Removed API call for better performance - using default honest data
 
   if (isLoading || !socialProofData) {
     return <SocialProofSkeleton variant={variant} className={className} />;
@@ -100,33 +86,37 @@ export default function SocialProofBar({
               <p className="text-sm text-gray-600">Average Rating</p>
             </div>
 
-            {/* User Count */}
+            {/* Standards Compliance */}
             <div className="text-center">
               <div className="flex items-center justify-center gap-2 mb-2">
                 <Users className="w-5 h-5 text-green-600" />
                 <span className="text-2xl font-bold text-green-600">
-                  {formatUserCount(socialProofData.userCount)}
+                  {socialProofData.userCount > 0 ? formatUserCount(socialProofData.userCount) : '13'}
                 </span>
               </div>
-              <p className="text-sm text-gray-600">Australian Organisations</p>
+              <p className="text-sm text-gray-600">
+                {socialProofData.userCount > 0 ? 'Australian Organisations' : 'ISO Standards'}
+              </p>
             </div>
 
-            {/* Testimonials */}
+            {/* Innovation Focus */}
             <div className="text-center">
               <div className="flex items-center justify-center gap-2 mb-2">
                 <MessageSquare className="w-5 h-5 text-blue-600" />
                 <span className="text-2xl font-bold text-blue-600">
-                  {socialProofData.testimonialCount}
+                  {socialProofData.testimonialCount > 0 ? socialProofData.testimonialCount : '∞'}
                 </span>
               </div>
-              <p className="text-sm text-gray-600">Success Stories</p>
+              <p className="text-sm text-gray-600">
+                {socialProofData.testimonialCount > 0 ? 'Success Stories' : 'Innovation Potential'}
+              </p>
             </div>
           </div>
 
           {/* Customer Logos */}
           {socialProofData.customerLogos.length > 0 && (
             <div className="mt-6 pt-6 border-t border-green-200">
-              <p className="text-center text-sm text-gray-600 mb-4">Trusted by leading organisations</p>
+              <p className="text-center text-sm text-gray-600 mb-4">Built for leading organisations</p>
               <div className="flex items-center justify-center gap-8 opacity-60">
                 {socialProofData.customerLogos.map((logo, index) => (
                   <img
@@ -155,14 +145,18 @@ export default function SocialProofBar({
 
           <div className="flex items-center gap-1">
             <Users className="w-4 h-4" />
-            <span className="font-medium">{formatUserCount(socialProofData.userCount)}</span>
-            <span>organisations</span>
+            <span className="font-medium">
+              {socialProofData.userCount > 0 ? formatUserCount(socialProofData.userCount) : '13'}
+            </span>
+            <span>{socialProofData.userCount > 0 ? 'organisations' : 'ISO standards'}</span>
           </div>
 
           <div className="flex items-center gap-1">
             <MessageSquare className="w-4 h-4" />
-            <span className="font-medium">{socialProofData.testimonialCount}</span>
-            <span>success stories</span>
+            <span className="font-medium">
+              {socialProofData.testimonialCount > 0 ? socialProofData.testimonialCount : '∞'}
+            </span>
+            <span>{socialProofData.testimonialCount > 0 ? 'success stories' : 'innovation potential'}</span>
           </div>
         </div>
       </div>

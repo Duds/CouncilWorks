@@ -312,10 +312,10 @@ export default function FeatureShowcase({
         {/* Section Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tight mb-4">
-            Why 500+ Australian organisations choose Aegrid
+            The Aegrid Rules: Revolutionary Simplicity
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Three core capabilities that transform asset management, plus advanced features for enterprise needs
+            Four principles that eliminate complexity and create resilient asset management. No bureaucracy. No confusion. Just intelligent systems that work.
           </p>
         </div>
 

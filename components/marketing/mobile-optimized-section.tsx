@@ -1,21 +1,20 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { 
-  ChevronLeft, 
-  ChevronRight, 
-  Play, 
-  Pause, 
-  Touch,
-  Smartphone,
-  Tablet,
-  Monitor
-} from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
 import { trackLandingPageEvent } from '@/lib/analytics/landing-page-analytics';
+import { motion, useMotionValue, useTransform } from 'framer-motion';
+import {
+    ChevronLeft,
+    ChevronRight,
+    Hand,
+    Monitor,
+    Pause,
+    Play,
+    Smartphone,
+    Tablet
+} from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 interface SwipeableCardProps {
   children: React.ReactNode;
@@ -77,10 +76,10 @@ interface TouchOptimizedButtonProps {
   disabled?: boolean;
 }
 
-function TouchOptimizedButton({ 
-  children, 
-  onClick, 
-  variant = 'primary', 
+function TouchOptimizedButton({
+  children,
+  onClick,
+  variant = 'primary',
   size = 'md',
   className = '',
   disabled = false
@@ -106,15 +105,15 @@ function TouchOptimizedButton({
       action: 'touch_button_press',
       button_text: typeof children === 'string' ? children : 'button'
     });
-    
+
     setTimeout(() => setIsPressed(false), 150);
   };
 
   return (
     <motion.button
       className={`
-        ${sizeClasses[size]} 
-        ${variantClasses[variant]} 
+        ${sizeClasses[size]}
+        ${variantClasses[variant]}
         ${className}
         rounded-lg font-semibold transition-colors
         touch-manipulation select-none
@@ -138,7 +137,7 @@ interface MobileCarouselProps {
     title: string;
     description: string;
     image?: string;
-    icon?: React.ComponentType<{ className?: string }>;
+    icon?: React.ReactNode;
     badge?: string;
   }>;
   className?: string;
@@ -193,13 +192,15 @@ function MobileCarousel({ items, className = '' }: MobileCarouselProps) {
                         {item.badge}
                       </Badge>
                     )}
-                    
+
                     {item.icon && (
                       <div className="w-16 h-16 mx-auto mb-4 bg-blue-100 rounded-full flex items-center justify-center">
-                        <item.icon className="w-8 h-8 text-blue-600" />
+                        <div className="w-8 h-8 text-blue-600">
+                          {item.icon}
+                        </div>
                       </div>
                     )}
-                    
+
                     <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
                     <p className="text-gray-600">{item.description}</p>
                   </CardContent>
@@ -220,7 +221,7 @@ function MobileCarousel({ items, className = '' }: MobileCarouselProps) {
           >
             {isAutoPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
           </TouchOptimizedButton>
-          
+
           <div className="text-sm text-gray-500">
             {currentIndex + 1} of {items.length}
           </div>
@@ -235,7 +236,7 @@ function MobileCarousel({ items, className = '' }: MobileCarouselProps) {
           >
             <ChevronLeft className="w-4 h-4" />
           </TouchOptimizedButton>
-          
+
           <TouchOptimizedButton
             variant="outline"
             size="sm"
@@ -273,10 +274,10 @@ interface ResponsiveGridProps {
   className?: string;
 }
 
-function ResponsiveGrid({ 
-  children, 
-  mobileCols = 1, 
-  tabletCols = 2, 
+function ResponsiveGrid({
+  children,
+  mobileCols = 1,
+  tabletCols = 2,
   desktopCols = 3,
   gap = 6,
   className = ''
@@ -313,9 +314,9 @@ function DevicePreview({ className = '' }: DevicePreviewProps) {
   const [selectedDevice, setSelectedDevice] = useState<'mobile' | 'tablet' | 'desktop'>('mobile');
 
   const devices = [
-    { type: 'mobile' as const, icon: Smartphone, label: 'Mobile' },
-    { type: 'tablet' as const, icon: Tablet, label: 'Tablet' },
-    { type: 'desktop' as const, icon: Monitor, label: 'Desktop' }
+    { type: 'mobile' as const, icon: <Smartphone className="w-4 h-4" />, label: 'Mobile' },
+    { type: 'tablet' as const, icon: <Tablet className="w-4 h-4" />, label: 'Tablet' },
+    { type: 'desktop' as const, icon: <Monitor className="w-4 h-4" />, label: 'Desktop' }
   ];
 
   const deviceSizes = {
@@ -334,7 +335,7 @@ function DevicePreview({ className = '' }: DevicePreviewProps) {
             size="sm"
             onClick={() => setSelectedDevice(device.type)}
           >
-            <device.icon className="w-4 h-4 mr-2" />
+            <span className="mr-2">{device.icon}</span>
             {device.label}
           </TouchOptimizedButton>
         ))}
@@ -350,7 +351,7 @@ function DevicePreview({ className = '' }: DevicePreviewProps) {
         <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-green-50 p-4">
           <div className="h-full bg-white rounded-lg shadow-inner flex items-center justify-center">
             <div className="text-center">
-              <Touch className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+              <Hand className="w-8 h-8 text-blue-600 mx-auto mb-2" />
               <p className="text-sm text-gray-600">
                 Optimized for {selectedDevice}
               </p>
@@ -421,9 +422,7 @@ export default function MobileOptimizedSection({
 }
 
 export {
-  SwipeableCard,
-  TouchOptimizedButton,
-  MobileCarousel,
-  ResponsiveGrid,
-  DevicePreview
+    DevicePreview, MobileCarousel,
+    ResponsiveGrid, SwipeableCard,
+    TouchOptimizedButton
 };

@@ -1,11 +1,15 @@
 import SectionObserver from '@/components/marketing/SectionObserver';
+import AdvancedAnalytics from '@/components/marketing/advanced-analytics';
 import AnalyticsInitializer from '@/components/marketing/analytics-initializer';
+import { EnhancedStatsSection } from '@/components/marketing/enhanced-visual-design';
 import FeatureShowcase from '@/components/marketing/feature-showcase';
 import HeroSection from '@/components/marketing/hero-section';
-import ROICalculator from '@/components/marketing/interactive-demo';
-import { EnhancedStatsSection, InteractiveFeatureCard } from '@/components/marketing/enhanced-visual-design';
-import MobileOptimizedSection, { MobileCarousel } from '@/components/marketing/mobile-optimized-section';
-import { LazySection } from '@/components/marketing/lazy-section';
+// import IndustrySpecificLanding from '@/components/marketing/industry-specific-landing';
+// import { default as ROICalculator } from '@/components/marketing/interactive-demo';
+// import PersonalizedExperience from '@/components/marketing/personalized-experience';
+// import ConversionOptimization from '@/components/marketing/conversion-optimization';
+// import EnterpriseFeatures from '@/components/marketing/enterprise-features';
+import { MobileCarousel } from '@/components/marketing/mobile-optimized-section';
 import type { Metadata, Route } from 'next';
 import { cookies } from 'next/headers';
 import Image from 'next/image';
@@ -13,25 +17,25 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title:
-    'Aegrid: ISO 55000 Compliant Asset Intelligence Platform | Energy Management & AI Optimisation',
+    'Aegrid: Asset Management Reimagined | Four Rules That Change Everything',
   description:
-    "Transform your asset management with Aegrid's ISO 55000 compliant platform. Advanced energy analysis, AI-powered optimisation, and intelligent anomaly detection for universities, property portfolios, and enterprise organisations.",
+    "Built on revolutionary simplicity: Every Asset Has a Purpose, Risk Sets the Rhythm, Respond to the Real World, Operate with Margin. Transform your asset management with intelligent systems that work.",
   keywords: [
-    'ISO 55000 compliance',
+    'Aegrid Rules',
+    'asset management reimagined',
+    'resilient asset management',
+    'every asset has a purpose',
+    'risk sets the rhythm',
+    'respond to the real world',
+    'operate with margin',
     'asset intelligence platform',
+    'ISO 55000 compliance',
     'energy management',
     'AI optimisation',
-    'anomaly detection',
-    'asset lifecycle management',
-    'property portfolio management',
-    'university asset management',
-    'enterprise asset management',
     'predictive maintenance',
-    'energy consumption analysis',
-    'asset performance optimisation',
     'intelligent asset management',
-    'Aegrid Rules',
     'Australian asset management',
+    'service design led',
   ],
   authors: [
     { name: 'Dale Rogers', url: 'https://linkedin.com/in/dale-rogers' },
@@ -50,9 +54,9 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Aegrid: ISO 55000 Compliant Asset Intelligence Platform',
+    title: 'Aegrid: Asset Management Reimagined | Four Rules That Change Everything',
     description:
-      "Transform your asset management with Aegrid's ISO 55000 compliant platform. Advanced energy analysis, AI-powered optimisation, and intelligent anomaly detection.",
+      "Built on revolutionary simplicity: Every Asset Has a Purpose, Risk Sets the Rhythm, Respond to the Real World, Operate with Margin. Transform your asset management with intelligent systems that work.",
     url: 'https://aegrid.au',
     siteName: 'Aegrid',
     images: [
@@ -68,9 +72,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Aegrid: ISO 55000 Compliant Asset Intelligence Platform',
+    title: 'Aegrid: Asset Management Reimagined | Four Rules That Change Everything',
     description:
-      "Transform your asset management with Aegrid's ISO 55000 compliant platform. Advanced energy analysis, AI-powered optimisation, and intelligent anomaly detection.",
+      "Built on revolutionary simplicity: Every Asset Has a Purpose, Risk Sets the Rhythm, Respond to the Real World, Operate with Margin. Transform your asset management with intelligent systems that work.",
     images: ['/images/CouncilWorks_HERO.png'],
     creator: '@aegrid_au',
   },
@@ -103,10 +107,6 @@ export const metadata: Metadata = {
 export default async function HomePage() {
   const cookieStore = await cookies();
   const variant = cookieStore.get('cw-ab-hero')?.value === 'B' ? 'B' : 'A';
-  const headline =
-    variant === 'A'
-      ? 'ISO 55000 Compliant Asset Intelligence: Energy Management, AI Optimisation & Predictive Analytics'
-      : 'Transform Your Asset Management with ISO 55000 Compliance, Energy Analysis & AI-Powered Optimisation';
 
   const structuredData = {
     '@context': 'https://schema.org',
@@ -159,234 +159,36 @@ export default async function HomePage() {
         {/* Enhanced Feature Showcase */}
         <FeatureShowcase maxVisible={3} variant="grid" />
 
-        {/* Interactive ROI Calculator */}
-        <LazySection className="mx-auto max-w-6xl px-6 py-16 sm:py-20 bg-muted/30">
-          <div className="mb-10 max-w-3xl">
-            <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-              Calculate Your Potential Savings
-            </h2>
-            <p className="mt-3 text-muted-foreground">
-              See how much you could save with Aegrid's intelligent asset management platform.
-            </p>
-          </div>
-          <ROICalculator />
-        </LazySection>
 
         {/* Enhanced Stats Section */}
         <EnhancedStatsSection />
 
-        {/* Mobile Optimized Section */}
-        <MobileOptimizedSection
-          title="Optimized for Every Device"
-          description="Experience Aegrid seamlessly across desktop, tablet, and mobile devices with touch-optimized interactions and responsive design."
-          showDevicePreview={true}
-        >
-          <MobileCarousel
-            items={[
-              {
-                id: 'mobile-1',
-                title: 'Mobile Operations',
-                description: 'Field-ready mobile interface with offline capabilities',
-                icon: () => (
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                  </svg>
-                ),
-                badge: 'Mobile First'
-              },
-              {
-                id: 'tablet-1',
-                title: 'Tablet Dashboard',
-                description: 'Optimized tablet experience for field supervisors',
-                icon: () => (
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
-                  </svg>
-                ),
-                badge: 'Touch Optimized'
-              },
-              {
-                id: 'desktop-1',
-                title: 'Desktop Analytics',
-                description: 'Full-featured desktop experience for deep analysis',
-                icon: () => (
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                ),
-                badge: 'Full Featured'
-              }
-            ]}
-          />
-        </MobileOptimizedSection>
+        {/* Interactive Product Demo - Phase 3 - Temporarily disabled */}
+        {/* <LazySection className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+          <InteractiveProductDemo />
+        </LazySection> */}
 
-        {/* Value for every stakeholder */}
-        <section
-          id="personas"
-          className="mx-auto max-w-6xl px-6 py-16 sm:py-20"
-          aria-labelledby="stakeholder-heading"
-        >
-          <div className="mb-10 max-w-3xl">
-            <h2
-              id="stakeholder-heading"
-              className="text-2xl font-semibold tracking-tight sm:text-3xl"
-            >
-              Value for Every Stakeholder
-            </h2>
-            <p className="mt-3 text-muted-foreground">
-              Aegrid delivers measurable value across your entire organisation,
-              from field teams to executive leadership.
-            </p>
-          </div>
+        {/* Industry-Specific Landing - Phase 3 - Temporarily disabled */}
+        {/* <LazySection className="mx-auto max-w-6xl px-6 py-16 sm:py-20 bg-muted/30">
+          <IndustrySpecificLanding />
+        </LazySection> */}
 
-          <div className="grid gap-8 lg:grid-cols-3">
-            {/* Executive Leadership */}
-            <div className="rounded-lg border border-border bg-background p-6 shadow-sm">
-              <div className="mb-4 flex items-center gap-3">
-                <div className="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
-                  <svg
-                    className="w-5 h-5 text-green-600 dark:text-green-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
-                    />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-semibold">
-                  Feature Walkthrough Videos
-                </h3>
-              </div>
-              <p className="text-sm text-muted-foreground mb-4">
-                Watch step-by-step demonstrations of key features including
-                energy management, predictive maintenance, and compliance
-                reporting.
-              </p>
-              <div className="space-y-3">
-                <div className="flex items-center gap-2 text-sm">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span>Energy management and optimisation</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                  <span>Predictive maintenance scheduling</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm">
-                  <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                  <span>AI anomaly detection setup</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm">
-                  <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                  <span>Compliance reporting automation</span>
-                </div>
-              </div>
-              <div className="mt-4">
-                <Link
-                  href="/docs/feature-walkthroughs"
-                  className="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors text-sm"
-                >
-                  Watch Videos →
-                </Link>
-              </div>
-            </div>
-          </div>
+        {/* Personalized Experience - Phase 3 - Temporarily disabled */}
+        {/* <LazySection className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+          <PersonalizedExperience />
+        </LazySection> */}
 
-          {/* Client Testimonials */}
-          <div className="mt-12">
-            <h3 className="text-xl font-semibold mb-6 text-center">
-              What Our Clients Say
-            </h3>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              <div className="rounded-lg border border-border bg-background p-6 shadow-sm">
-                <div className="mb-4">
-                  <div className="flex items-center gap-1 mb-2">
-                    {[...Array(5)].map((_, i) => (
-                      <svg
-                        key={i}
-                        className="w-4 h-4 text-yellow-400"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
-                  </div>
-                  <p className="text-sm text-muted-foreground italic">
-                    &ldquo;Aegrid&apos;s energy management capabilities helped
-                    us reduce operational costs by 23% while improving our
-                    sustainability metrics.&rdquo;
-                  </p>
-                </div>
-                <div className="text-sm font-medium">
-                  <div>Sarah Chen</div>
-                  <div className="text-muted-foreground">
-                    Facilities Director, University of Technology
-                  </div>
-                </div>
-              </div>
+        {/* Conversion Optimization - Phase 3 - Temporarily disabled */}
+        {/* <LazySection className="mx-auto max-w-6xl px-6 py-16 sm:py-20 bg-muted/30">
+          <ConversionOptimization />
+        </LazySection> */}
 
-              <div className="rounded-lg border border-border bg-background p-6 shadow-sm">
-                <div className="mb-4">
-                  <div className="flex items-center gap-1 mb-2">
-                    {[...Array(5)].map((_, i) => (
-                      <svg
-                        key={i}
-                        className="w-4 h-4 text-yellow-400"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
-                  </div>
-                  <p className="text-sm text-muted-foreground italic">
-                    &ldquo;The AI-powered anomaly detection has prevented three
-                    major equipment failures this quarter, saving us over
-                    $500,000 in unplanned downtime.&rdquo;
-                  </p>
-                </div>
-                <div className="text-sm font-medium">
-                  <div>Michael Rodriguez</div>
-                  <div className="text-muted-foreground">
-                    Asset Manager, Property Portfolio Group
-                  </div>
-                </div>
-              </div>
+        {/* Enterprise Features - Phase 3 - Temporarily disabled */}
+        {/* <LazySection className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
+          <EnterpriseFeatures />
+        </LazySection> */}
 
-              <div className="rounded-lg border border-border bg-background p-6 shadow-sm">
-                <div className="mb-4">
-                  <div className="flex items-center gap-1 mb-2">
-                    {[...Array(5)].map((_, i) => (
-                      <svg
-                        key={i}
-                        className="w-4 h-4 text-yellow-400"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
-                  </div>
-                  <p className="text-sm text-muted-foreground italic">
-                    &ldquo;ISO 55000 compliance was seamless with Aegrid. Our
-                    audit preparation time reduced from weeks to days.&rdquo;
-                  </p>
-                </div>
-                <div className="text-sm font-medium">
-                  <div>Dr. Emma Thompson</div>
-                  <div className="text-muted-foreground">
-                    Chief Operations Officer, Enterprise Solutions
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+
 
         {/* Founder & Aegrid Rules */}
         <section
@@ -399,7 +201,7 @@ export default async function HomePage() {
               id="founder-heading"
               className="text-2xl font-semibold tracking-tight sm:text-3xl"
             >
-              Built by a Service Designer Who&apos;s Lived the Problem
+              Built by Someone Who&apos;s Lived the Problem
             </h2>
             <p className="mt-3 text-muted-foreground">
               Meet Dale Rogers, the founder behind Aegrid&apos;s revolutionary
@@ -413,7 +215,7 @@ export default async function HomePage() {
                   From the Trenches to a New Philosophy
                 </h3>
                 <p className="mt-2 text-muted-foreground">
-                  Dale Rogers brings over 15 years of experience in service
+                  Dale Rogers brings over 30 years of experience in service
                   design and asset management. Having worked directly with
                   councils across Australia, Dale witnessed firsthand the
                   challenges of reactive maintenance and fragmented systems.
@@ -442,10 +244,9 @@ export default async function HomePage() {
                       2
                     </span>
                     <div>
-                      <h5 className="font-medium">Match Maintenance to Risk</h5>
+                      <h5 className="font-medium">Risk Sets the Rhythm</h5>
                       <p className="text-sm text-muted-foreground">
-                        Right-size your maintenance effort based on criticality
-                        and risk.
+                        Let consequence × likelihood determine cadence, scope, and budget allocation.
                       </p>
                     </div>
                   </div>
@@ -454,10 +255,9 @@ export default async function HomePage() {
                       3
                     </span>
                     <div>
-                      <h5 className="font-medium">Protect the Critical Few</h5>
+                      <h5 className="font-medium">Respond to the Real World</h5>
                       <p className="text-sm text-muted-foreground">
-                        Surface your most critical assets so you can focus on
-                        what matters most.
+                        Treat plans as hypotheses and reallocate resources when risk signals change.
                       </p>
                     </div>
                   </div>
@@ -466,10 +266,9 @@ export default async function HomePage() {
                       4
                     </span>
                     <div>
-                      <h5 className="font-medium">Plan for Tomorrow, Today</h5>
+                      <h5 className="font-medium">Operate with Margin</h5>
                       <p className="text-sm text-muted-foreground">
-                        Build a flexible, future-proof asset model that adapts
-                        to change.
+                        Build practical slack that creates tomorrow's resilience from today's actions.
                       </p>
                     </div>
                   </div>
@@ -563,7 +362,44 @@ export default async function HomePage() {
                 </Link>
               </div>
             </div>
-            <DemoCarousel />
+            <MobileCarousel
+              items={[
+                {
+                  id: 'pilot-1',
+                  title: 'Pilot Planning',
+                  description: 'Strategic assessment and roadmap development',
+                  icon: (
+                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                    </svg>
+                  ),
+                  badge: 'Phase 1'
+                },
+                {
+                  id: 'pilot-2',
+                  title: 'Implementation',
+                  description: 'Deploy and configure your pilot solution',
+                  icon: (
+                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  ),
+                  badge: 'Phase 2'
+                },
+                {
+                  id: 'pilot-3',
+                  title: 'Scale & Sustain',
+                  description: 'Expand across your organisation',
+                  icon: (
+                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  ),
+                  badge: 'Phase 3'
+                }
+              ]}
+            />
           </div>
         </section>
 
@@ -738,7 +574,7 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* Security & Compliance Framing */}
+        {/* Security & Compliance */}
         <section
           id="security-compliance"
           className="mx-auto max-w-6xl px-6 py-16 sm:py-20"
@@ -749,11 +585,10 @@ export default async function HomePage() {
               id="security-heading"
               className="text-2xl font-semibold tracking-tight sm:text-3xl"
             >
-              Security You Can Count On
+              Enterprise Security & Compliance
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Built on Australian standards with enterprise-grade security and
-              compliance built-in from day one.
+              Built on Australian standards with enterprise-grade security and compliance built-in from day one.
             </p>
           </div>
 
@@ -761,443 +596,98 @@ export default async function HomePage() {
           <div className="mb-12 flex flex-wrap items-center justify-center gap-6 opacity-80">
             <div className="flex items-center gap-2 px-4 py-2 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
               <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                <svg
-                  className="w-3 h-3 text-white"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                    clipRule="evenodd"
-                  />
+                <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
               </div>
-              <span className="text-sm font-medium text-green-700 dark:text-green-300">
-                Essential 8 Compliant
-              </span>
+              <span className="text-sm font-medium text-green-700 dark:text-green-300">Essential 8 Compliant</span>
             </div>
             <div className="flex items-center gap-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
               <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
-                <svg
-                  className="w-3 h-3 text-white"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                    clipRule="evenodd"
-                  />
+                <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
               </div>
-              <span className="text-sm font-medium text-blue-700 dark:text-blue-300">
-                ISO 27001 Ready
-              </span>
+              <span className="text-sm font-medium text-blue-700 dark:text-blue-300">ISO 27001 Ready</span>
             </div>
             <div className="flex items-center gap-2 px-4 py-2 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
               <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center">
-                <svg
-                  className="w-3 h-3 text-white"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                    clipRule="evenodd"
-                  />
+                <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
               </div>
-              <span className="text-sm font-medium text-purple-700 dark:text-purple-300">
-                Australian Sovereign
-              </span>
+              <span className="text-sm font-medium text-purple-700 dark:text-purple-300">Australian Sovereign</span>
             </div>
             <div className="flex items-center gap-2 px-4 py-2 bg-orange-50 dark:bg-orange-900/20 rounded-lg border border-orange-200 dark:border-orange-800">
               <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center">
-                <svg
-                  className="w-3 h-3 text-white"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                    clipRule="evenodd"
-                  />
+                <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
               </div>
-              <span className="text-sm font-medium text-orange-700 dark:text-orange-300">
-                SOC 2 Ready
-              </span>
+              <span className="text-sm font-medium text-orange-700 dark:text-orange-300">SOC 2 Ready</span>
             </div>
           </div>
 
-          {/* Concise Security Features */}
+          {/* Security Features Grid */}
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <div className="text-center p-6 rounded-lg border border-border bg-background">
               <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <svg
-                  className="w-6 h-6 text-green-600 dark:text-green-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                  />
+                <svg className="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold mb-2">
-                Essential 8 Aligned
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                Level 3 compliance across all Australian Cyber Security Centre
-                strategies.
-              </p>
+              <h3 className="text-lg font-semibold mb-2">Essential 8 Aligned</h3>
+              <p className="text-sm text-muted-foreground">Level 3 compliance across all Australian Cyber Security Centre strategies.</p>
             </div>
             <div className="text-center p-6 rounded-lg border border-border bg-background">
               <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <svg
-                  className="w-6 h-6 text-blue-600 dark:text-blue-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                  />
+                <svg className="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold mb-2">
-                Enterprise Security
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                MFA, RBAC, AES-256 encryption, and comprehensive audit logging.
-              </p>
+              <h3 className="text-lg font-semibold mb-2">Enterprise Security</h3>
+              <p className="text-sm text-muted-foreground">MFA, RBAC, AES-256 encryption, and comprehensive audit logging.</p>
             </div>
             <div className="text-center p-6 rounded-lg border border-border bg-background">
               <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <svg
-                  className="w-6 h-6 text-purple-600 dark:text-purple-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9"
-                  />
+                <svg className="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9" />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold mb-2">
-                Australian Sovereign
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                Data sovereignty guarantees and compliance with Australian
-                privacy laws.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Our Security Commitment */}
-        <section
-          id="security-commitment"
-          className="mx-auto max-w-6xl px-6 py-16 sm:py-20 bg-muted/30"
-          aria-labelledby="commitment-heading"
-        >
-          <div className="mb-10 max-w-3xl">
-            <h2
-              id="commitment-heading"
-              className="text-2xl font-semibold tracking-tight sm:text-3xl"
-            >
-              Our Security Commitment
-            </h2>
-            <p className="mt-3 text-muted-foreground">
-              Compliance backed by evidence. We don&apos;t just meet standards –
-              we exceed them with continuous monitoring and improvement.
-            </p>
-          </div>
-
-          {/* Compliance Logos */}
-          <div className="mb-12 flex flex-wrap items-center justify-center gap-8 opacity-70">
-            <div className="flex flex-col items-center gap-2">
-              <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-xl flex items-center justify-center shadow-lg">
-                <svg
-                  className="w-8 h-8 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                  />
-                </svg>
-              </div>
-              <span className="text-xs font-medium text-muted-foreground">
-                Essential 8
-              </span>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
-                <svg
-                  className="w-8 h-8 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                  />
-                </svg>
-              </div>
-              <span className="text-xs font-medium text-muted-foreground">
-                ISO 27001
-              </span>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
-                <svg
-                  className="w-8 h-8 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9"
-                  />
-                </svg>
-              </div>
-              <span className="text-xs font-medium text-muted-foreground">
-                Data Sovereignty
-              </span>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-orange-600 rounded-xl flex items-center justify-center shadow-lg">
-                <svg
-                  className="w-8 h-8 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                  />
-                </svg>
-              </div>
-              <span className="text-xs font-medium text-muted-foreground">
-                SOC 2
-              </span>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <div className="w-16 h-16 bg-gradient-to-br from-red-400 to-red-600 rounded-xl flex items-center justify-center shadow-lg">
-                <svg
-                  className="w-8 h-8 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 10V3L4 14h7v7l9-11h-7z"
-                  />
-                </svg>
-              </div>
-              <span className="text-xs font-medium text-muted-foreground">
-                GDPR Ready
-              </span>
+              <h3 className="text-lg font-semibold mb-2">Australian Sovereign</h3>
+              <p className="text-sm text-muted-foreground">Data sovereignty guarantees and compliance with Australian privacy laws.</p>
             </div>
           </div>
 
           {/* Key Metrics */}
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             <div className="text-center">
               <div className="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-green-600 dark:text-green-400">
-                  100%
-                </span>
+                <span className="text-2xl font-bold text-green-600 dark:text-green-400">100%</span>
               </div>
-              <h3 className="text-lg font-semibold mb-2">
-                Essential 8 Compliance
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                Level 3 (Fully Aligned) across all eight strategies
-              </p>
+              <h3 className="text-lg font-semibold mb-2">Essential 8 Compliance</h3>
+              <p className="text-sm text-muted-foreground">Level 3 (Fully Aligned) across all eight strategies</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                  24/7
-                </span>
+                <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">24/7</span>
               </div>
-              <h3 className="text-lg font-semibold mb-2">
-                Security Monitoring
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                Continuous monitoring and automated threat detection
-              </p>
+              <h3 className="text-lg font-semibold mb-2">Security Monitoring</h3>
+              <p className="text-sm text-muted-foreground">Continuous monitoring and automated threat detection</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-purple-600 dark:text-purple-400">
-                  AES-256
-                </span>
+                <span className="text-2xl font-bold text-purple-600 dark:text-purple-400">AES-256</span>
               </div>
               <h3 className="text-lg font-semibold mb-2">Data Encryption</h3>
-              <p className="text-sm text-muted-foreground">
-                Military-grade encryption for data at rest and in transit
-              </p>
+              <p className="text-sm text-muted-foreground">Military-grade encryption for data at rest and in transit</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-orange-100 dark:bg-orange-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-orange-600 dark:text-orange-400">
-                  ISO
-                </span>
+                <span className="text-2xl font-bold text-orange-600 dark:text-orange-400">ISO</span>
               </div>
-              <h3 className="text-lg font-semibold mb-2">
-                Standards Compliant
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                ISO 27001/27002 certified security management
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Enterprise-Level Credentials */}
-        <section
-          id="enterprise-credentials"
-          className="mx-auto max-w-6xl px-6 py-16 sm:py-20"
-          aria-labelledby="credentials-heading"
-        >
-          <div className="mb-10 max-w-3xl">
-            <h2
-              id="credentials-heading"
-              className="text-2xl font-semibold tracking-tight sm:text-3xl"
-            >
-              Enterprise-Level Credentials
-            </h2>
-            <p className="mt-3 text-muted-foreground">
-              Designed for government and enterprise with the security,
-              compliance, and reliability you need.
-            </p>
-          </div>
-
-          {/* Concise Credentials Grid */}
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            <div className="p-6 rounded-lg border border-border bg-background">
-              <h3 className="text-lg font-semibold mb-4">Security Controls</h3>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-sm text-muted-foreground">
-                    Multi-Factor Authentication
-                  </span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-sm text-muted-foreground">
-                    Role-Based Access Control
-                  </span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-sm text-muted-foreground">
-                    Application Whitelisting
-                  </span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-sm text-muted-foreground">
-                    Automated Patch Management
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className="p-6 rounded-lg border border-border bg-background">
-              <h3 className="text-lg font-semibold mb-4">
-                Compliance Standards
-              </h3>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                  <span className="text-sm text-muted-foreground">
-                    Essential Eight Maturity Model
-                  </span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                  <span className="text-sm text-muted-foreground">
-                    ISO 27001/27002
-                  </span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                  <span className="text-sm text-muted-foreground">
-                    Australian Privacy Principles
-                  </span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                  <span className="text-sm text-muted-foreground">
-                    Data Sovereignty Compliance
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className="p-6 rounded-lg border border-border bg-background">
-              <h3 className="text-lg font-semibold mb-4">
-                Monitoring & Assurance
-              </h3>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                  <span className="text-sm text-muted-foreground">
-                    Real-time Security Monitoring
-                  </span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                  <span className="text-sm text-muted-foreground">
-                    Comprehensive Audit Logging
-                  </span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                  <span className="text-sm text-muted-foreground">
-                    Automated Vulnerability Scanning
-                  </span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                  <span className="text-sm text-muted-foreground">
-                    Backup Integrity Verification
-                  </span>
-                </div>
-              </div>
+              <h3 className="text-lg font-semibold mb-2">Standards Compliant</h3>
+              <p className="text-sm text-muted-foreground">ISO 27001/27002 certified security management</p>
             </div>
           </div>
         </section>
@@ -1208,11 +698,11 @@ export default async function HomePage() {
             <div className="space-y-6">
               <div className="text-center">
                 <h3 className="text-lg font-semibold">
-                  Aegrid: ISO 55000 Compliant Asset Intelligence Platform
+                  Aegrid: Asset Management Reimagined
                 </h3>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Transform your asset management with energy analysis, AI
-                  optimisation, and predictive analytics
+                  Built on revolutionary simplicity: Four Rules That Change Everything.
+                  Transform your asset management with intelligent systems that work.
                 </p>
               </div>
               <div className="flex flex-wrap items-center justify-between gap-4">
@@ -1253,6 +743,9 @@ export default async function HomePage() {
             'enterprise-credentials',
           ]}
         />
+
+        {/* Advanced Analytics - Phase 3 */}
+        <AdvancedAnalytics />
       </main>
     </>
   );

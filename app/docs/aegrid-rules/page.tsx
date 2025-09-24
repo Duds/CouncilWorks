@@ -1,7 +1,7 @@
+import DocsLayout from '@/components/layout/docs-layout';
+import { Button } from '@/components/ui/button';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import DocsLayout from '@/components/layout/docs-layout';
 
 export const metadata: Metadata = {
   title: 'The Aegrid Rules: Resilient Asset Management for Critical Control',
@@ -90,7 +90,7 @@ export default function AegridRulesPage() {
         {/* The Four Rules */}
         <section className="mb-12">
           <h2 className="text-2xl font-semibold tracking-tight mb-8">The Aegrid Rules: A Resilience-First Philosophy</h2>
-          
+
           <div className="space-y-12">
             {/* Rule 1 */}
             <div className="border-l-4 border-primary pl-6">
@@ -105,7 +105,7 @@ export default function AegridRulesPage() {
                 <p className="text-muted-foreground mb-4">
                   Traditional asset management treats assets as things to be maintained. The Aegrid approach treats assets as components of critical control systems that deliver specific outcomes. This shift from "what needs maintenance?" to "what controls are we protecting?" transforms how we think about asset management.
                 </p>
-                
+
                 <div className="bg-blue-50 p-4 rounded-lg mb-4">
                   <h4 className="font-semibold mb-2">The Critical Control Connection</h4>
                   <p className="text-sm text-muted-foreground mb-3">Every asset in your portfolio should connect to a critical control that prevents a significant hazard or enables a vital service:</p>
@@ -327,7 +327,7 @@ export default function AegridRulesPage() {
             <p className="text-muted-foreground mb-6">
               Transforming from traditional, brittle asset management to resilient, Aegrid-based management requires a systematic approach. This transformation cannot happen overnight, but it can begin immediately with small, high-impact changes that build momentum toward full implementation.
             </p>
-            
+
             <div className="space-y-8">
               <div className="bg-blue-50 p-6 rounded-lg">
                 <h3 className="font-semibold mb-4 text-lg">Phase 1: Foundation (Months 1-3)</h3>
@@ -441,7 +441,7 @@ export default function AegridRulesPage() {
             <p className="text-muted-foreground mb-6">
               The Aegrid Rules offer a different path—one that leads to resilient, antifragile asset management systems that thrive under pressure. By connecting every asset to its critical control purpose, letting risk set the rhythm of maintenance, responding rapidly to real-world signals, and operating with deliberate margin, organizations can transform their asset management from a cost center into a strategic capability.
             </p>
-            
+
             <div className="bg-muted p-6 rounded-lg mb-6">
               <h3 className="font-semibold mb-4">Proven Results</h3>
               <p className="text-sm text-muted-foreground mb-4">Organizations implementing these principles report:</p>
@@ -494,12 +494,12 @@ export default function AegridRulesPage() {
               <h3 className="font-semibold">Dale Rogers</h3>
               <p className="text-sm text-muted-foreground mb-2">Founder & Service Designer, Aegrid</p>
               <p className="text-sm text-muted-foreground">
-                Dale brings over 15 years of experience in service design and asset management, having worked directly with councils across Australia. His unique combination of technical expertise and service design thinking led to the development of the Aegrid Rules and the creation of Aegrid's intelligent asset management platform.
+                Dale brings over 30 years of experience in service design and asset management, having worked directly with councils across Australia. His unique combination of technical expertise and service design thinking led to the development of the Aegrid Rules and the creation of Aegrid's intelligent asset management platform.
               </p>
               <div className="mt-3">
-                <a 
-                  href="https://linkedin.com/in/dale-rogers" 
-                  target="_blank" 
+                <a
+                  href="https://linkedin.com/in/dale-rogers"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm text-primary hover:text-primary/80"
                 >
@@ -513,4 +513,3 @@ export default function AegridRulesPage() {
     </DocsLayout>
   );
 }
-

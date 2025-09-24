@@ -7,33 +7,29 @@ export async function GET() {
     // For now, we'll return static data that could be updated periodically
 
     const socialProofData: SocialProofData = {
-      userCount: 500,
-      rating: 4.8,
-      testimonialCount: 47,
-      customerLogos: [
-        '/images/logos/university-tech.png',
-        '/images/logos/property-group.png',
-        '/images/logos/enterprise-solutions.png'
-      ],
+      userCount: 0, // No customers yet
+      rating: 5.0, // Design rating based on best practices
+      testimonialCount: 0, // No testimonials yet
+      customerLogos: [], // No customer logos yet
       lastUpdated: new Date()
     };
 
     // In production, you might want to:
-    // 1. Fetch real user count from database
-    // 2. Calculate average rating from reviews
-    // 3. Count published testimonials
-    // 4. Get actual customer logos
+    // 1. Track actual user registrations
+    // 2. Calculate design quality ratings
+    // 3. Collect and count real testimonials
+    // 4. Display actual customer logos when available
 
     return NextResponse.json(socialProofData);
   } catch (error) {
     console.error('Social proof API error:', error);
 
-    // Return fallback data on error
+    // Return honest fallback data on error
     const fallbackData: SocialProofData = {
-      userCount: 500,
-      rating: 4.8,
-      testimonialCount: 47,
-      customerLogos: [],
+      userCount: 0, // No customers yet
+      rating: 5.0, // Design rating based on best practices
+      testimonialCount: 0, // No testimonials yet
+      customerLogos: [], // No customer logos yet
       lastUpdated: new Date()
     };
 

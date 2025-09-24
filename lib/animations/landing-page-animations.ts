@@ -60,10 +60,10 @@ export const slideInFromTop = {
 };
 
 export const pulse = {
-  animate: { 
+  animate: {
     scale: [1, 1.05, 1],
-    transition: { 
-      duration: 2, 
+    transition: {
+      duration: 2,
       repeat: Infinity,
       ease: "easeInOut"
     }
@@ -71,13 +71,13 @@ export const pulse = {
 };
 
 export const glow = {
-  animate: { 
+  animate: {
     boxShadow: [
       '0 0 0 0 rgba(59, 130, 246, 0.7)',
       '0 0 0 10px rgba(59, 130, 246, 0)'
     ],
-    transition: { 
-      duration: 1.5, 
+    transition: {
+      duration: 1.5,
       repeat: Infinity,
       ease: "easeOut"
     }
@@ -131,7 +131,7 @@ export const shake = {
 export const heroAnimations = {
   container: {
     initial: { opacity: 0 },
-    animate: { 
+    animate: {
       opacity: 1,
       transition: {
         duration: 0.8,
@@ -141,48 +141,48 @@ export const heroAnimations = {
   },
   badge: {
     initial: { opacity: 0, scale: 0.8 },
-    animate: { 
-      opacity: 1, 
+    animate: {
+      opacity: 1,
       scale: 1,
       transition: { duration: 0.6, ease: "easeOut" }
     }
   },
   headline: {
     initial: { opacity: 0, y: 30 },
-    animate: { 
-      opacity: 1, 
+    animate: {
+      opacity: 1,
       y: 0,
       transition: { duration: 0.8, ease: "easeOut" }
     }
   },
   subheadline: {
     initial: { opacity: 0, y: 20 },
-    animate: { 
-      opacity: 1, 
+    animate: {
+      opacity: 1,
       y: 0,
       transition: { duration: 0.6, delay: 0.2, ease: "easeOut" }
     }
   },
   indicators: {
     initial: { opacity: 0, y: 20 },
-    animate: { 
-      opacity: 1, 
+    animate: {
+      opacity: 1,
       y: 0,
       transition: { duration: 0.6, delay: 0.4, ease: "easeOut" }
     }
   },
   cta: {
     initial: { opacity: 0, y: 20 },
-    animate: { 
-      opacity: 1, 
+    animate: {
+      opacity: 1,
       y: 0,
       transition: { duration: 0.6, delay: 0.6, ease: "easeOut" }
     }
   },
   metrics: {
     initial: { opacity: 0, scale: 0.9 },
-    animate: { 
-      opacity: 1, 
+    animate: {
+      opacity: 1,
       scale: 1,
       transition: { duration: 0.6, delay: 0.8, ease: "easeOut" }
     }
@@ -192,7 +192,7 @@ export const heroAnimations = {
 export const featureAnimations = {
   container: {
     initial: { opacity: 0 },
-    animate: { 
+    animate: {
       opacity: 1,
       transition: {
         duration: 0.8,
@@ -202,8 +202,8 @@ export const featureAnimations = {
   },
   card: {
     initial: { opacity: 0, y: 30 },
-    animate: { 
-      opacity: 1, 
+    animate: {
+      opacity: 1,
       y: 0,
       transition: { duration: 0.6, ease: "easeOut" }
     }
@@ -217,7 +217,7 @@ export const featureAnimations = {
 export const testimonialAnimations = {
   container: {
     initial: { opacity: 0 },
-    animate: { 
+    animate: {
       opacity: 1,
       transition: {
         duration: 0.8,
@@ -227,8 +227,8 @@ export const testimonialAnimations = {
   },
   card: {
     initial: { opacity: 0, x: 30 },
-    animate: { 
-      opacity: 1, 
+    animate: {
+      opacity: 1,
       x: 0,
       transition: { duration: 0.6, ease: "easeOut" }
     }
@@ -238,13 +238,13 @@ export const testimonialAnimations = {
 // Page transition animations
 export const pageTransition = {
   initial: { opacity: 0, y: 20 },
-  animate: { 
-    opacity: 1, 
+  animate: {
+    opacity: 1,
     y: 0,
     transition: { duration: 0.6, ease: "easeOut" }
   },
-  exit: { 
-    opacity: 0, 
+  exit: {
+    opacity: 0,
     y: -20,
     transition: { duration: 0.4, ease: "easeIn" }
   }
@@ -324,7 +324,7 @@ export function createCustomAnimation(
         animate: { opacity: 1 },
         ...baseAnimation
       };
-    
+
     case 'slide':
       const slideDirection = direction || 'up';
       const slideMap = {
@@ -337,21 +337,21 @@ export function createCustomAnimation(
         ...slideMap[slideDirection],
         ...baseAnimation
       };
-    
+
     case 'scale':
       return {
         initial: { opacity: 0, scale: 0.9 },
         animate: { opacity: 1, scale: 1 },
         ...baseAnimation
       };
-    
+
     case 'rotate':
       return {
         initial: { opacity: 0, rotate: -180 },
         animate: { opacity: 1, rotate: 0 },
         ...baseAnimation
       };
-    
+
     default:
       return fadeInUp;
   }
@@ -378,10 +378,10 @@ export const mobileOptimizedAnimations = {
     transition: { duration: 0.3, ease: "easeOut" }
   },
   pulse: {
-    animate: { 
+    animate: {
       scale: [1, 1.02, 1],
-      transition: { 
-        duration: 2, 
+      transition: {
+        duration: 2,
         repeat: Infinity,
         ease: "easeInOut"
       }

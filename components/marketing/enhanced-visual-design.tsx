@@ -1,21 +1,17 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { 
-  Sparkles, 
-  Zap, 
-  Shield, 
-  Brain, 
-  TrendingUp, 
-  Star,
-  ArrowRight,
-  Play,
-  CheckCircle
-} from 'lucide-react';
 import { trackLandingPageEvent } from '@/lib/analytics/landing-page-analytics';
+import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import {
+    ArrowRight,
+    CheckCircle,
+    Shield,
+    Star,
+    Users,
+    Zap
+} from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 interface FloatingElementProps {
   children: React.ReactNode;
@@ -94,13 +90,24 @@ interface ParticleBackgroundProps {
 }
 
 function ParticleBackground({ particleCount = 50, className = '' }: ParticleBackgroundProps) {
-  const particles = Array.from({ length: particleCount }, (_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: Math.random() * 4 + 1,
-    delay: Math.random() * 2
-  }));
+  // Use deterministic seed-based random generation to avoid hydration mismatches
+  const seededRandom = (seed: number) => {
+    const x = Math.sin(seed) * 10000;
+    return x - Math.floor(x);
+  };
+
+  const particles = Array.from({ length: particleCount }, (_, i) => {
+    const seed = i * 12345;
+
+    return {
+      id: i,
+      x: Math.round(seededRandom(seed) * 10000) / 100, // Round to 2 decimal places
+      y: Math.round(seededRandom(seed + 1) * 10000) / 100, // Round to 2 decimal places
+      size: Math.round((seededRandom(seed + 2) * 4 + 1) * 100) / 100, // Round to 2 decimal places
+      delay: Math.round(seededRandom(seed + 3) * 2 * 100) / 100, // Round to 2 decimal places
+      duration: Math.round((3 + seededRandom(seed + 4) * 2) * 100) / 100 // Round to 2 decimal places
+    };
+  });
 
   return (
     <div className={`absolute inset-0 overflow-hidden ${className}`}>
@@ -119,7 +126,7 @@ function ParticleBackground({ particleCount = 50, className = '' }: ParticleBack
             opacity: [0.2, 0.8, 0.2],
           }}
           transition={{
-            duration: 3 + Math.random() * 2,
+            duration: particle.duration,
             delay: particle.delay,
             repeat: Infinity,
             ease: "easeInOut"
@@ -151,7 +158,7 @@ function AnimatedCounter({ end, duration = 2, prefix = '', suffix = '', classNam
     const animate = (currentTime: number) => {
       if (!startTime) startTime = currentTime;
       const progress = Math.min((currentTime - startTime) / (duration * 1000), 1);
-      
+
       const easeOutQuart = 1 - Math.pow(1 - progress, 4);
       setCount(Math.floor(easeOutQuart * end));
 
@@ -261,16 +268,16 @@ function InteractiveFeatureCard({
           >
             <Icon className="w-6 h-6" />
           </motion.div>
-          
+
           <div className="flex-1">
-            <motion.h3 
+            <motion.h3
               className="text-lg font-semibold mb-2"
               whileHover={{ color: '#3b82f6' }}
             >
               {title}
             </motion.h3>
             <p className="text-sm text-gray-600 mb-4">{description}</p>
-            
+
             <motion.div
               animate={{ height: isExpanded ? 'auto' : 0, opacity: isExpanded ? 1 : 0 }}
               transition={{ duration: 0.3 }}
@@ -291,7 +298,7 @@ function InteractiveFeatureCard({
                     </motion.div>
                   ))}
                 </div>
-                
+
                 <div className="grid grid-cols-2 gap-3 pt-3 border-t border-gray-100">
                   {metrics.map((metric, index) => (
                     <motion.div
@@ -312,7 +319,7 @@ function InteractiveFeatureCard({
                 </div>
               </div>
             </motion.div>
-            
+
             <motion.div
               className="mt-4 flex items-center gap-2 text-sm text-blue-600 cursor-pointer"
               whileHover={{ x: 5 }}
@@ -339,38 +346,38 @@ interface EnhancedStatsSectionProps {
 export function EnhancedStatsSection({ className = '' }: EnhancedStatsSectionProps) {
   const stats = [
     {
-      icon: Users,
-      value: 500,
-      suffix: '+',
-      label: 'Australian Organisations',
-      description: 'Trust Aegrid for asset management',
+      icon: Shield,
+      value: 1,
+      suffix: '',
+      label: 'Every Asset Has a Purpose',
+      description: 'Function-based anchoring, not location',
       color: 'text-green-600',
       bgColor: 'bg-green-100'
     },
     {
-      icon: TrendingUp,
-      value: 23,
-      suffix: '%',
-      label: 'Cost Reduction',
-      description: 'Average maintenance savings',
+      icon: Zap,
+      value: 2,
+      suffix: '',
+      label: 'Risk Sets the Rhythm',
+      description: 'Maintenance frequency by criticality',
       color: 'text-blue-600',
       bgColor: 'bg-blue-100'
     },
     {
-      icon: Zap,
-      value: 67,
-      suffix: '%',
-      label: 'Downtime Reduction',
-      description: 'Fewer unplanned outages',
+      icon: Star,
+      value: 3,
+      suffix: '',
+      label: 'Respond to the Real World',
+      description: 'Treat plans as hypotheses',
       color: 'text-purple-600',
       bgColor: 'bg-purple-100'
     },
     {
-      icon: Star,
-      value: 4.8,
-      suffix: '★',
-      label: 'Customer Rating',
-      description: 'Based on 47 testimonials',
+      icon: Users,
+      value: 4,
+      suffix: '',
+      label: 'Operate with Margin',
+      description: 'Build practical slack',
       color: 'text-orange-600',
       bgColor: 'bg-orange-100'
     }
@@ -393,7 +400,7 @@ export function EnhancedStatsSection({ className = '' }: EnhancedStatsSectionPro
       }}
     >
       <ParticleBackground particleCount={30} />
-      
+
       <div className="mx-auto max-w-6xl px-6 relative z-10">
         <motion.div
           className="text-center mb-12"
@@ -403,10 +410,10 @@ export function EnhancedStatsSection({ className = '' }: EnhancedStatsSectionPro
           }}
         >
           <h2 className="text-3xl font-bold tracking-tight mb-4">
-            Trusted by Leading Organisations
+            The Aegrid Rules in Action
           </h2>
           <p className="text-lg text-muted-foreground">
-            Join hundreds of Australian organisations already saving with Aegrid
+            See how four simple principles transform complex asset management into intelligent, resilient systems
           </p>
         </motion.div>
 
@@ -421,13 +428,13 @@ export function EnhancedStatsSection({ className = '' }: EnhancedStatsSectionPro
               whileHover={{ scale: 1.05, y: -5 }}
               transition={{ duration: 0.2 }}
             >
-              <Card className="text-center p-6 relative overflow-hidden">
+              <Card className="text-center p-6 relative overflow-hidden h-full flex flex-col">
                 <FloatingElement delay={index * 0.2}>
                   <div className={`w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center ${stat.bgColor}`}>
                     <stat.icon className={`w-8 h-8 ${stat.color}`} />
                   </div>
                 </FloatingElement>
-                
+
                 <div className={`text-3xl font-bold mb-2 ${stat.color}`}>
                   <AnimatedCounter
                     end={stat.value}
@@ -435,9 +442,9 @@ export function EnhancedStatsSection({ className = '' }: EnhancedStatsSectionPro
                     duration={2}
                   />
                 </div>
-                
+
                 <h3 className="text-lg font-semibold mb-2">{stat.label}</h3>
-                <p className="text-sm text-gray-600">{stat.description}</p>
+                <p className="text-sm text-gray-600 mt-auto">{stat.description}</p>
               </Card>
             </motion.div>
           ))}
@@ -448,10 +455,6 @@ export function EnhancedStatsSection({ className = '' }: EnhancedStatsSectionPro
 }
 
 export {
-  FloatingElement,
-  GlowingCard,
-  ParticleBackground,
-  AnimatedCounter,
-  ParallaxElement,
-  InteractiveFeatureCard
+    AnimatedCounter, FloatingElement,
+    GlowingCard, InteractiveFeatureCard, ParallaxElement, ParticleBackground
 };

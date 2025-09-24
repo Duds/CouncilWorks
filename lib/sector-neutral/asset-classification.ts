@@ -1,8 +1,8 @@
 /**
  * Multi-Sector Asset Classification System
- * 
+ *
  * Implements comprehensive asset classification system for multiple industry sectors
- * 
+ *
  * @fileoverview Multi-sector asset classification system
  */
 
@@ -364,7 +364,7 @@ export class MultiSectorAssetClassificationManager {
               order: 3,
               activities: ['Maintenance', 'Cleaning', 'Safety Inspections'],
               deliverables: ['Maintenance Records', 'Safety Reports'],
-              duration: 180, // 15 years
+              duration: 180, // 30 years
             },
           ],
           transitions: [],
@@ -806,7 +806,7 @@ export class MultiSectorAssetClassificationManager {
               order: 3,
               activities: ['Production', 'Maintenance', 'Quality Control'],
               deliverables: ['Production Records', 'Maintenance Reports'],
-              duration: 180, // 15 years
+              duration: 180, // 30 years
             },
           ],
           transitions: [],
@@ -1108,7 +1108,7 @@ export class MultiSectorAssetClassificationManager {
   importClassification(classificationJson: string): string {
     try {
       const classification = JSON.parse(classificationJson) as AssetClassification;
-      
+
       // Validate the classification
       if (!classification.id || !classification.name || !classification.sector) {
         throw new Error('Invalid classification: missing required fields');

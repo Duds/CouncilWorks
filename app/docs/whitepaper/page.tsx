@@ -6,31 +6,31 @@
  * @fileoverview Full whitepaper presentation with enhanced UX and PDF download
  */
 
-import type { Metadata } from 'next';
-import Link from 'next/link';
-import {
-  Download,
-  ArrowLeft,
-  Share2,
-  FileText,
-  Users,
-  Shield,
-  TrendingUp,
-  Clock,
-  Target,
-} from 'lucide-react';
+import TableOfContents from '@/components/docs/table-of-contents';
+import DocsLayout from '@/components/layout/docs-layout';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
 } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import DocsLayout from '@/components/layout/docs-layout';
-import TableOfContents from '@/components/docs/table-of-contents';
+import {
+    ArrowLeft,
+    Clock,
+    Download,
+    FileText,
+    Share2,
+    Shield,
+    Target,
+    TrendingUp,
+    Users,
+} from 'lucide-react';
+import type { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title:
@@ -2016,7 +2016,7 @@ export default function WhitepaperPage() {
                         </p>
                       </div>
                       <p className="text-sm text-muted-foreground">
-                        Dale Rogers brings over 15 years of experience in
+                        Dale Rogers brings over 30 years of experience in
                         service design and asset management. Having worked
                         directly with councils across Australia, Dale witnessed
                         firsthand the challenges of reactive maintenance and
