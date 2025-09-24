@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { SessionProvider } from "next-auth/react";
-import { usePathname } from "next/navigation";
+import { SessionProvider } from 'next-auth/react';
+import { usePathname } from 'next/navigation';
 
 export default function AuthSessionProvider({
   children,
@@ -19,7 +19,7 @@ export default function AuthSessionProvider({
     pathname.startsWith('/features') ||
     pathname.startsWith('/citizen') ||
     pathname.startsWith('/docs') ||
-    pathname === '/changelog';
+    pathname === '/docs/releases/changelog';
 
   // For public pages, return children without SessionProvider
   if (isPublicPage) {

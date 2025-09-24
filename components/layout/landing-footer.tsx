@@ -35,7 +35,7 @@ export default function LandingFooter() {
             <nav className="flex items-center gap-4 text-sm text-muted-foreground">
               <Link href={'/docs' as Route}>Docs</Link>
               <Link href={'/docs/aegrid-rules' as Route}>The Aegrid Rules</Link>
-              <Link href={'/changelog' as Route}>Changelog</Link>
+              <Link href={'/docs/releases/changelog' as Route}>Changelog</Link>
               <a
                 href="https://www.linkedin.com/company/aegrid/"
                 target="_blank"

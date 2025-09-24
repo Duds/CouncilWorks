@@ -38,7 +38,7 @@ export default function ConditionalHeader({
     pathname.startsWith('/features') ||
     pathname.startsWith('/citizen') ||
     pathname.startsWith('/docs') ||
-    pathname === '/changelog';
+    pathname === '/docs/releases/changelog';
 
   if (!isPublicPage) {
     return <>{children}</>;
