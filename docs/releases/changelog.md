@@ -2,6 +2,75 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.0] - 2025-01-24
+
+### 🚀 **Comprehensive Platform Improvements & ISO 55000 Policy Framework**
+
+#### **Major Features**
+
+- **ISO 55000 Policy Framework (F23.1)**: Comprehensive asset management policy framework with templates, guidance, alignment tracking, and review processes for ISO 55000 compliance
+- **Phase 3 Advanced Features Implementation**: Complete implementation of Phase 3 advanced features including interactive demos, industry-specific pages, and enhanced analytics
+- **Aegrid Rules Documentation & Corrections**: Comprehensive updates to The Aegrid Rules documentation, corrections, and implementation guidance
+
+#### **ISO 55000 Policy Framework Features**
+
+- **Policy Template Management**: Comprehensive templates for asset management policies with variable substitution
+- **Compliance Assessment Tools**: Automated compliance scoring and gap analysis
+- **Governance Structure Templates**: Built-in governance frameworks for policy approval and review
+- **Alignment Scoring System**: ISO 55000 principle alignment assessment (Value, Alignment, Assurance, Leadership)
+- **Automated Compliance Reporting**: Generate compliance reports with recommendations and action items
+- **Review Cycle Management**: Automated scheduling and tracking of policy reviews
+
+#### **Phase 3 Implementation**
+
+- **Interactive Demo System**: Advanced interactive demonstrations for key platform capabilities
+- **Industry-Specific Landing Pages**: Tailored experiences for universities, property portfolios, and enterprise organisations
+- **Advanced Analytics Dashboard**: Enhanced analytics with real-time metrics and performance tracking
+- **Enterprise Features Showcase**: Comprehensive display of enterprise-level capabilities and integrations
+
+#### **Performance Improvements**
+
+- **Hero Section Loading**: Reduced from 3-5 seconds to under 1 second
+- **Hydration Fixes**: Eliminated hydration mismatches and console errors
+- **Component Optimization**: Streamlined component structure and dependencies
+- **API Route Fixes**: Fixed import paths and authentication configurations
+
+#### **Aegrid Rules Updates**
+
+- **Documentation Updates**: Updated Rule 4 wording clarification and comprehensive correction summaries
+- **Implementation Guidance**: Enhanced implementation guidance and best practices
+- **Content Improvements**: Whitepaper content updates and core rules page enhancements
+- **Archive Management**: Archive of outdated references and historical documentation
+
+#### **Technical Improvements**
+
+- **Component Cleanup**: Removed redundant sections and streamlined structure
+- **Performance Optimizations**: Optimized component initialization and rendering
+- **Dependency Management**: Cleaned up unused imports and dependencies
+- **Error Handling**: Improved error handling and user experience
+
+### 🔧 **Bug Fixes**
+
+- **Hydration Mismatches**: Resolved all hydration mismatches in ParticleBackground component
+- **Loading Skeletons**: Eliminated stuck loading skeleton from non-existent ROI Calculator
+- **Browser API Checks**: Added client-side checks for browser APIs in analytics components
+- **Import Path Fixes**: Fixed import path for authOptions in ai-intelligence API route
+
+### 📚 **Documentation Updates**
+
+- **Comprehensive Implementation Summaries**: Added detailed implementation summaries for all Phase 3 features
+- **Correction Documentation**: Comprehensive documentation of Aegrid Rules corrections and updates
+- **Archive Management**: Proper archival of outdated documentation and references
+- **Technical Documentation**: Enhanced technical documentation for new features and improvements
+
+### 📊 **Business Impact**
+
+- **Enhanced User Experience**: Significantly improved page loading times and user interactions
+- **Professional Credibility**: ISO 55000 policy framework enhances professional market positioning
+- **Advanced Capabilities**: Phase 3 features provide enterprise-level functionality
+- **Documentation Quality**: Comprehensive and accurate documentation improves user adoption
+- **Platform Stability**: Eliminated technical issues and improved overall platform reliability
+
 ## [0.4.0] - 2025-01-23
 
 ### 🎨 **E25: Landing Page Modernisation & Core Feature Highlighting**
