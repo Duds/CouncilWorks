@@ -368,7 +368,7 @@ export function EnhancedStatsSection({ className = '' }: EnhancedStatsSectionPro
       value: 3,
       suffix: '',
       label: 'Respond to the Real World',
-      description: 'Treat plans as hypotheses',
+      description: 'Treat plans as hypotheses and roll with the punches',
       color: 'text-purple-600',
       bgColor: 'bg-purple-100'
     },
@@ -377,7 +377,7 @@ export function EnhancedStatsSection({ className = '' }: EnhancedStatsSectionPro
       value: 4,
       suffix: '',
       label: 'Operate with Margin',
-      description: 'Build practical slack',
+      description: 'Build practical slack, create room to recover',
       color: 'text-orange-600',
       bgColor: 'bg-orange-100'
     }

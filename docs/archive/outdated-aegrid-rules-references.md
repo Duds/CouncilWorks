@@ -38,8 +38,8 @@ The Aegrid Rules were updated to reflect the official definitions from `docs/cor
 ## Correct Aegrid Rules (Current)
 1. **Every Asset Has a Purpose:** Tie each asset to the service it enables and the critical control it supports
 2. **Risk Sets the Rhythm:** Let consequence × likelihood determine cadence, scope, and budget allocation
-3. **Respond to the Real World:** Treat plans as hypotheses and reallocate resources when risk signals change
-4. **Operate with Margin:** Build practical slack that creates tomorrow's resilience from today's actions
+3. **Respond to the Real World:** Treat plans as hypotheses and roll with the punches and reallocate resources when risk signals change
+4. **Operate with Margin:** Build practical slack, create room to recover that creates tomorrow's resilience from today's actions
 
 ## Action Required
 All files listed above should be updated to use the correct Aegrid Rules when they are next modified. This archive serves as a reference for what needs to be corrected.

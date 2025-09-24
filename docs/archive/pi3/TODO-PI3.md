@@ -57,7 +57,7 @@ Transform Aegrid from traditional asset management to a resilient, antifragile p
 
 ### Rule 4: Operate with Margin → Antifragile Operations
 
-**"Build practical slack so today's actions create tomorrow's resilience. Margin = time, capacity, and materials that let you absorb shocks without losing control."**
+**"Build practical slack, create room to recover so today's actions create tomorrow's resilience. Margin = time, capacity, and materials that let you absorb shocks without losing control."**
 
 **Implementation Focus**:
 

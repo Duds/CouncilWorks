@@ -38,8 +38,8 @@ The four rules are:
 
 1.  **Every Asset Has a Purpose:** Tie each asset to the service it enables and the critical control it supports
 2.  **Risk Sets the Rhythm:** Let consequence × likelihood determine cadence, scope, and budget allocation
-3.  **Respond to the Real World:** Treat plans as hypotheses and reallocate resources when risk signals change
-4.  **Operate with Margin:** Build practical slack that creates tomorrow's resilience from today's actions
+3.  **Respond to the Real World:** Treat plans as hypotheses and roll with the punches and reallocate resources when risk signals change
+4.  **Operate with Margin:** Build practical slack, create room to recover that creates tomorrow's resilience from today's actions
 
 By adopting these rules, organizations move beyond the brittleness of traditional CMMS to build antifragile asset management systems that thrive under pressure. This is not just theoretical—organizations implementing these principles report 30% reductions in reactive maintenance, 50% improvements in regulatory compliance, and 20% increases in service reliability.
 
@@ -395,7 +395,7 @@ By responding to the real world rather than rigid plans, we create asset managem
 
 ### Rule 4: Operate with Margin
 
-**The Principle:** Build practical slack so today's actions create tomorrow's resilience. Margin = time, capacity, and materials that let you absorb shocks without losing control.
+**The Principle:** Build practical slack, create room to recover so today's actions create tomorrow's resilience. Margin = time, capacity, and materials that let you absorb shocks without losing control.
 
 Traditional asset management optimizes for efficiency, eliminating "waste" like spare capacity, redundancy, and buffer time. This creates brittle systems that appear efficient under normal conditions but fail catastrophically under stress. The Aegrid approach deliberately builds margin into the system—practical slack that enables resilience.
 
@@ -799,7 +799,7 @@ The Aegrid Rules emerged from Dale's frustration with traditional CMMS systems t
 
 Dale is a frequent speaker at asset management conferences and has published extensively on the future of intelligent infrastructure management. He holds qualifications in service design and reliability engineering, and continues to work directly with councils and utilities to implement resilient asset management systems.
 
-**Contact:** dale@aegrid.com  
+**Contact:** dale@aegrid.com
 **Learn more:** https://aegrid.com/rules
 
 ---

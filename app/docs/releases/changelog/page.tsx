@@ -1,21 +1,21 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import {
-  Calendar,
-  Tag,
-  CheckCircle,
-  Wrench,
-  Star,
-  Zap,
-  Shield,
-  Target,
-  TrendingUp,
-  Users,
-  Award,
-  ExternalLink,
-  History,
-} from 'lucide-react';
 import DocsLayout from '@/components/layout/docs-layout';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+    Award,
+    Calendar,
+    CheckCircle,
+    ExternalLink,
+    History,
+    Shield,
+    Star,
+    Tag,
+    Target,
+    TrendingUp,
+    Users,
+    Wrench,
+    Zap,
+} from 'lucide-react';
 
 /**
  * Changelog Page

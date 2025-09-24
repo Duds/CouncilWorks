@@ -303,7 +303,7 @@ export default function WhitepaperPage() {
                           Respond to the Real World
                         </h4>
                         <p className="text-sm text-muted-foreground">
-                          Treat plans as hypotheses and reallocate resources
+                          Treat plans as hypotheses and roll with the punches and reallocate resources
                           when risk signals change
                         </p>
                       </div>
@@ -315,7 +315,7 @@ export default function WhitepaperPage() {
                       <div>
                         <h4 className="font-semibold">Operate with Margin</h4>
                         <p className="text-sm text-muted-foreground">
-                          Build practical slack that creates tomorrow&apos;s
+                          Build practical slack, create room to recover that creates tomorrow&apos;s
                           resilience from today&apos;s actions
                         </p>
                       </div>
@@ -879,7 +879,7 @@ export default function WhitepaperPage() {
                       Respond to the Real World
                     </CardTitle>
                     <CardDescription>
-                      Treat plans as hypotheses and reallocate resources when
+                      Treat plans as hypotheses and roll with the punches and reallocate resources when
                       risk signals change.
                     </CardDescription>
                   </CardHeader>
@@ -1063,13 +1063,13 @@ export default function WhitepaperPage() {
                       Operate with Margin
                     </CardTitle>
                     <CardDescription>
-                      Build practical slack that creates tomorrow&apos;s
+                      Build practical slack, create room to recover that creates tomorrow&apos;s
                       resilience from today&apos;s actions.
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <p>
-                      Build practical slack into your asset management system.
+                      Build practical slack, create room to recover into your asset management system.
                       This means maintaining spare capacity, having backup
                       systems, and building in time buffers that allow the
                       system to absorb shocks and continue operating.

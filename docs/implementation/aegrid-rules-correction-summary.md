@@ -15,8 +15,8 @@ The landing page was using **outdated Aegrid Rules** that didn't match the offic
 ### ✅ **Correct Rules (Official Definition):**
 1. **Every Asset Has a Purpose:** Tie each asset to the service it enables and the critical control it supports
 2. **Risk Sets the Rhythm:** Let consequence × likelihood determine cadence, scope, and budget allocation
-3. **Respond to the Real World:** Treat plans as hypotheses and reallocate resources when risk signals change
-4. **Operate with Margin:** Build practical slack that creates tomorrow's resilience from today's actions
+3. **Respond to the Real World:** Treat plans as hypotheses and roll with the punches and reallocate resources when risk signals change
+4. **Operate with Margin:** Build practical slack, create room to recover that creates tomorrow's resilience from today's actions
 
 ## Changes Made
 
@@ -57,8 +57,8 @@ stats: [
 **After:**
 ```tsx
 stats: [
-  { value: 3, label: 'Respond to the Real World', description: 'Treat plans as hypotheses' },
-  { value: 4, label: 'Operate with Margin', description: 'Build practical slack' }
+  { value: 3, label: 'Respond to the Real World', description: 'Treat plans as hypotheses and roll with the punches' },
+  { value: 4, label: 'Operate with Margin', description: 'Build practical slack, create room to recover' }
 ]
 ```
 
@@ -81,12 +81,12 @@ stats: [
 ```tsx
 <h5 className="font-medium">Respond to the Real World</h5>
 <p className="text-sm text-muted-foreground">
-  Treat plans as hypotheses and reallocate resources when risk signals change.
+  Treat plans as hypotheses and roll with the punches and reallocate resources when risk signals change.
 </p>
 
 <h5 className="font-medium">Operate with Margin</h5>
 <p className="text-sm text-muted-foreground">
-  Build practical slack that creates tomorrow's resilience from today's actions.
+  Build practical slack, create room to recover that creates tomorrow's resilience from today's actions.
 </p>
 ```
 
@@ -94,12 +94,12 @@ stats: [
 
 ### **Rule 3: Respond to the Real World**
 - **Old Focus**: "Crown jewels visibility" - static asset prioritization
-- **New Focus**: "Treat plans as hypotheses" - adaptive, hypothesis-driven management
+- **New Focus**: "Treat plans as hypotheses and roll with the punches" - adaptive, hypothesis-driven management
 - **Philosophy**: Dynamic response to changing conditions rather than static asset ranking
 
 ### **Rule 4: Operate with Margin**
 - **Old Focus**: "Future-proof, flexible models" - generic flexibility
-- **New Focus**: "Build practical slack" - specific resilience through operational margin
+- **New Focus**: "Build practical slack, create room to recover" - specific resilience through operational margin
 - **Philosophy**: Antifragile systems that get stronger under stress through built-in redundancy
 
 ## Documentation Archive

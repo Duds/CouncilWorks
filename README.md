@@ -72,7 +72,7 @@ Aegrid is built on four foundational rules that ensure resilient asset managemen
 1. **Every Asset Has a Purpose** - Connect assets to critical control systems
 2. **Risk Sets the Rhythm** - Let consequence × likelihood drive maintenance decisions
 3. **Respond to the Real World** - Adapt resources when conditions change
-4. **Operate with Margin** - Build practical slack for resilience
+4. **Operate with Margin** - Build practical slack, create room to recover for resilience
 
 [Read the complete Aegrid Rules →](docs/core/aegrid-rules.md)
 

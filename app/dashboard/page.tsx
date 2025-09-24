@@ -9,14 +9,18 @@ import { Input } from '@/components/ui/input';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
+    Activity,
     AlertTriangle,
+    BarChart3,
     Building2,
     Plus,
     Search,
     Shield,
     Target,
+    Users,
     Zap
 } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 
 interface ServicePurpose {
@@ -55,20 +59,24 @@ interface CriticalControlStatus {
 }
 
 /**
- * Control Dashboard Component - Main Dashboard for Managers
+ * Contextual Dashboard Component - Role-based dashboard interface
  * Implements Aegrid Rule 1: Every Asset Has a Purpose
  * Provides purpose-driven asset organization and critical control oversight
- * @component ControlDashboard
+ * Content adapts based on user role (ADMIN, MANAGER, EXEC, SUPERVISOR)
+ * @component ContextualDashboard
  * @example
  * ```tsx
- * <ControlDashboard />
+ * <ContextualDashboard />
  * ```
  * @accessibility
  * - ARIA roles: main, region, tablist, tabpanel
  * - Keyboard navigation: Tab through workflow sections
  * - Screen reader: Announces purpose groups and control status
  */
-export default function ControlDashboard() {
+export default function ContextualDashboard() {
+  const { data: session } = useSession();
+  const userRole = session?.user?.role || 'SUPERVISOR';
+
   const [servicePurposes, setServicePurposes] = useState<ServicePurpose[]>([]);
   const [assetMappings, setAssetMappings] = useState<AssetPurposeMapping[]>([]);
   const [criticalControls, setCriticalControls] = useState<CriticalControlStatus[]>([]);
@@ -76,6 +84,49 @@ export default function ControlDashboard() {
   const [filterPriority, setFilterPriority] = useState<string>('ALL');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Get dashboard title and description based on role
+  const getDashboardContext = (role: string) => {
+    switch (role) {
+      case 'ADMIN':
+        return {
+          title: 'Administrative Dashboard',
+          description: 'System administration and strategic oversight',
+          icon: Shield,
+          badge: 'System Admin'
+        };
+      case 'EXEC':
+        return {
+          title: 'Executive Dashboard',
+          description: 'Strategic asset oversight and performance monitoring',
+          icon: BarChart3,
+          badge: 'Executive'
+        };
+      case 'MANAGER':
+        return {
+          title: 'Manager Dashboard',
+          description: 'Operational asset management and team coordination',
+          icon: Activity,
+          badge: 'Manager'
+        };
+      case 'SUPERVISOR':
+        return {
+          title: 'Supervisor Dashboard',
+          description: 'Field operations and asset maintenance oversight',
+          icon: Users,
+          badge: 'Supervisor'
+        };
+      default:
+        return {
+          title: 'Dashboard',
+          description: 'Asset management overview',
+          icon: Building2,
+          badge: 'User'
+        };
+    }
+  };
+
+  const dashboardContext = getDashboardContext(userRole);
 
   // Mock data for demonstration - replace with actual API calls
   useEffect(() => {
@@ -288,27 +339,38 @@ export default function ControlDashboard() {
   return (
     <AppLayout
       requiredRoles={['ADMIN', 'MANAGER', 'EXEC', 'SUPERVISOR']}
-      title="Control Dashboard"
-      description="Purpose-driven asset organization and critical control status overview"
+      title={dashboardContext.title}
+      description={dashboardContext.description}
     >
       <div className="space-y-6">
       {/* Header */}
         <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Control Dashboard</h1>
+          <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
+            <dashboardContext.icon className="h-8 w-8" />
+            {dashboardContext.title}
+          </h1>
           <p className="text-muted-foreground">
-            Purpose-driven asset oversight aligned with Aegrid Rules
+            {dashboardContext.description} - Aligned with Aegrid Rules
           </p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" size="sm">
-            <Plus className="h-4 w-4 mr-2" />
-            New Purpose
-          </Button>
-          <Button size="sm">
-            <Zap className="h-4 w-4 mr-2" />
-            Emergency Override
-          </Button>
+          <Badge variant="outline" className="flex items-center gap-1">
+            <Shield className="h-3 w-3" />
+            {dashboardContext.badge}
+          </Badge>
+          {['ADMIN', 'MANAGER', 'EXEC'].includes(userRole) && (
+            <Button variant="outline" size="sm">
+              <Plus className="h-4 w-4 mr-2" />
+              New Purpose
+            </Button>
+          )}
+          {['ADMIN', 'MANAGER', 'EXEC'].includes(userRole) && (
+            <Button size="sm">
+              <Zap className="h-4 w-4 mr-2" />
+              Emergency Override
+            </Button>
+          )}
             </div>
           </div>
 

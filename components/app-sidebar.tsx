@@ -4,52 +4,52 @@ import ReleaseBadge from '@/components/release-badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarSeparator,
+    Sidebar,
+    SidebarContent,
+    SidebarFooter,
+    SidebarGroup,
+    SidebarGroupContent,
+    SidebarGroupLabel,
+    SidebarHeader,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+    SidebarSeparator,
 } from '@/components/ui/sidebar';
 import {
-  getAvatarImage,
-  getUserInitials,
-  handleAvatarError,
+    getAvatarImage,
+    getUserInitials,
+    handleAvatarError,
 } from '@/lib/avatar-utils';
 import {
-  createTransformationContext,
-  transformNavigationLabel,
+    createTransformationContext,
+    transformNavigationLabel,
 } from '@/lib/language-dictionary/language-transformer';
 import {
-  Activity,
-  AlertCircle,
-  AlertTriangle,
-  BarChart3,
-  Bell,
-  Building2,
-  CheckCircle,
-  ChevronDown,
-  ChevronRight,
-  ClipboardList,
-  Clock,
-  Cog,
-  Eye,
-  Globe,
-  LogOut,
-  MapPin,
-  Play,
-  Settings,
-  Shield,
-  Target,
-  TrendingUp,
-  Users,
-  Wrench,
-  Zap,
+    Activity,
+    AlertCircle,
+    AlertTriangle,
+    BarChart3,
+    Bell,
+    Building2,
+    CheckCircle,
+    ChevronDown,
+    ChevronRight,
+    ClipboardList,
+    Clock,
+    Cog,
+    Eye,
+    Globe,
+    LogOut,
+    MapPin,
+    Play,
+    Settings,
+    Shield,
+    Target,
+    TrendingUp,
+    Users,
+    Wrench,
+    Zap,
 } from 'lucide-react';
 import type { Route } from 'next';
 import { signOut, useSession } from 'next-auth/react';
@@ -166,10 +166,10 @@ export function AppSidebar({
       href: '/dashboard',
       icon: BarChart3,
       label: transformNavigationLabel(
-        'Strategic Dashboard',
+        'Dashboard',
         createTransformationContext('AppSidebar', 'navigation', 'strategic')
       ).transformed,
-      roles: ['ADMIN', 'EXEC'],
+      roles: ['ADMIN', 'MANAGER', 'EXEC', 'SUPERVISOR'],
     },
     {
       href: '/manager',
@@ -227,10 +227,10 @@ export function AppSidebar({
     },
   ];
 
-  // Asset Planning Group - Manager, Asset Planner personas (formerly Resilience Command)
+  // Asset Planning Group - Manager, Asset Planner personas
   const assetPlanningItems: SidebarItem[] = [
     {
-      href: '/resilience/risk-rhythm',
+      href: '/planning/risk-rhythm',
       icon: Activity,
       label: transformNavigationLabel(
         'Risk Rhythm',
@@ -243,7 +243,7 @@ export function AppSidebar({
       roles: ['ADMIN', 'MANAGER', 'SUPERVISOR'],
     },
     {
-      href: '/resilience/margin-operations',
+      href: '/planning/margin-operations',
       icon: Clock,
       label: transformNavigationLabel(
         'Margin Operations',
@@ -256,7 +256,7 @@ export function AppSidebar({
       roles: ['ADMIN', 'MANAGER', 'EXEC'],
     },
     {
-      href: '/resilience/asset-lookup',
+      href: '/planning/asset-lookup',
       icon: Building2,
       label: transformNavigationLabel(
         'Asset Lookup',
@@ -632,7 +632,7 @@ export function AppSidebar({
           </>
         )}
 
-        {/* Resilience Command Group */}
+        {/* Asset Planning Group */}
         {canAccessSupervisor(userRole) && (
           <>
             <SidebarGroup>
@@ -643,7 +643,7 @@ export function AppSidebar({
                 <Shield className="h-4 w-4" />
                 {
                   transformNavigationLabel(
-                    'Resilience Command',
+                    'Asset Planning',
                     createTransformationContext(
                       'AppSidebar',
                       'navigation',

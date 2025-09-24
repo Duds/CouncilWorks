@@ -77,8 +77,8 @@ export default function AegridRulesPage() {
               <ol className="list-decimal list-inside space-y-2 text-sm">
                 <li><strong>Every Asset Has a Purpose:</strong> Tie each asset to the service it enables and the critical control it supports</li>
                 <li><strong>Risk Sets the Rhythm:</strong> Let consequence × likelihood determine cadence, scope, and budget allocation</li>
-                <li><strong>Respond to the Real World:</strong> Treat plans as hypotheses and reallocate resources when risk signals change</li>
-                <li><strong>Operate with Margin:</strong> Build practical slack that creates tomorrow's resilience from today's actions</li>
+                <li><strong>Respond to the Real World:</strong> Treat plans as hypotheses and roll with the punches and reallocate resources when risk signals change</li>
+                <li><strong>Operate with Margin:</strong> Build practical slack, create room to recover that creates tomorrow's resilience from today's actions</li>
               </ol>
             </div>
             <p className="text-muted-foreground mb-6">
@@ -258,7 +258,7 @@ export default function AegridRulesPage() {
                 <h3 className="text-xl font-semibold">Operate with Margin</h3>
               </div>
               <p className="text-lg font-medium text-muted-foreground mb-3">
-                Build practical slack so today's actions create tomorrow's resilience. Margin = time, capacity, and materials that let you absorb shocks without losing control.
+                Build practical slack, create room to recover so today's actions create tomorrow's resilience. Margin = time, capacity, and materials that let you absorb shocks without losing control.
               </p>
               <div className="prose prose-gray max-w-none">
                 <p className="text-muted-foreground mb-4">
