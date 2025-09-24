@@ -4,52 +4,52 @@ import ReleaseBadge from '@/components/release-badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import {
-    Sidebar,
-    SidebarContent,
-    SidebarFooter,
-    SidebarGroup,
-    SidebarGroupContent,
-    SidebarGroupLabel,
-    SidebarHeader,
-    SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem,
-    SidebarSeparator,
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarSeparator,
 } from '@/components/ui/sidebar';
 import {
-    getAvatarImage,
-    getUserInitials,
-    handleAvatarError,
+  getAvatarImage,
+  getUserInitials,
+  handleAvatarError,
 } from '@/lib/avatar-utils';
 import {
-    createTransformationContext,
-    transformNavigationLabel,
+  createTransformationContext,
+  transformNavigationLabel,
 } from '@/lib/language-dictionary/language-transformer';
 import {
-    Activity,
-    AlertCircle,
-    AlertTriangle,
-    BarChart3,
-    Bell,
-    Building2,
-    CheckCircle,
-    ChevronDown,
-    ChevronRight,
-    ClipboardList,
-    Clock,
-    Cog,
-    Eye,
-    Globe,
-    LogOut,
-    MapPin,
-    Play,
-    Settings,
-    Shield,
-    Target,
-    TrendingUp,
-    Users,
-    Wrench,
-    Zap,
+  Activity,
+  AlertCircle,
+  AlertTriangle,
+  BarChart3,
+  Bell,
+  Building2,
+  CheckCircle,
+  ChevronDown,
+  ChevronRight,
+  ClipboardList,
+  Clock,
+  Cog,
+  Eye,
+  Globe,
+  LogOut,
+  MapPin,
+  Play,
+  Settings,
+  Shield,
+  Target,
+  TrendingUp,
+  Users,
+  Wrench,
+  Zap,
 } from 'lucide-react';
 import type { Route } from 'next';
 import { signOut, useSession } from 'next-auth/react';
@@ -230,10 +230,10 @@ export function AppSidebar({
   // Asset Planning Group - Manager, Asset Planner personas
   const assetPlanningItems: SidebarItem[] = [
     {
-      href: '/planning/risk-rhythm',
+      href: '/planning/maintenance-scheduling',
       icon: Activity,
       label: transformNavigationLabel(
-        'Risk Rhythm',
+        'Maintenance Scheduling',
         createTransformationContext(
           'AppSidebar',
           'navigation',
@@ -243,10 +243,10 @@ export function AppSidebar({
       roles: ['ADMIN', 'MANAGER', 'SUPERVISOR'],
     },
     {
-      href: '/planning/margin-operations',
+      href: '/planning/resource-operations',
       icon: Clock,
       label: transformNavigationLabel(
-        'Margin Operations',
+        'Resource Operations',
         createTransformationContext(
           'AppSidebar',
           'navigation',
@@ -256,10 +256,10 @@ export function AppSidebar({
       roles: ['ADMIN', 'MANAGER', 'EXEC'],
     },
     {
-      href: '/planning/asset-lookup',
+      href: '/planning/asset-register',
       icon: Building2,
       label: transformNavigationLabel(
-        'Asset Lookup',
+        'Asset Register',
         createTransformationContext(
           'AppSidebar',
           'navigation',

@@ -1,0 +1,148 @@
+@startuml Manager Customer Journey - Detailed Functional Steps
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam activity {
+  BackgroundColor #E8F5E8
+  BorderColor #388E3C
+  FontColor #000000
+}
+skinparam activityDiamond {
+  BackgroundColor #FFF3E0
+  BorderColor #F57C00
+  FontColor #000000
+}
+skinparam note {
+  BackgroundColor #F0F8FF
+  BorderColor #4169E3
+  FontColor #000000
+}
+
+title Manager Customer Journey - Detailed Functional Steps
+
+start
+
+:Manager logs into Aegrid dashboard;
+note right: **Authentication & Access Control**\nMANAGER role permissions\nSingle sign-on integration\nSession management
+
+:Navigates to Manager Dashboard;
+note right: **Centralized Management Interface**\nConsolidated view of all manager functions\nRole-based navigation\nQuick access to critical functions
+
+:Reviews Executive Overview Dashboard;
+note right: **Strategic Asset Overview**\nAsset portfolio health\nCritical asset status\nPerformance metrics\nRisk indicators
+
+if (Critical assets need attention?) then (yes)
+  :Opens Critical Control Monitor;
+  note right: **Rule 1: Every Asset Has a Purpose**\nHigh-consequence asset monitoring\nCritical control compliance\nPurpose validation\nService impact assessment
+
+  :Reviews Critical Control Status;
+  note right: **Critical Control Management**\nCompliance status review\nOverdue controls identification\nEscalation requirements\nEvidence validation
+
+  if (Controls are overdue/at-risk?) then (yes)
+    :Creates Emergency Work Order;
+    note right: **Emergency Response**\nPriority work order creation\nResource allocation\nSLA assignment\nEscalation notification
+
+    :Assigns Resources;
+    note right: **Resource Management**\nCrew/vendor assignment\nSkill matching\nGeographic optimization\nCapacity planning
+
+    :Monitors Progress;
+    note right: **Progress Tracking**\nReal-time status updates\nSLA compliance monitoring\nEvidence collection\nCompletion validation
+  else (no)
+    :Updates Control Schedule;
+    note right: **Preventive Management**\nSchedule optimization\nRisk-based frequency adjustment\nResource planning\nCompliance assurance
+  endif
+
+  :Makes Strategic Decisions;
+  note right: **Strategic Decision Making**\nAsset lifecycle planning\nInvestment prioritization\nService level decisions\nResource allocation
+else (no)
+  :Assets functioning normally;
+endif
+
+:Opens Maintenance Scheduling;
+note right: **Rule 2: Match Maintenance to Risk**\nRisk-driven maintenance planning\nDynamic scheduling\nConsequence-based prioritization\nResource optimization
+
+:Reviews Risk-Based Schedule;
+note right: **Risk Assessment & Planning**\nAsset risk profiling\nFailure mode analysis\nConsequence assessment\nLikelihood evaluation
+
+if (Risk signals detected?) then (yes)
+  :Analyzes Risk Signals;
+  note right: **Signal Processing**\nEnvironmental signals\nPerformance degradation\nCommunity reports\nIoT sensor data
+
+  :Adjusts Maintenance Priorities;
+  note right: **Dynamic Priority Management**\nRisk score recalculation\nSchedule reprioritization\nResource reallocation\nUrgency assessment
+
+  :Creates Preventive Work Orders;
+  note right: **Preventive Maintenance**\nRCM template application\nTask generation\nResource requirements\nTimeline planning
+
+  :Schedules Maintenance Tasks;
+  note right: **Scheduling & Coordination**\nCalendar integration\nResource availability\nWeather considerations\nDependency management
+else (no)
+  :Maintains Standard Schedule;
+  note right: **Routine Operations**\nStandard maintenance cycles\nTemplate-based planning\nResource allocation\nProgress monitoring
+endif
+
+:Opens Resource Operations;
+note right: **Rules 3 & 4: Respond to Real World + Operate with Margin**\nResource capacity management\nMargin utilization\nEmergency preparedness\nOperational resilience
+
+:Monitors Resource Capacity;
+note right: **Capacity Management**\nAvailable resources tracking\nUtilization monitoring\nMargin calculation\nBottleneck identification
+
+if (Resource constraints detected?) then (yes)
+  :Deploys Margin Resources;
+  note right: **Margin Deployment**\nEmergency resource activation\nSurge capacity utilization\nContingency planning\nResource optimization
+
+  :Coordinates Emergency Response;
+  note right: **Emergency Coordination**\nMulti-team coordination\nCommunication protocols\nEscalation procedures\nResponse tracking
+else (no)
+  :Maintains Normal Operations;
+  note right: **Standard Operations**\nRoutine resource management\nCapacity planning\nPerformance monitoring\nEfficiency optimization
+endif
+
+:Opens Asset Register;
+note right: **Asset Lifecycle Management**\nComprehensive asset database\nPurpose-driven organization\nLifecycle tracking\nPerformance monitoring
+
+:Reviews Asset Portfolio;
+note right: **Portfolio Management**\nAsset condition assessment\nPerformance evaluation\nLifecycle stage analysis\nInvestment planning
+
+if (Asset retirement/replacement needed?) then (yes)
+  :Initiates Asset Retirement Process;
+  note right: **Asset Retirement**\nEnd-of-life assessment\nReplacement planning\nDisposal procedures\nFinancial impact analysis
+
+  :Creates Replacement Work Order;
+  note right: **Replacement Planning**\nNew asset specification\nProcurement planning\nInstallation scheduling\nTransition management
+else (no)
+  :Updates Asset Records;
+  note right: **Asset Data Management**\nCondition updates\nPerformance metrics\nMaintenance history\nDocumentation management
+endif
+
+:Reviews Daily Operations Summary;
+note right: **Operational Intelligence**\nPerformance metrics\nCompliance status\nResource utilization\nRisk indicators
+
+:Generates Management Reports;
+note right: **Reporting & Analytics**\nExecutive summaries\nCompliance reports\nPerformance analytics\nStrategic insights
+
+if (Strategic planning required?) then (yes)
+  :Conducts Strategic Planning;
+  note right: **Strategic Planning**\nLong-term asset planning\nInvestment prioritization\nService level planning\nRisk mitigation strategies
+
+  :Updates Asset Management Plan;
+  note right: **Plan Management**\nStrategic plan updates\nObjective setting\nPerformance targets\nResource allocation
+else (no)
+  :Continues Operational Focus;
+endif
+
+:Reviews Compliance Status;
+note right: **Compliance Management**\nISO 55000/55001 compliance\nRegulatory requirements\nAudit preparation\nDocumentation management
+
+if (Follow-up actions required?) then (yes)
+  :Schedules Follow-up Actions;
+  note right: **Action Planning**\nTask scheduling\nResource allocation\nTimeline management\nProgress tracking
+
+  :Coordinates Stakeholder Communication;
+  note right: **Stakeholder Management**\nExecutive briefings\nTeam coordination\nVendor communication\nCommunity updates
+else (no)
+  :Day complete;
+endif
+
+stop
+
+@enduml

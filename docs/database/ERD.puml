@@ -310,7 +310,7 @@ entity EnvironmentalSignal {
   created_at : timestamp
 }
 
-' Margin Management
+' Resource Management
 entity MarginCapacity {
   * id : UUID
   --

@@ -8,11 +8,23 @@
  */
 
 import { afterEach, beforeEach, describe, expect, it } from '@jest/globals';
-import { ISO55000PolicyFramework, createISO55000PolicyFramework } from '../lib/iso-55000-policy-framework';
-import { StrategicAssetManagementPlan, createStrategicAssetManagementPlan } from '../lib/strategic-asset-management-plan';
-import { AssetManagementObjectives, createAssetManagementObjectives } from '../lib/asset-management-objectives';
-import { PerformanceEvaluationSystem, createPerformanceEvaluationSystem } from '../lib/performance-evaluation-system';
+import {
+  AssetManagementObjectives,
+  createAssetManagementObjectives,
+} from '../lib/asset-management-objectives';
+import {
+  ISO55000PolicyFramework,
+  createISO55000PolicyFramework,
+} from '../lib/iso-55000-policy-framework';
+import {
+  PerformanceEvaluationSystem,
+  createPerformanceEvaluationSystem,
+} from '../lib/performance-evaluation-system';
 import { prisma } from '../lib/prisma';
+import {
+  StrategicAssetManagementPlan,
+  createStrategicAssetManagementPlan,
+} from '../lib/strategic-asset-management-plan';
 
 // Mock Prisma client for isolated testing
 jest.mock('../lib/prisma', () => ({
@@ -111,10 +123,19 @@ describe('ISO 55000 Compliance (E23) Integration Tests', () => {
       const action = 'APPROVE';
 
       // Mock the getPolicyDocument method to return our created document
-      jest.spyOn(policyFramework as any, 'getPolicyDocument').mockResolvedValue(policyDocument);
-      jest.spyOn(policyFramework as any, 'updatePolicyDocument').mockResolvedValue(undefined);
+      jest
+        .spyOn(policyFramework as any, 'getPolicyDocument')
+        .mockResolvedValue(policyDocument);
+      jest
+        .spyOn(policyFramework as any, 'updatePolicyDocument')
+        .mockResolvedValue(undefined);
 
-      await policyFramework.reviewPolicyDocument(documentId, reviewer, comments, action);
+      await policyFramework.reviewPolicyDocument(
+        documentId,
+        reviewer,
+        comments,
+        action
+      );
 
       expect(policyDocument.approvalHistory).toHaveLength(1);
       expect(policyDocument.approvalHistory[0].approver).toBe(reviewer);
@@ -126,11 +147,14 @@ describe('ISO 55000 Compliance (E23) Integration Tests', () => {
       const documentId = 'test-policy-document';
       const mockDocument = {
         documentId,
-        content: 'This policy demonstrates value creation, strategic alignment, assurance, and leadership.',
+        content:
+          'This policy demonstrates value creation, strategic alignment, assurance, and leadership.',
         templateId: 'asset-management-policy',
       };
 
-      jest.spyOn(policyFramework as any, 'getPolicyDocument').mockResolvedValue(mockDocument);
+      jest
+        .spyOn(policyFramework as any, 'getPolicyDocument')
+        .mockResolvedValue(mockDocument);
 
       const alignment = await policyFramework.assessPolicyAlignment(documentId);
 
@@ -159,7 +183,9 @@ describe('ISO 55000 Compliance (E23) Integration Tests', () => {
         },
       ];
 
-      jest.spyOn(policyFramework as any, 'getAllPolicyDocuments').mockResolvedValue(mockPolicies);
+      jest
+        .spyOn(policyFramework as any, 'getAllPolicyDocuments')
+        .mockResolvedValue(mockPolicies);
 
       const complianceReport = await policyFramework.generateComplianceReport();
 
@@ -274,8 +300,12 @@ describe('ISO 55000 Compliance (E23) Integration Tests', () => {
         stakeholders: ['operations-team'],
       };
 
-      jest.spyOn(strategicPlan as any, 'getStrategicPlan').mockResolvedValue(plan);
-      jest.spyOn(strategicPlan as any, 'updateStrategicPlan').mockResolvedValue(undefined);
+      jest
+        .spyOn(strategicPlan as any, 'getStrategicPlan')
+        .mockResolvedValue(plan);
+      jest
+        .spyOn(strategicPlan as any, 'updateStrategicPlan')
+        .mockResolvedValue(undefined);
 
       await strategicPlan.addStrategicObjective(plan.planId, objective);
 
@@ -348,8 +378,12 @@ describe('ISO 55000 Compliance (E23) Integration Tests', () => {
         ],
       };
 
-      jest.spyOn(strategicPlan as any, 'getStrategicPlan').mockResolvedValue(plan);
-      jest.spyOn(strategicPlan as any, 'updateStrategicPlan').mockResolvedValue(undefined);
+      jest
+        .spyOn(strategicPlan as any, 'getStrategicPlan')
+        .mockResolvedValue(plan);
+      jest
+        .spyOn(strategicPlan as any, 'updateStrategicPlan')
+        .mockResolvedValue(undefined);
 
       await strategicPlan.createScenarioAnalysis(plan.planId, scenario);
 
@@ -366,10 +400,16 @@ describe('ISO 55000 Compliance (E23) Integration Tests', () => {
         'test-user'
       );
 
-      jest.spyOn(strategicPlan as any, 'getStrategicPlan').mockResolvedValue(plan);
-      jest.spyOn(strategicPlan as any, 'updateStrategicPlan').mockResolvedValue(undefined);
+      jest
+        .spyOn(strategicPlan as any, 'getStrategicPlan')
+        .mockResolvedValue(plan);
+      jest
+        .spyOn(strategicPlan as any, 'updateStrategicPlan')
+        .mockResolvedValue(undefined);
 
-      const progress = await strategicPlan.trackImplementationProgress(plan.planId);
+      const progress = await strategicPlan.trackImplementationProgress(
+        plan.planId
+      );
 
       expect(progress).toBeDefined();
       expect(progress.overallProgress).toBeGreaterThanOrEqual(0);
@@ -389,9 +429,13 @@ describe('ISO 55000 Compliance (E23) Integration Tests', () => {
         'test-user'
       );
 
-      jest.spyOn(strategicPlan as any, 'getStrategicPlan').mockResolvedValue(plan);
+      jest
+        .spyOn(strategicPlan as any, 'getStrategicPlan')
+        .mockResolvedValue(plan);
 
-      const dashboard = await strategicPlan.generateStrategicDashboard(plan.planId);
+      const dashboard = await strategicPlan.generateStrategicDashboard(
+        plan.planId
+      );
 
       expect(dashboard).toBeDefined();
       expect(dashboard.planSummary).toBeDefined();
@@ -511,8 +555,12 @@ describe('ISO 55000 Compliance (E23) Integration Tests', () => {
 
       const objective = await objectives.createObjective(objectiveData);
 
-      jest.spyOn(objectives as any, 'getObjective').mockResolvedValue(objective);
-      jest.spyOn(objectives as any, 'updateObjective').mockResolvedValue(undefined);
+      jest
+        .spyOn(objectives as any, 'getObjective')
+        .mockResolvedValue(objective);
+      jest
+        .spyOn(objectives as any, 'updateObjective')
+        .mockResolvedValue(undefined);
 
       await objectives.updateObjectiveProgress(objective.objectiveId);
 
@@ -590,9 +638,13 @@ describe('ISO 55000 Compliance (E23) Integration Tests', () => {
 
       const objective = await objectives.createObjective(objectiveData);
 
-      jest.spyOn(objectives as any, 'getObjective').mockResolvedValue(objective);
+      jest
+        .spyOn(objectives as any, 'getObjective')
+        .mockResolvedValue(objective);
 
-      const report = await objectives.generatePerformanceReport(objective.objectiveId);
+      const report = await objectives.generatePerformanceReport(
+        objective.objectiveId
+      );
 
       expect(report).toBeDefined();
       expect(report.reportId).toBeDefined();
@@ -625,13 +677,14 @@ describe('ISO 55000 Compliance (E23) Integration Tests', () => {
       };
       const createdBy = 'evaluation-manager';
 
-      const evaluation = await performanceEvaluation.createPerformanceEvaluation(
-        title,
-        description,
-        evaluationPeriod,
-        scope,
-        createdBy
-      );
+      const evaluation =
+        await performanceEvaluation.createPerformanceEvaluation(
+          title,
+          description,
+          evaluationPeriod,
+          scope,
+          createdBy
+        );
 
       expect(evaluation).toBeDefined();
       expect(evaluation.evaluationId).toBeDefined();
@@ -649,30 +702,37 @@ describe('ISO 55000 Compliance (E23) Integration Tests', () => {
     });
 
     it('should execute performance evaluation', async () => {
-      const evaluation = await performanceEvaluation.createPerformanceEvaluation(
-        'Test Evaluation',
-        'Test description',
-        {
-          startDate: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000),
-          endDate: new Date(),
-        },
-        {
-          scopeId: 'test-scope',
-          name: 'Test Scope',
-          description: 'Test scope description',
-          assets: [],
-          processes: [],
-          departments: [],
-          timeframes: [],
-          exclusions: [],
-        },
-        'test-user'
+      const evaluation =
+        await performanceEvaluation.createPerformanceEvaluation(
+          'Test Evaluation',
+          'Test description',
+          {
+            startDate: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000),
+            endDate: new Date(),
+          },
+          {
+            scopeId: 'test-scope',
+            name: 'Test Scope',
+            description: 'Test scope description',
+            assets: [],
+            processes: [],
+            departments: [],
+            timeframes: [],
+            exclusions: [],
+          },
+          'test-user'
+        );
+
+      jest
+        .spyOn(performanceEvaluation as any, 'getPerformanceEvaluation')
+        .mockResolvedValue(evaluation);
+      jest
+        .spyOn(performanceEvaluation as any, 'updatePerformanceEvaluation')
+        .mockResolvedValue(undefined);
+
+      await performanceEvaluation.executePerformanceEvaluation(
+        evaluation.evaluationId
       );
-
-      jest.spyOn(performanceEvaluation as any, 'getPerformanceEvaluation').mockResolvedValue(evaluation);
-      jest.spyOn(performanceEvaluation as any, 'updatePerformanceEvaluation').mockResolvedValue(undefined);
-
-      await performanceEvaluation.executePerformanceEvaluation(evaluation.evaluationId);
 
       expect(evaluation.status).toBe('COMPLETED');
       expect(evaluation.completedAt).toBeDefined();
@@ -681,35 +741,41 @@ describe('ISO 55000 Compliance (E23) Integration Tests', () => {
     });
 
     it('should generate performance dashboard', async () => {
-      const evaluation = await performanceEvaluation.createPerformanceEvaluation(
-        'Test Evaluation',
-        'Test description',
-        {
-          startDate: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000),
-          endDate: new Date(),
-        },
-        {
-          scopeId: 'test-scope',
-          name: 'Test Scope',
-          description: 'Test scope description',
-          assets: [],
-          processes: [],
-          departments: [],
-          timeframes: [],
-          exclusions: [],
-        },
-        'test-user'
-      );
+      const evaluation =
+        await performanceEvaluation.createPerformanceEvaluation(
+          'Test Evaluation',
+          'Test description',
+          {
+            startDate: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000),
+            endDate: new Date(),
+          },
+          {
+            scopeId: 'test-scope',
+            name: 'Test Scope',
+            description: 'Test scope description',
+            assets: [],
+            processes: [],
+            departments: [],
+            timeframes: [],
+            exclusions: [],
+          },
+          'test-user'
+        );
 
-      jest.spyOn(performanceEvaluation as any, 'getRecentEvaluations').mockResolvedValue([evaluation]);
+      jest
+        .spyOn(performanceEvaluation as any, 'getRecentEvaluations')
+        .mockResolvedValue([evaluation]);
 
-      const dashboard = await performanceEvaluation.generatePerformanceDashboard();
+      const dashboard =
+        await performanceEvaluation.generatePerformanceDashboard();
 
       expect(dashboard).toBeDefined();
       expect(dashboard.dashboardId).toBeDefined();
       expect(dashboard.organisationId).toBe(organisationId);
       expect(dashboard.overallPerformance).toBeGreaterThanOrEqual(0);
-      expect(dashboard.performanceTrend).toMatch(/^(IMPROVING|STABLE|DECLINING)$/);
+      expect(dashboard.performanceTrend).toMatch(
+        /^(IMPROVING|STABLE|DECLINING)$/
+      );
       expect(dashboard.dimensionPerformance).toBeInstanceOf(Array);
       expect(dashboard.complianceStatus).toBeDefined();
       expect(dashboard.auditStatus).toBeDefined();
@@ -719,29 +785,33 @@ describe('ISO 55000 Compliance (E23) Integration Tests', () => {
     });
 
     it('should track compliance status', async () => {
-      const evaluation = await performanceEvaluation.createPerformanceEvaluation(
-        'Test Evaluation',
-        'Test description',
-        {
-          startDate: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000),
-          endDate: new Date(),
-        },
-        {
-          scopeId: 'test-scope',
-          name: 'Test Scope',
-          description: 'Test scope description',
-          assets: [],
-          processes: [],
-          departments: [],
-          timeframes: [],
-          exclusions: [],
-        },
-        'test-user'
-      );
+      const evaluation =
+        await performanceEvaluation.createPerformanceEvaluation(
+          'Test Evaluation',
+          'Test description',
+          {
+            startDate: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000),
+            endDate: new Date(),
+          },
+          {
+            scopeId: 'test-scope',
+            name: 'Test Scope',
+            description: 'Test scope description',
+            assets: [],
+            processes: [],
+            departments: [],
+            timeframes: [],
+            exclusions: [],
+          },
+          'test-user'
+        );
 
-      jest.spyOn(performanceEvaluation as any, 'getRecentEvaluations').mockResolvedValue([evaluation]);
+      jest
+        .spyOn(performanceEvaluation as any, 'getRecentEvaluations')
+        .mockResolvedValue([evaluation]);
 
-      const complianceStatus = await performanceEvaluation.trackComplianceStatus();
+      const complianceStatus =
+        await performanceEvaluation.trackComplianceStatus();
 
       expect(complianceStatus).toBeDefined();
       expect(complianceStatus.overallCompliance).toBeGreaterThanOrEqual(0);
@@ -757,7 +827,10 @@ describe('ISO 55000 Compliance (E23) Integration Tests', () => {
       const startDate = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000);
       const endDate = new Date();
 
-      const auditTrail = await performanceEvaluation.generateAuditTrail(startDate, endDate);
+      const auditTrail = await performanceEvaluation.generateAuditTrail(
+        startDate,
+        endDate
+      );
 
       expect(auditTrail).toBeDefined();
       expect(auditTrail.trailId).toBeDefined();
@@ -769,29 +842,34 @@ describe('ISO 55000 Compliance (E23) Integration Tests', () => {
     });
 
     it('should generate performance report', async () => {
-      const evaluation = await performanceEvaluation.createPerformanceEvaluation(
-        'Test Evaluation',
-        'Test description',
-        {
-          startDate: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000),
-          endDate: new Date(),
-        },
-        {
-          scopeId: 'test-scope',
-          name: 'Test Scope',
-          description: 'Test scope description',
-          assets: [],
-          processes: [],
-          departments: [],
-          timeframes: [],
-          exclusions: [],
-        },
-        'test-user'
+      const evaluation =
+        await performanceEvaluation.createPerformanceEvaluation(
+          'Test Evaluation',
+          'Test description',
+          {
+            startDate: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000),
+            endDate: new Date(),
+          },
+          {
+            scopeId: 'test-scope',
+            name: 'Test Scope',
+            description: 'Test scope description',
+            assets: [],
+            processes: [],
+            departments: [],
+            timeframes: [],
+            exclusions: [],
+          },
+          'test-user'
+        );
+
+      jest
+        .spyOn(performanceEvaluation as any, 'getPerformanceEvaluation')
+        .mockResolvedValue(evaluation);
+
+      const report = await performanceEvaluation.generatePerformanceReport(
+        evaluation.evaluationId
       );
-
-      jest.spyOn(performanceEvaluation as any, 'getPerformanceEvaluation').mockResolvedValue(evaluation);
-
-      const report = await performanceEvaluation.generatePerformanceReport(evaluation.evaluationId);
 
       expect(report).toBeDefined();
       expect(report.reportId).toBeDefined();
@@ -820,7 +898,9 @@ describe('ISO 55000 Compliance (E23) Integration Tests', () => {
 
       // Verify that policies focus on value creation
       expect(policyDocument.content).toContain('value');
-      expect(policyDocument.complianceStatus.overallCompliance).toBeGreaterThanOrEqual(0);
+      expect(
+        policyDocument.complianceStatus.overallCompliance
+      ).toBeGreaterThanOrEqual(0);
       expect(policyDocument.alignmentScore).toBeGreaterThanOrEqual(0);
     });
 
@@ -839,25 +919,26 @@ describe('ISO 55000 Compliance (E23) Integration Tests', () => {
     });
 
     it('should align with Rule 3: ISO 55000 assurance principle with real-world response', async () => {
-      const evaluation = await performanceEvaluation.createPerformanceEvaluation(
-        'Performance Evaluation',
-        'Performance description',
-        {
-          startDate: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000),
-          endDate: new Date(),
-        },
-        {
-          scopeId: 'test-scope',
-          name: 'Test Scope',
-          description: 'Test scope description',
-          assets: [],
-          processes: [],
-          departments: [],
-          timeframes: [],
-          exclusions: [],
-        },
-        'evaluation-manager'
-      );
+      const evaluation =
+        await performanceEvaluation.createPerformanceEvaluation(
+          'Performance Evaluation',
+          'Performance description',
+          {
+            startDate: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000),
+            endDate: new Date(),
+          },
+          {
+            scopeId: 'test-scope',
+            name: 'Test Scope',
+            description: 'Test scope description',
+            assets: [],
+            processes: [],
+            departments: [],
+            timeframes: [],
+            exclusions: [],
+          },
+          'evaluation-manager'
+        );
 
       // Verify that performance evaluation provides real-world assurance
       expect(evaluation.audit).toBeDefined();
@@ -915,37 +996,48 @@ describe('ISO 55000 Compliance (E23) Integration Tests', () => {
     it('should handle non-existent evaluation ID gracefully', async () => {
       const invalidEvaluationId = 'invalid-evaluation-id';
 
-      jest.spyOn(performanceEvaluation as any, 'getPerformanceEvaluation').mockResolvedValue(null);
+      jest
+        .spyOn(performanceEvaluation as any, 'getPerformanceEvaluation')
+        .mockResolvedValue(null);
 
-      await expect(performanceEvaluation.executePerformanceEvaluation(invalidEvaluationId)).rejects.toThrow();
+      await expect(
+        performanceEvaluation.executePerformanceEvaluation(invalidEvaluationId)
+      ).rejects.toThrow();
     });
 
     it('should complete performance evaluation within a reasonable time', async () => {
-      const evaluation = await performanceEvaluation.createPerformanceEvaluation(
-        'Performance Evaluation',
-        'Performance description',
-        {
-          startDate: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000),
-          endDate: new Date(),
-        },
-        {
-          scopeId: 'test-scope',
-          name: 'Test Scope',
-          description: 'Test scope description',
-          assets: [],
-          processes: [],
-          departments: [],
-          timeframes: [],
-          exclusions: [],
-        },
-        'evaluation-manager'
-      );
+      const evaluation =
+        await performanceEvaluation.createPerformanceEvaluation(
+          'Performance Evaluation',
+          'Performance description',
+          {
+            startDate: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000),
+            endDate: new Date(),
+          },
+          {
+            scopeId: 'test-scope',
+            name: 'Test Scope',
+            description: 'Test scope description',
+            assets: [],
+            processes: [],
+            departments: [],
+            timeframes: [],
+            exclusions: [],
+          },
+          'evaluation-manager'
+        );
 
-      jest.spyOn(performanceEvaluation as any, 'getPerformanceEvaluation').mockResolvedValue(evaluation);
-      jest.spyOn(performanceEvaluation as any, 'updatePerformanceEvaluation').mockResolvedValue(undefined);
+      jest
+        .spyOn(performanceEvaluation as any, 'getPerformanceEvaluation')
+        .mockResolvedValue(evaluation);
+      jest
+        .spyOn(performanceEvaluation as any, 'updatePerformanceEvaluation')
+        .mockResolvedValue(undefined);
 
       const startTime = Date.now();
-      await performanceEvaluation.executePerformanceEvaluation(evaluation.evaluationId);
+      await performanceEvaluation.executePerformanceEvaluation(
+        evaluation.evaluationId
+      );
       const endTime = Date.now();
 
       const executionTime = endTime - startTime;
@@ -964,13 +1056,20 @@ describe('ISO 55000 Compliance (E23) Integration Tests', () => {
       });
 
       const emptyPolicyFramework = createISO55000PolicyFramework(emptyOrg.id);
-      const emptyStrategicPlan = createStrategicAssetManagementPlan(emptyOrg.id);
+      const _emptyStrategicPlan = createStrategicAssetManagementPlan(
+        emptyOrg.id
+      );
       const emptyObjectives = createAssetManagementObjectives(emptyOrg.id);
-      const emptyPerformanceEvaluation = createPerformanceEvaluationSystem(emptyOrg.id);
+      const emptyPerformanceEvaluation = createPerformanceEvaluationSystem(
+        emptyOrg.id
+      );
 
-      const policyProgress = await emptyPolicyFramework.trackImplementationProgress();
-      const achievementTracking = await emptyObjectives.trackObjectiveAchievement();
-      const complianceStatus = await emptyPerformanceEvaluation.trackComplianceStatus();
+      const policyProgress =
+        await emptyPolicyFramework.trackImplementationProgress();
+      const achievementTracking =
+        await emptyObjectives.trackObjectiveAchievement();
+      const complianceStatus =
+        await emptyPerformanceEvaluation.trackComplianceStatus();
 
       expect(policyProgress.totalPolicies).toBe(0);
       expect(achievementTracking.totalObjectives).toBe(0);

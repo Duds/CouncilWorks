@@ -8,7 +8,7 @@ Last updated: 10/09/2025
 
 ## 1. Introduction
 
-- **Purpose**: This document describes the architecture of **Aegrid**, the Asset Lifecycle Intelligence Platform. It provides resilient asset management following The Aegrid Rules, with signal-driven operations, margin management, and antifragile systems.
+- **Purpose**: This document describes the architecture of **Aegrid**, the Asset Lifecycle Intelligence Platform. It provides resilient asset management following The Aegrid Rules, with signal-driven operations, resource management, and antifragile systems.
 - **Scope**: Covers system goals, architecture overview, technology stack, integrations, deployment, and quality attributes, including **The Aegrid Rules** implementation, **Critical Control Theory (CCT)**, and **Resilience-First Architecture**.
 - **Stakeholders**: Asset Managers, Works Supervisors, Fleet Coordinators, Council Executives, Councillors, Citizens, Contractors, IT Administrators.
 
@@ -18,15 +18,16 @@ Last updated: 10/09/2025
 - Provide **resilience-first asset lifecycle management** with antifragile systems that improve under stress.
 - Support **signal-driven operations** with real-time risk assessment and adaptive response.
 - Embed **Critical Control Theory (CCT)** to guarantee execution of non-negotiable controls on critical assets, with escalation.
-- Enable **margin management** with practical slack for absorbing shocks and enhancing resilience.
+- Enable **resource management** with practical slack for absorbing shocks and enhancing resilience.
 - **Energy Management Integration**: Core energy optimisation, metering, and carbon tracking as first-class module with BMS/EMS integration.
 - **AI-Powered Intelligence**: Embedded optimisation algorithms, anomaly detection, and predictive maintenance as core system capabilities.
+- **Hybrid Database Architecture**: PostgreSQL for transactional data and Azure Cosmos DB Gremlin API for graph-based asset intelligence.
 - Ensure **integration** with ERP, GIS, citizen reporting, and energy management systems for comprehensive signal detection.
 - Enable **scalable, multi-tenant SaaS** hosting with resilience-focused architecture.
 - Maintain **security and compliance** with government standards and **ISO 55000** asset management requirements.
 - Deliver **usability for field crews** (mobile-first, offline capable) with resilience-aware interfaces.
 - Facilitate **continuous improvement** (modular upgrades, pilot-to-product pipeline) with antifragile design.
-- **Resilience-First Architecture**: Antifragile systems, signal detection, margin management, adaptive response.
+- **Resilience-First Architecture**: Antifragile systems, signal detection, resource management, adaptive response.
 - **Mobile-first PWA** with offline capability, resilience-aware sync, and signal-driven updates.
 - **Secure by default**: RBAC, audit logging, least privilege, input validation (Zod), resilience monitoring.
 - **Interoperable**: Standards-based APIs, GIS via PostGIS/GeoJSON, ERP adapters, signal integration, BMS/EMS connectivity.
@@ -47,11 +48,12 @@ Last updated: 10/09/2025
 
 ### Core Components
 
-- **Database**: PostgreSQL with PostGIS for relational + geospatial data.
+- **Hybrid Database Architecture**: PostgreSQL with PostGIS for transactional data and Azure Cosmos DB Gremlin API for graph-based asset intelligence.
 - **API Gateway**: Node.js for handling REST/GraphQL requests, authentication, and integrations.
 - **Analytics Engine**: Python services for risk scoring, forecasting, predictive maintenance, and reporting.
 - **Energy Management Module**: Core energy optimisation, metering integration, carbon tracking, and BMS/EMS connectivity.
 - **AI Intelligence Engine**: Embedded optimisation algorithms, anomaly detection, predictive maintenance, and automated red-flagging.
+- **Graph Intelligence Service**: Azure Cosmos DB Gremlin API for function-based asset modeling and relationship analysis.
 - **Frontend**: React/Next.js dashboards for managers, executives, and councillors with enhanced visualisation (charts, gantts, graphs).
 - **Mobile App (PWA)**: Offline-enabled inspections, work orders, and field data capture.
 - **SLA & Service Lifecycle Management (SLM)**: Contract records, SLA definitions, vendor portal, SLA timers/alerts, evidence capture, and reporting.
@@ -61,9 +63,9 @@ Last updated: 10/09/2025
 
 - **ERP/Finance Systems** (Civica, TechOne): CapEx/OpEx, depreciation, financial workflows.
 - **GIS Platforms** (ESRI, QGIS): Asset mapping and spatial overlays.
-- **Energy Management Systems (BMS/EMS)**: Building automation, energy metering, HVAC optimisation, carbon tracking.
+- **Energy Management Systems (BMS/EMS)**: Building automation, energy metering, HVAC optimisation, carbon tracking, real-time energy intelligence.
+- **IoT/Telematics**: Fleet sensors, solar/battery performance feeds, energy consumption monitoring, environmental sensors.
 - **Citizen Reporting Tools** (Snap Send Solve, APIs): Community-reported issues.
-- **IoT/Telematics**: Fleet sensors, solar/battery performance feeds, energy consumption monitoring.
 - **Vendor Communications**: Email/SMS/Push notifications for contractor assignment and SLA alerts.
 - **Escalation Channels**: Email/SMS/Teams/Slack for critical control escalations and acknowledgements.
 
@@ -74,7 +76,7 @@ Last updated: 10/09/2025
 - Analytics & Scheduling: Python services for RCM‑lite, forecasting, optimisation (containers, async jobs/worker queue).
 - Energy Management: Python services for energy optimisation, BMS/EMS integration, carbon tracking, and energy analytics.
 - AI Intelligence: Python ML services for anomaly detection, predictive maintenance, optimisation algorithms, and automated red-flagging.
-- Database: PostgreSQL + PostGIS; Prisma ORM for app data access; Postgres RLS for tenant and role scoping.
+- Hybrid Database: PostgreSQL + PostGIS for transactional data; Azure Cosmos DB Gremlin API for graph-based asset intelligence; Prisma ORM for app data access; Postgres RLS for tenant and role scoping.
 - SLA Timers & Alerts: Scheduler/worker service tracks response/resolution windows; notifications on thresholds; idempotent state transitions on work orders.
 - Critical Control Enforcement: Rules engine evaluates control windows (due-by, frequency, grace); generates tasks; escalates on breach/at-risk; immutable audit trail of acknowledgements and overrides.
 - Integrations: Webhooks, adapters for ERP, citizen reporting portals, IoT, BMS/EMS systems; message queue for async tasks.
@@ -94,7 +96,9 @@ Last updated: 10/09/2025
 - Mobile PWA
 - API Gateway (Node.js)
 - Worker/Analytics (Python)
-- Postgres/PostGIS
+- Hybrid Database (PostgreSQL + PostGIS + Azure Cosmos DB Gremlin API)
+- Energy Management Service (Python)
+- AI Intelligence Service (Python ML)
 - Message Broker (e.g. RabbitMQ/Cloud queue)
 - Object Storage (photos, documents)
 - Identity Provider (OIDC/SAML) via NextAuth providers
@@ -106,9 +110,13 @@ Last updated: 10/09/2025
 ```puml
 @startuml
 package "Aegrid Platform" {
-  [API Gateway (Node.js)] --> [PostgreSQL + PostGIS]
+  [API Gateway (Node.js)] --> [Hybrid Database (PostgreSQL + Cosmos DB)]
   [API Gateway (Node.js)] --> [Analytics Engine (Python)]
+  [API Gateway (Node.js)] --> [Energy Management Service (Python)]
+  [API Gateway (Node.js)] --> [AI Intelligence Service (Python ML)]
   [Analytics Engine (Python)] --> [Dashboards (Next.js)]
+  [Energy Management Service (Python)] --> [Dashboards (Next.js)]
+  [AI Intelligence Service (Python ML)] --> [Dashboards (Next.js)]
   [API Gateway (Node.js)] --> [Mobile PWA]
   [API Gateway (Node.js)] --> [Timer/SLA Service]
   [API Gateway (Node.js)] --> [Rules/Policy Engine]
@@ -117,8 +125,10 @@ package "Aegrid Platform" {
 
 [ERP / Finance Systems] --> [API Gateway (Node.js)]
 [Citizen Reporting Tools] --> [API Gateway (Node.js)]
-[GIS Systems] --> [PostgreSQL + PostGIS]
+[GIS Systems] --> [Hybrid Database (PostgreSQL + Cosmos DB)]
 [IoT Devices / Fleet Telematics] --> [Analytics Engine (Python)]
+[BMS/EMS Systems] --> [Energy Management Service (Python)]
+[Energy Meters / Sensors] --> [Energy Management Service (Python)]
 [Email/SMS/Push Providers] --> [API Gateway (Node.js)]
 [Escalation Channels] --> [API Gateway (Node.js)]
 @enduml
@@ -132,16 +142,23 @@ package "Aegrid Platform" {
 - Auditing: Created/updated timestamps, user IDs, change logs; immutable event trail for critical records.
 - Contracts & SLAs: Entities for Vendor, Contract, SLA definitions; work orders reference contract/SLA; SLA status and timestamps (assigned, acknowledged, started, paused, completed) persisted with auditability.
 - Critical Controls: Entities for `CriticalControl` (rule, window, frequency), `AssetCriticalControl` mapping, compliance records with timestamps and user/vendor IDs; escalation events stored immutably.
+- Hybrid Database: PostgreSQL for transactional data; Azure Cosmos DB Gremlin API for graph-based asset relationships and function-based modeling.
+- Data Synchronization: Real-time sync between PostgreSQL and Cosmos DB with conflict resolution and eventual consistency for graph relationships.
+- Energy Data: Comprehensive energy consumption tracking, efficiency metrics, carbon emissions, and BMS/EMS integration.
+- AI Data: Machine learning training data, model artifacts, prediction results, and feedback loops for continuous improvement.
 - Backups & DR: PITR enabled; daily encrypted backups; tested restores.
 
 ## 6. Process View
 
-- **Asset Import**: Bulk load from ERP/CSV → validate → stored in Postgres.
-- **Maintenance Scheduling**: Templates applied → jobs auto-created → assigned to crews.
-- **Inspections**: Mobile PWA used in field (offline) → syncs to API → updates asset record.
-- **Citizen Reports**: API intake → normalised into work orders → linked to assets.
-- **Forecasting**: Analytics engine generates 10–20 year renewal models → outputs dashboards.
-- **Reporting**: Managers/execs generate compliance/audit reports → export PDF/Excel.
+- **Asset Import**: Bulk load from ERP/CSV → validate → stored in PostgreSQL → sync to Cosmos DB for graph relationships.
+- **Maintenance Scheduling**: AI-powered templates applied → jobs auto-created → assigned to crews → optimised by ML algorithms.
+- **Inspections**: Mobile PWA used in field (offline) → syncs to API → updates asset record → triggers AI analysis.
+- **Citizen Reports**: API intake → normalised into work orders → linked to assets → AI-powered prioritisation.
+- **Energy Management**: Real-time energy data ingestion → BMS/EMS integration → AI-powered optimisation → carbon tracking.
+- **AI Intelligence**: Continuous data analysis → anomaly detection → predictive maintenance → automated red-flagging.
+- **Graph Intelligence**: Function-based asset modeling → relationship analysis → multiple hierarchy support → future scenario planning.
+- **Forecasting**: Analytics engine generates 10–20 year renewal models → AI-enhanced predictions → outputs dashboards.
+- **Reporting**: Managers/execs generate compliance/audit reports → AI-generated insights → export PDF/Excel.
 - **SLA Tracking**: On work order creation/assignment, SLA timers start; vendor acknowledgements stop response timer; resolution timer runs until closure; breaches trigger alerts and are logged for reporting.
 - **Critical Control Enforcement**: Controls generated per schedule; at-risk prediction raises early alerts; overdue triggers escalation workflow (multi-channel) until acknowledged/resolved or formally overridden with justification.
 
@@ -214,14 +231,15 @@ package "Aegrid Platform" {
 
 ## 9. Application Modules
 
-- Asset Registry: import, CRUD, GIS view; attachments.
-- RCM‑lite: templates, failure modes, tasks, risk scoring; generation policies.
-- Scheduling: preventive plans; work order creation and allocation.
-- Inspections (PWA): offline forms, photos, GPS tagging; sync resolution.
-- Energy Management: energy metering, optimisation algorithms, carbon tracking, BMS/EMS integration.
-- AI Intelligence: anomaly detection, predictive maintenance, optimisation engines, automated red-flagging.
-- Reporting & Exports: risk/compliance dashboards; audit-ready packs with enhanced visualisation.
-- Integrations: Citizen intake API, ERP sync, IoT signals, BMS/EMS connectivity.
+- Asset Registry: import, CRUD, GIS view; attachments; graph-based relationships.
+- RCM‑lite: templates, failure modes, tasks, risk scoring; generation policies; AI-enhanced scheduling.
+- Scheduling: AI-powered preventive plans; work order creation and allocation; ML optimisation.
+- Inspections (PWA): offline forms, photos, GPS tagging; sync resolution; AI analysis.
+- Energy Management: real-time energy metering, AI-powered optimisation algorithms, carbon tracking, BMS/EMS integration.
+- AI Intelligence: embedded anomaly detection, predictive maintenance, optimisation engines, automated red-flagging.
+- Graph Intelligence: function-based asset modeling, relationship analysis, multiple hierarchy support.
+- Reporting & Exports: AI-generated risk/compliance dashboards; audit-ready packs with enhanced visualisation.
+- Integrations: Citizen intake API, ERP sync, IoT signals, BMS/EMS connectivity, energy meters.
 - SLA & SLM: Contract management, vendor portal, SLA definitions, timers, alerts, compliance dashboards, exports.
 - Critical Controls: Control configuration, asset mapping, enforcement engine, escalations, compliance dashboards.
 
@@ -249,7 +267,7 @@ package "Aegrid Platform" {
 
 **ISO 55000 Leadership Principle**: Operate with Margin
 
-- Margin management for operational resilience
+- Resource management for operational resilience
 - Antifragile system design and continuous improvement
 - Organisational learning and capability development
 
@@ -318,6 +336,9 @@ package "Aegrid Platform" {
 - **Digital Twin Integration**: Optional module for advanced councils with 3D asset modelling.
 - **Advanced Energy Optimisation**: Machine learning-driven energy consumption optimisation.
 - **Predictive Analytics**: Enhanced forecasting for asset lifecycle and maintenance needs.
+- **Graph Intelligence Expansion**: Advanced graph algorithms for complex asset relationship analysis.
+- **Hybrid Database Optimisation**: Enhanced synchronization and performance optimization between PostgreSQL and Cosmos DB.
+- **AI-Powered Decision Support**: Advanced decision support systems with explainable AI and confidence scoring.
 
 ## 15. Open Decisions (ADRs)
 

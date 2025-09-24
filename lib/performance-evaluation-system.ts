@@ -1,9 +1,9 @@
 /**
  * Performance Evaluation System - F23.4
- * 
+ *
  * Comprehensive performance dashboards, compliance monitoring, audit trails,
  * and reporting for ISO 55000 compliance and performance evaluation
- * 
+ *
  * Implements The Aegrid Rules for performance-driven asset management
  */
 
@@ -35,7 +35,12 @@ export interface EvaluationDimension {
   dimensionId: string;
   name: string;
   description: string;
-  category: 'STRATEGIC' | 'OPERATIONAL' | 'FINANCIAL' | 'COMPLIANCE' | 'STAKEHOLDER';
+  category:
+    | 'STRATEGIC'
+    | 'OPERATIONAL'
+    | 'FINANCIAL'
+    | 'COMPLIANCE'
+    | 'STAKEHOLDER';
   weight: number; // 0-1
   metrics: string[];
   benchmarks: Benchmark[];
@@ -183,7 +188,12 @@ export interface MetricScore {
   target: number;
   benchmark: number;
   trend: 'IMPROVING' | 'STABLE' | 'DECLINING';
-  status: 'EXCELLENT' | 'GOOD' | 'SATISFACTORY' | 'NEEDS_IMPROVEMENT' | 'UNSATISFACTORY';
+  status:
+    | 'EXCELLENT'
+    | 'GOOD'
+    | 'SATISFACTORY'
+    | 'NEEDS_IMPROVEMENT'
+    | 'UNSATISFACTORY';
   variance: number;
   analysis: string;
 }
@@ -197,7 +207,12 @@ export interface PerformanceTrend {
 export interface Strength {
   strengthId: string;
   description: string;
-  category: 'STRATEGIC' | 'OPERATIONAL' | 'FINANCIAL' | 'COMPLIANCE' | 'STAKEHOLDER';
+  category:
+    | 'STRATEGIC'
+    | 'OPERATIONAL'
+    | 'FINANCIAL'
+    | 'COMPLIANCE'
+    | 'STAKEHOLDER';
   impact: 'HIGH' | 'MEDIUM' | 'LOW';
   evidence: string[];
   recommendations: string[];
@@ -206,7 +221,12 @@ export interface Strength {
 export interface Weakness {
   weaknessId: string;
   description: string;
-  category: 'STRATEGIC' | 'OPERATIONAL' | 'FINANCIAL' | 'COMPLIANCE' | 'STAKEHOLDER';
+  category:
+    | 'STRATEGIC'
+    | 'OPERATIONAL'
+    | 'FINANCIAL'
+    | 'COMPLIANCE'
+    | 'STAKEHOLDER';
   impact: 'HIGH' | 'MEDIUM' | 'LOW';
   rootCause: string[];
   evidence: string[];
@@ -216,7 +236,12 @@ export interface Weakness {
 export interface Opportunity {
   opportunityId: string;
   description: string;
-  category: 'STRATEGIC' | 'OPERATIONAL' | 'FINANCIAL' | 'COMPLIANCE' | 'STAKEHOLDER';
+  category:
+    | 'STRATEGIC'
+    | 'OPERATIONAL'
+    | 'FINANCIAL'
+    | 'COMPLIANCE'
+    | 'STAKEHOLDER';
   potential: 'HIGH' | 'MEDIUM' | 'LOW';
   feasibility: 'HIGH' | 'MEDIUM' | 'LOW';
   value: number;
@@ -227,7 +252,12 @@ export interface Opportunity {
 export interface Threat {
   threatId: string;
   description: string;
-  category: 'STRATEGIC' | 'OPERATIONAL' | 'FINANCIAL' | 'COMPLIANCE' | 'STAKEHOLDER';
+  category:
+    | 'STRATEGIC'
+    | 'OPERATIONAL'
+    | 'FINANCIAL'
+    | 'COMPLIANCE'
+    | 'STAKEHOLDER';
   probability: 'HIGH' | 'MEDIUM' | 'LOW';
   impact: 'HIGH' | 'MEDIUM' | 'LOW';
   severity: 'HIGH' | 'MEDIUM' | 'LOW';
@@ -342,7 +372,12 @@ export interface AuditResults {
   observations: AuditObservation[];
   conclusions: string[];
   recommendations: string[];
-  overallRating: 'EXCELLENT' | 'GOOD' | 'SATISFACTORY' | 'NEEDS_IMPROVEMENT' | 'UNSATISFACTORY';
+  overallRating:
+    | 'EXCELLENT'
+    | 'GOOD'
+    | 'SATISFACTORY'
+    | 'NEEDS_IMPROVEMENT'
+    | 'UNSATISFACTORY';
 }
 
 export interface AuditObservation {
@@ -359,7 +394,12 @@ export interface EvaluationRecommendation {
   title: string;
   description: string;
   priority: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
-  category: 'STRATEGIC' | 'OPERATIONAL' | 'FINANCIAL' | 'COMPLIANCE' | 'STAKEHOLDER';
+  category:
+    | 'STRATEGIC'
+    | 'OPERATIONAL'
+    | 'FINANCIAL'
+    | 'COMPLIANCE'
+    | 'STAKEHOLDER';
   rationale: string;
   implementation: ImplementationPlan;
   expectedOutcome: string;
@@ -424,13 +464,19 @@ export class PerformanceEvaluationSystem {
   private organisationId: string;
   private config: PerformanceEvaluationConfig;
 
-  constructor(organisationId: string, config?: Partial<PerformanceEvaluationConfig>) {
+  constructor(
+    organisationId: string,
+    config?: Partial<PerformanceEvaluationConfig>
+  ) {
     this.organisationId = organisationId;
     this.config = {
       organisationId,
-      evaluationFramework: config?.evaluationFramework || this.getDefaultEvaluationFramework(),
-      complianceStandards: config?.complianceStandards || this.getDefaultComplianceStandards(),
-      auditRequirements: config?.auditRequirements || this.getDefaultAuditRequirements(),
+      evaluationFramework:
+        config?.evaluationFramework || this.getDefaultEvaluationFramework(),
+      complianceStandards:
+        config?.complianceStandards || this.getDefaultComplianceStandards(),
+      auditRequirements:
+        config?.auditRequirements || this.getDefaultAuditRequirements(),
       reviewCycles: config?.reviewCycles || {
         performanceReport: 90,
         complianceReport: 180,
@@ -520,7 +566,12 @@ export class PerformanceEvaluationSystem {
     const results = await this.performEvaluation(evaluation);
     const compliance = await this.assessCompliance(evaluation);
     const audit = await this.performAudit(evaluation);
-    const recommendations = await this.generateRecommendations(evaluation, results, compliance, audit);
+    const recommendations = await this.generateRecommendations(
+      evaluation,
+      results,
+      compliance,
+      audit
+    );
 
     evaluation.results = results;
     evaluation.compliance = compliance;
@@ -557,7 +608,8 @@ export class PerformanceEvaluationSystem {
 
     const overallPerformance = currentEvaluation.results.overallScore;
     const performanceTrend = this.calculatePerformanceTrend(evaluations);
-    const dimensionPerformance = this.calculateDimensionPerformance(currentEvaluation);
+    const dimensionPerformance =
+      this.calculateDimensionPerformance(currentEvaluation);
     const complianceStatus = this.calculateComplianceStatus(currentEvaluation);
     const auditStatus = this.calculateAuditStatus(currentEvaluation);
     const topRecommendations = this.getTopRecommendations(currentEvaluation);
@@ -602,9 +654,11 @@ export class PerformanceEvaluationSystem {
     }
 
     const overallCompliance = currentEvaluation.compliance.overallCompliance;
-    const standardCompliance = this.calculateStandardComplianceStatus(currentEvaluation);
+    const standardCompliance =
+      this.calculateStandardComplianceStatus(currentEvaluation);
     const nonCompliances = this.calculateNonComplianceStatus(currentEvaluation);
-    const correctiveActions = this.calculateCorrectiveActionStatus(currentEvaluation);
+    const correctiveActions =
+      this.calculateCorrectiveActionStatus(currentEvaluation);
     const upcomingAudits = this.getUpcomingAudits();
     const complianceTrend = this.calculateComplianceTrend(evaluations);
 
@@ -696,21 +750,25 @@ export class PerformanceEvaluationSystem {
 
   // Private helper methods
 
-  private async performEvaluation(evaluation: PerformanceEvaluation): Promise<EvaluationResults> {
+  private async performEvaluation(
+    _evaluation: PerformanceEvaluation
+  ): Promise<EvaluationResults> {
     // Mock evaluation performance
     const overallScore = Math.random() * 100;
-    
+
     return {
       overallScore,
-      dimensionScores: this.config.evaluationFramework.dimensions.map(dimension => ({
-        dimensionId: dimension.dimensionId,
-        score: Math.random() * 100,
-        weight: dimension.weight,
-        contribution: Math.random() * 100,
-        trend: Math.random() > 0.5 ? 'IMPROVING' : 'STABLE',
-        metrics: [],
-        analysis: `Analysis for ${dimension.name}`,
-      })),
+      dimensionScores: this.config.evaluationFramework.dimensions.map(
+        dimension => ({
+          dimensionId: dimension.dimensionId,
+          score: Math.random() * 100,
+          weight: dimension.weight,
+          contribution: Math.random() * 100,
+          trend: Math.random() > 0.5 ? 'IMPROVING' : 'STABLE',
+          metrics: [],
+          analysis: `Analysis for ${dimension.name}`,
+        })
+      ),
       performanceTrends: [],
       strengths: [],
       weaknesses: [],
@@ -720,7 +778,9 @@ export class PerformanceEvaluationSystem {
     };
   }
 
-  private async assessCompliance(evaluation: PerformanceEvaluation): Promise<ComplianceResults> {
+  private async assessCompliance(
+    _evaluation: PerformanceEvaluation
+  ): Promise<ComplianceResults> {
     // Mock compliance assessment
     return {
       overallCompliance: Math.random() * 100,
@@ -732,7 +792,9 @@ export class PerformanceEvaluationSystem {
     };
   }
 
-  private async performAudit(evaluation: PerformanceEvaluation): Promise<AuditResults> {
+  private async performAudit(
+    _evaluation: PerformanceEvaluation
+  ): Promise<AuditResults> {
     // Mock audit performance
     return {
       auditId: `audit-${Date.now()}`,
@@ -749,17 +811,18 @@ export class PerformanceEvaluationSystem {
   }
 
   private async generateRecommendations(
-    evaluation: PerformanceEvaluation,
-    results: EvaluationResults,
-    compliance: ComplianceResults,
-    audit: AuditResults
+    _evaluation: PerformanceEvaluation,
+    _results: EvaluationResults,
+    _compliance: ComplianceResults,
+    _audit: AuditResults
   ): Promise<EvaluationRecommendation[]> {
     // Mock recommendation generation
     return [
       {
         recommendationId: `rec-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         title: 'Improve Performance in Key Areas',
-        description: 'Focus on improving performance in areas scoring below target',
+        description:
+          'Focus on improving performance in areas scoring below target',
         priority: 'HIGH',
         category: 'OPERATIONAL',
         rationale: 'Current performance is below industry benchmarks',
@@ -779,18 +842,22 @@ export class PerformanceEvaluationSystem {
     ];
   }
 
-  private calculatePerformanceTrend(evaluations: PerformanceEvaluation[]): 'IMPROVING' | 'STABLE' | 'DECLINING' {
+  private calculatePerformanceTrend(
+    evaluations: PerformanceEvaluation[]
+  ): 'IMPROVING' | 'STABLE' | 'DECLINING' {
     if (evaluations.length < 2) return 'STABLE';
-    
+
     const current = evaluations[0].results.overallScore;
     const previous = evaluations[1].results.overallScore;
-    
+
     if (current > previous + 5) return 'IMPROVING';
     if (current < previous - 5) return 'DECLINING';
     return 'STABLE';
   }
 
-  private calculateDimensionPerformance(evaluation: PerformanceEvaluation): DimensionPerformance[] {
+  private calculateDimensionPerformance(
+    evaluation: PerformanceEvaluation
+  ): DimensionPerformance[] {
     return evaluation.results.dimensionScores.map(score => ({
       dimensionId: score.dimensionId,
       score: score.score,
@@ -799,7 +866,9 @@ export class PerformanceEvaluationSystem {
     }));
   }
 
-  private calculateComplianceStatus(evaluation: PerformanceEvaluation): ComplianceStatus {
+  private calculateComplianceStatus(
+    evaluation: PerformanceEvaluation
+  ): ComplianceStatus {
     return {
       overall: evaluation.compliance.overallCompliance,
       trend: 'STABLE',
@@ -819,13 +888,17 @@ export class PerformanceEvaluationSystem {
     };
   }
 
-  private getTopRecommendations(evaluation: PerformanceEvaluation): EvaluationRecommendation[] {
+  private getTopRecommendations(
+    evaluation: PerformanceEvaluation
+  ): EvaluationRecommendation[] {
     return evaluation.recommendations
       .filter(rec => rec.priority === 'HIGH' || rec.priority === 'CRITICAL')
       .slice(0, 5);
   }
 
-  private getCriticalIssues(evaluation: PerformanceEvaluation): CriticalIssue[] {
+  private getCriticalIssues(
+    evaluation: PerformanceEvaluation
+  ): CriticalIssue[] {
     return evaluation.compliance.nonCompliances
       .filter(nc => nc.severity === 'CRITICAL')
       .map(nc => ({
@@ -838,9 +911,11 @@ export class PerformanceEvaluationSystem {
       }));
   }
 
-  private generatePerformanceAlerts(evaluation: PerformanceEvaluation): PerformanceAlert[] {
+  private generatePerformanceAlerts(
+    evaluation: PerformanceEvaluation
+  ): PerformanceAlert[] {
     const alerts: PerformanceAlert[] = [];
-    
+
     if (evaluation.results.overallScore < this.config.thresholds.satisfactory) {
       alerts.push({
         alertId: `alert-${Date.now()}`,
@@ -853,19 +928,29 @@ export class PerformanceEvaluationSystem {
         recommendation: 'Review performance improvement strategies',
       });
     }
-    
+
     return alerts;
   }
 
-  private getPerformanceStatus(score: number): 'EXCELLENT' | 'GOOD' | 'SATISFACTORY' | 'NEEDS_IMPROVEMENT' | 'UNSATISFACTORY' {
+  private getPerformanceStatus(
+    score: number
+  ):
+    | 'EXCELLENT'
+    | 'GOOD'
+    | 'SATISFACTORY'
+    | 'NEEDS_IMPROVEMENT'
+    | 'UNSATISFACTORY' {
     if (score >= this.config.thresholds.excellent) return 'EXCELLENT';
     if (score >= this.config.thresholds.good) return 'GOOD';
     if (score >= this.config.thresholds.satisfactory) return 'SATISFACTORY';
-    if (score >= this.config.thresholds.needsImprovement) return 'NEEDS_IMPROVEMENT';
+    if (score >= this.config.thresholds.needsImprovement)
+      return 'NEEDS_IMPROVEMENT';
     return 'UNSATISFACTORY';
   }
 
-  private calculateStandardComplianceStatus(evaluation: PerformanceEvaluation): StandardComplianceStatus[] {
+  private calculateStandardComplianceStatus(
+    evaluation: PerformanceEvaluation
+  ): StandardComplianceStatus[] {
     return evaluation.compliance.standardCompliance.map(std => ({
       standardId: std.standardId,
       name: std.name,
@@ -876,7 +961,9 @@ export class PerformanceEvaluationSystem {
     }));
   }
 
-  private calculateNonComplianceStatus(evaluation: PerformanceEvaluation): NonComplianceStatus[] {
+  private calculateNonComplianceStatus(
+    evaluation: PerformanceEvaluation
+  ): NonComplianceStatus[] {
     return evaluation.compliance.nonCompliances.map(nc => ({
       nonComplianceId: nc.nonComplianceId,
       description: nc.description,
@@ -887,7 +974,9 @@ export class PerformanceEvaluationSystem {
     }));
   }
 
-  private calculateCorrectiveActionStatus(evaluation: PerformanceEvaluation): CorrectiveActionStatus[] {
+  private calculateCorrectiveActionStatus(
+    evaluation: PerformanceEvaluation
+  ): CorrectiveActionStatus[] {
     return evaluation.compliance.correctiveActions.map(ca => ({
       actionId: ca.actionId,
       description: ca.description,
@@ -912,20 +1001,26 @@ export class PerformanceEvaluationSystem {
     ];
   }
 
-  private calculateComplianceTrend(evaluations: PerformanceEvaluation[]): ComplianceTrend {
+  private calculateComplianceTrend(
+    evaluations: PerformanceEvaluation[]
+  ): ComplianceTrend {
     if (evaluations.length < 2) return { trend: 'STABLE', change: 0 };
-    
+
     const current = evaluations[0].compliance.overallCompliance;
     const previous = evaluations[1].compliance.overallCompliance;
     const change = current - previous;
-    
+
     return {
       trend: change > 5 ? 'IMPROVING' : change < -5 ? 'DECLINING' : 'STABLE',
       change,
     };
   }
 
-  private async getAuditEvents(startDate: Date, endDate: Date, filters?: AuditTrailFilters): Promise<AuditEvent[]> {
+  private async getAuditEvents(
+    _startDate: Date,
+    _endDate: Date,
+    _filters?: AuditTrailFilters
+  ): Promise<AuditEvent[]> {
     // Mock audit events
     return [
       {
@@ -944,14 +1039,20 @@ export class PerformanceEvaluationSystem {
   private calculateAuditTrailSummary(events: AuditEvent[]): AuditTrailSummary {
     return {
       totalEvents: events.length,
-      byType: events.reduce((acc, event) => {
-        acc[event.type] = (acc[event.type] || 0) + 1;
-        return acc;
-      }, {} as Record<string, number>),
-      byOutcome: events.reduce((acc, event) => {
-        acc[event.outcome] = (acc[event.outcome] || 0) + 1;
-        return acc;
-      }, {} as Record<string, number>),
+      byType: events.reduce(
+        (acc, event) => {
+          acc[event.type] = (acc[event.type] || 0) + 1;
+          return acc;
+        },
+        {} as Record<string, number>
+      ),
+      byOutcome: events.reduce(
+        (acc, event) => {
+          acc[event.outcome] = (acc[event.outcome] || 0) + 1;
+          return acc;
+        },
+        {} as Record<string, number>
+      ),
       timeRange: {
         start: events[0]?.timestamp || new Date(),
         end: events[events.length - 1]?.timestamp || new Date(),
@@ -959,11 +1060,14 @@ export class PerformanceEvaluationSystem {
     };
   }
 
-  private calculateAuditTrailCompliance(events: AuditEvent[]): AuditTrailCompliance {
+  private calculateAuditTrailCompliance(
+    events: AuditEvent[]
+  ): AuditTrailCompliance {
     const successEvents = events.filter(e => e.outcome === 'SUCCESS').length;
     const totalEvents = events.length;
-    const complianceRate = totalEvents > 0 ? (successEvents / totalEvents) * 100 : 100;
-    
+    const complianceRate =
+      totalEvents > 0 ? (successEvents / totalEvents) * 100 : 100;
+
     return {
       complianceRate,
       totalEvents,
@@ -973,7 +1077,9 @@ export class PerformanceEvaluationSystem {
     };
   }
 
-  private generateExecutiveSummary(evaluation: PerformanceEvaluation): ExecutiveSummary {
+  private generateExecutiveSummary(
+    evaluation: PerformanceEvaluation
+  ): ExecutiveSummary {
     return {
       evaluationTitle: evaluation.title,
       overallPerformance: evaluation.results.overallScore,
@@ -985,7 +1091,9 @@ export class PerformanceEvaluationSystem {
     };
   }
 
-  private generateDetailedAnalysis(evaluation: PerformanceEvaluation): DetailedAnalysis {
+  private generateDetailedAnalysis(
+    evaluation: PerformanceEvaluation
+  ): DetailedAnalysis {
     return {
       performanceBreakdown: evaluation.results.dimensionScores,
       strengths: evaluation.results.strengths,
@@ -996,7 +1104,9 @@ export class PerformanceEvaluationSystem {
     };
   }
 
-  private generateComplianceReport(evaluation: PerformanceEvaluation): ComplianceReport {
+  private generateComplianceReport(
+    evaluation: PerformanceEvaluation
+  ): ComplianceReport {
     return {
       overallCompliance: evaluation.compliance.overallCompliance,
       standardCompliance: evaluation.compliance.standardCompliance,
@@ -1021,26 +1131,36 @@ export class PerformanceEvaluationSystem {
 
   private generateNextSteps(evaluation: PerformanceEvaluation): string[] {
     const steps: string[] = [];
-    
+
     if (evaluation.results.overallScore < this.config.thresholds.satisfactory) {
       steps.push('Implement performance improvement plan');
     }
-    
-    const criticalNonCompliances = evaluation.compliance.nonCompliances.filter(nc => nc.severity === 'CRITICAL');
+
+    const criticalNonCompliances = evaluation.compliance.nonCompliances.filter(
+      nc => nc.severity === 'CRITICAL'
+    );
     if (criticalNonCompliances.length > 0) {
-      steps.push(`Address ${criticalNonCompliances.length} critical non-compliances`);
+      steps.push(
+        `Address ${criticalNonCompliances.length} critical non-compliances`
+      );
     }
-    
-    const highPriorityRecommendations = evaluation.recommendations.filter(rec => rec.priority === 'HIGH' || rec.priority === 'CRITICAL');
+
+    const highPriorityRecommendations = evaluation.recommendations.filter(
+      rec => rec.priority === 'HIGH' || rec.priority === 'CRITICAL'
+    );
     if (highPriorityRecommendations.length > 0) {
-      steps.push(`Implement ${highPriorityRecommendations.length} high-priority recommendations`);
+      steps.push(
+        `Implement ${highPriorityRecommendations.length} high-priority recommendations`
+      );
     }
-    
+
     return steps;
   }
 
   // Storage methods
-  private async storePerformanceEvaluation(evaluation: PerformanceEvaluation): Promise<void> {
+  private async storePerformanceEvaluation(
+    evaluation: PerformanceEvaluation
+  ): Promise<void> {
     await prisma.workOrder.create({
       data: {
         organisationId: this.organisationId,
@@ -1061,7 +1181,9 @@ export class PerformanceEvaluationSystem {
     });
   }
 
-  private async getPerformanceEvaluation(evaluationId: string): Promise<PerformanceEvaluation | null> {
+  private async getPerformanceEvaluation(
+    _evaluationId: string
+  ): Promise<PerformanceEvaluation | null> {
     // Mock implementation - would retrieve from database
     return null;
   }
@@ -1071,19 +1193,21 @@ export class PerformanceEvaluationSystem {
     return [];
   }
 
-  private async updatePerformanceEvaluation(evaluation: PerformanceEvaluation): Promise<void> {
+  private async updatePerformanceEvaluation(
+    _evaluation: PerformanceEvaluation
+  ): Promise<void> {
     // Mock implementation - would update in database
   }
 
-  private async storePerformanceDashboard(dashboard: any): Promise<void> {
+  private async storePerformanceDashboard(_dashboard: any): Promise<void> {
     // Mock implementation - would store in database
   }
 
-  private async storeAuditTrail(trail: any): Promise<void> {
+  private async storeAuditTrail(_trail: any): Promise<void> {
     // Mock implementation - would store in database
   }
 
-  private async storePerformanceReport(report: any): Promise<void> {
+  private async storePerformanceReport(_report: any): Promise<void> {
     // Mock implementation - would store in database
   }
 
@@ -1092,7 +1216,8 @@ export class PerformanceEvaluationSystem {
     return {
       frameworkId: 'iso55000-evaluation',
       name: 'ISO 55000 Performance Evaluation Framework',
-      description: 'Comprehensive framework for evaluating asset management performance',
+      description:
+        'Comprehensive framework for evaluating asset management performance',
       dimensions: [
         {
           dimensionId: 'strategic',
@@ -1100,7 +1225,11 @@ export class PerformanceEvaluationSystem {
           description: 'Strategic alignment and planning',
           category: 'STRATEGIC',
           weight: 0.25,
-          metrics: ['strategic_alignment', 'planning_effectiveness', 'goal_achievement'],
+          metrics: [
+            'strategic_alignment',
+            'planning_effectiveness',
+            'goal_achievement',
+          ],
           benchmarks: [
             {
               benchmarkId: 'industry-strategic',
@@ -1119,7 +1248,11 @@ export class PerformanceEvaluationSystem {
           name: 'Balanced Assessment',
           description: 'Multi-dimensional performance assessment',
           approach: 'HYBRID',
-          dataRequirements: ['performance_data', 'compliance_data', 'stakeholder_feedback'],
+          dataRequirements: [
+            'performance_data',
+            'compliance_data',
+            'stakeholder_feedback',
+          ],
           calculationMethod: 'Weighted scoring across dimensions',
           validationProcess: 'Peer review and stakeholder validation',
         },
@@ -1195,7 +1328,12 @@ export interface DimensionPerformance {
   dimensionId: string;
   score: number;
   trend: 'IMPROVING' | 'STABLE' | 'DECLINING';
-  status: 'EXCELLENT' | 'GOOD' | 'SATISFACTORY' | 'NEEDS_IMPROVEMENT' | 'UNSATISFACTORY';
+  status:
+    | 'EXCELLENT'
+    | 'GOOD'
+    | 'SATISFACTORY'
+    | 'NEEDS_IMPROVEMENT'
+    | 'UNSATISFACTORY';
 }
 
 export interface ComplianceStatus {
@@ -1208,7 +1346,12 @@ export interface ComplianceStatus {
 
 export interface AuditStatus {
   lastAudit: Date;
-  rating: 'EXCELLENT' | 'GOOD' | 'SATISFACTORY' | 'NEEDS_IMPROVEMENT' | 'UNSATISFACTORY';
+  rating:
+    | 'EXCELLENT'
+    | 'GOOD'
+    | 'SATISFACTORY'
+    | 'NEEDS_IMPROVEMENT'
+    | 'UNSATISFACTORY';
   findings: number;
   observations: number;
   recommendations: number;
@@ -1315,7 +1458,12 @@ export interface ExecutiveSummary {
   evaluationTitle: string;
   overallPerformance: number;
   compliance: number;
-  auditRating: 'EXCELLENT' | 'GOOD' | 'SATISFACTORY' | 'NEEDS_IMPROVEMENT' | 'UNSATISFACTORY';
+  auditRating:
+    | 'EXCELLENT'
+    | 'GOOD'
+    | 'SATISFACTORY'
+    | 'NEEDS_IMPROVEMENT'
+    | 'UNSATISFACTORY';
   keyFindings: string[];
   keyRecommendations: string[];
   nextSteps: string[];
@@ -1343,7 +1491,12 @@ export interface AuditReport {
   auditType: 'INTERNAL' | 'EXTERNAL' | 'REGULATORY';
   auditor: string;
   auditDate: Date;
-  overallRating: 'EXCELLENT' | 'GOOD' | 'SATISFACTORY' | 'NEEDS_IMPROVEMENT' | 'UNSATISFACTORY';
+  overallRating:
+    | 'EXCELLENT'
+    | 'GOOD'
+    | 'SATISFACTORY'
+    | 'NEEDS_IMPROVEMENT'
+    | 'UNSATISFACTORY';
   findings: AuditFinding[];
   observations: AuditObservation[];
   recommendations: string[];
